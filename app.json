@@ -1,6 +1,6 @@
 {
   "expo": {
-    "scheme": "tamagui-app",
+    "scheme": "sertton-industrial",
     "userInterfaceStyle": "automatic",
     "splash": {
       "backgroundColor": "#ddffe2",
@@ -9,6 +9,14 @@
     },
     "icon": "./assets/icon.png",
     "name": "sertton-industrial",
-    "slug": "sertton-industrial"
+    "slug": "sertton-industrial",
+    "android": {
+      "package": "com.joaopcarvalho.serttonindustrial"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6a7eff7f-aa6a-40cb-8a4e-cbe94db221e5"
+      }
+    }
   }
 }
