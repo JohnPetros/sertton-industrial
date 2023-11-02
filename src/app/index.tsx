@@ -10,7 +10,7 @@ import {
   YStack
 } from "tamagui";
 
-import { MyStack } from "../components/MyStack";
+import { MyStack } from "../../components/MyStack";
 
 export default function Home() {
   const router = useRouter();

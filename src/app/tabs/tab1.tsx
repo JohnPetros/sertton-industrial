@@ -1,8 +1,8 @@
 import { H5, Tabs, Text } from "tamagui";
 
-import { MyStack } from "../../components/MyStack";
+import { MyStack } from "../../../components/MyStack";
 
-export default function Tab2() {
+export default function Tab1() {
   return (
     <MyStack>
       <Tabs
