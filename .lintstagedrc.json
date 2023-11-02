@@ -1,0 +1,3 @@
+{
+  "*.{ts,tsx}": ["npx eslint 'src/**/*.{ts,tsx}' --fix", "npx prettier --check 'src/**/*.{ts,tsx}'"]
+}

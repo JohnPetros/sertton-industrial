@@ -1,5 +1,5 @@
-import { Github, Twitter } from "@tamagui/lucide-icons";
-import { Link, useRouter } from "expo-router";
+import { Github, Twitter } from '@tamagui/lucide-icons'
+import { Link, useRouter } from 'expo-router'
 import {
   Button,
   H1,
@@ -7,20 +7,17 @@ import {
   Paragraph,
   Separator,
   YGroup,
-  YStack
-} from "tamagui";
+  YStack,
+} from 'tamagui'
 
-import { MyStack } from "../../components/MyStack";
+import { MyStack } from '../../components/MyStack'
 
 export default function Home() {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <MyStack>
-      <YStack
-        space="$4"
-        maxWidth={600}
-      >
+      <YStack space="$4" maxWidth={600}>
         <H1 textAlign="center">Welcome to Tamagui.</H1>
         <Paragraph textAlign="center">
           Here&apos;s a basic starter to show navigating from one screen to
@@ -29,30 +26,21 @@ export default function Home() {
       </YStack>
 
       <YStack space="$2.5">
-        <Button onPress={() => router.push("/users/testuser")}>
+        <Button onPress={() => router.push('/users/testuser')}>
           Go to user page
         </Button>
-        <Button onPress={() => router.push("/tabs")}>Go to tabs page</Button>
+        <Button onPress={() => router.push('/tabs')}>Go to tabs page</Button>
       </YStack>
 
       <YStack space="$5">
-        <YGroup
-          bordered
-          separator={<Separator />}
-          theme="green"
-        >
+        <YGroup bordered separator={<Separator />} theme="green">
           <YGroup.Item>
             <Link
               asChild
               href="https://twitter.com/natebirdman"
               target="_blank"
             >
-              <ListItem
-                hoverTheme
-                title="Nate"
-                pressTheme
-                icon={Twitter}
-              />
+              <ListItem hoverTheme title="Nate" pressTheme icon={Twitter} />
             </Link>
           </YGroup.Item>
           <YGroup.Item>
@@ -61,12 +49,7 @@ export default function Home() {
               href="https://github.com/tamagui/tamagui"
               target="_blank"
             >
-              <ListItem
-                hoverTheme
-                pressTheme
-                title="Tamagui"
-                icon={Github}
-              />
+              <ListItem hoverTheme pressTheme title="Tamagui" icon={Github} />
             </Link>
           </YGroup.Item>
           <YGroup.Item>
@@ -86,5 +69,5 @@ export default function Home() {
         </YGroup>
       </YStack>
     </MyStack>
-  );
+  )
 }
