@@ -13,6 +13,9 @@
     "android": {
       "package": "com.joaopcarvalho.serttonindustrial"
     },
+    "experiments": {
+      "tsconfigPaths": true
+    },
     "extra": {
       "eas": {
         "projectId": "6a7eff7f-aa6a-40cb-8a4e-cbe94db221e5"
