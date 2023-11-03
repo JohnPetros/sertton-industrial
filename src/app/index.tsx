@@ -1,9 +1,5 @@
-import { Text, Theme, YStack } from 'tamagui'
+import { Redirect } from 'expo-router'
 
-export default function Home() {
-  return (
-    <YStack space="$5">
-      <Text>Teste</Text>
-    </YStack>
-  )
+export default function Index() {
+  return <Redirect href="/(drawer)/(tabs)/home" />
 }
