@@ -46629,6 +46629,272 @@
           "name": "color-192",
           "val": "hsl(53, 100%, 91.0%)",
           "variable": ""
+        },
+        "blue900": {
+          "isVar": true,
+          "key": "$blue900",
+          "name": "color-193",
+          "val": "#000D20FF",
+          "variable": ""
+        },
+        "blue800": {
+          "isVar": true,
+          "key": "$blue800",
+          "name": "color-194",
+          "val": "#002450FF",
+          "variable": ""
+        },
+        "blue700": {
+          "isVar": true,
+          "key": "$blue700",
+          "name": "color-195",
+          "val": "#003C81FF",
+          "variable": ""
+        },
+        "blue600": {
+          "isVar": true,
+          "key": "$blue600",
+          "name": "color-196",
+          "val": "#0054B3FF",
+          "variable": ""
+        },
+        "blue500": {
+          "isVar": true,
+          "key": "$blue500",
+          "name": "color-197",
+          "val": "#016CE5FF",
+          "variable": ""
+        },
+        "blue400": {
+          "isVar": true,
+          "key": "$blue400",
+          "name": "color-198",
+          "val": "#1A86FEFF",
+          "variable": ""
+        },
+        "blue300": {
+          "isVar": true,
+          "key": "$blue300",
+          "name": "color-199",
+          "val": "#4AA1FFFF",
+          "variable": ""
+        },
+        "blue200": {
+          "isVar": true,
+          "key": "$blue200",
+          "name": "color-200",
+          "val": "#7DBCFFFF",
+          "variable": ""
+        },
+        "blue100": {
+          "isVar": true,
+          "key": "$blue100",
+          "name": "color-201",
+          "val": "#AED7FFFF",
+          "variable": ""
+        },
+        "blue50": {
+          "isVar": true,
+          "key": "$blue50",
+          "name": "color-202",
+          "val": "#DDF3FFFF",
+          "variable": ""
+        },
+        "red50": {
+          "isVar": true,
+          "key": "$red50",
+          "name": "color-203",
+          "val": "#FFE6E0FF",
+          "variable": ""
+        },
+        "red100": {
+          "isVar": true,
+          "key": "$red100",
+          "name": "color-204",
+          "val": "#FFBCB2FF",
+          "variable": ""
+        },
+        "red200": {
+          "isVar": true,
+          "key": "$red200",
+          "name": "color-205",
+          "val": "#FF9480FF",
+          "variable": ""
+        },
+        "red300": {
+          "isVar": true,
+          "key": "$red300",
+          "name": "color-206",
+          "val": "#FE5F4EFF",
+          "variable": ""
+        },
+        "red400": {
+          "isVar": true,
+          "key": "$red400",
+          "name": "color-207",
+          "val": "#FE231CFF",
+          "variable": ""
+        },
+        "red500": {
+          "isVar": true,
+          "key": "$red500",
+          "name": "color-208",
+          "val": "#E5030AFF",
+          "variable": ""
+        },
+        "red600": {
+          "isVar": true,
+          "key": "$red600",
+          "name": "color-209",
+          "val": "#B20113FF",
+          "variable": ""
+        },
+        "red700": {
+          "isVar": true,
+          "key": "$red700",
+          "name": "color-210",
+          "val": "#800016FF",
+          "variable": ""
+        },
+        "red800": {
+          "isVar": true,
+          "key": "$red800",
+          "name": "color-211",
+          "val": "#4E0014FF",
+          "variable": ""
+        },
+        "red900": {
+          "isVar": true,
+          "key": "$red900",
+          "name": "color-212",
+          "val": "#1F000EFF",
+          "variable": ""
+        },
+        "gray50": {
+          "isVar": true,
+          "key": "$gray50",
+          "name": "color-213",
+          "val": "#F2F2F2FF",
+          "variable": ""
+        },
+        "gray100": {
+          "isVar": true,
+          "key": "$gray100",
+          "name": "color-214",
+          "val": "#D9D9D9FF",
+          "variable": ""
+        },
+        "gray200": {
+          "isVar": true,
+          "key": "$gray200",
+          "name": "color-215",
+          "val": "#BFBFBFFF",
+          "variable": ""
+        },
+        "gray400": {
+          "isVar": true,
+          "key": "$gray400",
+          "name": "color-216",
+          "val": "#8C8C8CFF",
+          "variable": ""
+        },
+        "gray600": {
+          "isVar": true,
+          "key": "$gray600",
+          "name": "color-217",
+          "val": "#595959FF",
+          "variable": ""
+        },
+        "gray700": {
+          "isVar": true,
+          "key": "$gray700",
+          "name": "color-218",
+          "val": "#404040FF",
+          "variable": ""
+        },
+        "gray800": {
+          "isVar": true,
+          "key": "$gray800",
+          "name": "color-219",
+          "val": "#262626FF",
+          "variable": ""
+        },
+        "gray900": {
+          "isVar": true,
+          "key": "$gray900",
+          "name": "color-220",
+          "val": "#0D0D0DFF",
+          "variable": ""
+        },
+        "green50": {
+          "isVar": true,
+          "key": "$green50",
+          "name": "color-221",
+          "val": "#E2FBF0FF",
+          "variable": ""
+        },
+        "green100": {
+          "isVar": true,
+          "key": "$green100",
+          "name": "color-222",
+          "val": "#C3EADBFF",
+          "variable": ""
+        },
+        "green200": {
+          "isVar": true,
+          "key": "$green200",
+          "name": "color-223",
+          "val": "#A2DBC3FF",
+          "variable": ""
+        },
+        "green300": {
+          "isVar": true,
+          "key": "$green300",
+          "name": "color-224",
+          "val": "#7ECBADFF",
+          "variable": ""
+        },
+        "green400": {
+          "isVar": true,
+          "key": "$green400",
+          "name": "color-225",
+          "val": "#7ECBADFF",
+          "variable": ""
+        },
+        "green500": {
+          "isVar": true,
+          "key": "$green500",
+          "name": "color-226",
+          "val": "#43A37CFF",
+          "variable": ""
+        },
+        "green600": {
+          "isVar": true,
+          "key": "$green600",
+          "name": "color-227",
+          "val": "#327F61FF",
+          "variable": ""
+        },
+        "green700": {
+          "isVar": true,
+          "key": "$green700",
+          "name": "color-228",
+          "val": "#215A44FF",
+          "variable": ""
+        },
+        "green800": {
+          "isVar": true,
+          "key": "$green800",
+          "name": "color-229",
+          "val": "#0F3728FF",
+          "variable": ""
+        },
+        "green900": {
+          "isVar": true,
+          "key": "$green900",
+          "name": "color-230",
+          "val": "#00150BFF",
+          "variable": ""
         }
       },
       "radius": {
@@ -48835,6 +49101,272 @@
         "key": "$yellow12Dark",
         "name": "color-192",
         "val": "hsl(53, 100%, 91.0%)",
+        "variable": ""
+      },
+      "$color.blue900": {
+        "isVar": true,
+        "key": "$blue900",
+        "name": "color-193",
+        "val": "#000D20FF",
+        "variable": ""
+      },
+      "$color.blue800": {
+        "isVar": true,
+        "key": "$blue800",
+        "name": "color-194",
+        "val": "#002450FF",
+        "variable": ""
+      },
+      "$color.blue700": {
+        "isVar": true,
+        "key": "$blue700",
+        "name": "color-195",
+        "val": "#003C81FF",
+        "variable": ""
+      },
+      "$color.blue600": {
+        "isVar": true,
+        "key": "$blue600",
+        "name": "color-196",
+        "val": "#0054B3FF",
+        "variable": ""
+      },
+      "$color.blue500": {
+        "isVar": true,
+        "key": "$blue500",
+        "name": "color-197",
+        "val": "#016CE5FF",
+        "variable": ""
+      },
+      "$color.blue400": {
+        "isVar": true,
+        "key": "$blue400",
+        "name": "color-198",
+        "val": "#1A86FEFF",
+        "variable": ""
+      },
+      "$color.blue300": {
+        "isVar": true,
+        "key": "$blue300",
+        "name": "color-199",
+        "val": "#4AA1FFFF",
+        "variable": ""
+      },
+      "$color.blue200": {
+        "isVar": true,
+        "key": "$blue200",
+        "name": "color-200",
+        "val": "#7DBCFFFF",
+        "variable": ""
+      },
+      "$color.blue100": {
+        "isVar": true,
+        "key": "$blue100",
+        "name": "color-201",
+        "val": "#AED7FFFF",
+        "variable": ""
+      },
+      "$color.blue50": {
+        "isVar": true,
+        "key": "$blue50",
+        "name": "color-202",
+        "val": "#DDF3FFFF",
+        "variable": ""
+      },
+      "$color.red50": {
+        "isVar": true,
+        "key": "$red50",
+        "name": "color-203",
+        "val": "#FFE6E0FF",
+        "variable": ""
+      },
+      "$color.red100": {
+        "isVar": true,
+        "key": "$red100",
+        "name": "color-204",
+        "val": "#FFBCB2FF",
+        "variable": ""
+      },
+      "$color.red200": {
+        "isVar": true,
+        "key": "$red200",
+        "name": "color-205",
+        "val": "#FF9480FF",
+        "variable": ""
+      },
+      "$color.red300": {
+        "isVar": true,
+        "key": "$red300",
+        "name": "color-206",
+        "val": "#FE5F4EFF",
+        "variable": ""
+      },
+      "$color.red400": {
+        "isVar": true,
+        "key": "$red400",
+        "name": "color-207",
+        "val": "#FE231CFF",
+        "variable": ""
+      },
+      "$color.red500": {
+        "isVar": true,
+        "key": "$red500",
+        "name": "color-208",
+        "val": "#E5030AFF",
+        "variable": ""
+      },
+      "$color.red600": {
+        "isVar": true,
+        "key": "$red600",
+        "name": "color-209",
+        "val": "#B20113FF",
+        "variable": ""
+      },
+      "$color.red700": {
+        "isVar": true,
+        "key": "$red700",
+        "name": "color-210",
+        "val": "#800016FF",
+        "variable": ""
+      },
+      "$color.red800": {
+        "isVar": true,
+        "key": "$red800",
+        "name": "color-211",
+        "val": "#4E0014FF",
+        "variable": ""
+      },
+      "$color.red900": {
+        "isVar": true,
+        "key": "$red900",
+        "name": "color-212",
+        "val": "#1F000EFF",
+        "variable": ""
+      },
+      "$color.gray50": {
+        "isVar": true,
+        "key": "$gray50",
+        "name": "color-213",
+        "val": "#F2F2F2FF",
+        "variable": ""
+      },
+      "$color.gray100": {
+        "isVar": true,
+        "key": "$gray100",
+        "name": "color-214",
+        "val": "#D9D9D9FF",
+        "variable": ""
+      },
+      "$color.gray200": {
+        "isVar": true,
+        "key": "$gray200",
+        "name": "color-215",
+        "val": "#BFBFBFFF",
+        "variable": ""
+      },
+      "$color.gray400": {
+        "isVar": true,
+        "key": "$gray400",
+        "name": "color-216",
+        "val": "#8C8C8CFF",
+        "variable": ""
+      },
+      "$color.gray600": {
+        "isVar": true,
+        "key": "$gray600",
+        "name": "color-217",
+        "val": "#595959FF",
+        "variable": ""
+      },
+      "$color.gray700": {
+        "isVar": true,
+        "key": "$gray700",
+        "name": "color-218",
+        "val": "#404040FF",
+        "variable": ""
+      },
+      "$color.gray800": {
+        "isVar": true,
+        "key": "$gray800",
+        "name": "color-219",
+        "val": "#262626FF",
+        "variable": ""
+      },
+      "$color.gray900": {
+        "isVar": true,
+        "key": "$gray900",
+        "name": "color-220",
+        "val": "#0D0D0DFF",
+        "variable": ""
+      },
+      "$color.green50": {
+        "isVar": true,
+        "key": "$green50",
+        "name": "color-221",
+        "val": "#E2FBF0FF",
+        "variable": ""
+      },
+      "$color.green100": {
+        "isVar": true,
+        "key": "$green100",
+        "name": "color-222",
+        "val": "#C3EADBFF",
+        "variable": ""
+      },
+      "$color.green200": {
+        "isVar": true,
+        "key": "$green200",
+        "name": "color-223",
+        "val": "#A2DBC3FF",
+        "variable": ""
+      },
+      "$color.green300": {
+        "isVar": true,
+        "key": "$green300",
+        "name": "color-224",
+        "val": "#7ECBADFF",
+        "variable": ""
+      },
+      "$color.green400": {
+        "isVar": true,
+        "key": "$green400",
+        "name": "color-225",
+        "val": "#7ECBADFF",
+        "variable": ""
+      },
+      "$color.green500": {
+        "isVar": true,
+        "key": "$green500",
+        "name": "color-226",
+        "val": "#43A37CFF",
+        "variable": ""
+      },
+      "$color.green600": {
+        "isVar": true,
+        "key": "$green600",
+        "name": "color-227",
+        "val": "#327F61FF",
+        "variable": ""
+      },
+      "$color.green700": {
+        "isVar": true,
+        "key": "$green700",
+        "name": "color-228",
+        "val": "#215A44FF",
+        "variable": ""
+      },
+      "$color.green800": {
+        "isVar": true,
+        "key": "$green800",
+        "name": "color-229",
+        "val": "#0F3728FF",
+        "variable": ""
+      },
+      "$color.green900": {
+        "isVar": true,
+        "key": "$green900",
+        "name": "color-230",
+        "val": "#00150BFF",
         "variable": ""
       },
       "$radius.0": {
