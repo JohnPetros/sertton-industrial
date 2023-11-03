@@ -1,14 +1,14 @@
 export const blue = {
-  blue900: '#000D20FF',
-  blue800: '#002450FF',
-  blue700: '#003C81FF',
-  blue600: '#0054B3FF',
-  blue500: '#016CE5FF',
-  blue400: '#1A86FEFF',
-  blue300: '#4AA1FFFF',
-  blue200: '#7DBCFFFF',
-  blue100: '#AED7FFFF',
-  blue50: '#DDF3FFFF',
+  blue50: '#ddf9ff',
+  blue100: '#b9e5f5',
+  blue200: '#92d3ea',
+  blue300: '#6ac0e0',
+  blue400: '#43aed6',
+  blue500: '#2995bc',
+  blue600: '#1a7493',
+  blue700: '#0c536b',
+  blue800: '#003342',
+  blue900: '#00131b',
 }
 
 export const gray = {
@@ -47,3 +47,5 @@ export const green = {
   green800: '#0F3728FF',
   green900: '#00150BFF',
 }
+
+export const white = '#FFF'
