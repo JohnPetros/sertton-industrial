@@ -4,7 +4,8 @@
   "main": "expo-router/entry",
   "lint-staged": {
     "*.{ts,tsx}": [
-      "eslint 'src/**/*.{ts,tsx}' --fix", "git add"
+      "eslint 'src/**/*.{ts,tsx}' --fix",
+      "git add"
     ]
   },
   "scripts": {
@@ -23,6 +24,7 @@
     "@tamagui/font-inter": "^1.61.3",
     "@tamagui/lucide-icons": "^1.61.3",
     "@tamagui/themes": "^1.61.3",
+    "axios": "^1.6.0",
     "expo": "49.0.9",
     "expo-constants": "~14.4.2",
     "expo-dev-client": "~2.4.11",
@@ -41,6 +43,7 @@
     "react-native-safe-area-context": "4.6.3",
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
+    "react-query": "^3.39.3",
     "tamagui": "^1.61.3"
   },
   "devDependencies": {
