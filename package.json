@@ -2,12 +2,18 @@
   "name": "sertton-industrial",
   "version": "1.0.0",
   "main": "expo-router/entry",
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint 'src/**/*.{ts,tsx}' --fix", "git add"
+    ]
+  },
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "upgrade:tamagui": "$npm_execpath up '*tamagui*' '@tamagui/*'"
+    "upgrade:tamagui": "$npm_execpath up '*tamagui*' '@tamagui/*'",
+    "husky": "husky install"
   },
   "dependencies": {
     "@react-navigation/drawer": "^6.6.6",
