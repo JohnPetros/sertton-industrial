@@ -11,11 +11,7 @@ const X_PADDING_WIDTH = 24
 const GAP = 8
 const INPUT_WIDTH = SCREEN_WIDTH - BUTTON_WIDTH - GAP - X_PADDING_WIDTH * 2
 
-interface SearchProps {}
-
-export function Search({}: SearchProps) {
-  
-
+export function Search() {
   return (
     <XStack gap={GAP}>
       <Input
