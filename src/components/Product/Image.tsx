@@ -1,13 +1,16 @@
-import { Image, View } from 'tamagui'
+import { ViewProps } from 'react-native'
+import { Image as TImage, View } from 'tamagui'
 
 import type { Image as ProductImageData, ImageSize } from '@/@types/product'
 
-interface ProductImageProps {
+interface ImageProps extends ViewProps {
   data: ProductImageData[]
   size: ImageSize
+  width: number
+  height: number
 }
 
-export function ProductImage({ data, size }: ProductImageProps) {
+export function Image({ data, size }: ImageProps) {
   const image = data[0][size]
 
   return (
@@ -19,7 +22,7 @@ export function ProductImage({ data, size }: ProductImageProps) {
       w={150}
       h={180}
     >
-      <Image source={{ uri: image.url }} w={64} h={64} />
+      <TImage source={{ uri: image.url }} w={64} h={64} />
     </View>
   )
 }

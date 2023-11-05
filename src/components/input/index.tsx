@@ -32,7 +32,7 @@ export function Input({ label, placeholder, w }: InputProps) {
         {label}
       </Label>
       <XStack w={w} gap={4}>
-        <Icon state={iconState} icon={<MagnifyingGlass size={24} />} />
+        {/* <Icon state={iconState} icon={<MagnifyingGlass size={24} />} /> */}
         <Field
           state={inputState}
           id={id}
