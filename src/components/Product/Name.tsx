@@ -8,7 +8,8 @@ interface NameProps extends TextProps {
 export function Name({ children }: NameProps) {
   return (
     <Text
-      numberOfLines={2}
+      flexWrap="wrap"
+      numberOfLines={3}
       ellipsizeMode="tail"
       color="$gray700"
       fontWeight="600"
