@@ -1,4 +1,4 @@
-import { Text, TextProps, XStack } from 'tamagui'
+import { Text, TextProps } from 'tamagui'
 
 import { formatPrice } from '@/utils/helpers/formatPrice'
 

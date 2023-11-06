@@ -16,7 +16,11 @@ export function Header() {
         <ListBullets color={getTokens().color.blue800.val} />
       </Button>
       <Link href="/(drawer)/(tabs)/home" asChild>
-        <Image source={require('@/assets/sertton-logo.png')} w={96} h={40} />
+        <Image
+          source={require('@/assets/images/sertton-logo.png')}
+          w={96}
+          h={40}
+        />
       </Link>
     </XStack>
   )

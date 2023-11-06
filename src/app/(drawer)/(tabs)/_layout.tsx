@@ -24,35 +24,8 @@ export default function TabsLayout() {
           height: 64,
         },
       }}
+      initialRouteName="products"
     >
-      <Tabs.Screen
-        name="home"
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <Button
-              background={focused ? 'primary' : 'outline'}
-              w={40}
-              h={40}
-              icon={<House size={24} />}
-              onPress={() => handleTabButton('home')}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="cart"
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <Button
-              background={focused ? 'primary' : 'outline'}
-              w={40}
-              h={40}
-              icon={<ShoppingCart size={24} />}
-              onPress={() => handleTabButton('cart')}
-            />
-          ),
-        }}
-      />
       <Tabs.Screen
         name="products"
         options={{
@@ -67,6 +40,36 @@ export default function TabsLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="home"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <Button
+              background={focused ? 'primary' : 'outline'}
+              w={40}
+              h={40}
+              icon={<House size={24} />}
+              onPress={() => handleTabButton('home')}
+            />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="cart"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <Button
+              background={focused ? 'primary' : 'outline'}
+              w={40}
+              h={40}
+              icon={<ShoppingCart size={24} />}
+              onPress={() => handleTabButton('cart')}
+            />
+          ),
+        }}
+      />
+
       <Tabs.Screen
         name="orders"
         options={{
