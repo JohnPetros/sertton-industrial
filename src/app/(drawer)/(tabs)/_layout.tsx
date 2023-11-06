@@ -7,6 +7,7 @@ import {
 } from 'phosphor-react-native'
 
 import { Button } from '@/components/Button'
+import { TAB_BAR_HEIGHT } from '@/utils/constants/tabBarHeight'
 
 export default function TabsLayout() {
   const router = useRouter()
@@ -21,7 +22,7 @@ export default function TabsLayout() {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          height: 64,
+          height: TAB_BAR_HEIGHT,
         },
       }}
       initialRouteName="products"

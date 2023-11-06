@@ -1,24 +1,37 @@
 import { useState } from 'react'
 import { Dimensions, FlatList } from 'react-native'
-import { ArrowsDownUp } from 'phosphor-react-native'
-import { View, XStack, YStack } from 'tamagui'
+import { ArrowsDownUp, Faders, List, Table } from 'phosphor-react-native'
+import { Button, getTokens, Text, View, XStack, YStack } from 'tamagui'
 
-import { Button } from '@/components/Button'
 import { Header } from '@/components/Header'
 import { ProductItem } from '@/components/ProductItem'
 import { Search } from '@/components/Search'
 import { Select } from '@/components/Select'
 import { useProducts } from '@/hooks/useProducts'
+import { TAB_BAR_HEIGHT } from '@/utils/constants/tabBarHeight'
 
 const SCREEN_WIDTH = Dimensions.get('screen').width
 const PADDING_X = 24
+const ICON_COLOR = getTokens().color.gray800.val
+const ICON_SIZE = 16
+
+type Layout = 'mosaic' | 'list'
 
 export default function Products() {
   const { products, error, isLoading } = useProducts()
-  const [isMosaic, setIsMosaic] = useState(false)
+  const [layout, setLayout] = useState<Layout>('mosaic')
+
+  const productWidth =
+    layout === 'mosaic'
+      ? SCREEN_WIDTH - PADDING_X * 2
+      : (SCREEN_WIDTH - PADDING_X * 2) / 2 - 12
+
+  function handleLayoutToggle() {
+    setLayout(layout === 'list' ? 'mosaic' : 'list')
+  }
 
   return (
-    <YStack px={PADDING_X}>
+    <YStack px={PADDING_X} pb={TAB_BAR_HEIGHT * 2}>
       <Header />
       <Search />
 
@@ -29,30 +42,61 @@ export default function Products() {
       <XStack justifyContent="space-between" my={24}>
         <Select defaultValue="A-Z" items={['A-Z', 'Z-A']} width={90} />
         <Button
-          background="transparent"
+          unstyled
           icon={<ArrowsDownUp size={16} weight="bold" />}
           color="$gray800"
           fontSize={12}
+          alignSelf="center"
+          alignItems="center"
+          flexDirection="row"
+          onPress={handleLayoutToggle}
+          pressStyle={{ opacity: 0.7 }}
         >
-          Mais vendidos
+          {layout === 'mosaic' ? (
+            <XStack gap={8} alignItems="center" justifyContent="center">
+              <Table color={ICON_COLOR} size={ICON_SIZE} />
+              <Text>Mosaico</Text>
+            </XStack>
+          ) : (
+            <XStack gap={8} alignItems="center" justifyContent="center">
+              <List color={ICON_COLOR} size={ICON_SIZE} />
+              <Text>List</Text>
+            </XStack>
+          )}
+        </Button>
+
+        <Button
+          unstyled
+          icon={<ArrowsDownUp size={16} weight="bold" />}
+          color="$gray800"
+          fontSize={12}
+          alignSelf="center"
+          alignItems="center"
+          flexDirection="row"
+          onPress={handleLayoutToggle}
+        >
+          <Faders color={ICON_COLOR} size={ICON_SIZE} />
+          Filtrar
         </Button>
       </XStack>
 
       {products?.length && (
         <FlatList
+          key="products"
           data={products}
           keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => (
-            <View mb={12}>
+          renderItem={({ item, index }) => (
+            <View mb={12} pl={index % 2 !== 0 ? 24 : 0}>
               <ProductItem
                 data={item}
                 isLoading={isLoading}
-                isColumn={isMosaic}
-                width={SCREEN_WIDTH - PADDING_X * 2}
+                isColumn={layout === 'list'}
+                width={productWidth}
               />
             </View>
           )}
           showsVerticalScrollIndicator={false}
+          numColumns={2}
         />
       )}
     </YStack>
