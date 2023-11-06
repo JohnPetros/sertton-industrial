@@ -7,7 +7,7 @@ export const Button = styled(TamaguiButton, {
   borderRadius: 4,
   borderWidth: 1,
 
-  focusStyle: {
+  pressStyle: {
     opacity: 0.7,
   },
 
@@ -25,6 +25,10 @@ export const Button = styled(TamaguiButton, {
         bg: '$colorTransparent',
         borderColor: '$blue400',
         color: '$blue400',
+      },
+      transparent: {
+        bg: '$colorTransparent',
+        color: '$gray800',
       },
     },
   } as const,
