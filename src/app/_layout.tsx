@@ -34,12 +34,12 @@ export default function Layout() {
       <TamaguiProvider config={config}>
         <Suspense fallback={<Text>Loading...</Text>}>
           <Theme name={colorScheme}>
-            <StatusBar
-              backgroundColor={'#f5f1f1'}
-              translucent
-              barStyle="dark-content"
-            />
             <StyledSafeAreaView>
+              <StatusBar
+                backgroundColor={'#f5f1f1'}
+                translucent
+                barStyle="dark-content"
+              />
               <Stack
                 screenOptions={{
                   headerShown: false,
