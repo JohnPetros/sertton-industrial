@@ -10,7 +10,7 @@ interface ImageProps extends ViewProps {
   height: number
 }
 
-export function Image({ data, size }: ImageProps) {
+export function Image({ data, size, width, height }: ImageProps) {
   const image = data[0][size]
 
   return (
@@ -19,8 +19,8 @@ export function Image({ data, size }: ImageProps) {
       bg="$white"
       alignItems="center"
       justifyContent="center"
-      w={150}
-      h={180}
+      w={width}
+      h={height}
     >
       <TImage source={{ uri: image.url }} w={64} h={64} />
     </View>
