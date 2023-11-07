@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { ActivityIndicator } from 'react-native'
 import { CaretDown, Check, X } from 'phosphor-react-native'
 import {
   Adapt,
@@ -17,11 +18,13 @@ interface SelectProps {
   items: string[]
   defaultValue: string
   width: number
+  onChange: (value: string) => void
 }
 
-export function Select({ items, defaultValue, width }: SelectProps) {
+export function Select({ items, defaultValue, width, onChange }: SelectProps) {
   const [seletedValue, setSelectedValue] = useState(defaultValue)
   const [isOpen, setIsOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   function open() {
     setIsOpen(true)
@@ -32,12 +35,24 @@ export function Select({ items, defaultValue, width }: SelectProps) {
   }
 
   function handleChangeValue(value: string) {
+    setIsLoading(true)
+
     setSelectedValue(value)
   }
 
   function handleOpenChage(isOpen: boolean) {
     setIsOpen(isOpen)
   }
+
+  useEffect(() => {
+    if (isLoading) {
+      setTimeout(() => {
+        setIsOpen(false)
+        setIsLoading(false)
+        onChange(seletedValue)
+      }, 50)
+    }
+  }, [isLoading])
 
   return (
     <S
@@ -93,12 +108,20 @@ export function Select({ items, defaultValue, width }: SelectProps) {
             }
           >
             {items.map((item, index) => (
-              <S.Item key={item} index={index} value={item}>
+              <S.Item key={item} index={index} value={item} alignItems="center">
                 <S.ItemText fontSize={14} fontWeight="600">
                   {item}
                 </S.ItemText>
+
                 <S.ItemIndicator marginLeft="auto">
-                  <Check size={16} color={getTokens().color.blue600.val} />
+                  {isLoading ? (
+                    <ActivityIndicator
+                      size="small"
+                      color={getTokens().color.blue600.val}
+                    />
+                  ) : (
+                    <Check size={16} color={getTokens().color.blue600.val} />
+                  )}
                 </S.ItemIndicator>
               </S.Item>
             ))}
