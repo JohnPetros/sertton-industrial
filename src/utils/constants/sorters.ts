@@ -1,4 +1,4 @@
-import { Sorter } from '@/@types/order'
+import { Sorter } from '@/@types/sorter'
 
 export const SORTERS: Sorter[] = [
   {
