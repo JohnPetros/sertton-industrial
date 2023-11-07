@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 import { Api } from '@/@types/api'
+import { categoriesService } from '@/services/api/categoriesServices'
 import { collectionsService } from '@/services/api/collectionsService'
 import { productsService } from '@/services/api/productsServices'
 
@@ -19,5 +20,6 @@ export function useApi() {
   return {
     ...collectionsService(axiosClient as Api),
     ...productsService(axiosClient as Api),
+    ...categoriesService(axiosClient as Api),
   }
 }

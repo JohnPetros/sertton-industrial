@@ -1,5 +1,5 @@
-import { Product } from '@/@types/product'
+import { Category } from '@/@types/category'
 
-export interface IProductsService {
-  getCategories(params: getProductsParams): Promise<Product[]>
+export interface ICategoriesService {
+  getCategories(): Promise<Category[]>
 }
