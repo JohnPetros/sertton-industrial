@@ -1,4 +1,4 @@
-import { Text, View, XStack, YStack } from 'tamagui'
+import { View, XStack, YStack } from 'tamagui'
 
 import type { Product as ProductData } from '@/@types/product'
 import * as Product from '@/components/Product'
@@ -12,12 +12,16 @@ interface ProductItemProps {
 }
 
 export function ProductItem({
-  data: { skus, images, name, brand },
+  data: { skus, images, name, brand, id },
   isLoading,
   isColumn = true,
   width = 150,
 }: ProductItemProps) {
-  console.log({ brand })
+  // console.log({ brand })
+
+  if (skus.data[1]) {
+    // console.log('oi')
+  }
 
   return (
     <View
@@ -28,12 +32,17 @@ export function ProductItem({
     >
       <View position="relative">
         {!isLoading && (
-          <View position="absolute" top={8} left={8} zIndex={50}>
-            <Product.Discount
-              discountPrice={skus.data[0].price_discount}
-              salesPrice={skus.data[0].price_sale}
-            />
-          </View>
+          <>
+            <View position="absolute" top={8} left={8} zIndex={50}>
+              <Product.Discount
+                discountPrice={skus.data[0].price_discount}
+                salesPrice={skus.data[0].price_sale}
+              />
+            </View>
+            <View position="absolute" bottom={8} right={8} zIndex={50}>
+              <Product.CartButton product={{ id, name, skus: skus.data }} />
+            </View>
+          </>
         )}
 
         <Skeleton width={width} height={180} isVisible={!isLoading}>
