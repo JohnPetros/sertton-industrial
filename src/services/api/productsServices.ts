@@ -11,8 +11,6 @@ export function productsService(api: Api): IProductsService {
         ? `orderBy=${sorter.type}&sortedBy=${sorter.order}`
         : ''
 
-      console.log({ sorterParam })
-
       const response = await api.get<Product[]>(
         `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus&page=${page}&${sorterParam}`
       )

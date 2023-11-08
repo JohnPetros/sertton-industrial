@@ -8,8 +8,9 @@ export function categoriesService(api: Api): ICategoriesService {
   return {
     async getCategories() {
       const response = await api.get<Category[]>(
-        `/${Resources.CATALOG}/${Endpoints.COLLECTION}`
+        `/${Resources.CATALOG}/${Endpoints.COLLECTION}?limit=10`
       )
+
       const { data } = response.data
       return data
     },
