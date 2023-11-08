@@ -1,4 +1,4 @@
-import { View, XStack, YStack } from 'tamagui'
+import { Text, View, XStack, YStack } from 'tamagui'
 
 import type { Product as ProductData } from '@/@types/product'
 import * as Product from '@/components/Product'
@@ -12,11 +12,13 @@ interface ProductItemProps {
 }
 
 export function ProductItem({
-  data: { skus, images, name },
+  data: { skus, images, name, brand },
   isLoading,
   isColumn = true,
   width = 150,
 }: ProductItemProps) {
+  console.log({ brand })
+
   return (
     <View
       w={width}
@@ -43,7 +45,8 @@ export function ProductItem({
           />
         </Skeleton>
       </View>
-      <YStack flexShrink={1} width={!isColumn ? width / 2 : width} gap={8}>
+      <YStack flexShrink={1} width={!isColumn ? width / 2 : width} gap={4}>
+        {brand?.data.name && <Product.Brand>{brand.data.name}</Product.Brand>}
         <Skeleton width={80} height={24} isVisible={!isLoading}>
           <Product.Name>{name}</Product.Name>
         </Skeleton>
