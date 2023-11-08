@@ -6,13 +6,15 @@ import { Resources } from '@/services/api/resources'
 
 export function productsService(api: Api): IProductsService {
   return {
-    async getProducts({ page, sorter }) {
+    async getProducts({ page, sorter, category_id }) {
       const sorterParam = sorter
-        ? `orderBy=${sorter.type}&sortedBy=${sorter.order}`
+        ? `&orderBy=${sorter.type}&sortedBy=${sorter.order}`
         : ''
 
+      const categoryParam = category_id ? `&category_id[]=${category_id}` : ''
+
       const response = await api.get<Product[]>(
-        `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus&page=${page}&${sorterParam}`
+        `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand&page=${page}${sorterParam}${categoryParam}`
       )
       const { data } = response.data
       return data
@@ -20,7 +22,7 @@ export function productsService(api: Api): IProductsService {
 
     async getProductsByCollection(collectionId: number) {
       const response = await api.get<Product[]>(
-        `/${Resources.CATALOG}/${Endpoints.PRODUCT}?collection_id[]=${collectionId}&include=images,skus`
+        `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand&collection_id[]=${collectionId}`
       )
       const { data } = response.data
 

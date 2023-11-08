@@ -8,9 +8,17 @@ export function categoriesService(api: Api): ICategoriesService {
   return {
     async getCategories() {
       const response = await api.get<Category[]>(
-        `/${Resources.CATALOG}/${Endpoints.COLLECTION}?limit=10`
+        `/${Resources.CATALOG}/${Endpoints.CATEGORY}`
       )
 
+      const { data } = response.data
+      return data
+    },
+
+    async getCategory(categoryId: string) {
+      const response = await api.get<Category>(
+        `/${Resources.CATALOG}/${Endpoints.CATEGORY}/${categoryId}`
+      )
       const { data } = response.data
       return data
     },

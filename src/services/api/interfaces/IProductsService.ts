@@ -4,6 +4,7 @@ import { Sorter } from '@/@types/sorter'
 interface getProductsParams {
   page: number
   sorter: Sorter | null
+  category_id: string | null
 }
 
 export interface IProductsService {
