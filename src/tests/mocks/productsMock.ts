@@ -1,4 +1,5 @@
 import { Product } from '@/@types/product'
+import { brandsMock } from '@/tests/mocks/brandsMock'
 import { skusMock } from '@/tests/mocks/skusMock'
 
 export const productsMock: Product[] = [
@@ -36,6 +37,9 @@ export const productsMock: Product[] = [
     skus: {
       data: skusMock,
     },
+    brand: {
+      data: brandsMock[0],
+    },
   },
   {
     id: 2,
@@ -71,6 +75,9 @@ export const productsMock: Product[] = [
     skus: {
       data: skusMock,
     },
+    brand: {
+      data: brandsMock[1],
+    },
   },
   {
     id: 3,
@@ -105,6 +112,9 @@ export const productsMock: Product[] = [
     },
     skus: {
       data: skusMock,
+    },
+    brand: {
+      data: brandsMock[2],
     },
   },
 ]
