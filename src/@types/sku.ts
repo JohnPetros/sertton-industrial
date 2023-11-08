@@ -1,5 +1,7 @@
+import { Variation } from '@/@types/variation'
+
 export type Sku = {
-  sku: number
+  sku: string
   price_cost: number
   price_sale: number
   price_discount: number
@@ -7,4 +9,5 @@ export type Sku = {
   height: number
   width: number
   length: number
+  variations: Variation[]
 }
