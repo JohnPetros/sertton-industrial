@@ -1,3 +1,4 @@
+import { Brand } from '@/@types/brand'
 import { Sku } from '@/@types/sku'
 
 export type ImageSize = 'small' | 'thumb' | 'medium' | 'large'
@@ -20,5 +21,8 @@ export type Product = {
   }
   images: {
     data: Image[]
+  }
+  brand: {
+    data: Brand
   }
 }
