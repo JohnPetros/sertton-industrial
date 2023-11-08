@@ -1,11 +1,11 @@
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 import { Dimensions, Linking } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { CaretDown, Phone, WhatsappLogo } from 'phosphor-react-native'
+import { Link } from 'expo-router'
+import { CaretDown, CaretUp, Phone, WhatsappLogo } from 'phosphor-react-native'
 import { getTokens, Separator, Text, XStack, YStack } from 'tamagui'
 import { YGroup } from 'tamagui'
 import { ListItem } from 'tamagui'
-import { View } from 'tamagui'
 
 import { Contact, ContactType } from '@/@types/contact'
 import { Button } from '@/components/Button'
@@ -16,13 +16,18 @@ const SCREEN_HEIGHT = Dimensions.get('screen').height
 
 const PADDING_X = 24
 
-const CONTACT_ICONS: Record<ContactType, ReactNode> = {
-  whatsapp: <WhatsappLogo color={getTokens().color.green600.val} />,
-  landline: <Phone color={getTokens().color.gray600.val} />,
-}
-
 export function Sidebar() {
   const { categories } = useCatogories()
+  const [canShowAllCategories, setCanShowAllCategories] = useState(false)
+
+  const CONTACT_ICONS: Record<ContactType, ReactNode> = {
+    whatsapp: <WhatsappLogo color={getTokens().color.green600.val} />,
+    landline: <Phone color={getTokens().color.gray600.val} />,
+  }
+
+  function handleShowAllCategories() {
+    setCanShowAllCategories(!canShowAllCategories)
+  }
 
   function handleContact(contact: Contact) {
     switch (contact.type) {
@@ -39,27 +44,36 @@ export function Sidebar() {
 
   return (
     <SafeAreaView>
-      <YStack my={-48} h={SCREEN_HEIGHT} px={PADDING_X} bg="$gray50">
+      <YStack my={-48} py={24} h={SCREEN_HEIGHT} px={PADDING_X} bg="$gray50">
         <Button
           background="transparent"
           color="$gray900"
           justifyContent="space-between"
+          fontWeight="600"
+          onPress={handleShowAllCategories}
         >
-          Categorias <CaretDown />
+          Categorias {canShowAllCategories ? <CaretUp /> : <CaretDown />}
         </Button>
         <YGroup
           separator={
-            <View px={PADDING_X}>
-              <Separator bg="$gray400" alignSelf="stretch" vertical={false} />
-            </View>
+            <Separator bg="$gray400" alignSelf="stretch" vertical={false} />
           }
           borderRadius={4}
         >
-          {categories?.map((category) => (
-            <YGroup.Item key={category.id.toString()}>
-              <ListItem title={category.name} color="$gray800" fontSize={14} />
-            </YGroup.Item>
-          ))}
+          {categories
+            ?.slice(0, !canShowAllCategories ? 4 : categories.length)
+            .map((category) => (
+              <YGroup.Item key={category.id.toString()}>
+                <Link href="">
+                  <ListItem
+                    title={category.name}
+                    color="$gray700"
+                    fontSize={14}
+                    bg="$gray50"
+                  />
+                </Link>
+              </YGroup.Item>
+            ))}
         </YGroup>
         <YStack mt={12}>
           {CONTACTS.map((contact) => (
