@@ -34,6 +34,7 @@
     "expo-router": "2.0.5",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
+    "immer": "^10.0.3",
     "lottie-react-native": "5.1.6",
     "phosphor-react-native": "^2.0.0",
     "react": "18.2.0",
@@ -46,7 +47,8 @@
     "react-native-shimmer-placeholder": "^2.0.9",
     "react-native-svg": "13.9.0",
     "react-query": "^3.39.3",
-    "tamagui": "^1.61.3"
+    "tamagui": "^1.61.3",
+    "zustand": "^4.4.6"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
