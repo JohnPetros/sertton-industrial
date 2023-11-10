@@ -22,7 +22,7 @@ export default function Products() {
     sorter: selectedSorter,
   })
 
-  console.log(categoryId)
+  // console.log(products[0].id)
 
   function handleProductsListEndReached() {
     fetchNextPage()
