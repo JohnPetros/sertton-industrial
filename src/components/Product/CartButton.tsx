@@ -4,6 +4,7 @@ import { getTokens } from 'tamagui'
 import type { Sku } from '@/@types/sku'
 import { Button } from '@/components/Button'
 import { CartDialog } from '@/components/CartDialog'
+import { useCartStore } from '@/stores/cartStore'
 
 interface CartButtonProps {
   product: {
@@ -15,11 +16,15 @@ interface CartButtonProps {
 }
 
 export function CartButton({ product }: CartButtonProps) {
+  const items = useCartStore((store) => store.state.items)
+  const isInCart = items.some((item) => item.slug === product.slug)
+
   return (
     <CartDialog product={product}>
       <Button
         w={12}
         h={24}
+        background={isInCart ? 'primary' : 'secondary'}
         icon={<ShoppingCart color={getTokens().color.white.val} />}
       />
     </CartDialog>
