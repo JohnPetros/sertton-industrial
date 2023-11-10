@@ -9,7 +9,9 @@ export type CartStoreState = {
 
 type CartStoreActions = {
   addItem: (item: CartItem) => void
-  removeItem: (itemSlug: string) => void
+  removeItem: (itemSkuId: number) => void
+  removeAllItems: () => void
+  setItemQuantity: (itemSkuId: number, itemQuantity: number) => void
 }
 
 type CartStoreProps = {
@@ -26,26 +28,40 @@ export const useCartStore = create<CartStoreProps>()(
     return {
       state: initialState,
       actions: {
-        removeItem(itemSlug: string) {
+        addItem(item) {
+          set(({ state }) => {
+            const currentItem = state.items.find(
+              (currentItem) => currentItem.slug === item.slug
+            )
+
+            if (!currentItem) {
+              state.items.push(item)
+            }
+          })
+        },
+
+        removeItem(itemSkuId: number) {
           set(({ state }) => {
             const updatedItems = state.items.filter(
-              (item) => item.slug !== itemSlug
+              (item) => item.skuId !== itemSkuId
             )
             state.items = updatedItems
           })
         },
 
-        addItem(item) {
-          set(({ state, actions }) => {
-            const currentItem = state.items.some(
-              (currentItem) => currentItem.slug === item.slug
+        removeAllItems() {
+          set(({ state }) => {
+            state.items = []
+          })
+        },
+
+        setItemQuantity(itemSkuId: number, itemQuantity: number) {
+          set(({ state }) => {
+            state.items = state.items.map((item) =>
+              item.skuId === itemSkuId
+                ? { ...item, quantity: itemQuantity }
+                : item
             )
-
-            if (currentItem) {
-              actions.removeItem(item.slug)
-            }
-
-            state.items.push(item)
           })
         },
       },
