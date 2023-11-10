@@ -1,6 +1,7 @@
-import { ReactNode, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { Dimensions, Linking } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDrawerStatus } from '@react-navigation/drawer'
 import { useRouter } from 'expo-router'
 import { CaretDown, CaretUp, Phone, WhatsappLogo } from 'phosphor-react-native'
 import { getTokens, Separator, Text, View, XStack, YStack } from 'tamagui'
@@ -18,7 +19,7 @@ import { ROUTES } from '@/utils/constants/routes'
 const SCREEN_HEIGHT = Dimensions.get('screen').height
 const PADDING_X = 24
 
-export function Sidebar({ ...drawerProps }) {
+export function Sidebar() {
   const { categories } = useCatogories()
   const [canShowAllCategories, setCanShowAllCategories] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -29,6 +30,8 @@ export function Sidebar({ ...drawerProps }) {
     (store) => store.state.categoryId
   )
   const router = useRouter()
+
+  const isOpen = useDrawerStatus()
 
   const CONTACT_ICONS: Record<ContactType, ReactNode> = {
     whatsapp: <WhatsappLogo color={getTokens().color.green600.val} />,
@@ -57,6 +60,10 @@ export function Sidebar({ ...drawerProps }) {
         return
     }
   }
+
+  useEffect(() => {
+    if (isOpen === 'closed') setIsLoading(false)
+  }, [isOpen])
 
   return (
     <SafeAreaView>
@@ -98,12 +105,13 @@ export function Sidebar({ ...drawerProps }) {
                     color="$gray700"
                     fontSize={14}
                     bg="$gray50"
+                    position="relative"
                   />
-                  {selectedCateforyId === category.id && isLoading && (
-                    <View position="absolute" r={8}>
+                  <View position="absolute" r={8}>
+                    {selectedCateforyId === category.id && isLoading && (
                       <Spinner />
-                    </View>
-                  )}
+                    )}
+                  </View>
                 </Button>
               </YGroup.Item>
             ))}
