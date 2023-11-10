@@ -6,15 +6,17 @@ import { Resources } from '@/services/api/resources'
 
 export function productsService(api: Api): IProductsService {
   return {
-    async getProducts({ page, sorter, category_id }) {
+    async getProducts({ page, search, sorter, categoryId }) {
       const sorterParam = sorter
         ? `&orderBy=${sorter.type}&sortedBy=${sorter.order}`
         : ''
 
-      const categoryParam = category_id ? `&category_id[]=${category_id}` : ''
+      const searchParam = search ? `&search=${search}&searchFields=name` : ''
+
+      const categoryParam = categoryId ? `&category_id[]=${categoryId}` : ''
 
       const response = await api.get<Product[]>(
-        `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand&page=${page}${sorterParam}${categoryParam}`
+        `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand${searchParam}`
       )
       const { data } = response.data
       return data
