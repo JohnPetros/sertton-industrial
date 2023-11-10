@@ -3,7 +3,7 @@ import { Dimensions, FlatList } from 'react-native'
 import { ArrowsDownUp, Faders, List, Table } from 'phosphor-react-native'
 import { Button, getTokens, Text, View, XStack, YStack } from 'tamagui'
 
-import { Product } from '@/@types/product'
+import type { Product } from '@/@types/product'
 import type { Sorter } from '@/@types/sorter'
 import { Loading } from '@/components/Loading'
 import { ProductItem } from '@/components/ProductItem'
@@ -34,8 +34,6 @@ export function ProductsList({
 }: ProductsListProps) {
   const [layout, setLayout] = useState<Layout>('mosaic')
 
-  // console.log(products[0].skus)
-
   const productWidth =
     layout === 'mosaic'
       ? SCREEN_WIDTH - PADDING_X * 2
@@ -54,6 +52,7 @@ export function ProductsList({
     <YStack pb={TAB_BAR_HEIGHT}>
       <XStack justifyContent="space-between" my={12}>
         <Select
+          ariaLabel="Ordenar produtos por"
           defaultValue="Relevância"
           items={['Relevância', ...SORTERS.map(({ name }) => name)]}
           width={132}
