@@ -1,9 +1,11 @@
 import axios from 'axios'
 
-import { Api } from '@/@types/api'
-import { categoriesService } from '@/services/api/categoriesServices'
+import type { Api } from '@/@types/api'
+import { categoriesService } from '@/services/api/categoriesService'
 import { collectionsService } from '@/services/api/collectionsService'
-import { productsService } from '@/services/api/productsServices'
+import { productsService } from '@/services/api/productsService'
+import { skusService } from '@/services/api/skusService'
+import { variationsService } from '@/services/api/variationsService'
 
 const BASE_URL = process.env.YAMPI_BASE_URL
 const ALIAS = process.env.ALIAS
@@ -21,5 +23,7 @@ export function useApi() {
     ...collectionsService(axiosClient as Api),
     ...productsService(axiosClient as Api),
     ...categoriesService(axiosClient as Api),
+    ...variationsService(axiosClient as Api),
+    ...skusService(axiosClient as Api),
   }
 }
