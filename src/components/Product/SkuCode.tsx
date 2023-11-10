@@ -1,7 +1,7 @@
 import { Text, TextProps, XStack } from 'tamagui'
 
 interface SkuCodeProps extends TextProps {
-  children: number
+  children: string
 }
 
 export function SkuCode({ children, ...rest }: SkuCodeProps) {

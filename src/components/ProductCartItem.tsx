@@ -7,6 +7,7 @@ import type { Sku } from '@/@types/sku'
 import { Button } from '@/components/Button'
 import { NumberInput } from '@/components/NumberInput'
 import * as Product from '@/components/Product'
+import { Skeleton } from '@/components/Skeleton'
 import { useCartStore } from '@/stores/cartStore'
 
 interface ProductCartItemProps {
@@ -14,6 +15,7 @@ interface ProductCartItemProps {
   quantity: number
   selectedSkuId: number
   width: number
+  isLoading: boolean
 }
 
 export function ProductCartItem({
@@ -21,6 +23,7 @@ export function ProductCartItem({
   quantity,
   selectedSkuId,
   width,
+  isLoading,
 }: ProductCartItemProps) {
   const [quantityValue, setQuantityValue] = useState(quantity)
   const [selectedSku, setSelectedSku] = useState<Sku | null>(null)
@@ -34,11 +37,7 @@ export function ProductCartItem({
   function selectSku() {
     const selectedSku = skus.data.find((sku) => sku.id === selectedSkuId)
 
-    if (selectedSku) {
-      console.log(selectedSku)
-
-      setSelectedSku(selectedSku)
-    }
+    if (selectedSku) setSelectedSku(selectedSku)
   }
 
   useEffect(() => {
@@ -46,36 +45,51 @@ export function ProductCartItem({
   }, [])
 
   return (
-    <XStack alignItems="center" gap={12}>
-      <Product.Image
-        data={images.data}
-        size="medium"
-        width={(width - 12) / 2}
-        height={180}
-      />
-      <YStack w={(width - 12) / 2} gap={8}>
-        {selectedSku && <Product.SkuCode>{selectedSku.sku}</Product.SkuCode>}
-        <Product.Name>{name}</Product.Name>
-        <NumberInput
-          label="Quantidade do produto"
-          number={quantityValue}
-          onChangeNumber={setQuantityValue}
+    <XStack alignItems="center" justifyContent="center" gap={12}>
+      <Skeleton width={(width - 12) / 2} height={180} isVisible={!isLoading}>
+        <Product.Image
+          data={images.data}
+          size="medium"
+          width={(width - 12) / 2}
+          height={180}
         />
+      </Skeleton>
+
+      <YStack gap={8}>
+        {selectedSku && (
+          <Skeleton isVisible={!isLoading}>
+            <Product.SkuCode>{selectedSku.sku}</Product.SkuCode>
+          </Skeleton>
+        )}
+        <Skeleton isVisible={!isLoading}>
+          <Product.Name>{name}</Product.Name>
+        </Skeleton>
+
+        <Skeleton height={40} isVisible={!isLoading}>
+          <NumberInput
+            label="Quantidade do produto"
+            number={quantityValue}
+            onChangeNumber={setQuantityValue}
+          />
+        </Skeleton>
+
         <XStack alignItems="center" justifyContent="space-between">
-          {selectedSku && (
-            <YStack>
-              <Product.SalePrice price={selectedSku.price_sale} />
-              <Product.DiscountPrice price={selectedSku.price_discount} />
-            </YStack>
-          )}
-          <Button
-            background="secondary"
-            w={24}
-            h={24}
-            onPress={handleRemoveItem}
-          >
-            <Trash size={16} color={getTokens().color.white.val} />
-          </Button>
+          <Skeleton height={40} isVisible={!isLoading}>
+            {selectedSku && (
+              <YStack>
+                <Product.SalePrice price={selectedSku.price_sale} />
+                <Product.DiscountPrice price={selectedSku.price_discount} />
+              </YStack>
+            )}
+            <Button
+              background="secondary"
+              w={24}
+              h={24}
+              onPress={handleRemoveItem}
+            >
+              <Trash size={16} color={getTokens().color.white.val} />
+            </Button>
+          </Skeleton>
         </XStack>
       </YStack>
     </XStack>

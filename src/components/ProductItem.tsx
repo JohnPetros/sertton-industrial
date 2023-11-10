@@ -12,17 +12,11 @@ interface ProductItemProps {
 }
 
 export function ProductItem({
-  data: { skus, images, name, brand, id },
+  data: { skus, images, name, brand, slug, id },
   isLoading,
   isColumn = true,
   width = 150,
 }: ProductItemProps) {
-  // console.log({ brand })
-
-  if (skus.data[1]) {
-    // console.log('oi')
-  }
-
   return (
     <View
       w={width}
@@ -40,7 +34,9 @@ export function ProductItem({
               />
             </View>
             <View position="absolute" bottom={8} right={8} zIndex={50}>
-              <Product.CartButton product={{ id, name, skus: skus.data }} />
+              <Product.CartButton
+                product={{ id, slug, name, skus: skus.data }}
+              />
             </View>
           </>
         )}

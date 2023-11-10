@@ -8,6 +8,7 @@ import { Header } from '@/components/Header'
 import { ProductCartItem } from '@/components/ProductCartItem'
 import { useCart } from '@/hooks/useCart'
 import { useCartStore } from '@/stores/cartStore'
+import { cartItemsMock } from '@/tests/mocks/cartItemsMock'
 
 const SCREEN_WIDTH = Dimensions.get('screen').width
 const PADDING_X = 24
@@ -31,26 +32,47 @@ export default function Cart() {
         )}
       </XStack>
 
-      {isCartEmpty ? (
-        <EmptyCartMessage />
-      ) : (
-        <FlatList
-          key="cart-products"
-          data={products}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => (
-            <View mb={32}>
-              <ProductCartItem
-                data={item}
-                quantity={item.quantinty}
-                selectedSkuId={item.selectedSkuId}
-                width={PRODUCT_CART_ITEM_WIDTH}
-              />
-            </View>
-          )}
-          showsVerticalScrollIndicator={false}
-        />
-      )}
+      <View mt={24}>
+        {isCartEmpty ? (
+          <EmptyCartMessage />
+        ) : isLoading ? (
+          <FlatList
+            key="cart-items-loading"
+            data={cartItemsMock.slice(0, items.length)}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={({ item }) => (
+              <View mb={32}>
+                <ProductCartItem
+                  data={item}
+                  quantity={item.quantity}
+                  selectedSkuId={item.selectedSkuId}
+                  width={PRODUCT_CART_ITEM_WIDTH}
+                  isLoading={true}
+                />
+              </View>
+            )}
+            showsVerticalScrollIndicator={false}
+          />
+        ) : (
+          <FlatList
+            key="cart-items"
+            data={products}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={({ item }) => (
+              <View mb={32}>
+                <ProductCartItem
+                  data={item}
+                  quantity={item.quantinty}
+                  selectedSkuId={item.selectedSkuId}
+                  width={PRODUCT_CART_ITEM_WIDTH}
+                  isLoading={false}
+                />
+              </View>
+            )}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
+      </View>
     </YStack>
   )
 }
