@@ -1,60 +1,14 @@
-import { useState } from 'react'
+import { useQuery } from 'react-query'
 
-import type { Variation } from '@/@types/variation'
+import { useApi } from '@/services/api'
 
-type VariationsByName = {
-  [name in string]: Variation[]
-}
+export function useVariations() {
+  const api = useApi()
 
-export function useVariations(variations: Variation[]) {
-  const [selectedVariantionsIds, setSelectedVariantionsIds] = useState<
-    number[]
-  >([])
-  const [variantionsByName, setVariantionsByName] =
-    useState<VariationsByName | null>(null)
-
-  function setVariations() {
-    const variationNames: string[] = []
-
-    for (const variation of variations) {
-      if (!variationNames.includes(variation.name)) {
-        variationNames.push(variation.name)
-      }
-    }
-    // setVariationNames(variationNames)
-
-    let variationsByName = {}
-    const selectedVariantionsIds: number[] = []
-
-    for (const variantionName of variationNames) {
-      const selectedVariations: Variation[] = variations.filter(
-        (variantion) => (variantion.name = variantionName)
-      )
-
-      if (selectedVariations.length) {
-        variationsByName = {
-          ...variationsByName,
-          [variantionName]: selectedVariations,
-        }
-
-        selectedVariantionsIds.push(selectedVariations[0].id)
-      }
-    }
-
-    console.log(variationsByName)
-
-    setVariantionsByName(variationsByName)
-    setSelectedVariantionsIds(selectedVariantionsIds)
-  }
-
-  function handleSelectedVariationChange(variationValue: string) {
-    console.log(variationValue)
-  }
+  const { data, error } = useQuery('variations', () => api.getVariations())
 
   return {
-    variantionsByName,
-    selectedVariantionsIds,
-    setVariations,
-    handleSelectedVariationChange,
+    variations: data,
+    error,
   }
 }
