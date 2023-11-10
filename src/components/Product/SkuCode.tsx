@@ -1,4 +1,4 @@
-import { Text, TextProps } from 'tamagui'
+import { Text, TextProps, XStack } from 'tamagui'
 
 interface SkuCodeProps extends TextProps {
   children: number
@@ -6,8 +6,10 @@ interface SkuCodeProps extends TextProps {
 
 export function SkuCode({ children, ...rest }: SkuCodeProps) {
   return (
-    <Text fontSize={12} {...rest} fontWeight="600" color="$blue500">
-      {children}
-    </Text>
+    <XStack>
+      <Text fontSize={12} {...rest} fontWeight="600" color="$blue500">
+        SKU: {children}
+      </Text>
+    </XStack>
   )
 }
