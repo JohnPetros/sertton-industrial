@@ -1,7 +1,7 @@
-import { Api } from '@/@types/api'
-import { Category } from '@/@types/category'
+import type { Api } from '@/@types/api'
+import type { Category } from '@/@types/category'
 import { Endpoints } from '@/services/api/endpoints'
-import { ICategoriesService } from '@/services/api/interfaces/ICategoriesServices'
+import { ICategoriesService } from '@/services/api/interfaces/ICategoriesService'
 import { Resources } from '@/services/api/resources'
 
 export function categoriesService(api: Api): ICategoriesService {

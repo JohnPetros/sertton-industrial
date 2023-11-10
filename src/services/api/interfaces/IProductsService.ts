@@ -11,4 +11,5 @@ interface getProductsParams {
 export interface IProductsService {
   getProductsByCollection(collectionId: number): Promise<Product[]>
   getProducts(params: getProductsParams): Promise<Product[]>
+  getProductBySlug(slug: string): Promise<Product>
 }

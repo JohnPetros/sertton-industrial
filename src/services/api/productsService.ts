@@ -16,7 +16,7 @@ export function productsService(api: Api): IProductsService {
       const categoryParam = categoryId ? `&category_id[]=${categoryId}` : ''
 
       const response = await api.get<Product[]>(
-        `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand${searchParam}${sorterParam}${categoryParam}`
+        `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand${searchParam}${sorterParam}${categoryParam}&page=${page}`
       )
       const { data } = response.data
       return data
@@ -29,6 +29,15 @@ export function productsService(api: Api): IProductsService {
       const { data } = response.data
 
       return data
+    },
+
+    async getProductBySlug(slug: string) {
+      const response = await api.get<Product[]>(
+        `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand&search=${slug}&searchFields=slug`
+      )
+
+      const { data } = response.data
+      return data[0]
     },
   }
 }

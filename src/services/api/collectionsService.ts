@@ -1,5 +1,5 @@
-import { Api } from '@/@types/api'
-import { Collection } from '@/@types/collection'
+import type { Api } from '@/@types/api'
+import type { Collection } from '@/@types/collection'
 import { Endpoints } from '@/services/api/endpoints'
 import { ICollectionsService } from '@/services/api/interfaces/ICollectionsService'
 import { Resources } from '@/services/api/resources'
