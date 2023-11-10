@@ -7,6 +7,7 @@ import type { Sku } from '@/@types/sku'
 import { Button } from '@/components/Button'
 import { NumberInput } from '@/components/NumberInput'
 import * as Product from '@/components/Product'
+import { useCartStore } from '@/stores/cartStore'
 
 interface ProductCartItemProps {
   data: ProductData
@@ -23,7 +24,12 @@ export function ProductCartItem({
 }: ProductCartItemProps) {
   const [quantityValue, setQuantityValue] = useState(quantity)
   const [selectedSku, setSelectedSku] = useState<Sku | null>(null)
-  console.log({ selectedSku })
+
+  const { removeItem } = useCartStore((store) => store.actions)
+
+  function handleRemoveItem() {
+    if (selectedSku) removeItem(selectedSku.id)
+  }
 
   function selectSku() {
     const selectedSku = skus.data.find((sku) => sku.id === selectedSkuId)
@@ -62,7 +68,12 @@ export function ProductCartItem({
               <Product.DiscountPrice price={selectedSku.price_discount} />
             </YStack>
           )}
-          <Button background="secondary" w={24} h={24}>
+          <Button
+            background="secondary"
+            w={24}
+            h={24}
+            onPress={handleRemoveItem}
+          >
             <Trash size={16} color={getTokens().color.white.val} />
           </Button>
         </XStack>
