@@ -30,6 +30,8 @@ export function ProductCartItem({
 
   const { removeItem } = useCartStore((store) => store.actions)
 
+  const halfWidth = (width - 12) / 2
+
   function handleRemoveItem() {
     if (selectedSku) removeItem(selectedSku.id)
   }
@@ -46,16 +48,16 @@ export function ProductCartItem({
 
   return (
     <XStack alignItems="center" justifyContent="center" gap={12}>
-      <Skeleton width={(width - 12) / 2} height={180} isVisible={!isLoading}>
+      <Skeleton width={halfWidth} height={180} isVisible={!isLoading}>
         <Product.Image
           data={images.data}
           size="medium"
-          width={(width - 12) / 2}
+          width={halfWidth}
           height={180}
         />
       </Skeleton>
 
-      <YStack gap={8}>
+      <YStack width={halfWidth} gap={8}>
         {selectedSku && (
           <Skeleton isVisible={!isLoading}>
             <Product.SkuCode>{selectedSku.sku}</Product.SkuCode>
@@ -73,8 +75,12 @@ export function ProductCartItem({
           />
         </Skeleton>
 
-        <XStack alignItems="center" justifyContent="space-between">
-          <Skeleton height={40} isVisible={!isLoading}>
+        <Skeleton height={40} isVisible={!isLoading}>
+          <XStack
+            w={halfWidth}
+            alignItems="center"
+            justifyContent="space-between"
+          >
             {selectedSku && (
               <YStack>
                 <Product.SalePrice price={selectedSku.price_sale} />
@@ -89,8 +95,8 @@ export function ProductCartItem({
             >
               <Trash size={16} color={getTokens().color.white.val} />
             </Button>
-          </Skeleton>
-        </XStack>
+          </XStack>
+        </Skeleton>
       </YStack>
     </XStack>
   )

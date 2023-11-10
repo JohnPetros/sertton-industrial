@@ -5,12 +5,16 @@ import {
   ShoppingBag,
   ShoppingCart,
 } from 'phosphor-react-native'
+import { View } from 'tamagui'
 
 import { Button } from '@/components/Button'
+import { ItemsQuantityBadge } from '@/components/ItemsQuantityBadge'
+import { useCartStore } from '@/stores/cartStore'
 import { TAB_BAR_HEIGHT } from '@/utils/constants/tabBarHeight'
 
 export default function TabsLayout() {
   const router = useRouter()
+  const cartItemsQuantity = useCartStore((store) => store.state.items.length)
 
   function handleTabButton(screen: string) {
     router.push(`/(drawer)/(tabs)/${screen}`)
@@ -60,13 +64,21 @@ export default function TabsLayout() {
         name="cart"
         options={{
           tabBarIcon: ({ focused }) => (
-            <Button
-              background={focused ? 'primary' : 'outline'}
-              w={40}
-              h={40}
-              icon={<ShoppingCart size={24} />}
-              onPress={() => handleTabButton('cart')}
-            />
+            <View position="relative">
+              {cartItemsQuantity && (
+                <ItemsQuantityBadge
+                  quantity={cartItemsQuantity}
+                  isActive={focused}
+                />
+              )}
+              <Button
+                background={focused ? 'primary' : 'outline'}
+                w={40}
+                h={40}
+                icon={<ShoppingCart size={24} />}
+                onPress={() => handleTabButton('cart')}
+              />
+            </View>
           ),
         }}
       />

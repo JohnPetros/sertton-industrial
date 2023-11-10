@@ -1,7 +1,9 @@
 import { DrawerActions, useNavigation } from '@react-navigation/native'
 import { Link } from 'expo-router'
 import { ListBullets } from 'phosphor-react-native'
-import { Button, getTokens, Image, XStack } from 'tamagui'
+import { getTokens, Image, XStack } from 'tamagui'
+
+import { Button } from '@/components/Button'
 
 export function Header() {
   const navigation = useNavigation()
@@ -12,7 +14,12 @@ export function Header() {
 
   return (
     <XStack alignItems="center" justifyContent="space-between">
-      <Button unstyled ml={-8} p={8} onPress={handleToggleDrawer}>
+      <Button
+        background="transparent"
+        ml={-8}
+        p={8}
+        onPress={handleToggleDrawer}
+      >
         <ListBullets color={getTokens().color.blue800.val} />
       </Button>
       <Link href="/(drawer)/(tabs)/home" asChild>

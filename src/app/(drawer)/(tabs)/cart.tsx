@@ -32,7 +32,7 @@ export default function Cart() {
         )}
       </XStack>
 
-      <View mt={24}>
+      <View flex={1} mt={24}>
         {isCartEmpty ? (
           <EmptyCartMessage />
         ) : isLoading ? (
