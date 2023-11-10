@@ -1,12 +1,12 @@
-import { Text, TextProps } from 'tamagui'
+import { Text } from 'tamagui'
 
-interface BrandProps extends TextProps {
+interface BrandProps {
   children: string
 }
 
-export function Brand({ children, ...rest }: BrandProps) {
+export function Brand({ children }: BrandProps) {
   return (
-    <Text color="$gray300" textTransform="uppercase" fontSize={12} {...rest}>
+    <Text color="$gray400" textTransform="uppercase" fontSize={12}>
       {children}
     </Text>
   )

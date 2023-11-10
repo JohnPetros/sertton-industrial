@@ -21,7 +21,6 @@ export function Search() {
   const router = useRouter()
 
   function handleSearch() {
-    console.log(searchValue)
     setSearch(searchValue)
     router.push(ROUTES.products)
   }
