@@ -33,35 +33,40 @@ export function CartDialog({ children, product }: CartDialogProps) {
 
   const {
     state: { items },
-    actions: { addItem },
+    actions: { addItem, setItemQuantity },
   } = useCartStore()
 
   const item = items.find((item) => item.slug === product.slug)
+  const isInCart = !!item
 
   function handleDialogOpenChange(isOpen: boolean) {
     setIsOpen(isOpen)
   }
 
-  useEffect(() => {
-    if (isOpen && skus) {
-      setVariations(skus)
-      setQuantity(item ? item.quantity : 1)
-    }
-  }, [isOpen, skus])
+  function handleQuantityChange(quantity: number) {
+    setQuantity(quantity)
+
+    if (isInCart) setItemQuantity(item.skuId, quantity)
+  }
 
   function handleAddCartItem() {
-    if (selectedSku) {
+    if (selectedSku && !isInCart) {
       const item = {
         slug: product.slug,
         skuId: selectedSku.id,
         quantity,
       }
 
-      console.log(item)
-
       addItem(item)
     }
   }
+
+  useEffect(() => {
+    if (isOpen && skus) {
+      setVariations(skus)
+      setQuantity(isInCart ? item.quantity : 1)
+    }
+  }, [isOpen, skus])
 
   return (
     <Dialog
@@ -103,7 +108,7 @@ export function CartDialog({ children, product }: CartDialogProps) {
               <NumberInput
                 label="Quantidade do produto"
                 number={quantity}
-                onChangeNumber={setQuantity}
+                onChangeNumber={handleQuantityChange}
               />
             </View>
           </YStack>
