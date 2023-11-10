@@ -3,6 +3,7 @@ import { TrashSimple } from 'phosphor-react-native'
 import { getTokens, H1, View, XStack, YStack } from 'tamagui'
 
 import { Button } from '@/components/Button'
+import { EmptyCartMessage } from '@/components/EmptyCartMessage'
 import { Header } from '@/components/Header'
 import { ProductCartItem } from '@/components/ProductCartItem'
 import { useCart } from '@/hooks/useCart'
@@ -15,34 +16,41 @@ const PRODUCT_CART_ITEM_WIDTH = SCREEN_WIDTH - PADDING_X * 2
 export default function Cart() {
   const items = useCartStore((store) => store.state.items)
   const { products, isLoading } = useCart(items)
+  const isCartEmpty = items.length <= 0
 
   return (
-    <YStack px={24}>
+    <YStack px={24} flex={1}>
       <Header />
       <XStack mt={12} alignItems="center" justifyContent="space-between">
         <H1 fontSize={24}>Meu Carrinho</H1>
-        <Button background="transparent" mr={-12}>
-          <TrashSimple color={getTokens().color.gray400.val} weight="bold" />
-          Limpar carrinho
-        </Button>
+        {!isCartEmpty && (
+          <Button background="transparent" mr={-12}>
+            <TrashSimple color={getTokens().color.gray400.val} weight="bold" />
+            Limpar carrinho
+          </Button>
+        )}
       </XStack>
 
-      <FlatList
-        key="cart-products"
-        data={products}
-        keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => (
-          <View mb={32}>
-            <ProductCartItem
-              data={item}
-              quantity={item.quantinty}
-              selectedSkuId={item.selectedSkuId}
-              width={PRODUCT_CART_ITEM_WIDTH}
-            />
-          </View>
-        )}
-        showsVerticalScrollIndicator={false}
-      />
+      {isCartEmpty ? (
+        <EmptyCartMessage />
+      ) : (
+        <FlatList
+          key="cart-products"
+          data={products}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={({ item }) => (
+            <View mb={32}>
+              <ProductCartItem
+                data={item}
+                quantity={item.quantinty}
+                selectedSkuId={item.selectedSkuId}
+                width={PRODUCT_CART_ITEM_WIDTH}
+              />
+            </View>
+          )}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
     </YStack>
   )
 }

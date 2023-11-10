@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useGlobalSearchParams } from 'expo-router/src/hooks'
 import { H2, Paragraph, YStack } from 'tamagui'
 
 import type { Sorter } from '@/@types/sorter'
@@ -21,8 +20,6 @@ export default function Products() {
     categoryId,
     sorter: selectedSorter,
   })
-
-  // console.log(products[0].id)
 
   function handleProductsListEndReached() {
     fetchNextPage()
