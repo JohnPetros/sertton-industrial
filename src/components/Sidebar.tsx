@@ -67,14 +67,7 @@ export function Sidebar() {
 
   return (
     <SafeAreaView>
-      <YStack
-        my={-48}
-        py={24}
-        h={SCREEN_HEIGHT}
-        px={PADDING_X}
-        bg="$gray50"
-        onBlur={() => console.log('teste')}
-      >
+      <YStack my={-48} py={24} h={SCREEN_HEIGHT} px={PADDING_X} bg="$gray50">
         <Button
           background="transparent"
           color="$gray900"

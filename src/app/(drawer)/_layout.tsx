@@ -4,7 +4,7 @@ import { Sidebar } from '@/components/Sidebar'
 
 export default function DrawerLayout() {
   return (
-    <Drawer drawerContent={(props) => <Sidebar {...props} />}>
+    <Drawer drawerContent={() => <Sidebar />}>
       <Drawer.Screen
         name="(tabs)"
         options={{ headerShown: false, swipeEdgeWidth: 0 }}
