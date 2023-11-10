@@ -11,7 +11,12 @@ export function useCart(items: CartItem[]) {
 
     for (const item of items) {
       const product = await api.getProductBySlug(item.slug)
-      if (product) products.push({ ...product, selectedSkuId: item.skuId })
+      if (product)
+        products.push({
+          ...product,
+          quantinty: item.quantity,
+          selectedSkuId: item.skuId,
+        })
     }
 
     return products

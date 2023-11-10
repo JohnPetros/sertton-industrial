@@ -10,16 +10,18 @@ import * as Product from '@/components/Product'
 
 interface ProductCartItemProps {
   data: ProductData
+  quantity: number
   selectedSkuId: number
   width: number
 }
 
 export function ProductCartItem({
   data: { name, images, skus },
+  quantity,
   selectedSkuId,
   width,
 }: ProductCartItemProps) {
-  const [quantity, setQuantity] = useState(1)
+  const [quantityValue, setQuantityValue] = useState(quantity)
   const [selectedSku, setSelectedSku] = useState<Sku | null>(null)
   console.log({ selectedSku })
 
@@ -50,8 +52,8 @@ export function ProductCartItem({
         <Product.Name>{name}</Product.Name>
         <NumberInput
           label="Quantidade do produto"
-          number={quantity}
-          onChangeNumber={setQuantity}
+          number={quantityValue}
+          onChangeNumber={setQuantityValue}
         />
         <XStack alignItems="center" justifyContent="space-between">
           {selectedSku && (
