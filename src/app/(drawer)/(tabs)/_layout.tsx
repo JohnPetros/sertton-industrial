@@ -65,7 +65,7 @@ export default function TabsLayout() {
         options={{
           tabBarIcon: ({ focused }) => (
             <View position="relative">
-              {cartItemsQuantity && (
+              {cartItemsQuantity >= 1 && (
                 <ItemsQuantityBadge
                   quantity={cartItemsQuantity}
                   isActive={focused}
