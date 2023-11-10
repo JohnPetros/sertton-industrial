@@ -85,8 +85,6 @@ export function useSkus(productId: number) {
         },
       }
 
-      console.log(updatedVariationsName)
-
       setVariationsByName(updatedVariationsName)
     }
   }

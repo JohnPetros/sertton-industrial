@@ -48,8 +48,6 @@ export function ProductsList({
     setSelectedSorter(sorter)
   }
 
-  if (products.length) console.log(products[0].id)
-
   return (
     <YStack pb={TAB_BAR_HEIGHT * 4}>
       <XStack justifyContent="space-between" my={12}>
