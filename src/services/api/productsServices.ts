@@ -16,7 +16,7 @@ export function productsService(api: Api): IProductsService {
       const categoryParam = categoryId ? `&category_id[]=${categoryId}` : ''
 
       const response = await api.get<Product[]>(
-        `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand${searchParam}`
+        `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand${searchParam}${sorterParam}${categoryParam}`
       )
       const { data } = response.data
       return data

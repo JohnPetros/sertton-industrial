@@ -32,11 +32,15 @@ export const useProductsFilterStore = create<ProductsfilterStoreProps>()(
         setSearch(search: string) {
           return set(({ state }) => {
             state.search = search
+            state.categoryId = 0
+            state.brandsIds = []
           })
         },
         setCateforyId(categoryId: number) {
           return set(({ state }) => {
             state.categoryId = categoryId
+            state.search = ''
+            state.brandsIds = []
           })
         },
         setBrandsIds(brandsIds: number[]) {
