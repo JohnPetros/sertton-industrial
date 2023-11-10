@@ -8,21 +8,19 @@ import { CartDialog } from '@/components/CartDialog'
 interface CartButtonProps {
   product: {
     id: number
+    slug: string
     name: string
     skus: Sku[]
   }
 }
 
 export function CartButton({ product }: CartButtonProps) {
-  function handleCart() {}
-
   return (
     <CartDialog product={product}>
       <Button
         w={12}
         h={24}
         icon={<ShoppingCart color={getTokens().color.white.val} />}
-        onPress={handleCart}
       />
     </CartDialog>
   )

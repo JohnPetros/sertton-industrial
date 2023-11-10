@@ -68,10 +68,10 @@ export function Select({
 
   return (
     <YStack aria-label={ariaLabel}>
-      {label && (
+      {label && id && (
         <Label
           htmlFor={id}
-          color="$gray300"
+          color="#111"
           fontSize={12}
           textAlign="center"
           textTransform="uppercase"

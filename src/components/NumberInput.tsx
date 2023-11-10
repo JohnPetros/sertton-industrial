@@ -22,14 +22,13 @@ export function NumberInput({
 
   function handleIncreaseValue() {
     const updatedNumber = number + 1
-    console.log(updatedNumber)
-
     onChangeNumber(updatedNumber)
   }
 
   return (
     <XStack gap={12} alignItems="center" justifyContent="center">
       <Button
+        w={24}
         icon={<Minus size={16} color={getTokens().color.white.val} />}
         onPress={handleDecreaseValue}
       />
@@ -46,6 +45,7 @@ export function NumberInput({
         <Text>{number}</Text>
       </View>
       <Button
+        w={24}
         icon={<Plus size={16} color={getTokens().color.white.val} />}
         onPress={handleIncreaseValue}
       />

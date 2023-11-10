@@ -1,17 +1,19 @@
-import { ReactNode, useState } from 'react'
-import { Text, View, XStack, YStack } from 'tamagui'
+import { ReactNode, useEffect, useState } from 'react'
+import { DialogClose, Text, View, XStack, YStack } from 'tamagui'
 
-import { Sku } from '@/@types/sku'
+import type { Sku } from '@/@types/sku'
 import { Button } from '@/components/Button'
 import { Dialog } from '@/components/Dialog'
 import { NumberInput } from '@/components/NumberInput'
 import { Select } from '@/components/Select'
-import { useVariations } from '@/hooks/useVariation'
+import { useSkus } from '@/hooks/useSkus'
+import { useCartStore } from '@/stores/cartStore'
 
 interface CartDialogProps {
   children: ReactNode
   product: {
     id: number
+    slug: string
     name: string
     skus: Sku[]
   }
@@ -19,15 +21,46 @@ interface CartDialogProps {
 
 export function CartDialog({ children, product }: CartDialogProps) {
   const {
-    selectedVariantionsIds,
-    variantionsByName,
+    skus,
+    selectedSku,
+    variationsByName,
     setVariations,
     handleSelectedVariationChange,
-  } = useVariations(product.skus.map((sku) => sku.variations[0]))
+  } = useSkus(product.id)
+
   const [quantity, setQuantity] = useState(1)
+  const [isOpen, setIsOpen] = useState(false)
+
+  const {
+    state: { items },
+    actions: { addItem },
+  } = useCartStore()
+
+  const item = items.find((item) => item.slug === product.slug)
 
   function handleDialogOpenChange(isOpen: boolean) {
-    if (isOpen) setVariations()
+    setIsOpen(isOpen)
+  }
+
+  useEffect(() => {
+    if (isOpen && skus) {
+      setVariations(skus)
+      setQuantity(item ? item.quantity : 1)
+    }
+  }, [isOpen, skus])
+
+  function handleAddCartItem() {
+    if (selectedSku) {
+      const item = {
+        slug: product.slug,
+        skuId: selectedSku.id,
+        quantity,
+      }
+
+      console.log(item)
+
+      addItem(item)
+    }
   }
 
   return (
@@ -52,14 +85,14 @@ export function CartDialog({ children, product }: CartDialogProps) {
             >
               {product.name}
             </Text>
-            {variantionsByName &&
-              Object.keys(variantionsByName).map((variationName) => (
+            {variationsByName &&
+              Object.keys(variationsByName).map((variationName) => (
                 <Select
                   key={variationName}
                   label={variationName}
                   width="100%"
                   defaultValue={'Inox'}
-                  items={variantionsByName[variationName].map(
+                  items={variationsByName[variationName].variations.map(
                     (variation) => variation.value
                   )}
                   onChange={handleSelectedVariationChange}
@@ -80,8 +113,12 @@ export function CartDialog({ children, product }: CartDialogProps) {
             alignItems="center"
             justifyContent="space-between"
           >
-            <Button background="secondary">Cancelar</Button>
-            <Button>Confirmar</Button>
+            <DialogClose asChild>
+              <Button background="secondary">Cancelar</Button>
+            </DialogClose>
+            <DialogClose asChild>
+              <Button onPress={handleAddCartItem}>Confirmar</Button>
+            </DialogClose>
           </XStack>
         </YStack>
       }

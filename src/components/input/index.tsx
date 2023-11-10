@@ -10,15 +10,23 @@ type InputState = 'default' | 'success' | 'error'
 type IconState = InputState | 'focus'
 
 interface InputProps extends TInputProps {
-  label: string
+  label?: string
 }
 
-export function Input({ label, placeholder, w }: InputProps) {
+export function Input({
+  label,
+  placeholder,
+  w,
+  value,
+  disabled,
+  onChangeText,
+}: InputProps) {
   const [inputState, setInputState] = useState<InputState>('default')
   const [iconState, setIconState] = useState<IconState>('default')
   const id = useId()
 
   function handleFocus() {
+    setInputState('default')
     setIconState('focus')
   }
 
@@ -28,18 +36,23 @@ export function Input({ label, placeholder, w }: InputProps) {
 
   return (
     <YStack gap={3}>
-      <Label htmlFor={id} color="$gray800">
-        {label}
-      </Label>
+      {label && (
+        <Label htmlFor={id} color="$gray800">
+          {label}
+        </Label>
+      )}
       <XStack w={w} gap={4}>
         {/* <Icon state={iconState} icon={<MagnifyingGlass size={24} />} /> */}
         <Field
           state={inputState}
           id={id}
           placeholder={placeholder}
+          value={value}
           w="100%"
           onFocus={handleFocus}
           onBlur={handleBlur}
+          onChangeText={onChangeText}
+          disabled={disabled}
         />
       </XStack>
     </YStack>
