@@ -1,28 +1,32 @@
 import { ReactNode, useState } from 'react'
 import { Dimensions, Linking } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Link, useRouter } from 'expo-router'
+import { useRouter } from 'expo-router'
 import { CaretDown, CaretUp, Phone, WhatsappLogo } from 'phosphor-react-native'
-import { getTokens, Separator, Text, XStack, YStack } from 'tamagui'
+import { getTokens, Separator, Text, View, XStack, YStack } from 'tamagui'
 import { YGroup } from 'tamagui'
 import { ListItem } from 'tamagui'
 
 import { Contact, ContactType } from '@/@types/contact'
 import { Button } from '@/components/Button'
+import { Spinner } from '@/components/Spinner'
 import { useCatogories } from '@/hooks/useCategories'
 import { useProductsFilterStore } from '@/stores/productsFilterStore'
 import { CONTACTS } from '@/utils/constants/contacts'
 import { ROUTES } from '@/utils/constants/routes'
 
 const SCREEN_HEIGHT = Dimensions.get('screen').height
-
 const PADDING_X = 24
 
-export function Sidebar() {
+export function Sidebar({ ...drawerProps }) {
   const { categories } = useCatogories()
   const [canShowAllCategories, setCanShowAllCategories] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const setCateforyId = useProductsFilterStore(
     (store) => store.actions.setCateforyId
+  )
+  const selectedCateforyId = useProductsFilterStore(
+    (store) => store.state.categoryId
   )
   const router = useRouter()
 
@@ -36,6 +40,7 @@ export function Sidebar() {
   }
 
   function handleCategory(categoryId: number) {
+    setIsLoading(true)
     setCateforyId(categoryId)
     router.push(ROUTES.products)
   }
@@ -55,7 +60,14 @@ export function Sidebar() {
 
   return (
     <SafeAreaView>
-      <YStack my={-48} py={24} h={SCREEN_HEIGHT} px={PADDING_X} bg="$gray50">
+      <YStack
+        my={-48}
+        py={24}
+        h={SCREEN_HEIGHT}
+        px={PADDING_X}
+        bg="$gray50"
+        onBlur={() => console.log('teste')}
+      >
         <Button
           background="transparent"
           color="$gray900"
@@ -87,6 +99,11 @@ export function Sidebar() {
                     fontSize={14}
                     bg="$gray50"
                   />
+                  {selectedCateforyId === category.id && isLoading && (
+                    <View position="absolute" r={8}>
+                      <Spinner />
+                    </View>
+                  )}
                 </Button>
               </YGroup.Item>
             ))}
