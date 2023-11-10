@@ -13,6 +13,7 @@ export type Image = {
 
 export type Product = {
   id: number
+  slug: string
   sku: number
   name: string
   description: string
