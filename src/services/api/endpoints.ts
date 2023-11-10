@@ -3,4 +3,6 @@ export enum Endpoints {
   PRODUCT = 'products',
   CLIENT = 'clients',
   CATEGORY = 'categories',
+  VARIATION = 'variations',
+  SKU = 'skus',
 }
