@@ -20,7 +20,10 @@ export function useSkus(productId: number) {
 
   const { data: skus } = useQuery(
     [`skus?product_id=${productId}`, productId],
-    () => api.getSkusByProductId(productId)
+    () => api.getSkusByProductId(productId),
+    {
+      enabled: !!productId,
+    }
   )
 
   function setVariations(skus: Sku[]) {
@@ -110,13 +113,13 @@ export function useSkus(productId: number) {
   function selectSku() {
     if (!skus) return
 
-    const selectedSku = skus?.find(verifySkuValueIdMatch)
+    const selectedSku = skus.find(verifySkuValueIdMatch)
 
     if (selectedSku) setSelectedSku(selectedSku)
   }
 
   useEffect(() => {
-    selectSku()
+    if (variationsByName) selectSku()
   }, [variationsByName])
 
   return {
