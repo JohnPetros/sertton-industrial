@@ -1,3 +1,4 @@
+import { Link } from 'expo-router'
 import { View, XStack, YStack } from 'tamagui'
 
 import type { Product as ProductData } from '@/@types/product'
@@ -18,52 +19,54 @@ export function ProductItem({
   width = 150,
 }: ProductItemProps) {
   return (
-    <View
-      w={width}
-      flexDirection={isColumn ? 'column' : 'row'}
-      alignItems="center"
-      gap={12}
-    >
-      <View position="relative">
-        {!isLoading && (
-          <>
-            <View position="absolute" top={8} left={8} zIndex={50}>
-              <Product.Discount
-                discountPrice={skus.data[0].price_discount}
-                salesPrice={skus.data[0].price_sale}
-              />
-            </View>
-            <View position="absolute" bottom={8} right={8} zIndex={50}>
-              <Product.CartButton
-                product={{ id, slug, name, skus: skus.data }}
-              />
-            </View>
-          </>
-        )}
-
-        <Skeleton width={width} height={180} isVisible={!isLoading}>
-          <Product.Image
-            data={images.data}
-            size="medium"
-            width={!isColumn ? width / 2 : width}
-            height={180}
-          />
-        </Skeleton>
-      </View>
-      <YStack flexShrink={1} width={!isColumn ? width / 2 : width} gap={4}>
-        {brand?.data.name && <Product.Brand>{brand.data.name}</Product.Brand>}
-        <Skeleton width={80} height={24} isVisible={!isLoading}>
-          <Product.Name>{name}</Product.Name>
-        </Skeleton>
-        <XStack justifyContent="space-between">
+    <Link href={`/product/${slug}`} asChild>
+      <View
+        w={width}
+        flexDirection={isColumn ? 'column' : 'row'}
+        alignItems="center"
+        gap={12}
+      >
+        <View position="relative">
           {!isLoading && (
             <>
-              <Product.SalePrice price={skus.data[0].price_sale} />
-              <Product.DiscountPrice price={skus.data[0].price_discount} />
+              <View position="absolute" top={8} left={8} zIndex={50}>
+                <Product.Discount
+                  discountPrice={skus.data[0].price_discount}
+                  salesPrice={skus.data[0].price_sale}
+                />
+              </View>
+              <View position="absolute" bottom={8} right={8} zIndex={50}>
+                <Product.CartButton
+                  product={{ id, slug, name, skus: skus.data }}
+                />
+              </View>
             </>
           )}
-        </XStack>
-      </YStack>
-    </View>
+
+          <Skeleton width={width} height={180} isVisible={!isLoading}>
+            <Product.Image
+              data={images.data}
+              size="medium"
+              width={!isColumn ? width / 2 : width}
+              height={180}
+            />
+          </Skeleton>
+        </View>
+        <YStack flexShrink={1} width={!isColumn ? width / 2 : width} gap={4}>
+          {brand?.data.name && <Product.Brand>{brand.data.name}</Product.Brand>}
+          <Skeleton width={80} height={24} isVisible={!isLoading}>
+            <Product.Name>{name}</Product.Name>
+          </Skeleton>
+          <XStack justifyContent="space-between">
+            {!isLoading && (
+              <>
+                <Product.SalePrice price={skus.data[0].price_sale} />
+                <Product.DiscountPrice price={skus.data[0].price_discount} />
+              </>
+            )}
+          </XStack>
+        </YStack>
+      </View>
+    </Link>
   )
 }
