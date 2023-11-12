@@ -67,13 +67,12 @@ export function Select({
   }, [isLoading])
 
   return (
-    <YStack aria-label={ariaLabel}>
+    <YStack aria-label={ariaLabel} w={width} alignItems="center">
       {label && id && (
         <Label
           htmlFor={id}
           color="#111"
           fontSize={12}
-          textAlign="center"
           textTransform="uppercase"
         >
           {label}
