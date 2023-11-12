@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Dimensions } from 'react-native'
 import { useGlobalSearchParams } from 'expo-router/src/hooks'
 import { ArrowsOut } from 'phosphor-react-native'
 import { getTokens, H2, ScrollView, View, XStack, YStack } from 'tamagui'
 
 import { Button } from '@/components/Button'
+import { FullImage } from '@/components/FullImage'
 import { Header } from '@/components/Header'
 import { NumberInput } from '@/components/NumberInput'
 import {
@@ -17,15 +17,12 @@ import {
 } from '@/components/Product'
 import { Search } from '@/components/Search'
 import { Select } from '@/components/Select'
-import ShipmentCalculation from '@/components/ShipmentCalculation'
+import ShippingCostsCalculation from '@/components/ShippingCostsCalculation'
 import { useProduct } from '@/hooks/useProduct'
 import { useSkus } from '@/hooks/useSkus'
 import { useCartStore } from '@/stores/cartStore'
+import { SCREEN } from '@/utils/constants/screen'
 import { TAB_BAR_HEIGHT } from '@/utils/constants/tabBarHeight'
-
-const SCREEN_WIDTH = Dimensions.get('screen').width
-
-const PADDING_X = 24
 
 export default function Product() {
   const { product_slug } = useGlobalSearchParams()
@@ -44,15 +41,19 @@ export default function Product() {
     actions: { addItem, setItemQuantity },
   } = useCartStore()
 
+  const [isFullImageVisible, setIsFullImageVisible] = useState(false)
+
   const item = items.find((item) => item.slug === product?.slug)
   const isInCart = !!item
-
-  console.log(product?.description)
 
   function handleQuantityChange(quantity: number) {
     setQuantity(quantity)
 
     if (isInCart) setItemQuantity(item.skuId, quantity)
+  }
+
+  function handleFullImage() {
+    setIsFullImageVisible(!isFullImageVisible)
   }
 
   useEffect(() => {
@@ -62,18 +63,30 @@ export default function Product() {
   if (product && selectedSku)
     return (
       <YStack>
-        <View px={PADDING_X}>
+        <View px={SCREEN.paddingX}>
           <Header />
           <Search />
         </View>
+        <FullImage
+          isVisible={isFullImageVisible}
+          data={selectedSku.images.data}
+          close={() => setIsFullImageVisible(false)}
+        />
         <ScrollView
           contentContainerStyle={{ paddingBottom: TAB_BAR_HEIGHT * 2 }}
         >
-          <View position="relative" mt={24}>
+          <View
+            position="relative"
+            mt={24}
+            onStartShouldSetResponder={() => {
+              handleFullImage()
+              return true
+            }}
+          >
             <Image
               data={selectedSku.images.data}
               size="large"
-              width={SCREEN_WIDTH}
+              width={SCREEN.width}
               height={224}
             />
             <Button
@@ -86,7 +99,7 @@ export default function Product() {
               Pressione para zoom
             </Button>
           </View>
-          <YStack px={PADDING_X} mt={12} gap={8}>
+          <YStack px={SCREEN.paddingX} mt={12} gap={8}>
             <SkuCode fontSize={14}>{selectedSku.sku}</SkuCode>
             <Name fontSize={24}>{product.name}</Name>
             <XStack alignItems="flex-start" gap={12}>
@@ -126,7 +139,11 @@ export default function Product() {
             </YStack>
 
             <View mt={24}>
-              <ShipmentCalculation />
+              <ShippingCostsCalculation
+                skus_ids={[selectedSku.id]}
+                quantities={[quantity]}
+                total={selectedSku.price_sale}
+              />
             </View>
 
             <YStack mt={24}>
