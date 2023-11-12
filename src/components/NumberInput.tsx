@@ -42,7 +42,7 @@ export function NumberInput({
         h={44}
         aria-label={label}
       >
-        <Text>{number}</Text>
+        <Text fontSize={16}>{number}</Text>
       </View>
       <Button
         w={24}
