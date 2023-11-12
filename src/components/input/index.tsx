@@ -19,6 +19,7 @@ export function Input({
   w,
   value,
   disabled,
+  keyboardType,
   onChangeText,
 }: InputProps) {
   const [inputState, setInputState] = useState<InputState>('default')
@@ -44,6 +45,7 @@ export function Input({
       <XStack w={w} gap={4}>
         {/* <Icon state={iconState} icon={<MagnifyingGlass size={24} />} /> */}
         <Field
+          keyboardType={keyboardType}
           state={inputState}
           id={id}
           placeholder={placeholder}
