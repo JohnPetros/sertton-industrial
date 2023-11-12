@@ -5,7 +5,7 @@ interface NameProps extends TextProps {
   children: ReactNode
 }
 
-export function Name({ children }: NameProps) {
+export function Name({ children, ...rest }: NameProps) {
   return (
     <Text
       flexWrap="wrap"
@@ -14,6 +14,7 @@ export function Name({ children }: NameProps) {
       color="$gray700"
       fontWeight="600"
       fontSize={14}
+      {...rest}
     >
       {children}
     </Text>
