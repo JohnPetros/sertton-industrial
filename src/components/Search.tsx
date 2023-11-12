@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Dimensions } from 'react-native'
 import { useRouter } from 'expo-router/src/hooks'
 import { MagnifyingGlass } from 'phosphor-react-native'
-import { getTokens, XStack } from 'tamagui'
+import { getTokens, Spinner, XStack } from 'tamagui'
 
 import { Button } from '@/components/Button'
 import { Input } from '@/components/input'
@@ -17,13 +17,19 @@ const INPUT_WIDTH = SCREEN_WIDTH - BUTTON_WIDTH - GAP - X_PADDING_WIDTH * 2
 
 export function Search() {
   const [searchValue, setSearchValue] = useState('')
+  const [isloading, setIsloading] = useState(false)
   const setSearch = useProductsFilterStore((store) => store.actions.setSearch)
   const router = useRouter()
 
   function handleSearch() {
     setSearch(searchValue)
+    setIsloading(true)
     router.push(ROUTES.products)
   }
+
+  // useEffect(() => {
+
+  // }, [])
 
   return (
     <XStack gap={GAP}>
@@ -40,7 +46,11 @@ export function Search() {
         alignSelf="flex-end"
         onPress={handleSearch}
       >
-        <MagnifyingGlass color={getTokens().color.white.val} />
+        {isloading ? (
+          <Spinner size="small" color="$white" />
+        ) : (
+          <MagnifyingGlass color={getTokens().color.white.val} />
+        )}
       </Button>
     </XStack>
   )
