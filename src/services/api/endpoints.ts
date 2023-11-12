@@ -5,4 +5,5 @@ export enum Endpoints {
   CATEGORY = 'categories',
   VARIATION = 'variations',
   SKU = 'skus',
+  SHIPPING_COST = 'shipping-costs',
 }
