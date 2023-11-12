@@ -1,15 +1,6 @@
 import type { Brand } from '@/@types/brand'
+import type { Image } from '@/@types/image'
 import type { Sku } from '@/@types/sku'
-
-export type ImageSize = 'small' | 'thumb' | 'medium' | 'large'
-
-export type Image = {
-  [key in ImageSize]: {
-    width: number
-    height: number
-    url: string
-  }
-}
 
 export type Product = {
   id: number
