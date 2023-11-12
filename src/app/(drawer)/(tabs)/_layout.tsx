@@ -98,7 +98,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="product/[product_id]"
+        name="product/[product_slug]"
         options={{
           href: null,
         }}
