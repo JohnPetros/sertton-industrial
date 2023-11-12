@@ -2,6 +2,7 @@ import { Dimensions, FlatList } from 'react-native'
 import { TrashSimple } from 'phosphor-react-native'
 import { getTokens, H1, View, XStack, YStack } from 'tamagui'
 
+import { Alert } from '@/components/Alert'
 import { Button } from '@/components/Button'
 import { EmptyCartMessage } from '@/components/EmptyCartMessage'
 import { Header } from '@/components/Header'
@@ -21,7 +22,7 @@ export default function Cart() {
   const isCartEmpty = items.length <= 0
 
   function handleRemoveAllItems() {
-    removeAllItems()
+    // removeAllItems()
   }
 
   return (
@@ -30,14 +31,18 @@ export default function Cart() {
       <XStack mt={12} alignItems="center" justifyContent="space-between">
         <H1 fontSize={24}>Meu Carrinho</H1>
         {!isCartEmpty && (
-          <Button
-            background="transparent"
-            mr={-12}
-            onPress={handleRemoveAllItems}
+          <Alert
+            title="Deseja realmente limpar o carrinho?"
+            onConfirm={() => null}
           >
-            <TrashSimple color={getTokens().color.gray400.val} weight="bold" />
-            Limpar carrinho
-          </Button>
+            <Button background="transparent" mr={-12}>
+              <TrashSimple
+                color={getTokens().color.gray400.val}
+                weight="bold"
+              />
+              Limpar carrinho
+            </Button>
+          </Alert>
         )}
       </XStack>
 
