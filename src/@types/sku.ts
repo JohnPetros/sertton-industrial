@@ -1,6 +1,8 @@
-import { Variation } from '@/@types/variation'
+import type { Image } from '@/@types/image'
+import type { Variation } from '@/@types/variation'
 
 export type Sku = {
+  id: number
   sku: string
   price_cost: number
   price_sale: number
@@ -9,5 +11,6 @@ export type Sku = {
   height: number
   width: number
   length: number
+  images: { data: Image[] }
   variations: Variation[]
 }
