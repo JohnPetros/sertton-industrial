@@ -1,6 +1,6 @@
 import type { ShippingCosts } from '@/@types/shippingCosts'
 
-export interface CalculateShippmentCostsRequest {
+export interface CalculateShippingCostsRequest {
   zipcode: string
   total: number
   skus_ids: number[]
@@ -8,7 +8,7 @@ export interface CalculateShippmentCostsRequest {
 }
 
 export interface ILogisticsService {
-  calculateShippmentCosts(
-    request: CalculateShippmentCostsRequest
+  calculateShippingCosts(
+    request: CalculateShippingCostsRequest
   ): Promise<ShippingCosts>
 }

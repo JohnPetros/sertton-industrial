@@ -3,6 +3,7 @@ import axios from 'axios'
 import type { Api } from '@/@types/api'
 import { categoriesService } from '@/services/api/categoriesService'
 import { collectionsService } from '@/services/api/collectionsService'
+import { logisticsService } from '@/services/api/logisticsService'
 import { productsService } from '@/services/api/productsService'
 import { skusService } from '@/services/api/skusService'
 import { variationsService } from '@/services/api/variationsService'
@@ -25,5 +26,6 @@ export function useApi() {
     ...categoriesService(axiosClient as Api),
     ...variationsService(axiosClient as Api),
     ...skusService(axiosClient as Api),
+    ...logisticsService(axiosClient as Api),
   }
 }
