@@ -1,7 +1,14 @@
 import { ViewProps } from 'react-native'
 import { Image as TImage, View } from 'tamagui'
 
-import type { Image as ProductImageData, ImageSize } from '@/@types/product'
+import type { Image as ProductImageData, ImageSize } from '@/@types/image'
+
+const sizes: Record<ImageSize, number> = {
+  large: 220,
+  medium: 120,
+  small: 100,
+  thumb: 64,
+}
 
 interface ImageProps extends ViewProps {
   data: ProductImageData[]
@@ -22,7 +29,12 @@ export function Image({ data, size, width, height }: ImageProps) {
       w={width}
       h={height}
     >
-      <TImage source={{ uri: image.url }} w={64} h={64} />
+      <TImage
+        source={{ uri: image.url }}
+        w={sizes[size]}
+        h={sizes[size]}
+        resizeMode="contain"
+      />
     </View>
   )
 }
