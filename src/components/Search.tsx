@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { Dimensions } from 'react-native'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'expo-router/src/hooks'
 import { MagnifyingGlass } from 'phosphor-react-native'
 import { getTokens, Spinner, XStack } from 'tamagui'
@@ -8,28 +7,33 @@ import { Button } from '@/components/Button'
 import { Input } from '@/components/input'
 import { useProductsFilterStore } from '@/stores/productsFilterStore'
 import { ROUTES } from '@/utils/constants/routes'
+import { SCREEN } from '@/utils/constants/screen'
 
-const SCREEN_WIDTH = Dimensions.get('screen').width
 const BUTTON_WIDTH = 48
-const X_PADDING_WIDTH = 24
 const GAP = 8
-const INPUT_WIDTH = SCREEN_WIDTH - BUTTON_WIDTH - GAP - X_PADDING_WIDTH * 2
+const INPUT_WIDTH = SCREEN.width - BUTTON_WIDTH - GAP - SCREEN.paddingX * 2
 
-export function Search() {
+interface SearchProps {
+  isLoading?: boolean
+}
+
+export function Search({ isLoading }: SearchProps) {
   const [searchValue, setSearchValue] = useState('')
   const [isloading, setIsloading] = useState(false)
   const setSearch = useProductsFilterStore((store) => store.actions.setSearch)
   const router = useRouter()
 
   function handleSearch() {
-    setSearch(searchValue)
-    setIsloading(true)
-    router.push(ROUTES.products)
+    if (searchValue) {
+      setSearch(searchValue)
+      router.push(ROUTES.products)
+    }
   }
 
-  // useEffect(() => {
-
-  // }, [])
+  console.log({ isLoading })
+  useEffect(() => {
+    setIsloading(Boolean(isLoading))
+  }, [isLoading])
 
   return (
     <XStack gap={GAP}>

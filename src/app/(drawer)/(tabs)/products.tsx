@@ -46,20 +46,20 @@ export default function Products() {
         </YStack>
       )}
 
-      {/* <ProductsList
+      <ProductsList
         products={products}
         isLoading={isLoading}
         setSelectedSorter={setSelectedSorter}
         onEndReached={handleProductsListEndReached}
-      /> */}
+      />
 
-      <View h={SCREEN.height / 2}>
+      {/* <View h={SCREEN.height / 2}>
         <EmptyItemsMessage
           title="Oh não..."
           subtitle="Nenhum produto foi encontrado"
           icon={MagnifyingGlass}
         />
-      </View>
+      </View> */}
     </YStack>
   )
 }
