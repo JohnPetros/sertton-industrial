@@ -1,13 +1,17 @@
 import { useState } from 'react'
+import { MagnifyingGlass } from 'phosphor-react-native'
 import { H2, Paragraph, YStack } from 'tamagui'
+import { View } from 'tamagui'
 
 import type { Sorter } from '@/@types/sorter'
+import { EmptyItemsMessage } from '@/components/EmptyItemsMessage'
 import { Header } from '@/components/Header'
 import { ProductsList } from '@/components/ProductsList'
 import { Search } from '@/components/Search'
 import { useCatogory } from '@/hooks/useCategory'
 import { useProducts } from '@/hooks/useProducts'
 import { useProductsFilterStore } from '@/stores/productsFilterStore'
+import { SCREEN } from '@/utils/constants/screen'
 import { removeHTMLTags } from '@/utils/helpers/removeHTMLTags'
 
 export default function Products() {
@@ -29,7 +33,7 @@ export default function Products() {
   return (
     <YStack px={24}>
       <Header />
-      <Search />
+      <Search isLoading={isLoading} />
 
       {category && (
         <YStack mt={12}>
@@ -42,12 +46,20 @@ export default function Products() {
         </YStack>
       )}
 
-      <ProductsList
+      {/* <ProductsList
         products={products}
         isLoading={isLoading}
         setSelectedSorter={setSelectedSorter}
         onEndReached={handleProductsListEndReached}
-      />
+      /> */}
+
+      <View h={SCREEN.height / 2}>
+        <EmptyItemsMessage
+          title="Oh não..."
+          subtitle="Nenhum produto foi encontrado"
+          icon={MagnifyingGlass}
+        />
+      </View>
     </YStack>
   )
 }

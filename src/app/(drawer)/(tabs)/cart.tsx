@@ -1,10 +1,10 @@
 import { Dimensions, FlatList } from 'react-native'
-import { TrashSimple } from 'phosphor-react-native'
+import { ShoppingCart, TrashSimple } from 'phosphor-react-native'
 import { getTokens, H1, View, XStack, YStack } from 'tamagui'
 
 import { Alert } from '@/components/Alert'
 import { Button } from '@/components/Button'
-import { EmptyCartMessage } from '@/components/EmptyCartMessage'
+import { EmptyItemsMessage } from '@/components/EmptyItemsMessage'
 import { Header } from '@/components/Header'
 import { ProductCartItem } from '@/components/ProductCartItem'
 import { useCart } from '@/hooks/useCart'
@@ -48,7 +48,12 @@ export default function Cart() {
 
       <View flex={1} mt={24}>
         {isCartEmpty ? (
-          <EmptyCartMessage />
+          <EmptyItemsMessage
+            title="Seu carrinho está vazio"
+            subtitle="Navegue pela loja e adiciona produtos."
+            icon={ShoppingCart}
+            callback={<Button>Procurar produtos</Button>}
+          />
         ) : isLoading ? (
           <FlatList
             key="cart-items-loading"
