@@ -38,7 +38,7 @@ export function EmptyItemsMessage({
       )}
 
       {callback && (
-        <Link href={ROUTES.products} asChild>
+        <Link href={ROUTES.products} asChild style={{ marginTop: 12 }}>
           {callback}
         </Link>
       )}

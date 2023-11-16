@@ -134,7 +134,7 @@ export function ProductsList({
           onEndReachedThreshold={0.1}
           numColumns={2}
           onEndReached={onEndReached}
-          ListFooterComponent={<Loading message="carregando..." />}
+          ListFooterComponent={<Loading size={200} message="carregando..." />}
           contentContainerStyle={{ paddingBottom: TAB_BAR_HEIGHT * 4 }}
         />
       )}

@@ -30,7 +30,6 @@ export function Search({ isLoading }: SearchProps) {
     }
   }
 
-  console.log({ isLoading })
   useEffect(() => {
     setIsloading(Boolean(isLoading))
   }, [isLoading])
