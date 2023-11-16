@@ -5,8 +5,7 @@ import type { Sku } from '@/@types/sku'
 import { Button } from '@/components/Button'
 import { Dialog, DialogRef } from '@/components/Dialog'
 import { NumberInput } from '@/components/NumberInput'
-import { Select, SelectRef } from '@/components/Select'
-import { useSkus } from '@/hooks/useSkus'
+import { SkuSelects, SkuSelectsRef } from '@/components/SkuSelects'
 import { useCartStore } from '@/stores/cartStore'
 
 interface CartDialogProps {
@@ -20,23 +19,10 @@ interface CartDialogProps {
 }
 
 export function CartDialog({ children, product }: CartDialogProps) {
-  const {
-    skus,
-    selectedSku,
-    selectedVariationsValues,
-    variationNames,
-    setSkusVariations,
-    handleSelectedVariationChange,
-    getVariationValuesByVariationName,
-  } = useSkus(product.id)
-
   const [quantity, setQuantity] = useState(1)
   const [isOpen, setIsOpen] = useState(false)
-  const [errors, setErrors] = useState<boolean[]>([])
   const dialogRef = useRef<DialogRef | null>(null)
-  const selectRefs = useRef<SelectRef[]>([])
-
-  console.log(errors)
+  const skuSelectsRef = useRef<SkuSelectsRef | null>(null)
 
   const {
     state: { items },
@@ -45,12 +31,6 @@ export function CartDialog({ children, product }: CartDialogProps) {
 
   const item = items.find((item) => item.slug === product.slug)
   const isInCart = !!item
-
-  const hasErrors = selectedVariationsValues.length !== variationNames.length
-
-  function fillArray<Value>(value: Value, length: number) {
-    return Array.from<Value>({ length }).fill(value)
-  }
 
   function handleDialogOpenChange(isOpen: boolean) {
     setIsOpen(isOpen)
@@ -62,50 +42,14 @@ export function CartDialog({ children, product }: CartDialogProps) {
     if (isInCart) setItemQuantity(item.skuId, quantity)
   }
 
-  function handleSelectChange(index: number, value: string) {
-    const currentSelectedValues = [
-      ...new Set(
-        selectRefs.current
-          .map((selectRef) => selectRef.value)
-          .filter((currentValue) => !!currentValue && currentValue !== value)
-      ),
-    ]
-
-    const isFirst = index === 0
-
-    handleSelectedVariationChange(value, isFirst ? [] : currentSelectedValues)
-
-    if (isFirst) {
-      for (
-        let refIndex = index + 1;
-        refIndex < selectRefs.current.length;
-        refIndex++
-      ) {
-        selectRefs.current[refIndex].reset()
-      }
-    }
-
-    console.log(hasErrors)
-
-    if (!hasErrors) setErrors(fillArray<boolean>(false, variationNames.length))
-  }
-
   function handleAddCartItem() {
-    if (hasErrors) {
-      const errors: boolean[] = []
+    if (!skuSelectsRef.current) return
 
-      selectRefs.current.forEach((selectRef, index) => {
-        const hasError = !selectRef.value
+    const { onAddSkuToCart, selectedSku } = skuSelectsRef.current
 
-        errors[index] = hasError
-      })
+    const shouldAddToCart = onAddSkuToCart()
 
-      console.log({ errors })
-      setErrors(errors)
-      return
-    }
-
-    setErrors(fillArray<boolean>(false, variationNames.length))
+    if (!shouldAddToCart) return
 
     if (selectedSku && !isInCart) {
       const item = {
@@ -121,11 +65,11 @@ export function CartDialog({ children, product }: CartDialogProps) {
   }
 
   useEffect(() => {
-    if (isOpen && skus) {
-      setSkusVariations(skus)
+    if (isOpen) {
+      // setSkusVariations(skus)
       setQuantity(isInCart ? item.quantity : 1)
     }
-  }, [isOpen, skus, isInCart])
+  }, [isOpen, isInCart])
 
   return (
     <Dialog
@@ -151,32 +95,7 @@ export function CartDialog({ children, product }: CartDialogProps) {
               {product.name}
             </Text>
             <YStack gap={12}>
-              {variationNames.length > 0 &&
-                variationNames.map((variationName, index) => {
-                  const values =
-                    getVariationValuesByVariationName(variationName)
-                  const hasValues = values.length > 0
-
-                  console.log(errors[index])
-
-                  return (
-                    <Select
-                      ref={(ref) => {
-                        if (ref) selectRefs.current[index] = ref
-                      }}
-                      key={variationName}
-                      label={variationName}
-                      width="100%"
-                      defaultValue={'Selecionar'}
-                      items={hasValues ? values : ['Selecionar']}
-                      onChange={(variationChange) =>
-                        handleSelectChange(index, variationChange)
-                      }
-                      isDisable={!hasValues}
-                      hasError={errors[index]}
-                    />
-                  )
-                })}
+              <SkuSelects ref={skuSelectsRef} productId={product.id} />
             </YStack>
 
             <View mt={24}>

@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
-import { useRouter } from 'expo-router'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useFocusEffect, useNavigation, useRouter } from 'expo-router'
 import { useGlobalSearchParams } from 'expo-router/src/hooks'
 import { ArrowsOut } from 'phosphor-react-native'
 import { getTokens, H2, ScrollView, View, XStack, YStack } from 'tamagui'
@@ -29,24 +29,28 @@ import { TAB_BAR_HEIGHT } from '@/utils/constants/tabBarHeight'
 
 export default function Product() {
   const { product_slug } = useGlobalSearchParams()
-  const { product } = useProduct(String(product_slug))
+  const { product, refetch } = useProduct(String(product_slug))
+  const [isLoading, setIsLoading] = useState(true)
   const [quantity, setQuantity] = useState(1)
   const [selectedSku, setSelectedSku] = useState<Sku | null>(null)
   const skuSelectsRef = useRef<SkuSelectsRef | null>(null)
+  console.log(product?.description)
 
   const {
     state: { items },
     actions: { addItem, setItemQuantity },
   } = useCartStore()
   const router = useRouter()
+  const navigation = useNavigation()
 
   const [isFullImageVisible, setIsFullImageVisible] = useState(false)
 
   const item = items.find((item) => item.slug === product?.slug)
   const isInCart = !!item
 
+  const isSkeletonVisible = isLoading
+
   function handleSkuChange(sku: Sku) {
-    console.log(sku)
     setSelectedSku(sku)
   }
 
@@ -71,11 +75,38 @@ export default function Product() {
     }
   }
 
+  function handleScreenBlur() {
+    setIsLoading(true)
+  }
+
   useEffect(() => {
     if (product && skuSelectsRef.current?.selectedSku) {
       setSelectedSku(skuSelectsRef.current.selectedSku)
     }
   }, [product, skuSelectsRef.current?.selectedSku])
+
+  useFocusEffect(
+    useCallback(() => {
+      setIsLoading(true)
+      refetch()
+    }, [])
+  )
+
+  useEffect(() => {
+    navigation.addListener('blur', () => handleScreenBlur())
+
+    return () => navigation.removeListener('blur', () => handleScreenBlur())
+  }, [navigation])
+
+  useEffect(() => {
+    if (!isLoading || !selectedSku) return
+
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }, [selectedSku])
 
   return (
     <YStack>
@@ -84,7 +115,7 @@ export default function Product() {
         <Search />
       </View>
 
-      {selectedSku && (
+      {selectedSku && !isSkeletonVisible && (
         <FullImage
           isVisible={isFullImageVisible}
           data={selectedSku.images.data}
@@ -94,10 +125,10 @@ export default function Product() {
 
       <ScrollView
         contentContainerStyle={{ paddingBottom: TAB_BAR_HEIGHT * 2 }}
-        scrollEnabled={!!selectedSku}
+        scrollEnabled={!isSkeletonVisible}
       >
         <Skeleton
-          isVisible={Boolean(selectedSku)}
+          isVisible={isSkeletonVisible}
           width={SCREEN.width}
           height={224}
         >
@@ -132,72 +163,99 @@ export default function Product() {
         <YStack px={SCREEN.paddingX} mt={12} gap={8}>
           {selectedSku && (
             <>
-              <Skeleton isVisible={!!selectedSku} width={40} height={40}>
+              <Skeleton isVisible={isSkeletonVisible} width={120} height={24}>
                 {selectedSku && (
                   <SkuCode fontSize={14}>{selectedSku?.sku}</SkuCode>
                 )}
               </Skeleton>
-              <Skeleton isVisible={!!selectedSku} width={40} height={40}>
+              <Skeleton isVisible={isSkeletonVisible} width={300} height={48}>
                 {selectedSku && (
                   <Name fontSize={24}>{String(product?.name)}</Name>
                 )}
               </Skeleton>
 
-              <XStack alignItems="flex-start" gap={12}>
-                <Skeleton isVisible={!!selectedSku} width={32} height={64}>
-                  {selectedSku && (
-                    <>
-                      <YStack>
-                        <SalePrice
-                          fontSize={24}
-                          price={selectedSku?.price_sale}
-                        />
-                        <DiscountPrice
-                          fontSize={14}
-                          price={selectedSku?.price_discount}
-                        />
-                      </YStack>
-                      <Discount
-                        salesPrice={selectedSku?.price_sale}
-                        discountPrice={selectedSku?.price_discount}
+              <Skeleton isVisible={isSkeletonVisible} width={150} height={48}>
+                {selectedSku && (
+                  <XStack alignItems="flex-start" gap={12}>
+                    <YStack>
+                      <SalePrice
+                        fontSize={24}
+                        price={selectedSku?.price_sale}
                       />
-                    </>
-                  )}
-                </Skeleton>
-              </XStack>
+                      <DiscountPrice
+                        fontSize={14}
+                        price={selectedSku?.price_discount}
+                      />
+                    </YStack>
+                    <Discount
+                      salesPrice={selectedSku?.price_sale}
+                      discountPrice={selectedSku?.price_discount}
+                    />
+                  </XStack>
+                )}
+              </Skeleton>
             </>
           )}
           <YStack mt={12} gap={32} alignItems="flex-start">
-            {product && (
-              <SkuSelects
-                ref={skuSelectsRef}
-                productId={product.id}
-                onSkuChange={handleSkuChange}
-              />
+            {!product ? (
+              <Skeleton isVisible={!product} width={SCREEN.width} height={40}>
+                <></>
+              </Skeleton>
+            ) : (
+              <>
+                {product && (
+                  <SkuSelects
+                    ref={skuSelectsRef}
+                    productId={product.id}
+                    onSkuChange={handleSkuChange}
+                  />
+                )}
+              </>
             )}
-            <NumberInput
-              label="Quantidade do produto"
-              number={quantity}
-              onChangeNumber={handleQuantityChange}
-            />
-            <Button w="100%" onPress={handleAddToCart}>
-              Adicionar ao carinho
-            </Button>
+
+            <Skeleton isVisible={isSkeletonVisible} height={40}>
+              <NumberInput
+                label="Quantidade do produto"
+                number={quantity}
+                onChangeNumber={handleQuantityChange}
+              />
+            </Skeleton>
+            {isSkeletonVisible ? (
+              <Skeleton
+                isVisible={isSkeletonVisible}
+                width={SCREEN.width}
+                height={40}
+              >
+                <></>
+              </Skeleton>
+            ) : (
+              <Button w="100%" onPress={handleAddToCart}>
+                Adicionar ao carinho
+              </Button>
+            )}
           </YStack>
 
           {selectedSku && (
             <View mt={24}>
-              <ShippingCostsCalculation
-                skus_ids={[selectedSku.id]}
-                quantities={[quantity]}
-                total={selectedSku?.price_sale}
-              />
+              <Skeleton
+                isVisible={isSkeletonVisible}
+                width={SCREEN.width - 48}
+                height={40}
+              >
+                <ShippingCostsCalculation
+                  skus_ids={[selectedSku.id]}
+                  quantities={[quantity]}
+                  total={selectedSku?.price_sale}
+                />
+              </Skeleton>
             </View>
           )}
 
-          <YStack mt={24}>
-            <H2>Descrição do produto</H2>
-          </YStack>
+          {selectedSku && !isLoading && (
+            <YStack mt={24}>
+              <H2>Descrição do produto</H2>
+            </YStack>
+          )}
         </YStack>
       </ScrollView>
     </YStack>

@@ -54,7 +54,7 @@ export function ProductCartItem({
 
   return (
     <XStack alignItems="center" justifyContent="center" gap={12}>
-      <Skeleton width={halfWidth} height={180} isVisible={!isLoading}>
+      <Skeleton width={halfWidth} height={180} isVisible={isLoading}>
         <Product.Image
           data={images.data}
           size="medium"
@@ -65,15 +65,15 @@ export function ProductCartItem({
 
       <YStack width={halfWidth} gap={8}>
         {selectedSku && (
-          <Skeleton isVisible={!isLoading}>
+          <Skeleton isVisible={isLoading}>
             <Product.SkuCode>{selectedSku.sku}</Product.SkuCode>
           </Skeleton>
         )}
-        <Skeleton isVisible={!isLoading}>
+        <Skeleton isVisible={isLoading}>
           <Product.Name>{name}</Product.Name>
         </Skeleton>
 
-        <Skeleton height={40} isVisible={!isLoading}>
+        <Skeleton height={40} isVisible={isLoading}>
           <NumberInput
             label="Quantidade do produto"
             number={quantityValue}
@@ -81,7 +81,7 @@ export function ProductCartItem({
           />
         </Skeleton>
 
-        <Skeleton height={40} isVisible={!isLoading}>
+        <Skeleton height={40} isVisible={isLoading}>
           <XStack
             w={halfWidth}
             alignItems="center"

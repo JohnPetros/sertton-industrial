@@ -43,7 +43,7 @@ export function ProductItem({
             </>
           )}
 
-          <Skeleton width={width} height={180} isVisible={!isLoading}>
+          <Skeleton width={width} height={180} isVisible={isLoading}>
             <Product.Image
               data={images.data}
               size="medium"
@@ -54,11 +54,11 @@ export function ProductItem({
         </View>
         <YStack flexShrink={1} width={!isColumn ? width / 2 : width} gap={4}>
           {brand?.data.name && (
-            <Skeleton width={44} height={12} isVisible={!isLoading}>
+            <Skeleton width={44} height={12} isVisible={isLoading}>
               <Product.Brand>{brand.data.name}</Product.Brand>
             </Skeleton>
           )}
-          <Skeleton width={80} height={24} isVisible={!isLoading}>
+          <Skeleton width={80} height={24} isVisible={isLoading}>
             <Product.Name>{name}</Product.Name>
           </Skeleton>
           <XStack justifyContent="space-between">
