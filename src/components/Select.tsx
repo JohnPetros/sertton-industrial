@@ -1,4 +1,11 @@
-import { useEffect, useId, useState } from 'react'
+import {
+  ForwardedRef,
+  forwardRef,
+  useEffect,
+  useId,
+  useImperativeHandle,
+  useState,
+} from 'react'
 import { ActivityIndicator } from 'react-native'
 import { CaretDown, Check, X } from 'phosphor-react-native'
 import {
@@ -16,26 +23,44 @@ import { Label } from 'tamagui'
 
 import { Button } from '@/components/Button'
 
+type DefaultValue = 'Selecionar'
+
+const DEFAULT_VALUE: DefaultValue = 'Selecionar'
+
+export type SelectRef = {
+  value: string
+  reset: () => void
+  open: () => void
+}
+
 interface SelectProps {
   items: string[]
-  defaultValue: string
+  defaultValue: string | DefaultValue
   width: number | string
   onChange: (value: string) => void
   label?: string
   ariaLabel?: string
+  isDisable?: boolean
+  hasError?: boolean
 }
 
-export function Select({
-  label,
-  ariaLabel,
-  items,
-  defaultValue,
-  width,
-  onChange,
-}: SelectProps) {
+export const SelectComponent = (
+  {
+    label,
+    ariaLabel,
+    items,
+    defaultValue,
+    width,
+    isDisable = false,
+    hasError = false,
+    onChange,
+  }: SelectProps,
+  ref: ForwardedRef<SelectRef>
+) => {
   const [seletedValue, setSelectedValue] = useState(defaultValue)
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(hasError)
   const id = useId()
 
   function open() {
@@ -44,6 +69,10 @@ export function Select({
 
   function close() {
     setIsOpen(false)
+  }
+
+  function reset() {
+    setSelectedValue(DEFAULT_VALUE)
   }
 
   function handleChangeValue(value: string) {
@@ -56,18 +85,36 @@ export function Select({
     setIsOpen(isOpen)
   }
 
+  useImperativeHandle(ref, () => {
+    return {
+      value: seletedValue === DEFAULT_VALUE ? '' : seletedValue,
+      reset,
+      open,
+    }
+  })
+
   useEffect(() => {
     if (isLoading) {
       setTimeout(() => {
         setIsOpen(false)
         setIsLoading(false)
+        setError(false)
         onChange(seletedValue)
       }, 50)
     }
-  }, [isLoading])
+  }, [isLoading, seletedValue])
+
+  useEffect(() => {
+    setError(hasError)
+  }, [hasError])
 
   return (
-    <YStack aria-label={ariaLabel} w={width} alignItems="center">
+    <YStack
+      aria-label={ariaLabel}
+      w={width}
+      alignItems="center"
+      opacity={isDisable ? 0.3 : 1}
+    >
       {label && id && (
         <Label
           htmlFor={id}
@@ -87,11 +134,12 @@ export function Select({
         <S.Trigger
           id={id}
           borderWidth={1}
-          borderColor="$gray400"
+          borderColor={error ? '$red700' : '$gray400'}
           borderRadius={4}
           fontSize={14}
-          bg="$gray50"
+          bg={error ? '$red50' : '$gray50'}
           w={width}
+          disabled={isDisable}
           onStartShouldSetResponder={() => {
             open()
             return true
@@ -137,7 +185,7 @@ export function Select({
             >
               {items.map((item, index) => (
                 <S.Item
-                  key={item}
+                  key={index}
                   index={index}
                   value={item}
                   alignItems="center"
@@ -165,3 +213,5 @@ export function Select({
     </YStack>
   )
 }
+
+export const Select = forwardRef(SelectComponent)
