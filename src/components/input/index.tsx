@@ -1,16 +1,18 @@
 import { useId, useState } from 'react'
-import { MagnifyingGlass } from 'phosphor-react-native'
 import { InputProps as TInputProps, Label, XStack, YStack } from 'tamagui'
 
 import { Field } from './Field'
 
+import { Mask } from '@/@types/mask'
 import { Icon } from '@/components/input/Icon'
+import { useMask } from '@/hooks/useMask'
 
 type InputState = 'default' | 'success' | 'error'
 type IconState = InputState | 'focus'
 
 interface InputProps extends TInputProps {
   label?: string
+  mask?: Mask
 }
 
 export function Input({
@@ -20,10 +22,12 @@ export function Input({
   value,
   disabled,
   keyboardType,
+  mask,
   onChangeText,
 }: InputProps) {
   const [inputState, setInputState] = useState<InputState>('default')
   const [iconState, setIconState] = useState<IconState>('default')
+  const maskText = useMask(mask)
   const id = useId()
 
   function handleFocus() {
@@ -33,6 +37,10 @@ export function Input({
 
   function handleBlur() {
     setIconState('default')
+  }
+
+  function handleTextChange(text: string) {
+    if (onChangeText) onChangeText(maskText(text))
   }
 
   return (
@@ -53,7 +61,7 @@ export function Input({
           w="100%"
           onFocus={handleFocus}
           onBlur={handleBlur}
-          onChangeText={onChangeText}
+          onChangeText={handleTextChange}
           disabled={disabled}
         />
       </XStack>
