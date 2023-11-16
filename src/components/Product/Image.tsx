@@ -4,7 +4,8 @@ import { Image as TImage, View } from 'tamagui'
 import type { Image as ProductImageData, ImageSize } from '@/@types/image'
 
 const sizes: Record<ImageSize, number> = {
-  large: 220,
+  xLarge: 340,
+  large: 240,
   medium: 120,
   small: 100,
   thumb: 64,
@@ -18,7 +19,7 @@ interface ImageProps extends ViewProps {
 }
 
 export function Image({ data, size, width, height }: ImageProps) {
-  const image = data[0][size]
+  const image = data[0].medium
 
   return (
     <View
