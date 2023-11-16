@@ -77,109 +77,129 @@ export default function Product() {
     }
   }, [product, skuSelectsRef.current?.selectedSku])
 
-  if (product)
-    return (
-      <YStack>
-        <View px={SCREEN.paddingX}>
-          <Header />
-          <Search />
-        </View>
+  return (
+    <YStack>
+      <View px={SCREEN.paddingX}>
+        <Header />
+        <Search />
+      </View>
 
-        {selectedSku && (
-          <FullImage
-            isVisible={isFullImageVisible}
-            data={selectedSku.images.data}
-            close={() => setIsFullImageVisible(false)}
-          />
-        )}
+      {selectedSku && (
+        <FullImage
+          isVisible={isFullImageVisible}
+          data={selectedSku.images.data}
+          close={() => setIsFullImageVisible(false)}
+        />
+      )}
 
-        <ScrollView
-          contentContainerStyle={{ paddingBottom: TAB_BAR_HEIGHT * 2 }}
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: TAB_BAR_HEIGHT * 2 }}
+        scrollEnabled={!!selectedSku}
+      >
+        <Skeleton
+          isVisible={Boolean(selectedSku)}
+          width={SCREEN.width}
+          height={224}
         >
-          <Skeleton
-            isVisible={Boolean(selectedSku)}
-            width={SCREEN.width}
-            height={224}
+          <View
+            position="relative"
+            mt={24}
+            onStartShouldSetResponder={() => {
+              handleFullImage()
+              return true
+            }}
           >
-            <View
-              position="relative"
-              mt={24}
-              onStartShouldSetResponder={() => {
-                handleFullImage()
-                return true
-              }}
-            >
-              {selectedSku && (
-                <Image
-                  data={selectedSku?.images.data}
-                  size="large"
-                  width={SCREEN.width}
-                  height={224}
-                />
-              )}
-
-              <Button
-                position="absolute"
-                zIndex={50}
-                background="transparent"
-                fontSize={12}
-              >
-                <ArrowsOut size={16} color={getTokens().color.gray800.val} />
-                Pressione para zoom
-              </Button>
-            </View>
-          </Skeleton>
-          <YStack px={SCREEN.paddingX} mt={12} gap={8}>
             {selectedSku && (
-              <>
-                <SkuCode fontSize={14}>{selectedSku?.sku}</SkuCode>
-                <Name fontSize={24}>{product.name}</Name>
-                <XStack alignItems="flex-start" gap={12}>
-                  <YStack>
-                    <SalePrice fontSize={24} price={selectedSku?.price_sale} />
-                    <DiscountPrice
-                      fontSize={14}
-                      price={selectedSku?.price_discount}
-                    />
-                  </YStack>
-                  <Discount
-                    salesPrice={selectedSku?.price_sale}
-                    discountPrice={selectedSku?.price_discount}
-                  />
-                </XStack>
-              </>
+              <Image
+                data={selectedSku?.images.data}
+                size="large"
+                width={SCREEN.width}
+                height={224}
+              />
             )}
-            <YStack mt={12} gap={32} alignItems="flex-start">
+
+            <Button
+              position="absolute"
+              zIndex={50}
+              background="transparent"
+              fontSize={12}
+            >
+              <ArrowsOut size={16} color={getTokens().color.gray800.val} />
+              Pressione para zoom
+            </Button>
+          </View>
+        </Skeleton>
+        <YStack px={SCREEN.paddingX} mt={12} gap={8}>
+          {selectedSku && (
+            <>
+              <Skeleton isVisible={!!selectedSku} width={40} height={40}>
+                {selectedSku && (
+                  <SkuCode fontSize={14}>{selectedSku?.sku}</SkuCode>
+                )}
+              </Skeleton>
+              <Skeleton isVisible={!!selectedSku} width={40} height={40}>
+                {selectedSku && (
+                  <Name fontSize={24}>{String(product?.name)}</Name>
+                )}
+              </Skeleton>
+
+              <XStack alignItems="flex-start" gap={12}>
+                <Skeleton isVisible={!!selectedSku} width={32} height={64}>
+                  {selectedSku && (
+                    <>
+                      <YStack>
+                        <SalePrice
+                          fontSize={24}
+                          price={selectedSku?.price_sale}
+                        />
+                        <DiscountPrice
+                          fontSize={14}
+                          price={selectedSku?.price_discount}
+                        />
+                      </YStack>
+                      <Discount
+                        salesPrice={selectedSku?.price_sale}
+                        discountPrice={selectedSku?.price_discount}
+                      />
+                    </>
+                  )}
+                </Skeleton>
+              </XStack>
+            </>
+          )}
+          <YStack mt={12} gap={32} alignItems="flex-start">
+            {product && (
               <SkuSelects
                 ref={skuSelectsRef}
                 productId={product.id}
                 onSkuChange={handleSkuChange}
               />
-              <NumberInput
-                label="Quantidade do produto"
-                number={quantity}
-                onChangeNumber={handleQuantityChange}
-              />
-              <Button w="100%" onPress={handleAddToCart}>
-                Adicionar ao carinho
-              </Button>
-            </YStack>
-
-            {selectedSku && (
-              <View mt={24}>
-                <ShippingCostsCalculation
-                  skus_ids={[selectedSku.id]}
-                  quantities={[quantity]}
-                  total={selectedSku?.price_sale}
-                />
-              </View>
             )}
-
-            <YStack mt={24}>
-              <H2>Descrição do produto</H2>
-            </YStack>
+            <NumberInput
+              label="Quantidade do produto"
+              number={quantity}
+              onChangeNumber={handleQuantityChange}
+            />
+            <Button w="100%" onPress={handleAddToCart}>
+              Adicionar ao carinho
+            </Button>
           </YStack>
-        </ScrollView>
-      </YStack>
-    )
+
+          {selectedSku && (
+            <View mt={24}>
+              <ShippingCostsCalculation
+                skus_ids={[selectedSku.id]}
+                quantities={[quantity]}
+                total={selectedSku?.price_sale}
+              />
+            </View>
+          )}
+
+          <YStack mt={24}>
+            <H2>Descrição do produto</H2>
+          </YStack>
+        </YStack>
+      </ScrollView>
+    </YStack>
+  )
 }

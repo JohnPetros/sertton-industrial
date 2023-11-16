@@ -4,7 +4,6 @@ import { AxiosError } from 'axios'
 import { useApi } from '@/services/api'
 import { Endpoints } from '@/services/api/endpoints'
 import { CalculateShippingCostsRequest } from '@/services/api/interfaces/ILogisticsService'
-import { Resources } from '@/services/api/resources'
 
 export function useShippingCosts(
   { zipcode, quantities, total, skus_ids }: CalculateShippingCostsRequest,
