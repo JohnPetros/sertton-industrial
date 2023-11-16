@@ -53,7 +53,11 @@ export function ProductItem({
           </Skeleton>
         </View>
         <YStack flexShrink={1} width={!isColumn ? width / 2 : width} gap={4}>
-          {brand?.data.name && <Product.Brand>{brand.data.name}</Product.Brand>}
+          {brand?.data.name && (
+            <Skeleton width={44} height={12} isVisible={!isLoading}>
+              <Product.Brand>{brand.data.name}</Product.Brand>
+            </Skeleton>
+          )}
           <Skeleton width={80} height={24} isVisible={!isLoading}>
             <Product.Name>{name}</Product.Name>
           </Skeleton>

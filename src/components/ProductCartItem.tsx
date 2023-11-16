@@ -57,7 +57,7 @@ export function ProductCartItem({
       <Skeleton width={halfWidth} height={180} isVisible={!isLoading}>
         <Product.Image
           data={images.data}
-          size="large"
+          size="medium"
           width={halfWidth}
           height={180}
         />
