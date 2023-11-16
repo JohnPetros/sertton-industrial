@@ -1,11 +1,11 @@
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useRef, useState } from 'react'
 import { DialogClose, Text, View, XStack, YStack } from 'tamagui'
 
 import type { Sku } from '@/@types/sku'
 import { Button } from '@/components/Button'
-import { Dialog } from '@/components/Dialog'
+import { Dialog, DialogRef } from '@/components/Dialog'
 import { NumberInput } from '@/components/NumberInput'
-import { Select } from '@/components/Select'
+import { Select, SelectRef } from '@/components/Select'
 import { useSkus } from '@/hooks/useSkus'
 import { useCartStore } from '@/stores/cartStore'
 
@@ -23,13 +23,20 @@ export function CartDialog({ children, product }: CartDialogProps) {
   const {
     skus,
     selectedSku,
-    variationsByName,
-    setVariations,
+    selectedVariationsValues,
+    variationNames,
+    setSkusVariations,
     handleSelectedVariationChange,
+    getVariationValuesByVariationName,
   } = useSkus(product.id)
 
   const [quantity, setQuantity] = useState(1)
   const [isOpen, setIsOpen] = useState(false)
+  const [errors, setErrors] = useState<boolean[]>([])
+  const dialogRef = useRef<DialogRef | null>(null)
+  const selectRefs = useRef<SelectRef[]>([])
+
+  console.log(errors)
 
   const {
     state: { items },
@@ -38,6 +45,12 @@ export function CartDialog({ children, product }: CartDialogProps) {
 
   const item = items.find((item) => item.slug === product.slug)
   const isInCart = !!item
+
+  const hasErrors = selectedVariationsValues.length !== variationNames.length
+
+  function fillArray<Value>(value: Value, length: number) {
+    return Array.from<Value>({ length }).fill(value)
+  }
 
   function handleDialogOpenChange(isOpen: boolean) {
     setIsOpen(isOpen)
@@ -49,7 +62,51 @@ export function CartDialog({ children, product }: CartDialogProps) {
     if (isInCart) setItemQuantity(item.skuId, quantity)
   }
 
+  function handleSelectChange(index: number, value: string) {
+    const currentSelectedValues = [
+      ...new Set(
+        selectRefs.current
+          .map((selectRef) => selectRef.value)
+          .filter((currentValue) => !!currentValue && currentValue !== value)
+      ),
+    ]
+
+    const isFirst = index === 0
+
+    handleSelectedVariationChange(value, isFirst ? [] : currentSelectedValues)
+
+    if (isFirst) {
+      for (
+        let refIndex = index + 1;
+        refIndex < selectRefs.current.length;
+        refIndex++
+      ) {
+        selectRefs.current[refIndex].reset()
+      }
+    }
+
+    console.log(hasErrors)
+
+    if (!hasErrors) setErrors(fillArray<boolean>(false, variationNames.length))
+  }
+
   function handleAddCartItem() {
+    if (hasErrors) {
+      const errors: boolean[] = []
+
+      selectRefs.current.forEach((selectRef, index) => {
+        const hasError = !selectRef.value
+
+        errors[index] = hasError
+      })
+
+      console.log({ errors })
+      setErrors(errors)
+      return
+    }
+
+    setErrors(fillArray<boolean>(false, variationNames.length))
+
     if (selectedSku && !isInCart) {
       const item = {
         slug: product.slug,
@@ -59,17 +116,20 @@ export function CartDialog({ children, product }: CartDialogProps) {
 
       addItem(item)
     }
+
+    dialogRef.current?.close()
   }
 
   useEffect(() => {
     if (isOpen && skus) {
-      setVariations(skus)
+      setSkusVariations(skus)
       setQuantity(isInCart ? item.quantity : 1)
     }
-  }, [isOpen, skus])
+  }, [isOpen, skus, isInCart])
 
   return (
     <Dialog
+      ref={dialogRef}
       onOpenChange={handleDialogOpenChange}
       title="Adicionar ao carrinho"
       content={
@@ -90,19 +150,34 @@ export function CartDialog({ children, product }: CartDialogProps) {
             >
               {product.name}
             </Text>
-            {variationsByName &&
-              Object.keys(variationsByName).map((variationName) => (
-                <Select
-                  key={variationName}
-                  label={variationName}
-                  width="100%"
-                  defaultValue={'Inox'}
-                  items={variationsByName[variationName].variations.map(
-                    (variation) => variation.value
-                  )}
-                  onChange={handleSelectedVariationChange}
-                />
-              ))}
+            <YStack gap={12}>
+              {variationNames.length > 0 &&
+                variationNames.map((variationName, index) => {
+                  const values =
+                    getVariationValuesByVariationName(variationName)
+                  const hasValues = values.length > 0
+
+                  console.log(errors[index])
+
+                  return (
+                    <Select
+                      ref={(ref) => {
+                        if (ref) selectRefs.current[index] = ref
+                      }}
+                      key={variationName}
+                      label={variationName}
+                      width="100%"
+                      defaultValue={'Selecionar'}
+                      items={hasValues ? values : ['Selecionar']}
+                      onChange={(variationChange) =>
+                        handleSelectChange(index, variationChange)
+                      }
+                      isDisable={!hasValues}
+                      hasError={errors[index]}
+                    />
+                  )
+                })}
+            </YStack>
 
             <View mt={24}>
               <NumberInput
@@ -121,9 +196,7 @@ export function CartDialog({ children, product }: CartDialogProps) {
             <DialogClose asChild>
               <Button background="secondary">Cancelar</Button>
             </DialogClose>
-            <DialogClose asChild>
-              <Button onPress={handleAddCartItem}>Confirmar</Button>
-            </DialogClose>
+            <Button onPress={handleAddCartItem}>Confirmar</Button>
           </XStack>
         </YStack>
       }
