@@ -188,10 +188,7 @@ export function useSkus(productId: number) {
 
       if (isFirstVariationName) {
         insertRemainingVariations(selectedVariationValue, firstVariationName)
-        return
       }
-
-      console.log({ selectedSku })
 
       if (selectedSku && skus)
         setSelectedSku(selectedSku ? selectedSku : skus[0])
