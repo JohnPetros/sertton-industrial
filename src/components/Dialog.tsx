@@ -54,6 +54,12 @@ export const DialogComponent = (
           exitStyle={{ opacity: 0 }}
         />
         <D.Content
+          animation={'quick'}
+          enterStyle={{ x: 0, y: -40, opacity: 0 }}
+          exitStyle={{ x: 0, y: -40, opacity: 0 }}
+          x={0}
+          y={0}
+          opacity={1}
           py={16}
           px={24}
           maxWidth="90%"
