@@ -17,11 +17,6 @@ import { CONTACTS } from '@/utils/constants/contacts'
 import { ROUTES } from '@/utils/constants/routes'
 import { SCREEN } from '@/utils/constants/screen'
 
-const CONTACT_ICONS: Record<ContactType, ReactNode> = {
-  whatsapp: <WhatsappLogo color={getTokens().color.green600.val} />,
-  landline: <Phone color={getTokens().color.gray600.val} />,
-}
-
 export function Sidebar() {
   const { categories } = useCategories()
   const [canShowAllCategories, setCanShowAllCategories] = useState(false)
@@ -34,6 +29,11 @@ export function Sidebar() {
   )
   const router = useRouter()
   const isOpen = useDrawerStatus()
+
+  const CONTACT_ICONS: Record<ContactType, ReactNode> = {
+    whatsapp: <WhatsappLogo color={getTokens().color.green600.val} />,
+    landline: <Phone color={getTokens().color.gray600.val} />,
+  }
 
   function handleShowAllCategories() {
     setCanShowAllCategories(!canShowAllCategories)
