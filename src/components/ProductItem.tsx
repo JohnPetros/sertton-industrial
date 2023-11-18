@@ -44,12 +44,14 @@ export function ProductItem({
           )}
 
           <Skeleton width={width} height={180} isVisible={isLoading}>
-            <Product.Image
-              data={images.data}
-              size="medium"
-              width={!isColumn ? width / 2 : width}
-              height={180}
-            />
+            {images.data.length > 0 && (
+              <Product.Image
+                data={images.data}
+                size="medium"
+                width={!isColumn ? width / 2 : width}
+                height={180}
+              />
+            )}
           </Skeleton>
         </View>
         <YStack flexShrink={1} width={!isColumn ? width / 2 : width} gap={4}>

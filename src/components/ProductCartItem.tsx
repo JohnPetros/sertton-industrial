@@ -4,6 +4,7 @@ import { getTokens, XStack, YStack } from 'tamagui'
 
 import type { Product as ProductData } from '@/@types/product'
 import type { Sku } from '@/@types/sku'
+import { Alert } from '@/components/Alert'
 import { Button } from '@/components/Button'
 import { List } from '@/components/List'
 import { NumberInput } from '@/components/NumberInput'
@@ -30,8 +31,6 @@ export function ProductCartItem({
   const [selectedSku, setSelectedSku] = useState<Sku | null>(null)
 
   const { removeItem, setItemQuantity } = useCartStore((store) => store.actions)
-
-  console.log(selectedSku?.price_sale)
 
   const isSKeletonVisible = isLoading || !selectedSku
 
@@ -109,14 +108,14 @@ export function ProductCartItem({
                 <Product.SalePrice price={selectedSku.price_sale} />
               </YStack>
             )}
-            <Button
-              background="secondary"
-              w={24}
-              h={24}
-              onPress={handleRemoveItem}
+            <Alert
+              title="Deseja mesmo remover esse item do carrinho?"
+              onConfirm={handleRemoveItem}
             >
-              <Trash size={16} color={getTokens().color.white.val} />
-            </Button>
+              <Button background="secondary" w={24} h={24}>
+                <Trash size={16} color={getTokens().color.white.val} />
+              </Button>
+            </Alert>
           </XStack>
         </Skeleton>
       </YStack>

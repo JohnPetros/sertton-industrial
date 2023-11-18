@@ -1,19 +1,20 @@
 import { useState } from 'react'
-import { Dimensions, FlatList } from 'react-native'
+import { FlatList } from 'react-native'
 import { ArrowsDownUp, Faders, List, Table } from 'phosphor-react-native'
 import { Button, getTokens, Text, View, XStack, YStack } from 'tamagui'
 
 import type { Product } from '@/@types/product'
 import type { Sorter } from '@/@types/sorter'
+import { FiltersDialog } from '@/components/FiltersDialog'
 import { Loading } from '@/components/Loading'
 import { ProductItem } from '@/components/ProductItem'
 import { Select } from '@/components/Select'
+import useBrands from '@/hooks/useBrands'
 import { productsMock } from '@/tests/mocks/productsMock'
+import { SCREEN } from '@/utils/constants/screen'
 import { SORTERS } from '@/utils/constants/sorters'
 import { TAB_BAR_HEIGHT } from '@/utils/constants/tabBarHeight'
 
-const SCREEN_WIDTH = Dimensions.get('screen').width
-const PADDING_X = 24
 const ICON_COLOR = getTokens().color.gray800.val
 const ICON_SIZE = 16
 
@@ -33,11 +34,12 @@ export function ProductsList({
   onEndReached,
 }: ProductsListProps) {
   const [layout, setLayout] = useState<Layout>('mosaic')
+  const { brands } = useBrands(products)
 
   const productWidth =
     layout === 'mosaic'
-      ? SCREEN_WIDTH - PADDING_X * 2
-      : (SCREEN_WIDTH - PADDING_X * 2) / 2 - 12
+      ? SCREEN.width - SCREEN.paddingX * 2
+      : (SCREEN.width - SCREEN.paddingX * 2) / 2 - 12
 
   function handleLayoutToggle() {
     setLayout(layout === 'list' ? 'mosaic' : 'list')
@@ -82,19 +84,20 @@ export function ProductsList({
           )}
         </Button>
 
-        <Button
-          unstyled
-          icon={<ArrowsDownUp size={16} weight="bold" />}
-          color="$gray800"
-          fontSize={12}
-          alignSelf="center"
-          alignItems="center"
-          flexDirection="row"
-          onPress={handleLayoutToggle}
-        >
-          <Faders color={ICON_COLOR} size={ICON_SIZE} />
-          Filtrar
-        </Button>
+        <FiltersDialog brands={brands ?? []}>
+          <Button
+            unstyled
+            icon={<ArrowsDownUp size={16} weight="bold" />}
+            color="$gray800"
+            fontSize={12}
+            alignSelf="center"
+            alignItems="center"
+            flexDirection="row"
+          >
+            <Faders color={ICON_COLOR} size={ICON_SIZE} />
+            Filtrar
+          </Button>
+        </FiltersDialog>
       </XStack>
 
       {isLoading ? (
