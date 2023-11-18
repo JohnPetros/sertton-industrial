@@ -8,10 +8,10 @@ import { getTokens, Separator, Text, View, XStack, YStack } from 'tamagui'
 import { YGroup } from 'tamagui'
 import { ListItem } from 'tamagui'
 
-import type { Category } from '@/@types/category'
 import { Contact, ContactType } from '@/@types/contact'
 import { Button } from '@/components/Button'
 import { Spinner } from '@/components/Spinner'
+import { useCategories } from '@/hooks/useCategories'
 import { useProductsFilterStore } from '@/stores/productsFilterStore'
 import { CONTACTS } from '@/utils/constants/contacts'
 import { ROUTES } from '@/utils/constants/routes'
@@ -21,11 +21,9 @@ const CONTACT_ICONS: Record<ContactType, ReactNode> = {
   whatsapp: <WhatsappLogo color={getTokens().color.green600.val} />,
   landline: <Phone color={getTokens().color.gray600.val} />,
 }
-interface SidebarProps {
-  categories: Category[]
-}
 
-export function Sidebar({ categories }: SidebarProps) {
+export function Sidebar() {
+  const { categories } = useCategories()
   const [canShowAllCategories, setCanShowAllCategories] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const setCateforyId = useProductsFilterStore(
