@@ -44,14 +44,11 @@ export function CartDialog({ children, product }: CartDialogProps) {
   }
 
   function handleAddCartItem() {
-    console.log(skuSelectsRef.current)
     if (!skuSelectsRef.current) return
 
     const { onAddSkuToCart, selectedSku } = skuSelectsRef.current
 
     const shouldAddToCart = onAddSkuToCart()
-
-    console.log(hasVariations)
 
     if (hasVariations && !shouldAddToCart) return
 
