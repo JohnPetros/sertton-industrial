@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 import type { Api } from '@/@types/api'
+import { brandsService } from '@/services/api/brandsService'
 import { categoriesService } from '@/services/api/categoriesService'
 import { collectionsService } from '@/services/api/collectionsService'
 import { logisticsService } from '@/services/api/logisticsService'
@@ -21,11 +22,12 @@ const axiosClient = axios.create({
 
 export function useApi() {
   return {
-    ...collectionsService(axiosClient as Api),
-    ...productsService(axiosClient as Api),
+    ...brandsService(axiosClient as Api),
     ...categoriesService(axiosClient as Api),
+    ...collectionsService(axiosClient as Api),
+    ...logisticsService(axiosClient as Api),
+    ...productsService(axiosClient as Api),
     ...variationsService(axiosClient as Api),
     ...skusService(axiosClient as Api),
-    ...logisticsService(axiosClient as Api),
   }
 }
