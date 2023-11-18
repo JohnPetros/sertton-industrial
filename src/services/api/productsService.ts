@@ -6,7 +6,7 @@ import { Resources } from '@/services/api/resources'
 
 export function productsService(api: Api): IProductsService {
   return {
-    async getProducts({ page, search, sorter, categoryId }) {
+    async getProducts({ page, search, sorter, categoryId, brandsIds }) {
       const sorterParam = sorter
         ? `&orderBy=${sorter.type}&sortedBy=${sorter.order}`
         : ''
@@ -15,8 +15,12 @@ export function productsService(api: Api): IProductsService {
 
       const categoryParam = categoryId ? `&category_id[]=${categoryId}` : ''
 
+      const brandsIdsParam = brandsIds.length
+        ? `&${brandsIds.map((id) => `brand_id[]=${id}`).join('&')}`
+        : ''
+
       const response = await api.get<Product[]>(
-        `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand${searchParam}${sorterParam}${categoryParam}&page=${page}`
+        `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand${searchParam}${sorterParam}${categoryParam}${brandsIdsParam}&page=${page}`
       )
       const { data } = response.data
       return data
@@ -33,7 +37,7 @@ export function productsService(api: Api): IProductsService {
 
     async getProductBySlug(slug: string) {
       const response = await api.get<Product[]>(
-        `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand&search=${slug}&searchFields=slug`
+        `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand,texts&search=${slug}&searchFields=slug`
       )
 
       const { data } = response.data
