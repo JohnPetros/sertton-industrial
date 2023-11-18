@@ -9,11 +9,10 @@ interface LoadingProps {
   size: number
 }
 
-export function Loading({ message, size }: LoadingProps) {
+export function Loading({ message, size = 80 }: LoadingProps) {
   const animationRef = useRef<LottieView>(null)
 
   useEffect(() => {
-    console.log('oi')
     animationRef.current?.play()
   }, [])
 
@@ -23,10 +22,11 @@ export function Loading({ message, size }: LoadingProps) {
         style={{
           width: size,
           height: size,
-          zIndex: 50,
+          zIndex: 150,
         }}
         loop
-        source={require('../assets/animations/truck.json')}
+        resizeMode="contain"
+        source={Truck}
       />
       <Text color="$blue200" fontSize={16} fontWeight="600">
         {message}
