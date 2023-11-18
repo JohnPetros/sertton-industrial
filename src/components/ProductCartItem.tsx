@@ -31,9 +31,12 @@ export function ProductCartItem({
 
   const { removeItem, setItemQuantity } = useCartStore((store) => store.actions)
 
-  console.log(selectedSku?.variations)
+  console.log(selectedSku?.price_sale)
+
+  const isSKeletonVisible = isLoading || !selectedSku
 
   const halfWidth = (width - 12) / 2
+  const hasVariations = Boolean(selectedSku?.variations.length)
 
   function handleRemoveItem() {
     if (selectedSku) removeItem(selectedSku.id)
@@ -57,7 +60,7 @@ export function ProductCartItem({
 
   return (
     <XStack alignItems="center" justifyContent="center" gap={12}>
-      <Skeleton width={halfWidth} height={180} isVisible={isLoading}>
+      <Skeleton width={halfWidth} height={180} isVisible={isSKeletonVisible}>
         <Product.Image
           data={images.data}
           size="medium"
@@ -68,25 +71,25 @@ export function ProductCartItem({
 
       <YStack width={halfWidth} gap={8}>
         {selectedSku && (
-          <Skeleton isVisible={isLoading}>
+          <Skeleton isVisible={isSKeletonVisible}>
             <Product.SkuCode>{selectedSku.sku}</Product.SkuCode>
           </Skeleton>
         )}
-        <Skeleton isVisible={isLoading}>
+        <Skeleton isVisible={isSKeletonVisible}>
           <Product.Name fontSize={14}>{name}</Product.Name>
         </Skeleton>
 
-        <Skeleton isVisible={isLoading} height={24} width={40}>
-          {selectedSku && (
+        <Skeleton isVisible={isSKeletonVisible} height={24} width={40}>
+          {selectedSku && hasVariations && (
             <List
-              items={selectedSku?.variations.map(
+              items={selectedSku.variations.map(
                 (variation) => `${variation.name}: ${variation.value}`
               )}
             />
           )}
         </Skeleton>
 
-        <Skeleton height={40} isVisible={isLoading}>
+        <Skeleton height={40} isVisible={isSKeletonVisible}>
           <NumberInput
             label="Quantidade do produto"
             number={quantityValue}
@@ -94,7 +97,7 @@ export function ProductCartItem({
           />
         </Skeleton>
 
-        <Skeleton height={40} isVisible={isLoading}>
+        <Skeleton height={40} isVisible={isSKeletonVisible}>
           <XStack
             w={halfWidth}
             alignItems="center"
