@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from 'react'
-import { Dimensions, Linking } from 'react-native'
+import { Linking } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDrawerStatus } from '@react-navigation/drawer'
 import { useRouter } from 'expo-router'
@@ -8,19 +8,24 @@ import { getTokens, Separator, Text, View, XStack, YStack } from 'tamagui'
 import { YGroup } from 'tamagui'
 import { ListItem } from 'tamagui'
 
+import type { Category } from '@/@types/category'
 import { Contact, ContactType } from '@/@types/contact'
 import { Button } from '@/components/Button'
 import { Spinner } from '@/components/Spinner'
-import { useCatogories } from '@/hooks/useCategories'
 import { useProductsFilterStore } from '@/stores/productsFilterStore'
 import { CONTACTS } from '@/utils/constants/contacts'
 import { ROUTES } from '@/utils/constants/routes'
+import { SCREEN } from '@/utils/constants/screen'
 
-const SCREEN_HEIGHT = Dimensions.get('screen').height
-const PADDING_X = 24
+const CONTACT_ICONS: Record<ContactType, ReactNode> = {
+  whatsapp: <WhatsappLogo color={getTokens().color.green600.val} />,
+  landline: <Phone color={getTokens().color.gray600.val} />,
+}
+interface SidebarProps {
+  categories: Category[]
+}
 
-export function Sidebar() {
-  const { categories } = useCatogories()
+export function Sidebar({ categories }: SidebarProps) {
   const [canShowAllCategories, setCanShowAllCategories] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const setCateforyId = useProductsFilterStore(
@@ -30,13 +35,7 @@ export function Sidebar() {
     (store) => store.state.categoryId
   )
   const router = useRouter()
-
   const isOpen = useDrawerStatus()
-
-  const CONTACT_ICONS: Record<ContactType, ReactNode> = {
-    whatsapp: <WhatsappLogo color={getTokens().color.green600.val} />,
-    landline: <Phone color={getTokens().color.gray600.val} />,
-  }
 
   function handleShowAllCategories() {
     setCanShowAllCategories(!canShowAllCategories)
@@ -67,13 +66,20 @@ export function Sidebar() {
 
   return (
     <SafeAreaView>
-      <YStack my={-48} py={24} h={SCREEN_HEIGHT} px={PADDING_X} bg="$gray50">
+      <YStack
+        my={-48}
+        py={24}
+        h={SCREEN.height}
+        px={SCREEN.paddingX}
+        bg="$gray50"
+      >
         <Button
           background="transparent"
           color="$gray900"
           justifyContent="space-between"
           fontWeight="600"
           onPress={handleShowAllCategories}
+          ml={-8}
         >
           Categorias {canShowAllCategories ? <CaretUp /> : <CaretDown />}
         </Button>
