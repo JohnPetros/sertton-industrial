@@ -5,6 +5,7 @@ import { getTokens, XStack, YStack } from 'tamagui'
 import type { Product as ProductData } from '@/@types/product'
 import type { Sku } from '@/@types/sku'
 import { Button } from '@/components/Button'
+import { List } from '@/components/List'
 import { NumberInput } from '@/components/NumberInput'
 import * as Product from '@/components/Product'
 import { Skeleton } from '@/components/Skeleton'
@@ -29,6 +30,8 @@ export function ProductCartItem({
   const [selectedSku, setSelectedSku] = useState<Sku | null>(null)
 
   const { removeItem, setItemQuantity } = useCartStore((store) => store.actions)
+
+  console.log(selectedSku?.variations)
 
   const halfWidth = (width - 12) / 2
 
@@ -59,7 +62,7 @@ export function ProductCartItem({
           data={images.data}
           size="medium"
           width={halfWidth}
-          height={180}
+          height={220}
         />
       </Skeleton>
 
@@ -70,7 +73,17 @@ export function ProductCartItem({
           </Skeleton>
         )}
         <Skeleton isVisible={isLoading}>
-          <Product.Name>{name}</Product.Name>
+          <Product.Name fontSize={14}>{name}</Product.Name>
+        </Skeleton>
+
+        <Skeleton isVisible={isLoading} height={24} width={40}>
+          {selectedSku && (
+            <List
+              items={selectedSku?.variations.map(
+                (variation) => `${variation.name}: ${variation.value}`
+              )}
+            />
+          )}
         </Skeleton>
 
         <Skeleton height={40} isVisible={isLoading}>
@@ -89,8 +102,8 @@ export function ProductCartItem({
           >
             {selectedSku && (
               <YStack>
-                <Product.SalePrice price={selectedSku.price_sale} />
                 <Product.DiscountPrice price={selectedSku.price_discount} />
+                <Product.SalePrice price={selectedSku.price_sale} />
               </YStack>
             )}
             <Button
