@@ -17,4 +17,10 @@ export type Product = {
   brand: {
     data: Brand
   }
+  texts: {
+    data: {
+      description: string
+      specifications: string
+    }
+  }
 }
