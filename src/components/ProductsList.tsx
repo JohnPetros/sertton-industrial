@@ -34,7 +34,7 @@ export function ProductsList({
   onEndReached,
 }: ProductsListProps) {
   const [layout, setLayout] = useState<Layout>('mosaic')
-  const { brands } = useBrands(products)
+  const { brands } = useBrands()
 
   const productWidth =
     layout === 'mosaic'

@@ -9,19 +9,26 @@ interface useProductsParams {
   search: string
   sorter: Sorter | null
   categoryId: number
+  brandsIds: number[]
 }
 
-export function useProducts({ search, sorter, categoryId }: useProductsParams) {
+export function useProducts({
+  search,
+  sorter,
+  categoryId,
+  brandsIds,
+}: useProductsParams) {
   const api = useApi()
 
   const { data, error, isLoading, fetchNextPage } = useInfiniteQuery(
-    ['products', sorter, search, categoryId],
+    ['products', sorter, search, categoryId, brandsIds],
     ({ pageParam = 1 }) =>
       api.getProducts({
         page: pageParam,
         search,
         sorter,
         categoryId,
+        brandsIds,
       }),
     {
       getNextPageParam: (lastPage, allPages) => {

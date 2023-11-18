@@ -1,21 +1,19 @@
 import { useState } from 'react'
-import { MagnifyingGlass } from 'phosphor-react-native'
-import { H2, Paragraph, YStack } from 'tamagui'
-import { View } from 'tamagui'
+import { getTokens, H2, Paragraph, YStack } from 'tamagui'
 
 import type { Sorter } from '@/@types/sorter'
-import { EmptyItemsMessage } from '@/components/EmptyItemsMessage'
 import { Header } from '@/components/Header'
 import { ProductsList } from '@/components/ProductsList'
 import { Search } from '@/components/Search'
 import { useCatogory } from '@/hooks/useCategory'
 import { useProducts } from '@/hooks/useProducts'
 import { useProductsFilterStore } from '@/stores/productsFilterStore'
-import { SCREEN } from '@/utils/constants/screen'
 import { removeHTMLTags } from '@/utils/helpers/removeHTMLTags'
 
 export default function Products() {
-  const { search, categoryId } = useProductsFilterStore((store) => store.state)
+  const { search, categoryId, brandsIds } = useProductsFilterStore(
+    (store) => store.state
+  )
 
   const [selectedSorter, setSelectedSorter] = useState<Sorter | null>(null)
   const { category } = useCatogory(categoryId)
@@ -23,6 +21,7 @@ export default function Products() {
     search,
     categoryId,
     sorter: selectedSorter,
+    brandsIds,
   })
 
   function handleProductsListEndReached() {
@@ -40,8 +39,8 @@ export default function Products() {
           <H2 fontSize={16} color="$gray600">
             {category.name}
           </H2>
-          <Paragraph fontSize={12} color="$gray300">
-            {removeHTMLTags(category.description, 'p')}
+          <Paragraph fontSize={12} color={getTokens().color.white.val}>
+            {removeHTMLTags(category.description)}
           </Paragraph>
         </YStack>
       )}
