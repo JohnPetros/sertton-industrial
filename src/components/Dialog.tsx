@@ -18,11 +18,12 @@ interface DialogProps {
   title: string
   children: ReactNode
   content: ReactNode
+  width?: number
   onOpenChange?: (isOpen: boolean) => void
 }
 
 export const DialogComponent = (
-  { children, content, title, onOpenChange }: DialogProps,
+  { children, content, title, width, onOpenChange }: DialogProps,
   ref: ForwardedRef<DialogRef>
 ) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -66,6 +67,7 @@ export const DialogComponent = (
           bordered
           elevate
           key="content"
+          w={width}
         >
           <XStack justifyContent="space-between">
             <D.Title fontSize={16} color="$gray900" fontWeight="600">
