@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { AlertDialog, Spinner, XStack } from 'tamagui'
+import { AlertDialog, XStack } from 'tamagui'
 
 import { Button } from '@/components/Button'
 
@@ -36,27 +36,31 @@ export function Alert({ onConfirm, title, children }: AlertProps) {
               },
             },
           ]}
-          enterStyle={{ x: 0, y: -20, opacity: 0, scale: 0.9 }}
-          exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
+          enterStyle={{ x: 0, y: -40, opacity: 0 }}
+          exitStyle={{ x: 0, y: -40, opacity: 0 }}
           x={0}
-          scale={1}
-          opacity={1}
           y={0}
+          opacity={1}
           borderRadius={4}
-          bg="$gray50"
           p={12}
-          w={320}
+          w={360}
+          bg="$gray50"
         >
-          <AlertDialog.Title fontSize={16} textAlign="center" color="$gray800">
+          <AlertDialog.Title
+            fontSize={16}
+            textAlign="center"
+            lineHeight={24}
+            color="$gray800"
+          >
             {title}
           </AlertDialog.Title>
-          <XStack alignItems="center" justifyContent="center" gap={12} mt={12}>
-            <AlertDialog.Cancel asChild w={100}>
+          <XStack alignItems="center" justifyContent="center" gap={12} mt={24}>
+            <AlertDialog.Cancel asChild w={120}>
               <Button background="secondary">Cancelar</Button>
             </AlertDialog.Cancel>
             <AlertDialog.Action asChild>
-              <Button onPress={handleConfirm} w={100}>
-                <Spinner size="small" color="$white" />
+              <Button onPress={handleConfirm} w={120}>
+                Confirmar
               </Button>
             </AlertDialog.Action>
           </XStack>
