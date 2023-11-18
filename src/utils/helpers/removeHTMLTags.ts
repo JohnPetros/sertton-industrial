@@ -1,3 +1,5 @@
-export function removeHTMLTags(text: string, tag: string) {
-  return text.replace(new RegExp(`</?${tag}>`, 'g'), '')
+import { REGEX } from '@/utils/constants/regex'
+
+export function removeHTMLTags(text: string) {
+  return text.replace(REGEX.htmlTags, '')
 }
