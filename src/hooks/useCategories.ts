@@ -2,7 +2,7 @@ import { useQuery } from 'react-query'
 
 import { useApi } from '@/services/api'
 
-export function useCatogories() {
+export function useCategories() {
   const api = useApi()
 
   const { data, error, isLoading } = useQuery('categories', () =>
