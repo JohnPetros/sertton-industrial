@@ -24,7 +24,7 @@ export function Search({ isLoading }: SearchProps) {
   const router = useRouter()
 
   function handleSearch() {
-    if (searchValue) {
+    if (searchValue && !isLoading) {
       setSearch(searchValue)
       router.push(ROUTES.products)
     }
