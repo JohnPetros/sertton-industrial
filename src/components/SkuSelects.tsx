@@ -6,6 +6,7 @@ import {
   useRef,
   useState,
 } from 'react'
+import { Spinner } from 'tamagui'
 
 import type { Sku } from '@/@types/sku'
 import { Select, SelectRef } from '@/components/Select'
@@ -38,6 +39,7 @@ export const SkuSelectsComponent = (
   const selectRefs = useRef<SelectRef[]>([])
   const hasErrors = selectedVariationsValues.length !== variationNames.length
   const [errors, setErrors] = useState<boolean[]>([])
+  const [isLoading, setIsloading] = useState(true)
 
   function fillArray<Value>(value: Value, length: number) {
     return Array.from<Value>({ length }).fill(value)
@@ -99,34 +101,43 @@ export const SkuSelectsComponent = (
   }, [skus])
 
   useEffect(() => {
-    if (skus && onSkuChange) onSkuChange(selectedSku ?? skus[0])
+    if (skus && onSkuChange) {
+      onSkuChange(selectedSku ?? skus[0])
+    }
   }, [skus, selectedSku, onSkuChange])
 
-  return (
-    variationNames.length > 0 &&
-    variationNames.map((variationName, index) => {
-      const values = getVariationValuesByVariationName(variationName)
-      const hasValues = values.length > 0
+  useEffect(() => {
+    if (isLoading) setIsloading(false)
+  }, [isLoading])
 
-      return (
-        <Select
-          ref={(ref) => {
-            if (ref) selectRefs.current[index] = ref
-          }}
-          key={variationName}
-          label={variationName}
-          width="100%"
-          defaultValue={'Selecionar'}
-          items={hasValues ? values : ['Selecionar']}
-          onChange={(variationChange) =>
-            handleSelectChange(index, variationChange)
-          }
-          isDisable={!hasValues}
-          hasError={errors[index]}
-        />
-      )
-    })
-  )
+  if (isLoading) return <Spinner size="large" color="$blue600" />
+
+  if (variations.length)
+    return (
+      variationNames.length > 0 &&
+      variationNames.map((variationName, index) => {
+        const values = getVariationValuesByVariationName(variationName)
+        const hasValues = values.length > 0
+
+        return (
+          <Select
+            ref={(ref) => {
+              if (ref) selectRefs.current[index] = ref
+            }}
+            key={variationName}
+            label={variationName}
+            width="100%"
+            defaultValue={'Selecionar'}
+            items={hasValues ? values : ['Selecionar']}
+            onChange={(variationChange) =>
+              handleSelectChange(index, variationChange)
+            }
+            isDisable={!hasValues}
+            hasError={errors[index]}
+          />
+        )
+      })
+    )
 }
 
 export const SkuSelects = forwardRef(SkuSelectsComponent)
