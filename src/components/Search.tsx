@@ -18,9 +18,12 @@ interface SearchProps {
 }
 
 export function Search({ isLoading }: SearchProps) {
-  const [searchValue, setSearchValue] = useState('')
-  const [isloading, setIsloading] = useState(false)
   const setSearch = useProductsFilterStore((store) => store.actions.setSearch)
+  const currentSearchValue = useProductsFilterStore(
+    (store) => store.state.search
+  )
+  const [searchValue, setSearchValue] = useState(currentSearchValue)
+  const [isloading, setIsloading] = useState(false)
   const router = useRouter()
 
   function handleSearch() {
