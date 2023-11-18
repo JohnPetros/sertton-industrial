@@ -31,6 +31,7 @@ export function CartDialog({ children, product }: CartDialogProps) {
 
   const item = items.find((item) => item.slug === product.slug)
   const isInCart = !!item
+  const hasVariations = product.skus.every((sku) => sku.variations.length > 0)
 
   function handleDialogOpenChange(isOpen: boolean) {
     setIsOpen(isOpen)
@@ -43,13 +44,16 @@ export function CartDialog({ children, product }: CartDialogProps) {
   }
 
   function handleAddCartItem() {
+    console.log(skuSelectsRef.current)
     if (!skuSelectsRef.current) return
 
     const { onAddSkuToCart, selectedSku } = skuSelectsRef.current
 
     const shouldAddToCart = onAddSkuToCart()
 
-    if (!shouldAddToCart) return
+    console.log(hasVariations)
+
+    if (hasVariations && !shouldAddToCart) return
 
     if (selectedSku && !isInCart) {
       const item = {
@@ -90,11 +94,10 @@ export function CartDialog({ children, product }: CartDialogProps) {
               fontWeight="600"
               textAlign="center"
               fontSize={16}
-              mb={24}
             >
               {product.name}
             </Text>
-            <YStack gap={12}>
+            <YStack gap={12} mt={hasVariations ? 24 : 0}>
               <SkuSelects ref={skuSelectsRef} productId={product.id} />
             </YStack>
 
