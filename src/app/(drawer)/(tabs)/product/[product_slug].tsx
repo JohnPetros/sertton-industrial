@@ -16,6 +16,7 @@ import type { Sku } from '@/@types/sku'
 import { Button } from '@/components/Button'
 import { FullImage } from '@/components/FullImage'
 import { Header } from '@/components/Header'
+import { List } from '@/components/List'
 import { NumberInput } from '@/components/NumberInput'
 import {
   Discount,
@@ -34,6 +35,7 @@ import { useCartStore } from '@/stores/cartStore'
 import { ROUTES } from '@/utils/constants/routes'
 import { SCREEN } from '@/utils/constants/screen'
 import { TAB_BAR_HEIGHT } from '@/utils/constants/tabBarHeight'
+import { getItemsFromHTMLList } from '@/utils/helpers/getItemsFromHTMLList'
 import { removeHTMLTags } from '@/utils/helpers/removeHTMLTags'
 
 export default function Product() {
@@ -57,7 +59,6 @@ export default function Product() {
 
   const item = items.find((item) => item.slug === product?.slug)
   const isInCart = !!item
-
   const isSkeletonVisible = isLoading
 
   function handleSkuChange(sku: Sku) {
@@ -253,11 +254,22 @@ export default function Product() {
           )}
 
           {product && !isLoading && (
-            <YStack mt={24}>
-              <H2 fontSize={24}>Descrição do produto</H2>
-              <Paragraph lineHeight={28}>
-                {removeHTMLTags(product.texts.data.description)}
-              </Paragraph>
+            <YStack mt={24} gap={24}>
+              <YStack>
+                <H2 fontSize={24}>Descrição do produto</H2>
+                <Paragraph lineHeight={28}>
+                  {removeHTMLTags(product.texts.data.description)}
+                </Paragraph>
+              </YStack>
+              <YStack>
+                <H2 fontSize={24}>Especificações técnicas</H2>
+                <List
+                  items={
+                    getItemsFromHTMLList(product?.texts.data.specifications) ??
+                    []
+                  }
+                />
+              </YStack>
             </YStack>
           )}
         </YStack>
