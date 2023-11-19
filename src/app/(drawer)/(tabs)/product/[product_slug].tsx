@@ -11,6 +11,7 @@ import {
   XStack,
   YStack,
 } from 'tamagui'
+import { Text } from 'tamagui'
 
 import type { Sku } from '@/@types/sku'
 import { Button } from '@/components/Button'
@@ -30,6 +31,8 @@ import { Search } from '@/components/Search'
 import ShippingCostsCalculation from '@/components/ShippingCostsCalculation'
 import { Skeleton } from '@/components/Skeleton'
 import { SkuSelects, SkuSelectsRef } from '@/components/SkuSelects'
+import { Timer } from '@/components/Timer'
+import { useDate } from '@/hooks/useDate'
 import { useProduct } from '@/hooks/useProduct'
 import { useCartStore } from '@/stores/cartStore'
 import { ROUTES } from '@/utils/constants/routes'
@@ -53,6 +56,8 @@ export default function Product() {
   } = useCartStore()
   const router = useRouter()
   const navigation = useNavigation()
+  const { timeUtilTodayEnd } = useDate()
+
   const hasVariations = Boolean(
     skuSelectsRef.current?.selectedSku?.variations.length
   )
@@ -226,15 +231,50 @@ export default function Product() {
                 onChangeNumber={handleQuantityChange}
               />
             </Skeleton>
+
+            <Skeleton isVisible={isSkeletonVisible} height={40}>
+              {selectedSku && (
+                <YStack gap={12}>
+                  <XStack gap={4}>
+                    <Text color="$gray800">Apenas</Text>
+                    <View
+                      borderRadius={12}
+                      bg="$blue500"
+                      alignItems="center"
+                      justifyContent="center"
+                      w={24}
+                      h={24}
+                    >
+                      <Text color="$white" fontWeight="600" fontSize={12}>
+                        {selectedSku.total_in_stock}
+                      </Text>
+                    </View>
+                    <Text color="$gray800">produtos em estoque</Text>
+                  </XStack>
+                  <XStack alignItems="center">
+                    <Text color="$gray600">A oferta acaba em </Text>
+                    <Timer
+                      initialHours={timeUtilTodayEnd.hours}
+                      initialMinutes={timeUtilTodayEnd.minutes}
+                      initialSeconds={timeUtilTodayEnd.seconds}
+                    />
+                  </XStack>
+                </YStack>
+              )}
+            </Skeleton>
+
             <Skeleton
               isVisible={isSkeletonVisible}
               width={SCREEN.width}
               height={40}
             >
+              <></>
+            </Skeleton>
+            {selectedSku && (
               <Button w="100%" onPress={handleAddToCart}>
                 Adicionar ao carinho
               </Button>
-            </Skeleton>
+            )}
           </YStack>
 
           {selectedSku && (
