@@ -22,7 +22,7 @@ export default function Cart() {
   const isCartEmpty = items.length <= 0
 
   function handleRemoveAllItems() {
-    // removeAllItems()
+    removeAllItems()
   }
 
   return (
@@ -33,7 +33,7 @@ export default function Cart() {
         {!isCartEmpty && (
           <Alert
             title="Deseja realmente limpar o carrinho?"
-            onConfirm={() => null}
+            onConfirm={handleRemoveAllItems}
           >
             <Button background="transparent" mr={-12}>
               <TrashSimple
