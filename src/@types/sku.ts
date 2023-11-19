@@ -13,4 +13,5 @@ export type Sku = {
   length: number
   images: { data: Image[] }
   variations: Variation[]
+  total_in_stock: number
 }
