@@ -1,10 +1,17 @@
 import { useState } from 'react'
 import { FlatList } from 'react-native'
-import { ArrowsDownUp, Faders, List, Table } from 'phosphor-react-native'
+import {
+  ArrowsDownUp,
+  Faders,
+  List,
+  MagnifyingGlass,
+  Table,
+} from 'phosphor-react-native'
 import { Button, getTokens, Text, View, XStack, YStack } from 'tamagui'
 
 import type { Product } from '@/@types/product'
 import type { Sorter } from '@/@types/sorter'
+import { EmptyItemsMessage } from '@/components/EmptyItemsMessage'
 import { FiltersDialog } from '@/components/FiltersDialog'
 import { Loading } from '@/components/Loading'
 import { ProductItem } from '@/components/ProductItem'
@@ -138,6 +145,15 @@ export function ProductsList({
           numColumns={2}
           onEndReached={onEndReached}
           ListFooterComponent={<Loading size={200} message="carregando..." />}
+          ListEmptyComponent={
+            <View h={SCREEN.height / 2}>
+              <EmptyItemsMessage
+                title="Oh não..."
+                subtitle="Nenhum produto foi encontrado"
+                icon={MagnifyingGlass}
+              />
+            </View>
+          }
           contentContainerStyle={{ paddingBottom: TAB_BAR_HEIGHT * 4 }}
         />
       )}
