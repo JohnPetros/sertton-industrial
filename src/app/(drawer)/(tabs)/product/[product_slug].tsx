@@ -50,6 +50,7 @@ export default function Product() {
   const [selectedSku, setSelectedSku] = useState<Sku | null>(null)
   const [isFullImageVisible, setIsFullImageVisible] = useState(false)
   const skuSelectsRef = useRef<SkuSelectsRef | null>(null)
+  const scrollRef = useRef<ScrollView | null>(null)
 
   const {
     state: { items },
@@ -106,6 +107,7 @@ export default function Product() {
     useCallback(() => {
       setIsLoading(true)
       refetch()
+      scrollRef.current?.scrollTo({ y: 0 })
     }, [])
   )
 
@@ -141,6 +143,7 @@ export default function Product() {
       )}
 
       <ScrollView
+        ref={(ref) => (scrollRef.current = ref)}
         contentContainerStyle={{ paddingBottom: TAB_BAR_HEIGHT * 2 }}
         scrollEnabled={!isSkeletonVisible}
       >
