@@ -42,7 +42,7 @@ export function Alert({ onConfirm, title, children }: AlertProps) {
           y={0}
           opacity={1}
           borderRadius={4}
-          p={12}
+          p={24}
           w={360}
           bg="$gray50"
         >
