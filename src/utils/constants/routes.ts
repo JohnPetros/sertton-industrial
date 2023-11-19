@@ -4,4 +4,5 @@ export const ROUTES = {
   cart: '/(drawer)/(tabs)/cart',
   orders: '/(drawer)/(tabs)/orders',
   product: '/(drawer)/(tabs)/product',
+  checkout: '/checkout',
 }
