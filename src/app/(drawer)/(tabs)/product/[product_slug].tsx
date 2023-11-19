@@ -18,6 +18,7 @@ import { Button } from '@/components/Button'
 import { Collection } from '@/components/Collection'
 import { FullImage } from '@/components/FullImage'
 import { Header } from '@/components/Header'
+import { KeyboardHandlerView } from '@/components/KeyboardHandlerView'
 import { List } from '@/components/List'
 import { NumberInput } from '@/components/NumberInput'
 import {
@@ -118,7 +119,7 @@ export default function Product() {
   }, [navigation])
 
   useEffect(() => {
-    if (!isLoading || !selectedSku) return
+    if (!isLoading) return
 
     const timer = setTimeout(() => {
       setIsLoading(false)
@@ -128,96 +129,108 @@ export default function Product() {
   }, [selectedSku])
 
   return (
-    <YStack>
-      <View px={SCREEN.paddingX}>
-        <Header />
-        <Search />
-      </View>
+    <KeyboardHandlerView>
+      <YStack>
+        <View px={SCREEN.paddingX}>
+          <Header />
+          <Search />
+        </View>
 
-      {selectedSku && !isSkeletonVisible && (
-        <FullImage
-          isVisible={isFullImageVisible}
-          data={selectedSku.images.data}
-          close={() => setIsFullImageVisible(false)}
-        />
-      )}
+        {selectedSku && !isSkeletonVisible && (
+          <FullImage
+            isVisible={isFullImageVisible}
+            data={selectedSku.images.data}
+            close={() => setIsFullImageVisible(false)}
+          />
+        )}
 
-      <ScrollView
-        ref={(ref) => (scrollRef.current = ref)}
-        contentContainerStyle={{ paddingBottom: TAB_BAR_HEIGHT * 2 }}
-        scrollEnabled={!isSkeletonVisible}
-      >
-        <Skeleton
-          isVisible={isSkeletonVisible}
-          width={SCREEN.width}
-          height={224}
+        <ScrollView
+          ref={(ref) => (scrollRef.current = ref)}
+          contentContainerStyle={{ paddingBottom: TAB_BAR_HEIGHT * 4 }}
+          scrollEnabled={!isSkeletonVisible}
         >
-          <View
-            position="relative"
-            mt={24}
-            onStartShouldSetResponder={() => {
-              handleFullImage()
-              return true
-            }}
+          <Skeleton
+            isVisible={isSkeletonVisible}
+            width={SCREEN.width}
+            height={224}
           >
-            {selectedSku && (
-              <Image
-                data={selectedSku?.images.data}
-                size="large"
-                width={SCREEN.width}
-                height={224}
-              />
-            )}
-
-            <Button
-              position="absolute"
-              zIndex={50}
-              background="transparent"
-              fontSize={12}
+            <View
+              position="relative"
+              mt={24}
+              onStartShouldSetResponder={() => {
+                handleFullImage()
+                return true
+              }}
             >
-              <ArrowsOut size={16} color={getTokens().color.gray800.val} />
-              Pressione para zoom
-            </Button>
-          </View>
-        </Skeleton>
-        <YStack px={SCREEN.paddingX} mt={12} gap={8}>
-          <>
-            <Skeleton isVisible={isSkeletonVisible} width={120} height={24}>
               {selectedSku && (
-                <SkuCode fontSize={14}>{selectedSku?.sku}</SkuCode>
+                <Image
+                  data={selectedSku?.images.data}
+                  size="large"
+                  width={SCREEN.width}
+                  height={224}
+                />
               )}
-            </Skeleton>
-            <Skeleton isVisible={isSkeletonVisible} width={300} height={48}>
-              {selectedSku && (
-                <Name fontSize={24}>{String(product?.name)}</Name>
-              )}
-            </Skeleton>
 
-            <Skeleton isVisible={isSkeletonVisible} width={150} height={48}>
-              {selectedSku && (
-                <XStack alignItems="flex-start" gap={12}>
-                  <YStack>
-                    <SalePrice fontSize={24} price={selectedSku?.price_sale} />
-                    <DiscountPrice
-                      fontSize={14}
-                      price={selectedSku?.price_discount}
-                    />
-                  </YStack>
-                  <Discount
-                    salesPrice={selectedSku?.price_sale}
-                    discountPrice={selectedSku?.price_discount}
-                  />
-                </XStack>
-              )}
-            </Skeleton>
-          </>
-          <YStack mt={hasVariations ? 12 : 0} gap={32} alignItems="flex-start">
-            {!product ? (
-              <Skeleton isVisible={!product} width={SCREEN.width} height={40}>
-                <></>
+              <Button
+                position="absolute"
+                zIndex={50}
+                background="transparent"
+                fontSize={12}
+              >
+                <ArrowsOut size={16} color={getTokens().color.gray800.val} />
+                Pressione para zoom
+              </Button>
+            </View>
+          </Skeleton>
+          <YStack px={SCREEN.paddingX} mt={12} gap={8}>
+            <>
+              <Skeleton isVisible={isSkeletonVisible} width={120} height={24}>
+                {selectedSku && (
+                  <SkuCode fontSize={14}>{selectedSku?.sku}</SkuCode>
+                )}
               </Skeleton>
-            ) : (
-              <>
+              <Skeleton isVisible={isSkeletonVisible} width={300} height={48}>
+                {selectedSku && (
+                  <Name fontSize={24}>{String(product?.name)}</Name>
+                )}
+              </Skeleton>
+
+              <Skeleton isVisible={isSkeletonVisible} width={150} height={48}>
+                {selectedSku && (
+                  <XStack alignItems="flex-start" gap={12}>
+                    <YStack>
+                      <SalePrice
+                        fontSize={24}
+                        price={selectedSku?.price_sale}
+                      />
+                      <DiscountPrice
+                        fontSize={14}
+                        price={selectedSku?.price_discount}
+                      />
+                    </YStack>
+                    <Discount
+                      salesPrice={selectedSku?.price_sale}
+                      discountPrice={selectedSku?.price_discount}
+                    />
+                  </XStack>
+                )}
+              </Skeleton>
+            </>
+            <YStack
+              mt={hasVariations ? 12 : 0}
+              gap={32}
+              alignItems="flex-start"
+            >
+              <View position="relative">
+                <View position="absolute" zIndex={50}>
+                  <Skeleton
+                    isVisible={isSkeletonVisible}
+                    width={SCREEN.width - SCREEN.paddingX}
+                    height={70}
+                  >
+                    <></>
+                  </Skeleton>
+                </View>
                 {product && (
                   <SkuSelects
                     ref={skuSelectsRef}
@@ -225,112 +238,113 @@ export default function Product() {
                     onSkuChange={handleSkuChange}
                   />
                 )}
-              </>
+              </View>
+
+              <Skeleton isVisible={isSkeletonVisible} height={40}>
+                <NumberInput
+                  label="Quantidade do produto"
+                  number={quantity}
+                  onChangeNumber={handleQuantityChange}
+                />
+              </Skeleton>
+
+              <Skeleton isVisible={isSkeletonVisible} height={40}>
+                {selectedSku && (
+                  <YStack gap={12}>
+                    <XStack gap={4}>
+                      <Text color="$gray800">Apenas</Text>
+                      <View
+                        borderRadius={12}
+                        bg="$blue500"
+                        alignItems="center"
+                        justifyContent="center"
+                        w={24}
+                        h={24}
+                      >
+                        <Text color="$white" fontWeight="600" fontSize={12}>
+                          {selectedSku.total_in_stock}
+                        </Text>
+                      </View>
+                      <Text color="$gray800">produtos em estoque</Text>
+                    </XStack>
+                    <XStack alignItems="center">
+                      <Text color="$gray600">A oferta acaba em </Text>
+                      <Timer
+                        initialHours={timeUtilTodayEnd.hours}
+                        initialMinutes={timeUtilTodayEnd.minutes}
+                        initialSeconds={timeUtilTodayEnd.seconds}
+                      />
+                    </XStack>
+                  </YStack>
+                )}
+              </Skeleton>
+
+              {isSkeletonVisible ? (
+                <Skeleton
+                  isVisible={isSkeletonVisible}
+                  width={SCREEN.width}
+                  height={40}
+                >
+                  <></>
+                </Skeleton>
+              ) : (
+                <Button w="100%" onPress={handleAddToCart}>
+                  Adicionar ao carinho
+                </Button>
+              )}
+            </YStack>
+
+            {selectedSku && (
+              <View mt={24}>
+                <Skeleton
+                  isVisible={isSkeletonVisible}
+                  width={SCREEN.width - 48}
+                  height={40}
+                >
+                  <ShippingCostsCalculation
+                    skus_ids={[selectedSku.id]}
+                    quantities={[quantity]}
+                    total={selectedSku?.price_sale}
+                  />
+                </Skeleton>
+              </View>
             )}
 
-            <Skeleton isVisible={isSkeletonVisible} height={40}>
-              <NumberInput
-                label="Quantidade do produto"
-                number={quantity}
-                onChangeNumber={handleQuantityChange}
-              />
-            </Skeleton>
-
-            <Skeleton isVisible={isSkeletonVisible} height={40}>
-              {selectedSku && (
-                <YStack gap={12}>
-                  <XStack gap={4}>
-                    <Text color="$gray800">Apenas</Text>
-                    <View
-                      borderRadius={12}
-                      bg="$blue500"
-                      alignItems="center"
-                      justifyContent="center"
-                      w={24}
-                      h={24}
-                    >
-                      <Text color="$white" fontWeight="600" fontSize={12}>
-                        {selectedSku.total_in_stock}
-                      </Text>
-                    </View>
-                    <Text color="$gray800">produtos em estoque</Text>
-                  </XStack>
-                  <XStack alignItems="center">
-                    <Text color="$gray600">A oferta acaba em </Text>
-                    <Timer
-                      initialHours={timeUtilTodayEnd.hours}
-                      initialMinutes={timeUtilTodayEnd.minutes}
-                      initialSeconds={timeUtilTodayEnd.seconds}
-                    />
-                  </XStack>
+            {product && !isLoading && (
+              <YStack mt={24} gap={24}>
+                <YStack>
+                  <H2 fontSize={24}>Descrição do produto</H2>
+                  <Paragraph lineHeight={28}>
+                    {removeHTMLTags(product.texts.data.description)}
+                  </Paragraph>
                 </YStack>
-              )}
-            </Skeleton>
-
-            {isSkeletonVisible ? (
-              <Skeleton
-                isVisible={isSkeletonVisible}
-                width={SCREEN.width}
-                height={40}
-              >
-                <></>
-              </Skeleton>
-            ) : (
-              <Button w="100%" onPress={handleAddToCart}>
-                Adicionar ao carinho
-              </Button>
+                <YStack>
+                  <H2 fontSize={24}>Especificações técnicas</H2>
+                  <List
+                    items={
+                      getItemsFromHTMLList(
+                        product?.texts.data.specifications
+                      ) ?? []
+                    }
+                  />
+                </YStack>
+                <YStack>
+                  {/* {similarProducts && (
+                    <Collection
+                      data={{
+                        id: 9999,
+                        name: 'Produtos relacionados',
+                        products: similarProducts ?? [],
+                      }}
+                      isLoading={false}
+                    />
+                  )} */}
+                </YStack>
+              </YStack>
             )}
           </YStack>
-
-          {selectedSku && (
-            <View mt={24}>
-              <Skeleton
-                isVisible={isSkeletonVisible}
-                width={SCREEN.width - 48}
-                height={40}
-              >
-                <ShippingCostsCalculation
-                  skus_ids={[selectedSku.id]}
-                  quantities={[quantity]}
-                  total={selectedSku?.price_sale}
-                />
-              </Skeleton>
-            </View>
-          )}
-
-          {product && !isLoading && (
-            <YStack mt={24} gap={24}>
-              <YStack>
-                <H2 fontSize={24}>Descrição do produto</H2>
-                <Paragraph lineHeight={28}>
-                  {removeHTMLTags(product.texts.data.description)}
-                </Paragraph>
-              </YStack>
-              <YStack>
-                <H2 fontSize={24}>Especificações técnicas</H2>
-                <List
-                  items={
-                    getItemsFromHTMLList(product?.texts.data.specifications) ??
-                    []
-                  }
-                />
-              </YStack>
-              <YStack>
-                {similarProducts && (
-                  <Collection
-                    data={{
-                      id: 9999,
-                      name: 'Produtos relacionados',
-                      products: similarProducts,
-                    }}
-                    isLoading={false}
-                  />
-                )}
-              </YStack>
-            </YStack>
-          )}
-        </YStack>
-      </ScrollView>
-    </YStack>
+        </ScrollView>
+      </YStack>
+    </KeyboardHandlerView>
   )
 }

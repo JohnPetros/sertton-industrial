@@ -43,5 +43,14 @@ export function productsService(api: Api): IProductsService {
       const { data } = response.data
       return data[0]
     },
+
+    async getSimiliarProducts(id: string) {
+      const response = await api.get<Product[]>(
+        `/${Resources.CATALOG}/${Endpoints.PRODUCT}/${id}/${Endpoints.SIMILAR}`
+      )
+
+      const { data } = response.data
+      return data
+    },
   }
 }

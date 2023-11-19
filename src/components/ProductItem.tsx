@@ -25,6 +25,7 @@ export function ProductItem({
         flexDirection={isColumn ? 'column' : 'row'}
         alignItems="center"
         gap={12}
+        pressStyle={{ backgroundColor: '$gray400' }}
       >
         <View position="relative">
           {!isLoading && (
