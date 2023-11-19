@@ -15,6 +15,7 @@ import { Text } from 'tamagui'
 
 import type { Sku } from '@/@types/sku'
 import { Button } from '@/components/Button'
+import { Collection } from '@/components/Collection'
 import { FullImage } from '@/components/FullImage'
 import { Header } from '@/components/Header'
 import { List } from '@/components/List'
@@ -43,7 +44,7 @@ import { removeHTMLTags } from '@/utils/helpers/removeHTMLTags'
 
 export default function Product() {
   const { product_slug } = useGlobalSearchParams()
-  const { product, refetch } = useProduct(String(product_slug))
+  const { product, similarProducts, refetch } = useProduct(String(product_slug))
   const [isLoading, setIsLoading] = useState(true)
   const [quantity, setQuantity] = useState(1)
   const [selectedSku, setSelectedSku] = useState<Sku | null>(null)
@@ -263,14 +264,15 @@ export default function Product() {
               )}
             </Skeleton>
 
-            <Skeleton
-              isVisible={isSkeletonVisible}
-              width={SCREEN.width}
-              height={40}
-            >
-              <></>
-            </Skeleton>
-            {selectedSku && (
+            {isSkeletonVisible ? (
+              <Skeleton
+                isVisible={isSkeletonVisible}
+                width={SCREEN.width}
+                height={40}
+              >
+                <></>
+              </Skeleton>
+            ) : (
               <Button w="100%" onPress={handleAddToCart}>
                 Adicionar ao carinho
               </Button>
@@ -309,6 +311,18 @@ export default function Product() {
                     []
                   }
                 />
+              </YStack>
+              <YStack>
+                {similarProducts && (
+                  <Collection
+                    data={{
+                      id: 9999,
+                      name: 'Produtos relacionados',
+                      products: similarProducts,
+                    }}
+                    isLoading={false}
+                  />
+                )}
               </YStack>
             </YStack>
           )}

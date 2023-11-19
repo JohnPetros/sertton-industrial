@@ -21,34 +21,35 @@ export function Collection({
     router.push(`/(drawer)/product/${productId}`)
   }
 
-  return (
-    <YStack>
-      <Skeleton isVisible={!isLoading} mb={isLoading ? 12 : 0}>
-        <H2 color="$blue500" fontSize={24} mb={12}>
-          {name}
-        </H2>
-      </Skeleton>
-      <FlatList
-        data={products}
-        keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => (
-          <Button
-            unstyled
-            key={item.id}
-            mr={24}
-            onPress={() => handleProduct(item.id)}
-          >
-            <ProductItem
-              data={item}
-              isLoading={isLoading}
-              isColumn={true}
-              width={150}
-            />
-          </Button>
-        )}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-      />
-    </YStack>
-  )
+  if (products.length)
+    return (
+      <YStack>
+        <Skeleton isVisible={isLoading} mb={isLoading ? 12 : 0}>
+          <H2 color="$blue500" fontSize={24} mb={12}>
+            {name}
+          </H2>
+        </Skeleton>
+        <FlatList
+          data={products}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={({ item }) => (
+            <Button
+              unstyled
+              key={item.id}
+              mr={24}
+              onPress={() => handleProduct(item.id)}
+            >
+              <ProductItem
+                data={item}
+                isLoading={isLoading}
+                isColumn={true}
+                width={150}
+              />
+            </Button>
+          )}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        />
+      </YStack>
+    )
 }
