@@ -7,4 +7,5 @@ export enum Endpoints {
   SKU = 'skus',
   SHIPPING_COST = 'shipping-costs',
   BRAND = 'brands',
+  SIMILAR = 'similars',
 }
