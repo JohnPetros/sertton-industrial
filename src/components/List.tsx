@@ -11,7 +11,7 @@ export function List({ items }: ListProps) {
       {items.map((item) => (
         <YGroup.Item key={item}>
           <ListItem
-            my={-8}
+            my={-4}
             px={0}
             bg="$gray50"
             fontSize={12}
