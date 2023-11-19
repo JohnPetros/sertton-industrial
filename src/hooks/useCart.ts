@@ -1,9 +1,10 @@
 import { useQuery } from 'react-query'
 
-import type { CartItem } from '@/@types/cartItem'
 import { useApi } from '@/services/api'
+import { useCartStore } from '@/stores/cartStore'
 
-export function useCart(items: CartItem[]) {
+export function useCart() {
+  const items = useCartStore((store) => store.state.items)
   const api = useApi()
 
   async function getCartProducts() {
@@ -14,7 +15,7 @@ export function useCart(items: CartItem[]) {
       if (product)
         products.push({
           ...product,
-          quantinty: item.quantity,
+          quantity: item.quantity,
           selectedSkuId: item.skuId,
         })
     }
@@ -23,12 +24,13 @@ export function useCart(items: CartItem[]) {
   }
 
   const { data, error, isLoading } = useQuery(
-    ['cart-products', items],
+    ['cart-products'],
     getCartProducts
   )
 
   return {
     products: data,
+    totalCartItems: items.length,
     error,
     isLoading,
   }

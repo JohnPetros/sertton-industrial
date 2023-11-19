@@ -1,25 +1,27 @@
 import { Dimensions, FlatList } from 'react-native'
+import { Link } from 'expo-router'
 import { ShoppingCart, TrashSimple } from 'phosphor-react-native'
 import { getTokens, H1, View, XStack, YStack } from 'tamagui'
 
 import { Alert } from '@/components/Alert'
 import { Button } from '@/components/Button'
+import { CartSummary } from '@/components/CartSummary'
 import { EmptyItemsMessage } from '@/components/EmptyItemsMessage'
 import { Header } from '@/components/Header'
 import { ProductCartItem } from '@/components/ProductCartItem'
 import { useCart } from '@/hooks/useCart'
 import { useCartStore } from '@/stores/cartStore'
 import { cartItemsMock } from '@/tests/mocks/cartItemsMock'
+import { ROUTES } from '@/utils/constants/routes'
 
 const SCREEN_WIDTH = Dimensions.get('screen').width
 const PADDING_X = 24
 const PRODUCT_CART_ITEM_WIDTH = SCREEN_WIDTH - PADDING_X * 2
 
 export default function Cart() {
-  const items = useCartStore((store) => store.state.items)
   const removeAllItems = useCartStore((store) => store.actions.removeAllItems)
-  const { products, isLoading } = useCart(items)
-  const isCartEmpty = items.length <= 0
+  const { products, isLoading, totalCartItems } = useCart()
+  const isCartEmpty = totalCartItems <= 0
 
   function handleRemoveAllItems() {
     removeAllItems()
@@ -57,7 +59,7 @@ export default function Cart() {
         ) : isLoading ? (
           <FlatList
             key="cart-items-loading"
-            data={cartItemsMock.slice(0, items.length)}
+            data={cartItemsMock.slice(0, 2)}
             keyExtractor={(item) => String(item.id)}
             renderItem={({ item }) => (
               <View mb={32}>
@@ -73,23 +75,41 @@ export default function Cart() {
             showsVerticalScrollIndicator={false}
           />
         ) : (
-          <FlatList
-            key="cart-items"
-            data={products}
-            keyExtractor={(item) => String(item.id)}
-            renderItem={({ item }) => (
-              <View mb={32}>
-                <ProductCartItem
-                  data={item}
-                  quantity={item.quantinty}
-                  selectedSkuId={item.selectedSkuId}
-                  width={PRODUCT_CART_ITEM_WIDTH}
-                  isLoading={false}
-                />
-              </View>
+          <>
+            <FlatList
+              key="cart-items"
+              data={products}
+              keyExtractor={(item) => String(item.id)}
+              renderItem={({ item }) => (
+                <View mb={32}>
+                  <ProductCartItem
+                    data={item}
+                    quantity={item.quantity}
+                    selectedSkuId={item.selectedSkuId}
+                    width={PRODUCT_CART_ITEM_WIDTH}
+                    isLoading={false}
+                  />
+                </View>
+              )}
+              contentContainerStyle={{ paddingBottom: 180 }}
+            />
+            {products && (
+              <YStack
+                zIndex={50}
+                position="absolute"
+                bottom={0}
+                py={12}
+                gap={8}
+                bg="$gray50"
+                w="100%"
+              >
+                <CartSummary items={products} />
+                <Link href={ROUTES.checkout} style={{ width: '100%' }}>
+                  <Button>Finalizar compra</Button>
+                </Link>
+              </YStack>
             )}
-            showsVerticalScrollIndicator={false}
-          />
+          </>
         )}
       </View>
     </YStack>

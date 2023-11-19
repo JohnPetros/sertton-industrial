@@ -64,7 +64,7 @@ export function ProductCartItem({
           data={images.data}
           size="medium"
           width={halfWidth}
-          height={220}
+          height={160}
         />
       </Skeleton>
 
