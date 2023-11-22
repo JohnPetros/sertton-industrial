@@ -10,8 +10,10 @@ interface getProductsParams {
 }
 
 export interface IProductsService {
+  getProducts(
+    params: getProductsParams
+  ): Promise<{ products: Product[]; totalPages: number }>
   getProductsByCollection(collectionId: number): Promise<Product[]>
-  getProducts(params: getProductsParams): Promise<Product[]>
   getProductBySlug(slug: string): Promise<Product>
   getSimiliarProducts(id: string): Promise<Product[]>
 }

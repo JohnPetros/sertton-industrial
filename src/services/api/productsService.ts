@@ -20,10 +20,13 @@ export function productsService(api: Api): IProductsService {
         : ''
 
       const response = await api.get<Product[]>(
-        `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand${searchParam}${sorterParam}${categoryParam}${brandsIdsParam}&page=${page}`
+        `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand${searchParam}${sorterParam}${categoryParam}${brandsIdsParam}&page=${page}&limit=20`
       )
-      const { data } = response.data
-      return data
+      const { data, meta } = response.data
+      return {
+        products: data,
+        totalPages: meta.pagination.total_pages,
+      }
     },
 
     async getProductsByCollection(collectionId: number) {
