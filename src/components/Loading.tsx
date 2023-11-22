@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react'
 import LottieView from 'lottie-react-native'
 import { Text, YStack } from 'tamagui'
 
@@ -10,12 +9,6 @@ interface LoadingProps {
 }
 
 export function Loading({ message, size = 80 }: LoadingProps) {
-  const animationRef = useRef<LottieView>(null)
-
-  useEffect(() => {
-    animationRef.current?.play()
-  }, [])
-
   return (
     <YStack w="100%" alignItems="center" justifyContent="center">
       <LottieView
@@ -26,9 +19,10 @@ export function Loading({ message, size = 80 }: LoadingProps) {
         }}
         loop
         resizeMode="contain"
+        autoPlay
         source={Truck}
       />
-      <Text color="$blue200" fontSize={16} fontWeight="600">
+      <Text mt={-24} color="$blue200" fontSize={16} fontWeight="600">
         {message}
       </Text>
     </YStack>
