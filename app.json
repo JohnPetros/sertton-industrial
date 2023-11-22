@@ -3,7 +3,7 @@
     "scheme": "sertton-industrial",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "backgroundColor": "#ddffe2",
+      "backgroundColor": "#ddf9ff",
       "image": "./assets/splash.png",
       "resizeMode": "contain"
     },
