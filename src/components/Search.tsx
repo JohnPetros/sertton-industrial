@@ -43,6 +43,7 @@ export function Search({ isLoading }: SearchProps) {
         placeholder="Exemplo: Arremate"
         w={INPUT_WIDTH}
         label="Procurar produto"
+        autoCorrect={false}
         value={searchValue}
         onChangeText={setSearchValue}
       />

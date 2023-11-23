@@ -19,6 +19,7 @@ export function Input({
   label,
   placeholder,
   w,
+  autoCorrect,
   value,
   disabled,
   keyboardType,
@@ -63,6 +64,7 @@ export function Input({
           onBlur={handleBlur}
           onChangeText={handleTextChange}
           disabled={disabled}
+          autoCorrect={autoCorrect}
         />
       </XStack>
     </YStack>
