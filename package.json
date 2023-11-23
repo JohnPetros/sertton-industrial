@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@react-navigation/drawer": "^6.6.6",
+    "@shopify/flash-list": "1.4.3",
     "@tamagui/animations-react-native": "^1.61.3",
     "@tamagui/babel-plugin": "^1.61.3",
     "@tamagui/config": "^1.61.3",
@@ -51,8 +52,7 @@
     "react-native-svg": "13.9.0",
     "react-query": "^3.39.3",
     "tamagui": "^1.61.3",
-    "zustand": "^4.4.6",
-    "@shopify/flash-list": "1.4.3"
+    "zustand": "^4.4.6"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
