@@ -1,7 +1,11 @@
-import { create } from 'zustand'
+import { create, StateCreator } from 'zustand'
+import { createJSONStorage, persist } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
 import type { CartItem } from '@/@types/cartItem'
+import { cartStorage } from '@/services/storage/cartStorage'
+import { CART_KEY } from '@/services/storage/keys'
+import { mmkv } from '@/services/storage/mmkv'
 
 export type CartStoreState = {
   items: CartItem[]
@@ -23,48 +27,54 @@ const initialState: CartStoreState = {
   items: [],
 }
 
-export const useCartStore = create<CartStoreProps>()(
-  immer((set) => {
-    return {
-      state: initialState,
-      actions: {
-        addItem(item) {
-          set(({ state }) => {
-            const currentItem = state.items.find(
-              (currentItem) => currentItem.slug === item.slug
-            )
+const cartStore: StateCreator<
+  CartStoreProps,
+  [['zustand/persist', unknown], ['zustand/immer', never]],
+  [],
+  CartStoreProps
+> = (set) => ({
+  state: initialState,
+  actions: {
+    addItem(item) {
+      set(({ state }) => {
+        const currentItem = state.items.find(
+          (currentItem) => currentItem.slug === item.slug
+        )
 
-            if (!currentItem) {
-              state.items.push(item)
-            }
-          })
-        },
+        if (!currentItem) {
+          state.items.push(item)
+        }
+      })
+    },
 
-        removeItem(itemSkuId: number) {
-          set(({ state }) => {
-            const updatedItems = state.items.filter(
-              (item) => item.skuId !== itemSkuId
-            )
-            state.items = updatedItems
-          })
-        },
+    removeItem(itemSkuId: number) {
+      set(({ state }) => {
+        const updatedItems = state.items.filter(
+          (item) => item.skuId !== itemSkuId
+        )
+        state.items = updatedItems
+      })
+    },
 
-        removeAllItems() {
-          set(({ state }) => {
-            state.items = []
-          })
-        },
+    removeAllItems() {
+      set(({ state }) => {
+        state.items = []
+      })
+    },
 
-        setItemQuantity(itemSkuId: number, itemQuantity: number) {
-          set(({ state }) => {
-            state.items = state.items.map((item) =>
-              item.skuId === itemSkuId
-                ? { ...item, quantity: itemQuantity }
-                : item
-            )
-          })
-        },
-      },
-    }
+    setItemQuantity(itemSkuId: number, itemQuantity: number) {
+      set(({ state }) => {
+        state.items = state.items.map((item) =>
+          item.skuId === itemSkuId ? { ...item, quantity: itemQuantity } : item
+        )
+      })
+    },
+  },
+})
+
+export const useCartStore = create(
+  persist(immer(cartStore), {
+    name: CART_KEY,
+    storage: createJSONStorage(() => cartStorage(mmkv)),
   })
 )
