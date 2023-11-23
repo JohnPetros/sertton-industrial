@@ -9,7 +9,12 @@ import { TamaguiProvider, Text, Theme } from 'tamagui'
 import config from '../../tamagui.config'
 import { StyledSafeAreaView } from '../components/StyledSafeAreaView'
 
+import { initializeStorage } from '@/services/storage'
+import { mmkv } from '@/services/storage/mmkv'
+
 SplashScreen.preventAutoHideAsync()
+
+initializeStorage(mmkv)
 
 export default function Layout() {
   const colorScheme = useColorScheme()
