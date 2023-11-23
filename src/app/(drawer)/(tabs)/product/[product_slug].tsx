@@ -1,4 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { LayoutChangeEvent } from 'react-native'
+import Animated, {
+  useAnimatedScrollHandler,
+  useSharedValue,
+} from 'react-native-reanimated'
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { useFocusEffect, useNavigation, useRouter } from 'expo-router'
 import { useGlobalSearchParams } from 'expo-router/src/hooks'
 import { ArrowsOut } from 'phosphor-react-native'
@@ -14,6 +20,7 @@ import {
 import { Text } from 'tamagui'
 
 import type { Sku } from '@/@types/sku'
+import { BottomCartButton } from '@/components/BottomCartButton'
 import { Button } from '@/components/Button'
 import { Collection } from '@/components/Collection'
 import { FullImage } from '@/components/FullImage'
@@ -52,6 +59,10 @@ export default function Product() {
   const [isFullImageVisible, setIsFullImageVisible] = useState(false)
   const skuSelectsRef = useRef<SkuSelectsRef | null>(null)
   const scrollRef = useRef<ScrollView | null>(null)
+  const bottomTabBarHeight = useBottomTabBarHeight()
+  const cartButtonYPosition = useSharedValue(0)
+
+  if (similarProducts) console.log(similarProducts[0])
 
   const {
     state: { items },
@@ -67,7 +78,7 @@ export default function Product() {
 
   const item = items.find((item) => item.slug === product?.slug)
   const isInCart = !!item
-  const isSkeletonVisible = isLoading
+  const isSkeletonVisible = !product || isLoading
 
   function handleSkuChange(sku: Sku) {
     setSelectedSku(sku)
@@ -93,6 +104,14 @@ export default function Product() {
       router.push(ROUTES.cart)
     }
   }
+
+  function handleCartButtonLayout({ nativeEvent }: LayoutChangeEvent) {
+    const { x, y, width, height } = nativeEvent.layout
+  }
+
+  const scrollHandler = useAnimatedScrollHandler((event) => {
+    const scrollY = event.contentOffset.y
+  })
 
   function handleScreenBlur() {
     setIsLoading(true)
@@ -144,10 +163,13 @@ export default function Product() {
           />
         )}
 
-        <ScrollView
+        <Animated.ScrollView
           ref={(ref) => (scrollRef.current = ref)}
-          contentContainerStyle={{ paddingBottom: TAB_BAR_HEIGHT * 4 }}
+          contentContainerStyle={{
+            paddingBottom: bottomTabBarHeight * 4 + 100,
+          }}
           scrollEnabled={!isSkeletonVisible}
+          onScroll={scrollHandler}
         >
           <Skeleton
             isVisible={isSkeletonVisible}
@@ -288,7 +310,11 @@ export default function Product() {
                   <></>
                 </Skeleton>
               ) : (
-                <Button w="100%" onPress={handleAddToCart}>
+                <Button
+                  onLayout={handleCartButtonLayout}
+                  w="100%"
+                  onPress={handleAddToCart}
+                >
                   Adicionar ao carinho
                 </Button>
               )}
@@ -329,7 +355,7 @@ export default function Product() {
                   />
                 </YStack>
                 <YStack>
-                  {/* {similarProducts && (
+                  {similarProducts && (
                     <Collection
                       data={{
                         id: 9999,
@@ -338,13 +364,20 @@ export default function Product() {
                       }}
                       isLoading={false}
                     />
-                  )} */}
+                  )}
                 </YStack>
               </YStack>
             )}
           </YStack>
-        </ScrollView>
+        </Animated.ScrollView>
       </YStack>
+      {/* {!isSkeletonVisible && selectedSku && (
+        <BottomCartButton
+          onPress={handleAddToCart}
+          priceSale={selectedSku?.price_sale}
+          priceDiscount={selectedSku?.price_discount}
+        />
+      )} */}
     </KeyboardHandlerView>
   )
 }
