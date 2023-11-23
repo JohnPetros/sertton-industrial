@@ -40,13 +40,13 @@ import { Search } from '@/components/Search'
 import ShippingCostsCalculation from '@/components/ShippingCostsCalculation'
 import { Skeleton } from '@/components/Skeleton'
 import { SkuSelects, SkuSelectsRef } from '@/components/SkuSelects'
+import { Tabs } from '@/components/Tabs'
 import { Timer } from '@/components/Timer'
 import { useDate } from '@/hooks/useDate'
 import { useProduct } from '@/hooks/useProduct'
 import { useCartStore } from '@/stores/cartStore'
 import { ROUTES } from '@/utils/constants/routes'
 import { SCREEN } from '@/utils/constants/screen'
-import { TAB_BAR_HEIGHT } from '@/utils/constants/tabBarHeight'
 import { getItemsFromHTMLList } from '@/utils/helpers/getItemsFromHTMLList'
 import { removeHTMLTags } from '@/utils/helpers/removeHTMLTags'
 
@@ -166,7 +166,7 @@ export default function Product() {
         <Animated.ScrollView
           ref={(ref) => (scrollRef.current = ref)}
           contentContainerStyle={{
-            paddingBottom: bottomTabBarHeight * 4 + 100,
+            paddingBottom: bottomTabBarHeight * 4 + 200,
           }}
           scrollEnabled={!isSkeletonVisible}
           onScroll={scrollHandler}
@@ -370,6 +370,13 @@ export default function Product() {
             )}
           </YStack>
         </Animated.ScrollView>
+        <Tabs
+          label="Avaliações e Dúvidas"
+          tabs={[
+            { title: 'Avaliações', value: 'reviews', content: null },
+            { title: 'Dúvidas', value: 'questions', content: null },
+          ]}
+        />
       </YStack>
       {/* {!isSkeletonVisible && selectedSku && (
         <BottomCartButton
