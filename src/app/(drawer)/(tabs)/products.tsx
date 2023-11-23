@@ -17,12 +17,13 @@ export default function Products() {
 
   const [selectedSorter, setSelectedSorter] = useState<Sorter | null>(null)
   const { category } = useCatogory(categoryId)
-  const { products, error, isLoading, fetchNextPage } = useProducts({
-    search,
-    categoryId,
-    sorter: selectedSorter,
-    brandsIds,
-  })
+  const { products, error, isLoading, hasNextPage, fetchNextPage } =
+    useProducts({
+      search,
+      categoryId,
+      sorter: selectedSorter,
+      brandsIds,
+    })
 
   function handleProductsListEndReached() {
     fetchNextPage()
@@ -48,17 +49,10 @@ export default function Products() {
       <ProductsList
         products={products}
         isLoading={isLoading}
+        hasNextPage={hasNextPage}
         setSelectedSorter={setSelectedSorter}
         onEndReached={handleProductsListEndReached}
       />
-
-      {/* <View h={SCREEN.height / 2}>
-        <EmptyItemsMessage
-          title="Oh não..."
-          subtitle="Nenhum produto foi encontrado"
-          icon={MagnifyingGlass}
-        />
-      </View> */}
     </YStack>
   )
 }
