@@ -1,4 +1,4 @@
-export type ImageSize = 'small' | 'thumb' | 'medium' | 'large'
+export type ImageSize = 'thumb' | 'small' | 'medium' | 'large' | 'xLarge'
 
 export type Image = {
   [key in ImageSize]: {
