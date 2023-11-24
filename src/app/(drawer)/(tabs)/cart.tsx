@@ -1,4 +1,5 @@
-import { Dimensions, FlatList } from 'react-native'
+import { FlatList } from 'react-native'
+import { FlashList } from '@shopify/flash-list'
 import { Link } from 'expo-router'
 import { ShoppingCart, TrashSimple } from 'phosphor-react-native'
 import { getTokens, H1, View, XStack, YStack } from 'tamagui'
@@ -13,10 +14,9 @@ import { useCart } from '@/hooks/useCart'
 import { useCartStore } from '@/stores/cartStore'
 import { cartItemsMock } from '@/tests/mocks/cartItemsMock'
 import { ROUTES } from '@/utils/constants/routes'
+import { SCREEN } from '@/utils/constants/screen'
 
-const SCREEN_WIDTH = Dimensions.get('screen').width
-const PADDING_X = 24
-const PRODUCT_CART_ITEM_WIDTH = SCREEN_WIDTH - PADDING_X * 2
+const PRODUCT_CART_ITEM_WIDTH = SCREEN.width - SCREEN.paddingX * 2
 
 export default function Cart() {
   const removeAllItems = useCartStore((store) => store.actions.removeAllItems)
@@ -57,9 +57,10 @@ export default function Cart() {
             callback={<Button>Procurar produtos</Button>}
           />
         ) : isLoading ? (
-          <FlatList
+          <FlashList
             key="cart-items-loading"
-            data={cartItemsMock.slice(0, 2)}
+            data={cartItemsMock.slice(0, totalCartItems)}
+            estimatedItemSize={200}
             keyExtractor={(item) => String(item.id)}
             renderItem={({ item }) => (
               <View mb={32}>
@@ -105,7 +106,9 @@ export default function Cart() {
               >
                 <CartSummary items={products} />
                 <Link href={ROUTES.checkout} style={{ width: '100%' }}>
-                  <Button>Finalizar compra</Button>
+                  <Button w={SCREEN.width - SCREEN.paddingX * 2}>
+                    Finalizar compra
+                  </Button>
                 </Link>
               </YStack>
             )}
