@@ -21,7 +21,6 @@ import { Select } from '@/components/Select'
 import { productsMock } from '@/tests/mocks/productsMock'
 import { SCREEN } from '@/utils/constants/screen'
 import { SORTERS } from '@/utils/constants/sorters'
-import { TAB_BAR_HEIGHT } from '@/utils/constants/tabBarHeight'
 
 const ICON_COLOR = getTokens().color.gray800.val
 const ICON_SIZE = 16
@@ -46,7 +45,7 @@ export function ProductsList({
   setSelectedSorter,
   onEndReached,
 }: ProductsListProps) {
-  const [layout, setLayout] = useState<Layout>('mosaic')
+  const [layout, setLayout] = useState<Layout>('list')
   const isFetching = useRef(false)
   const totalProducts = useRef(0)
   const bottomTabBarHeight = useBottomTabBarHeight()
@@ -134,7 +133,7 @@ export function ProductsList({
           )}
         </Button>
 
-        {/* <FiltersDialog>
+        <FiltersDialog>
           <Button
             unstyled
             icon={<ArrowsDownUp size={16} weight="bold" />}
@@ -147,7 +146,7 @@ export function ProductsList({
             <Faders color={ICON_COLOR} size={ICON_SIZE} />
             Filtrar
           </Button>
-        </FiltersDialog> */}
+        </FiltersDialog>
       </XStack>
 
       {isLoading ? (

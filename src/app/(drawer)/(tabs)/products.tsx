@@ -1,10 +1,17 @@
 import { useState } from 'react'
-import { getTokens, H2, Paragraph, YStack } from 'tamagui'
+import {
+  Buildings,
+  ChatCentered,
+  ChatCenteredText,
+  Question,
+} from 'phosphor-react-native'
+import { getTokens, H2, Paragraph, Text, YStack } from 'tamagui'
 
 import type { Sorter } from '@/@types/sorter'
 import { Header } from '@/components/Header'
 import { ProductsList } from '@/components/ProductsList'
 import { Search } from '@/components/Search'
+import { Tabs } from '@/components/Tabs'
 import { useCatogory } from '@/hooks/useCategory'
 import { useProducts } from '@/hooks/useProducts'
 import { useProductsFilterStore } from '@/stores/productsFilterStore'

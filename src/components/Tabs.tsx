@@ -14,7 +14,7 @@ import { LayoutChangeEvent } from 'react-native'
 
 import { SCREEN } from '@/utils/constants/screen'
 
-const TAB_INDICATOR_HEIGHT = 44
+const TAB_INDICATOR_HEIGHT = 36
 const TAB_INDICATOR_WIDTH = 150
 const TAB_LIST_GAP = 8
 
@@ -61,7 +61,7 @@ export function Tabs({ label, tabs }: TabsProps) {
   return (
     <T
       w={SCREEN.width - SCREEN.paddingX * 2}
-      height={400}
+      h={1200}
       defaultValue={tabs[0].value}
       flexDirection="column"
     >
@@ -71,7 +71,7 @@ export function Tabs({ label, tabs }: TabsProps) {
         borderRadius={4}
         justifyContent="center"
         alignItems="center"
-        h={60}
+        h={48}
         gap={TAB_LIST_GAP}
         w="100%"
         position="relative"

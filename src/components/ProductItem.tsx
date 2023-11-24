@@ -1,11 +1,9 @@
-import { Pressable } from 'react-native'
-import { useRouter } from 'expo-router'
+import { Link } from 'expo-router'
 import { View, XStack, YStack } from 'tamagui'
 
 import type { Product as ProductData } from '@/@types/product'
 import * as Product from '@/components/Product'
 import { Skeleton } from '@/components/Skeleton'
-import { ROUTES } from '@/utils/constants/routes'
 
 interface ProductItemProps {
   data: ProductData
@@ -20,20 +18,14 @@ export function ProductItem({
   isColumn = true,
   width = 150,
 }: ProductItemProps) {
-  const router = useRouter()
-
-  function handlePress() {
-    router.push(`${ROUTES.product}/${id}`)
-  }
-
   return (
-    <Pressable onPress={handlePress}>
+    <Link href={`/product/${slug}`} asChild>
       <View
         w={width}
         flexDirection={isColumn ? 'column' : 'row'}
         alignItems="center"
         gap={12}
-        pressStyle={{ backgroundColor: '$gray400' }}
+        pressStyle={{ backgroundColor: '$gray100' }}
       >
         <View position="relative">
           {!isLoading && (
@@ -82,6 +74,6 @@ export function ProductItem({
           </XStack>
         </YStack>
       </View>
-    </Pressable>
+    </Link>
   )
 }

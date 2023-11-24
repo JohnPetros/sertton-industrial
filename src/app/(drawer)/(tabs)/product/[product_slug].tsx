@@ -7,7 +7,7 @@ import Animated, {
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { useFocusEffect, useNavigation, useRouter } from 'expo-router'
 import { useGlobalSearchParams } from 'expo-router/src/hooks'
-import { ArrowsOut } from 'phosphor-react-native'
+import { ArrowsOut, ChatCenteredText, Question } from 'phosphor-react-native'
 import {
   getTokens,
   H2,
@@ -36,6 +36,7 @@ import {
   SalePrice,
   SkuCode,
 } from '@/components/Product'
+import { ProductReviews } from '@/components/ProductReviews'
 import { Search } from '@/components/Search'
 import ShippingCostsCalculation from '@/components/ShippingCostsCalculation'
 import { Skeleton } from '@/components/Skeleton'
@@ -62,7 +63,7 @@ export default function Product() {
   const bottomTabBarHeight = useBottomTabBarHeight()
   const cartButtonYPosition = useSharedValue(0)
 
-  if (similarProducts) console.log(similarProducts[0])
+  console.log(selectedSku)
 
   const {
     state: { items },
@@ -166,7 +167,7 @@ export default function Product() {
         <Animated.ScrollView
           ref={(ref) => (scrollRef.current = ref)}
           contentContainerStyle={{
-            paddingBottom: bottomTabBarHeight * 4 + 200,
+            paddingBottom: bottomTabBarHeight * 2,
           }}
           scrollEnabled={!isSkeletonVisible}
           onScroll={scrollHandler}
@@ -368,15 +369,30 @@ export default function Product() {
                 </YStack>
               </YStack>
             )}
+
+            <View mt={12}>
+              {product && (
+                <Tabs
+                  label="Avaliações e Dúvidas"
+                  tabs={[
+                    {
+                      title: 'Avaliações',
+                      value: 'reviews',
+                      icon: ChatCenteredText,
+                      content: <ProductReviews productId={product.id} />,
+                    },
+                    {
+                      title: 'Dúvidas',
+                      value: 'questions',
+                      icon: Question,
+                      content: <Text>Tab 2</Text>,
+                    },
+                  ]}
+                />
+              )}
+            </View>
           </YStack>
         </Animated.ScrollView>
-        <Tabs
-          label="Avaliações e Dúvidas"
-          tabs={[
-            { title: 'Avaliações', value: 'reviews', content: null },
-            { title: 'Dúvidas', value: 'questions', content: null },
-          ]}
-        />
       </YStack>
       {/* {!isSkeletonVisible && selectedSku && (
         <BottomCartButton

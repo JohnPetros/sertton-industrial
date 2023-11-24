@@ -8,9 +8,6 @@ import { formatPrice } from '@/utils/helpers/formatPrice'
 type Item = Product & { quantity: number; selectedSkuId: number }
 
 interface CartSummaryProps {
-  totalItems: number
-  totalToPay: number
-  totalDiscount: number
   items: Item[]
 }
 
