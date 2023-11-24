@@ -4,14 +4,20 @@
     "module": "ES2020",
     "baseUrl": "./src",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/@types/*": ["./@types/*"],
+      "@/components/*": ["./components/*"],
+      "@/utils/*": ["./utils/*"],
+      "@/services/*": ["./services/*"],
+      "@/app/*": ["./app/*"],
+      "@/stores/*": ["./stores/*"],
+      "@/contexts/*": ["./contexts/*"],
+      "@/hooks/*": ["./hooks/*"],
+      "@/styles/*": ["./styles/*"],
+      "@/assets/*": ["./assets/*"],
+      "@/libs/*": ["./libs/*"],
+      "@/tests/*": ["./tests/*"]
     }
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ],
+  "include" : ["**/*"],
   "extends": "expo/tsconfig.base"
 }
