@@ -9,12 +9,15 @@ import { TamaguiProvider, Text, Theme } from 'tamagui'
 import config from '../../tamagui.config'
 import { StyledSafeAreaView } from '../components/StyledSafeAreaView'
 
+import { dayjsProvider } from '@/libs/dayjs'
+import { mmkvStorage } from '@/libs/mmkv'
+import { initializeDateProvider } from '@/services/date'
 import { initializeStorage } from '@/services/storage'
-import { mmkv } from '@/services/storage/mmkv'
 
 SplashScreen.preventAutoHideAsync()
 
-initializeStorage(mmkv)
+initializeStorage(mmkvStorage)
+initializeDateProvider(dayjsProvider)
 
 export default function Layout() {
   const colorScheme = useColorScheme()

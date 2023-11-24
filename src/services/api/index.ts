@@ -4,8 +4,10 @@ import type { Api } from '@/@types/api'
 import { brandsService } from '@/services/api/brandsService'
 import { categoriesService } from '@/services/api/categoriesService'
 import { collectionsService } from '@/services/api/collectionsService'
+import { commentsService } from '@/services/api/commentsService'
 import { logisticsService } from '@/services/api/logisticsService'
 import { productsService } from '@/services/api/productsService'
+import { reviewsService } from '@/services/api/reviewsService'
 import { skusService } from '@/services/api/skusService'
 import { variationsService } from '@/services/api/variationsService'
 
@@ -20,14 +22,18 @@ const axiosClient = axios.create({
   },
 })
 
+const api = axiosClient as Api
+
 export function useApi() {
   return {
-    ...brandsService(axiosClient as Api),
-    ...categoriesService(axiosClient as Api),
-    ...collectionsService(axiosClient as Api),
-    ...logisticsService(axiosClient as Api),
-    ...productsService(axiosClient as Api),
-    ...variationsService(axiosClient as Api),
-    ...skusService(axiosClient as Api),
+    ...brandsService(api),
+    ...categoriesService(api),
+    ...collectionsService(api),
+    ...logisticsService(api),
+    ...productsService(api),
+    ...variationsService(api),
+    ...skusService(api),
+    ...commentsService(api),
+    ...reviewsService(api),
   }
 }
