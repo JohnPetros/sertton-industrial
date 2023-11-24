@@ -74,7 +74,13 @@ const cartStore: StateCreator<
 
 export const useCartStore = create(
   persist(immer(cartStore), {
+    version: 1,
     name: CART_KEY,
     storage: createJSONStorage(() => cartStorage(mmkvStorage)),
+    partialize: (state) => {
+      return Object.fromEntries(
+        Object.entries(state).filter(([key]) => !['actions'].includes(key))
+      )
+    },
   })
 )

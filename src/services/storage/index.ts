@@ -8,6 +8,10 @@ export function initializeStorage(initialStorage: Storage) {
 }
 
 export function useStorage() {
+  if (!storage) {
+    throw new Error('useStorage must be used with a storage')
+  }
+
   return {
     ...cartStorage(storage),
   }
