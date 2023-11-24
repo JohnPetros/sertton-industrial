@@ -5,7 +5,7 @@ import { STORAGE_ID } from '@/services/storage/keys'
 
 const storage = new MMKV({ id: STORAGE_ID })
 
-export const mmkv: Storage = {
+export const mmkvStorage: Storage = {
   async get(key: string): Promise<string | null> {
     const item = storage.getString(key)
     if (item) item
