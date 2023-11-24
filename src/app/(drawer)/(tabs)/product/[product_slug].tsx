@@ -1,9 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { LayoutChangeEvent } from 'react-native'
-import Animated, {
-  useAnimatedScrollHandler,
-  useSharedValue,
-} from 'react-native-reanimated'
+import Animated, { useAnimatedScrollHandler } from 'react-native-reanimated'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { useFocusEffect, useNavigation, useRouter } from 'expo-router'
 import { useGlobalSearchParams } from 'expo-router/src/hooks'
@@ -23,7 +20,7 @@ import type { Sku } from '@/@types/sku'
 import { BottomCartButton } from '@/components/BottomCartButton'
 import { Button } from '@/components/Button'
 import { Collection } from '@/components/Collection'
-import { FullImage } from '@/components/FullImage'
+import { FullImage, FullImageRef } from '@/components/FullImage'
 import { Header } from '@/components/Header'
 import { KeyboardHandlerView } from '@/components/KeyboardHandlerView'
 import { List } from '@/components/List'
@@ -43,8 +40,8 @@ import { Skeleton } from '@/components/Skeleton'
 import { SkuSelects, SkuSelectsRef } from '@/components/SkuSelects'
 import { Tabs } from '@/components/Tabs'
 import { Timer } from '@/components/Timer'
-import { useDate } from '@/hooks/useDate'
 import { useProduct } from '@/hooks/useProduct'
+import { useDate } from '@/services/date'
 import { useCartStore } from '@/stores/cartStore'
 import { ROUTES } from '@/utils/constants/routes'
 import { SCREEN } from '@/utils/constants/screen'
@@ -57,13 +54,12 @@ export default function Product() {
   const [isLoading, setIsLoading] = useState(true)
   const [quantity, setQuantity] = useState(1)
   const [selectedSku, setSelectedSku] = useState<Sku | null>(null)
-  const [isFullImageVisible, setIsFullImageVisible] = useState(false)
   const skuSelectsRef = useRef<SkuSelectsRef | null>(null)
+  const fullImageRef = useRef<FullImageRef | null>(null)
   const scrollRef = useRef<ScrollView | null>(null)
   const bottomTabBarHeight = useBottomTabBarHeight()
-  const cartButtonYPosition = useSharedValue(0)
 
-  console.log(selectedSku)
+  console.log(selectedSku?.variations[0].name)
 
   const {
     state: { items },
@@ -71,7 +67,8 @@ export default function Product() {
   } = useCartStore()
   const router = useRouter()
   const navigation = useNavigation()
-  const { timeUtilTodayEnd } = useDate()
+  const { calculateTimeUtilTodayEnd } = useDate()
+  const timeUtilTodayEnd = calculateTimeUtilTodayEnd()
 
   const hasVariations = Boolean(
     skuSelectsRef.current?.selectedSku?.variations.length
@@ -79,7 +76,7 @@ export default function Product() {
 
   const item = items.find((item) => item.slug === product?.slug)
   const isInCart = !!item
-  const isSkeletonVisible = !product || isLoading
+  const isSkeletonVisible = !product || isLoading || !selectedSku
 
   function handleSkuChange(sku: Sku) {
     setSelectedSku(sku)
@@ -92,7 +89,7 @@ export default function Product() {
   }
 
   function handleFullImage() {
-    setIsFullImageVisible(!isFullImageVisible)
+    fullImageRef.current?.open()
   }
 
   function handleAddToCart() {
@@ -150,27 +147,21 @@ export default function Product() {
 
   return (
     <KeyboardHandlerView>
-      <YStack>
+      {selectedSku && !isSkeletonVisible && (
+        <FullImage ref={fullImageRef} data={selectedSku.images.data} />
+      )}
+      <YStack zIndex={-100}>
         <View px={SCREEN.paddingX}>
           <Header />
           <Search />
         </View>
 
-        {selectedSku && !isSkeletonVisible && (
-          <FullImage
-            isVisible={isFullImageVisible}
-            data={selectedSku.images.data}
-            close={() => setIsFullImageVisible(false)}
-          />
-        )}
-
-        <Animated.ScrollView
+        <ScrollView
           ref={(ref) => (scrollRef.current = ref)}
           contentContainerStyle={{
             paddingBottom: bottomTabBarHeight * 2,
           }}
           scrollEnabled={!isSkeletonVisible}
-          onScroll={scrollHandler}
         >
           <Skeleton
             isVisible={isSkeletonVisible}
@@ -370,7 +361,7 @@ export default function Product() {
               </YStack>
             )}
 
-            <View mt={12}>
+            <View mt={48}>
               {product && (
                 <Tabs
                   label="Avaliações e Dúvidas"
@@ -379,12 +370,14 @@ export default function Product() {
                       title: 'Avaliações',
                       value: 'reviews',
                       icon: ChatCenteredText,
+                      size: 1200,
                       content: <ProductReviews productId={product.id} />,
                     },
                     {
                       title: 'Dúvidas',
                       value: 'questions',
                       icon: Question,
+                      size: 200,
                       content: <Text>Tab 2</Text>,
                     },
                   ]}
@@ -392,7 +385,7 @@ export default function Product() {
               )}
             </View>
           </YStack>
-        </Animated.ScrollView>
+        </ScrollView>
       </YStack>
       {/* {!isSkeletonVisible && selectedSku && (
         <BottomCartButton

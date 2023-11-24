@@ -7,7 +7,11 @@ interface KeyboardHandlerViewProps {
 
 export function KeyboardHandlerView({ children }: KeyboardHandlerViewProps) {
   return (
-    <KeyboardAvoidingView behavior="position" enabled>
+    <KeyboardAvoidingView
+      behavior="position"
+      enabled
+      style={{ position: 'relative' }}
+    >
       {children}
     </KeyboardAvoidingView>
   )

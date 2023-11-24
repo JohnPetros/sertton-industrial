@@ -1,4 +1,10 @@
-import { useEffect } from 'react'
+import {
+  ForwardedRef,
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from 'react'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -15,18 +21,40 @@ import { SCREEN } from '@/utils/constants/screen'
 const AnimatedView = Animated.createAnimatedComponent(View)
 const ANIMATION_DURATION = 400
 
-interface FullImageProps {
-  data: ProductImageData[]
-  isVisible: boolean
+export type FullImageRef = {
+  open: () => void
   close: () => void
 }
+interface FullImageProps {
+  data: ProductImageData[]
+}
 
-export function FullImage({ data, isVisible, close }: FullImageProps) {
+export const FullImageComponent = (
+  { data }: FullImageProps,
+  ref: ForwardedRef<FullImageRef>
+) => {
+  const [isVisible, setIsVisible] = useState(false)
+
   const positionX = useSharedValue(SCREEN.width)
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [{ translateX: positionX.value }],
+    }
+  })
+
+  function open() {
+    setIsVisible(true)
+  }
+
+  function close() {
+    setIsVisible(false)
+  }
+
+  useImperativeHandle(ref, () => {
+    return {
+      open,
+      close,
     }
   })
 
@@ -47,11 +75,18 @@ export function FullImage({ data, isVisible, close }: FullImageProps) {
       right={0}
       bottom={0}
       position="absolute"
-      zIndex={200}
+      zIndex={100}
+      justifyContent="center"
+      alignItems="center"
       bg="$gray900"
       style={animatedStyle}
     >
-      <YStack position="relative" flex={1} justifyContent="center">
+      <YStack
+        flex={1}
+        position="relative"
+        zIndex={1000}
+        justifyContent="center"
+      >
         <Button
           position="absolute"
           top={24}
@@ -61,8 +96,12 @@ export function FullImage({ data, isVisible, close }: FullImageProps) {
         >
           <X size={40} color={getTokens().color.white.val} />
         </Button>
-        <Image data={data} size="xLarge" width={SCREEN.width} height={300} />
+        <View mt={-100}>
+          <Image data={data} size="xLarge" width={SCREEN.width} height={300} />
+        </View>
       </YStack>
     </AnimatedView>
   )
 }
+
+export const FullImage = forwardRef(FullImageComponent)
