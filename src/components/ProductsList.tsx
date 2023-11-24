@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { FlatList, View as ListContainer } from 'react-native'
+import { RefreshControl } from 'react-native-gesture-handler'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { FlashList } from '@shopify/flash-list'
 import {
@@ -36,11 +37,13 @@ interface ProductsListProps {
   hasNextPage: boolean
   setSelectedSorter: (sorter: Sorter | null) => void
   onEndReached: () => void
+  onRefresh: () => void
 }
 
 export function ProductsList({
   products,
   isLoading,
+  onRefresh,
   hasNextPage,
   setSelectedSorter,
   onEndReached,
@@ -49,8 +52,7 @@ export function ProductsList({
   const isFetching = useRef(false)
   const totalProducts = useRef(0)
   const bottomTabBarHeight = useBottomTabBarHeight()
-
-  console.log({ hasNextPage })
+  const data = products.slice(0)
 
   const productWidth =
     layout === 'list'
@@ -167,9 +169,16 @@ export function ProductsList({
       ) : (
         <ListContainer style={{ height: 1000 }}>
           <FlashList
-            data={products}
+            data={data}
             keyExtractor={(item) => String(item.id)}
             extraData={layout}
+            refreshControl={
+              <RefreshControl
+                refreshing={isLoading}
+                onRefresh={onRefresh}
+                colors={[getTokens().color.blue400.val]}
+              />
+            }
             renderItem={renderItem}
             showsVerticalScrollIndicator={false}
             onEndReachedThreshold={0.6}
@@ -190,6 +199,7 @@ export function ProductsList({
                 />
               </View>
             }
+            scrollEnabled={!isLoading}
             contentContainerStyle={{
               paddingBottom: bottomTabBarHeight * 4 + 200,
             }}

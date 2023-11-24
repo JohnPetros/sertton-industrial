@@ -24,12 +24,13 @@ export default function Products() {
 
   const [selectedSorter, setSelectedSorter] = useState<Sorter | null>(null)
   const { category } = useCatogory(categoryId)
-  const { products, isLoading, hasNextPage, fetchNextPage } = useProducts({
-    search,
-    categoryId,
-    sorter: selectedSorter,
-    brandsIds,
-  })
+  const { products, isLoading, hasNextPage, fetchNextPage, refetch } =
+    useProducts({
+      search,
+      categoryId,
+      sorter: selectedSorter,
+      brandsIds,
+    })
 
   console.log(isLoading)
 
@@ -58,6 +59,7 @@ export default function Products() {
         products={products}
         isLoading={isLoading}
         hasNextPage={hasNextPage}
+        onRefresh={refetch}
         setSelectedSorter={setSelectedSorter}
         onEndReached={handleProductsListEndReached}
       />

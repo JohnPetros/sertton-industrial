@@ -24,7 +24,7 @@ export function useProducts({
   const currentPage = useRef(0)
   const hasNextPage = useRef(true)
 
-  const { data, error, isLoading, fetchNextPage } = useInfiniteQuery(
+  const { data, error, isLoading, fetchNextPage, refetch } = useInfiniteQuery(
     ['products', sorter, search, categoryId, brandsIds],
     ({ pageParam = 1 }) => {
       currentPage.current = pageParam
@@ -64,6 +64,7 @@ export function useProducts({
     error,
     isLoading,
     fetchNextPage,
+    refetch,
     hasNextPage: products.length > 0 && hasNextPage.current,
   }
 }
