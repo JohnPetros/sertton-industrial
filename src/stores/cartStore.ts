@@ -3,9 +3,9 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
 import type { CartItem } from '@/@types/cartItem'
+import { mmkvStorage } from '@/libs/mmkv'
 import { cartStorage } from '@/services/storage/cartStorage'
 import { CART_KEY } from '@/services/storage/keys'
-import { mmkv } from '@/services/storage/mmkv'
 
 export type CartStoreState = {
   items: CartItem[]
@@ -75,6 +75,6 @@ const cartStore: StateCreator<
 export const useCartStore = create(
   persist(immer(cartStore), {
     name: CART_KEY,
-    storage: createJSONStorage(() => cartStorage(mmkv)),
+    storage: createJSONStorage(() => cartStorage(mmkvStorage)),
   })
 )
