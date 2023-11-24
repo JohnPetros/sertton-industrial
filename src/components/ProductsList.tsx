@@ -49,9 +49,8 @@ export function ProductsList({
   const isFetching = useRef(false)
   const totalProducts = useRef(0)
   const bottomTabBarHeight = useBottomTabBarHeight()
-  const page = products.length / 20
 
-  console.log('isFetching')
+  console.log({ hasNextPage })
 
   const productWidth =
     layout === 'list'
@@ -60,7 +59,6 @@ export function ProductsList({
 
   const renderItem = useCallback(
     ({ item, index }: { item: Product; index: number }) => {
-      console.log({ layout })
       return (
         <View mb={32} pl={layout === 'mosaic' && index % 2 !== 0 ? 24 : 0}>
           <ProductItem
@@ -85,7 +83,6 @@ export function ProductsList({
   }
 
   function handleListEndReached() {
-    console.log(isFetching.current)
     if (!isFetching.current) {
       isFetching.current = true
       onEndReached()
@@ -170,34 +167,19 @@ export function ProductsList({
       ) : (
         <ListContainer style={{ height: 1000 }}>
           <FlashList
-            key={`products-list-${page}`}
             data={products}
             keyExtractor={(item) => String(item.id)}
             extraData={layout}
-            renderItem={({ item }) => {
-              console.log({ layout })
-              return (
-                <View mb={32}>
-                  <ProductItem
-                    data={item}
-                    isLoading={false}
-                    isColumn={layout === 'mosaic'}
-                    width={productWidth}
-                  />
-                </View>
-              )
-            }}
+            renderItem={renderItem}
             showsVerticalScrollIndicator={false}
             onEndReachedThreshold={0.6}
             numColumns={layout === 'mosaic' ? 2 : 1}
             onEndReached={handleListEndReached}
-            estimatedItemSize={200}
+            estimatedItemSize={PRODUCT_ITEM_HEIGHT + LIST_GAP_BETWEEN_ITEMS}
             ListFooterComponent={
-              hasNextPage ? (
-                <View mt={-48}>
-                  <Loading size={150} message="carregando..." />
-                </View>
-              ) : null
+              <View mt={-64}>
+                <Loading size={150} message="carregando mais produtos..." />
+              </View>
             }
             ListEmptyComponent={
               <View h={SCREEN.height / 2}>
@@ -208,7 +190,9 @@ export function ProductsList({
                 />
               </View>
             }
-            contentContainerStyle={{ paddingBottom: bottomTabBarHeight }}
+            contentContainerStyle={{
+              paddingBottom: bottomTabBarHeight * 4 + 200,
+            }}
           />
         </ListContainer>
       )}

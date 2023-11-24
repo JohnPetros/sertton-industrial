@@ -24,13 +24,14 @@ export default function Products() {
 
   const [selectedSorter, setSelectedSorter] = useState<Sorter | null>(null)
   const { category } = useCatogory(categoryId)
-  const { products, error, isLoading, hasNextPage, fetchNextPage } =
-    useProducts({
-      search,
-      categoryId,
-      sorter: selectedSorter,
-      brandsIds,
-    })
+  const { products, isLoading, hasNextPage, fetchNextPage } = useProducts({
+    search,
+    categoryId,
+    sorter: selectedSorter,
+    brandsIds,
+  })
+
+  console.log(isLoading)
 
   function handleProductsListEndReached() {
     fetchNextPage()
