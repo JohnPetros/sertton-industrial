@@ -8,4 +8,6 @@ export enum Endpoints {
   SHIPPING_COST = 'shipping-costs',
   BRAND = 'brands',
   SIMILAR = 'similars',
+  COMMENT = 'comments',
+  REVIEW = 'reviews',
 }
