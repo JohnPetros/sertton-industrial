@@ -1,4 +1,5 @@
 import { Api } from '@/@types/api'
+import { Comment } from '@/@types/comment'
 import { Product } from '@/@types/product'
 import { Endpoints } from '@/services/api/endpoints'
 import { IProductsService } from '@/services/api/interfaces/IProductsService'
