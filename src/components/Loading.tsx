@@ -22,7 +22,7 @@ export function Loading({ message, size = 80 }: LoadingProps) {
         autoPlay
         source={Truck}
       />
-      <Text mt={-24} color="$blue200" fontSize={16} fontWeight="600">
+      <Text mt={-48} color="$blue300" fontSize={16} fontWeight="600">
         {message}
       </Text>
     </YStack>
