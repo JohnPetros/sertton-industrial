@@ -25,6 +25,6 @@ export const dayjsProvider: DateProvider = {
   },
 
   formatDate(date: string) {
-    return dayjs(date).format('dd/mm/yy')
+    return dayjs(date).format('DD/MM/YYYY')
   },
 }
