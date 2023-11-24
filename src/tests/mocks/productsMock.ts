@@ -32,11 +32,22 @@ export const productsMock: Product[] = [
             height: 800,
             url: 'http://example.com/large_image_1.jpg',
           },
+          xLarge: {
+            width: 1000,
+            height: 1000,
+            url: 'http://example.com/large_image_1.jpg',
+          },
         },
       ],
     },
     skus: {
       data: skusMock,
+    },
+    texts: {
+      data: {
+        description: 'mock description',
+        specifications: 'mock specifications',
+      },
     },
     brand: {
       data: brandsMock[0],
@@ -56,6 +67,7 @@ export const productsMock: Product[] = [
             height: 120,
             url: 'http://example.com/small_image_2.jpg',
           },
+
           thumb: {
             width: 60,
             height: 60,
@@ -71,11 +83,22 @@ export const productsMock: Product[] = [
             height: 1000,
             url: 'http://example.com/large_image_2.jpg',
           },
+          xLarge: {
+            width: 1000,
+            height: 10000,
+            url: 'http://example.com/large_image_2.jpg',
+          },
         },
       ],
     },
     skus: {
       data: skusMock,
+    },
+    texts: {
+      data: {
+        description: 'mock description',
+        specifications: 'mock specifications',
+      },
     },
     brand: {
       data: brandsMock[1],
@@ -95,6 +118,7 @@ export const productsMock: Product[] = [
             height: 90,
             url: 'http://example.com/small_image_3.jpg',
           },
+
           thumb: {
             width: 45,
             height: 45,
@@ -110,11 +134,22 @@ export const productsMock: Product[] = [
             height: 900,
             url: 'http://example.com/large_image_3.jpg',
           },
+          xLarge: {
+            width: 1000,
+            height: 1000,
+            url: 'http://example.com/large_image_3.jpg',
+          },
         },
       ],
     },
     skus: {
       data: skusMock,
+    },
+    texts: {
+      data: {
+        description: 'mock description',
+        specifications: 'mock specifications',
+      },
     },
     brand: {
       data: brandsMock[2],
@@ -134,6 +169,7 @@ export const productsMock: Product[] = [
             height: 90,
             url: 'http://example.com/small_image_4.jpg',
           },
+
           thumb: {
             width: 45,
             height: 45,
@@ -149,11 +185,22 @@ export const productsMock: Product[] = [
             height: 900,
             url: 'http://example.com/large_image_4.jpg',
           },
+          xLarge: {
+            width: 1000,
+            height: 1000,
+            url: 'http://example.com/large_image_4.jpg',
+          },
         },
       ],
     },
     skus: {
       data: skusMock,
+    },
+    texts: {
+      data: {
+        description: 'mock description',
+        specifications: 'mock specifications',
+      },
     },
     brand: {
       data: brandsMock[2],
@@ -173,6 +220,7 @@ export const productsMock: Product[] = [
             height: 90,
             url: 'http://example.com/small_image_5.jpg',
           },
+
           thumb: {
             width: 45,
             height: 45,
@@ -188,11 +236,22 @@ export const productsMock: Product[] = [
             height: 900,
             url: 'http://example.com/large_image_5.jpg',
           },
+          xLarge: {
+            width: 1000,
+            height: 1000,
+            url: 'http://example.com/large_image_5.jpg',
+          },
         },
       ],
     },
     skus: {
       data: skusMock,
+    },
+    texts: {
+      data: {
+        description: 'mock description',
+        specifications: 'mock specifications',
+      },
     },
     brand: {
       data: brandsMock[2],
