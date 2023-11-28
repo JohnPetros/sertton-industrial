@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 import type { Api } from '@/@types/api'
 import { brandsService } from '@/services/api/brandsService'
 import { categoriesService } from '@/services/api/categoriesService'
@@ -11,20 +9,17 @@ import { reviewsService } from '@/services/api/reviewsService'
 import { skusService } from '@/services/api/skusService'
 import { variationsService } from '@/services/api/variationsService'
 
-const BASE_URL = process.env.YAMPI_BASE_URL
-const ALIAS = process.env.ALIAS
+let api: Api
 
-const axiosClient = axios.create({
-  baseURL: `${BASE_URL}/${ALIAS}`,
-  headers: {
-    'User-Token': process.env.YAMPI_TOKEN,
-    'User-Secret-Key': process.env.YAMPI_SECRET_KEY,
-  },
-})
-
-const api = axiosClient as Api
+export function initializeApi(initialApi: Api) {
+  api = initialApi
+}
 
 export function useApi() {
+  if (!api) {
+    throw new Error('useApi must be used with a api instance')
+  }
+
   return {
     ...brandsService(api),
     ...categoriesService(api),

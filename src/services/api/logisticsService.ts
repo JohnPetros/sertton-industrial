@@ -16,8 +16,8 @@ export function logisticsService(api: Api): ILogisticsService {
       total,
     }: CalculateShippingCostsRequest) {
       const response = await api.post<
-        ShippingCosts,
-        CalculateShippingCostsRequest
+        CalculateShippingCostsRequest,
+        ShippingCosts
       >(`/${Resources.LOGISTICS}/${Endpoints.SHIPPING_COST}`, {
         zipcode,
         quantities,
@@ -25,8 +25,7 @@ export function logisticsService(api: Api): ILogisticsService {
         total,
       })
 
-      const { data } = response.data
-      return data
+      return response.data
     },
   }
 }

@@ -1,6 +1,5 @@
-import { Api } from '@/@types/api'
-import { Comment } from '@/@types/comment'
-import { Product } from '@/@types/product'
+import type { Api } from '@/@types/api'
+import type { Product } from '@/@types/product'
 import { Endpoints } from '@/services/api/endpoints'
 import { IProductsService } from '@/services/api/interfaces/IProductsService'
 import { Resources } from '@/services/api/resources'
@@ -23,7 +22,7 @@ export function productsService(api: Api): IProductsService {
       const response = await api.get<Product[]>(
         `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand${searchParam}${sorterParam}${categoryParam}${brandsIdsParam}&page=${page}&limit=20`
       )
-      const { data, meta } = response.data
+      const { data, meta } = response
       return {
         products: data,
         totalPages: meta.pagination.total_pages,
@@ -34,9 +33,7 @@ export function productsService(api: Api): IProductsService {
       const response = await api.get<Product[]>(
         `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand&collection_id[]=${collectionId}`
       )
-      const { data } = response.data
-
-      return data
+      return response.data
     },
 
     async getProductBySlug(slug: string) {
@@ -44,8 +41,7 @@ export function productsService(api: Api): IProductsService {
         `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand,texts&search=${slug}&searchFields=slug`
       )
 
-      const { data } = response.data
-      return data[0]
+      return response.data[0]
     },
 
     async getSimiliarProducts(id: string) {
@@ -53,8 +49,7 @@ export function productsService(api: Api): IProductsService {
         `/${Resources.CATALOG}/${Endpoints.PRODUCT}/${id}/${Endpoints.SIMILAR}?include=images,skus,brand,`
       )
 
-      const { data } = response.data
-      return data
+      return response.data
     },
   }
 }

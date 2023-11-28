@@ -11,16 +11,14 @@ export function categoriesService(api: Api): ICategoriesService {
         `/${Resources.CATALOG}/${Endpoints.CATEGORY}`
       )
 
-      const { data } = response.data
-      return data
+      return response.data
     },
 
     async getCategory(categoryId: number) {
       const response = await api.get<Category>(
         `/${Resources.CATALOG}/${Endpoints.CATEGORY}/${categoryId}`
       )
-      const { data } = response.data
-      return data
+      return response.data
     },
   }
 }

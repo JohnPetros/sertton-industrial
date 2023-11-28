@@ -10,8 +10,7 @@ export function collectionsService(api: Api): ICollectionsService {
       const response = await api.get<Collection[]>(
         `/${Resources.CATALOG}/${Endpoints.COLLECTION}?include=prods`
       )
-      const { data } = response.data
-      return data
+      return response.data
     },
   }
 }

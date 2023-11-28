@@ -10,8 +10,7 @@ export function skusService(api: Api): ISkusService {
       const response = await api.get<Sku[]>(
         `/${Resources.CATALOG}/${Endpoints.PRODUCT}/${productId}/${Endpoints.SKU}?include=images`
       )
-      const { data } = response.data
-      return data
+      return response.data
     },
   }
 }

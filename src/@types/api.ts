@@ -1,5 +1,3 @@
-import { AxiosResponse } from 'axios'
-
 type Meta = {
   pagination: {
     total: number
@@ -10,11 +8,15 @@ type Meta = {
   }
 }
 
-type Response<T> = Promise<AxiosResponse<{ data: T; meta: Meta }>>
-
 export type Api = {
-  get: <T>(url: string) => Response<T>
-  post: <T, Request>(url: string, request: Request) => Response<T>
-  put: <T, Request>(url: string, request: Request) => Response<T>
-  delete: <T, Request>(url: string, request: Request) => Response<T>
+  get: <Response>(url: string) => Promise<{ data: Response; meta: Meta }>
+  post: <Request, Response>(
+    url: string,
+    request: Request
+  ) => Promise<{ data: Response }>
+  put: <Request>(url: string, request: Request) => Promise<{ data: Response }>
+  delete: <Request, Response>(
+    url: string,
+    request: Request
+  ) => Promise<{ data: Response }>
 }

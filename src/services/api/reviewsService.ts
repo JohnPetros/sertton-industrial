@@ -11,8 +11,14 @@ export function reviewsService(api: Api): IReviewsService {
         `/${Resources.CATALOG}/${Endpoints.PRODUCT}/${productId}/${Endpoints.REVIEW}`
       )
 
-      const { data } = response.data
-      return data
+      return response.data
+    },
+
+    async postProductReview(review: Omit<Review, 'updated_at'>) {
+      await api.post(
+        `/${Resources.CATALOG}/${Endpoints.PRODUCT}/${review.product_id}/${Endpoints.REVIEW}`,
+        review
+      )
     },
   }
 }

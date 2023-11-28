@@ -11,8 +11,7 @@ export function commentsService(api: Api): ICommentsService {
         `/${Resources.CATALOG}/${Endpoints.PRODUCT}/${Endpoints.COMMENT}/`
       )
 
-      const { data } = response.data
-      return data
+      return response.data
     },
   }
 }

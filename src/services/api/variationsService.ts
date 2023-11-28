@@ -10,8 +10,7 @@ export function variationsService(api: Api): IVariationsService {
       const response = await api.get<Variation[]>(
         `/${Resources.CATALOG}/${Endpoints.VARIATION}`
       )
-      const { data } = response.data
-      return data
+      return response.data
     },
   }
 }
