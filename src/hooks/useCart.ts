@@ -24,7 +24,7 @@ export function useCart() {
   }
 
   const { data, error, isLoading } = useQuery(
-    ['cart-products'],
+    ['cart-products', items],
     getCartProducts
   )
 
