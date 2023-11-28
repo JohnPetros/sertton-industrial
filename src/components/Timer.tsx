@@ -48,7 +48,7 @@ export function Timer({
   })
 
   useEffect(() => {
-    if (timerSeconds === 0) return
+    if (timerSeconds === -1) return
 
     const timer = setTimeout(() => {
       hours.value = Math.floor(timerSeconds / 60 / 60)
