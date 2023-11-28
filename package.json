@@ -17,6 +17,7 @@
     "husky": "husky install"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.2",
     "@react-navigation/drawer": "^6.6.6",
     "@shopify/flash-list": "1.4.3",
     "@tamagui/animations-react-native": "^1.61.3",
@@ -41,6 +42,7 @@
     "phosphor-react-native": "^2.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.48.2",
     "react-native": "0.72.6",
     "react-native-gesture-handler": "~2.12.0",
     "react-native-mask-text": "^0.14.2",
@@ -51,8 +53,10 @@
     "react-native-screens": "~3.22.0",
     "react-native-shimmer-placeholder": "^2.0.9",
     "react-native-svg": "13.9.0",
+    "react-native-virtualized-view": "^1.0.0",
     "react-query": "^3.39.3",
     "tamagui": "^1.61.3",
+    "zod": "^3.22.4",
     "zustand": "^4.4.6"
   },
   "devDependencies": {
