@@ -7,35 +7,46 @@ export const Icon = styled(Button, {
   disabled: true,
   bg: '$gray100',
 
+  pressStyle: {
+    opacity: 1,
+  },
+
   variants: {
     state: {
       default: {
         color: '$gray900',
       },
-      focus: {
-        focusStyle: {
-          color: '$gray400',
-          borderBottomColor: '$blue400',
-        },
-      },
       success: {
-        bg: '$green50',
+        bg: '$green100',
         color: '$green900',
-        focusStyle: {
-          borderBottomColor: '$green500',
-        },
       },
       error: {
         bg: '$red100',
         color: '$red400',
-        focusStyle: {
-          borderBottomColor: '$red500',
-        },
+      },
+      disabled: {
+        bg: '$gray200',
+      },
+    },
+
+    focus: {
+      inactive: {
+        borderBottomColor: '$gray100',
+      },
+      default: {
+        borderBottomColor: '$blue600',
+      },
+      success: {
+        borderBottomColor: '$green500',
+      },
+      error: {
+        borderBottomColor: '$red500',
       },
     },
   } as const,
 
   defaultVariants: {
     state: 'default',
+    focus: 'inactive',
   },
 })
