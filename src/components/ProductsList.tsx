@@ -16,9 +16,9 @@ import type { Product } from '@/@types/product'
 import type { Sorter } from '@/@types/sorter'
 import { EmptyItemsMessage } from '@/components/EmptyItemsMessage'
 import { FiltersDialog } from '@/components/FiltersDialog'
+import { Select } from '@/components/Form/Select'
 import { Loading } from '@/components/Loading'
 import { ProductItem } from '@/components/ProductItem'
-import { Select } from '@/components/Select'
 import { productsMock } from '@/tests/mocks/productsMock'
 import { SCREEN } from '@/utils/constants/screen'
 import { SORTERS } from '@/utils/constants/sorters'
@@ -186,9 +186,11 @@ export function ProductsList({
             onEndReached={handleListEndReached}
             estimatedItemSize={PRODUCT_ITEM_HEIGHT + LIST_GAP_BETWEEN_ITEMS}
             ListFooterComponent={
-              <View mt={-64}>
-                <Loading size={150} message="carregando mais produtos..." />
-              </View>
+              hasNextPage ? (
+                <View mt={-64}>
+                  <Loading size={150} message="carregando mais produtos..." />
+                </View>
+              ) : null
             }
             ListEmptyComponent={
               <View h={SCREEN.height / 2}>

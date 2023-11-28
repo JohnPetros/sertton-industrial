@@ -9,7 +9,7 @@ import {
 import { Spinner } from 'tamagui'
 
 import type { Sku } from '@/@types/sku'
-import { Select, SelectRef } from '@/components/Select'
+import { Select, SelectRef } from '@/components/Form/Select'
 import { useSkus } from '@/hooks/useSkus'
 
 export type SkuSelectsRef = {
@@ -19,11 +19,12 @@ export type SkuSelectsRef = {
 
 interface SkuSelectsProps {
   productId: number
+  isDisabled?: boolean
   onSkuChange?: (sku: Sku) => void
 }
 
 export const SkuSelectsComponent = (
-  { productId, onSkuChange }: SkuSelectsProps,
+  { productId, isDisabled, onSkuChange }: SkuSelectsProps,
   ref: ForwardedRef<SkuSelectsRef>
 ) => {
   const {
@@ -37,7 +38,7 @@ export const SkuSelectsComponent = (
     getVariationValuesByVariationName,
   } = useSkus(productId)
   const selectRefs = useRef<SelectRef[]>([])
-  const hasErrors = selectedVariationsValues.length !== variationNames.length
+
   const [errors, setErrors] = useState<boolean[]>([])
   const [isLoading, setIsloading] = useState(true)
 
@@ -68,10 +69,14 @@ export const SkuSelectsComponent = (
       }
     }
 
+    const hasErrors = selectedVariationsValues.length !== variationNames.length
+
     if (!hasErrors) setErrors(fillArray<boolean>(false, variationNames.length))
   }
 
   function onAddSkuToCart() {
+    const hasErrors = selectedVariationsValues.length !== variationNames.length
+
     if (hasErrors) {
       const errors: boolean[] = []
 
@@ -89,22 +94,29 @@ export const SkuSelectsComponent = (
     return true
   }
 
-  useImperativeHandle(ref, () => {
-    return {
-      selectedSku,
-      onAddSkuToCart,
-    }
-  })
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        selectedSku,
+        onAddSkuToCart,
+      }
+    },
+    [selectedVariationsValues, selectedSku]
+  )
 
   useEffect(() => {
-    if (skus) setSkusVariations(skus)
+    if (skus) {
+      setSkusVariations(skus)
+      if (selectRefs.current.length) selectRefs.current[0].reset()
+    }
   }, [skus])
 
   useEffect(() => {
-    if (skus && onSkuChange) {
+    if (productId && skus && onSkuChange) {
       onSkuChange(selectedSku ?? skus[0])
     }
-  }, [skus, selectedSku, onSkuChange])
+  }, [productId, skus, selectedSku, onSkuChange])
 
   useEffect(() => {
     if (isLoading) setIsloading(false)
@@ -132,7 +144,7 @@ export const SkuSelectsComponent = (
             onChange={(variationChange) =>
               handleSelectChange(index, variationChange)
             }
-            isDisable={!hasValues}
+            isDisable={!hasValues || isDisabled}
             hasError={errors[index]}
           />
         )
