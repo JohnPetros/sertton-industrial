@@ -9,8 +9,10 @@ import { TamaguiProvider, Text, Theme } from 'tamagui'
 import config from '../../tamagui.config'
 import { StyledSafeAreaView } from '../components/StyledSafeAreaView'
 
+import { axiosApi } from '@/libs/axios'
 import { dayjsProvider } from '@/libs/dayjs'
 import { mmkvStorage } from '@/libs/mmkv'
+import { initializeApi } from '@/services/api'
 import { initializeDateProvider } from '@/services/date'
 import { initializeStorage } from '@/services/storage'
 
@@ -18,6 +20,7 @@ SplashScreen.preventAutoHideAsync()
 
 initializeStorage(mmkvStorage)
 initializeDateProvider(dayjsProvider)
+initializeApi(axiosApi)
 
 export default function Layout() {
   const colorScheme = useColorScheme()
