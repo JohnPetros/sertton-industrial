@@ -1,6 +1,9 @@
+import { ScrollView } from 'react-native-virtualized-view'
 import { Clock, Lock } from 'phosphor-react-native'
 import { getTokens, Text, XStack, YStack } from 'tamagui'
 
+import { CartItems } from '@/components/CartItems'
+import { CheckoutForm } from '@/components/CheckoutForm'
 import { Logo } from '@/components/Logo'
 import { Step } from '@/components/Step'
 import { Timer } from '@/components/Timer'
@@ -11,7 +14,7 @@ const STEP_WIDTH = (SCREEN.width - SCREEN.paddingX * 2) / 3 - STEP_GAP
 
 export default function checkout() {
   return (
-    <YStack>
+    <YStack pb={24}>
       <XStack py={12} px={SCREEN.paddingX} justifyContent="space-between">
         <Logo />
         <XStack gap={8} alignItems="center">
@@ -70,6 +73,13 @@ export default function checkout() {
           label="Pagamento"
         />
       </XStack>
+
+      <ScrollView style={{ marginTop: 12 }}>
+        <YStack px={SCREEN.paddingX}>
+          <CartItems />
+        </YStack>
+        <CheckoutForm />
+      </ScrollView>
     </YStack>
   )
 }
