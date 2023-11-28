@@ -29,6 +29,9 @@ export const Field = styled(Input, {
           borderBottomColor: '$red500',
         },
       },
+      disabled: {
+        bg: '$gray200',
+      },
     },
   } as const,
 
