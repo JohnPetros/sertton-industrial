@@ -1,9 +1,10 @@
 import { DrawerActions, useNavigation } from '@react-navigation/native'
 import { Link } from 'expo-router'
 import { ListBullets } from 'phosphor-react-native'
-import { getTokens, Image, XStack } from 'tamagui'
+import { getTokens, XStack } from 'tamagui'
 
 import { Button } from '@/components/Button'
+import { Logo } from '@/components/Logo'
 
 export function Header() {
   const navigation = useNavigation()
@@ -22,12 +23,8 @@ export function Header() {
       >
         <ListBullets color={getTokens().color.blue800.val} />
       </Button>
-      <Link href="/(drawer)/(tabs)/home" asChild>
-        <Image
-          source={require('@/assets/images/sertton-logo.png')}
-          w={96}
-          h={40}
-        />
+      <Link href="/(drawer)/(tabs)/home">
+        <Logo />
       </Link>
     </XStack>
   )
