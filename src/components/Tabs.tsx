@@ -21,6 +21,7 @@ const TAB_LIST_GAP = 8
 type Tab = {
   title: string
   value: string
+  size: number
   icon: Icon
   content: ReactNode
 }
@@ -28,12 +29,14 @@ type Tab = {
 interface TabsProps {
   label: string
   tabs: Tab[]
+  width?: number
 }
 
-export function Tabs({ label, tabs }: TabsProps) {
+export function Tabs({ label, tabs, width }: TabsProps) {
   const [activeTab, setActiveTab] = useState(tabs[0].value)
   const tabIndicatorPositionX = useSharedValue(-75)
   const tabsPositionsX = useRef<number[]>([])
+  const containerSize = tabs.find((tab) => activeTab === tab.value)?.size ?? 300
 
   const tabIndicatorAnimatedStyle = useAnimatedStyle(() => {
     return {
@@ -60,8 +63,9 @@ export function Tabs({ label, tabs }: TabsProps) {
 
   return (
     <T
-      w={SCREEN.width - SCREEN.paddingX * 2}
-      h={1200}
+      // w={SCREEN.width - SCREEN.paddingX * 2}
+      w={width}
+      h={containerSize}
       defaultValue={tabs[0].value}
       flexDirection="column"
     >
