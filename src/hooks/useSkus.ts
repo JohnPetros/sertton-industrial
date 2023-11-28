@@ -3,6 +3,7 @@ import { useQuery } from 'react-query'
 
 import type { Sku } from '@/@types/sku'
 import type { Variation } from '@/@types/variation'
+import { useRefetchOnFocus } from '@/hooks/useRefetchOnFocus'
 import { useApi } from '@/services/api'
 import { removeObjectFromArray } from '@/utils/helpers/removeObjectFromArray'
 
@@ -13,13 +14,14 @@ export function useSkus(productId: number) {
   const selectedVariationsValues = useRef<string[]>([])
   const api = useApi()
 
-  const { data: skus } = useQuery(
+  const { data: skus, refetch } = useQuery(
     [`skus?product_id=${productId}`, productId],
     () => api.getSkusByProductId(productId),
     {
       enabled: !!productId,
     }
   )
+  useRefetchOnFocus({ refetch })
 
   function getVariationValuesByVariationName(variationName: string) {
     return (
@@ -139,6 +141,9 @@ export function useSkus(productId: number) {
   }
 
   function setSkusVariations(skus: Sku[]) {
+    selectedVariationsValues.current = []
+    variationNames.current = []
+
     const allVariations = getAllVariations()
 
     if (!allVariations) return
