@@ -27,24 +27,22 @@ export function ProductCartItem({
   width,
   isLoading,
 }: ProductCartItemProps) {
-  const [quantityValue, setQuantityValue] = useState(quantity)
   const [selectedSku, setSelectedSku] = useState<Sku | null>(null)
 
-  const { removeItem, setItemQuantity } = useCartStore((store) => store.actions)
+  const removeItem = useCartStore((store) => store.actions.removeItem)
+  const setItemQuantity = useCartStore((store) => store.actions.setItemQuantity)
 
   const isSKeletonVisible = isLoading || !selectedSku
 
   const halfWidth = (width - 12) / 2
   const hasVariations = Boolean(selectedSku?.variations.length)
 
-  function handleRemoveItem() {
-    if (selectedSku) removeItem(selectedSku.id)
+  function handleQuantityChange(newQuantity: number) {
+    if (selectedSku) setItemQuantity(selectedSku.id, newQuantity)
   }
 
-  function handleQuantityChange(quantity: number) {
-    setQuantityValue(quantity)
-
-    if (selectedSku) setItemQuantity(selectedSku.id, quantity)
+  function handleRemoveItem() {
+    if (selectedSku) removeItem(selectedSku.id)
   }
 
   function selectSku() {
@@ -91,7 +89,7 @@ export function ProductCartItem({
         <Skeleton height={40} isVisible={isSKeletonVisible}>
           <NumberInput
             label="Quantidade do produto"
-            number={quantityValue}
+            number={quantity}
             onChangeNumber={handleQuantityChange}
           />
         </Skeleton>

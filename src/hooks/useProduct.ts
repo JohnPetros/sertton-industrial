@@ -21,6 +21,7 @@ export function useProduct(slug: string) {
       enabled: !!product?.id,
     }
   )
+
   useRefetchOnFocus({ refetch })
 
   return {

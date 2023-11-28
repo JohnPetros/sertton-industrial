@@ -21,6 +21,7 @@ export function useSkus(productId: number) {
       enabled: !!productId,
     }
   )
+
   useRefetchOnFocus({ refetch })
 
   function getVariationValuesByVariationName(variationName: string) {
