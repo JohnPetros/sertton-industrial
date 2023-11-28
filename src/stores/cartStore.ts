@@ -37,13 +37,15 @@ const cartStore: StateCreator<
   actions: {
     addItem(item) {
       set(({ state }) => {
-        const currentItem = state.items.find(
-          (currentItem) => currentItem.slug === item.slug
+        const currentItemIndex = state.items.findIndex(
+          (currentItem) => currentItem.skuId === item.skuId
         )
 
-        if (!currentItem) {
-          state.items.push(item)
+        if (currentItemIndex !== -1) {
+          state.items.splice(currentItemIndex, 1)
         }
+
+        state.items.push(item)
       })
     },
 
