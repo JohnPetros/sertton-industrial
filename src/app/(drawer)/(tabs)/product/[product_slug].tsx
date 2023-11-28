@@ -18,6 +18,7 @@ import { Text } from 'tamagui'
 import type { Sku } from '@/@types/sku'
 import { Button } from '@/components/Button'
 import { Collection } from '@/components/Collection'
+import { Search } from '@/components/Form/Search'
 import { FullImage, FullImageRef } from '@/components/FullImage'
 import { Header } from '@/components/Header'
 import { KeyboardHandlerView } from '@/components/KeyboardHandlerView'
@@ -32,7 +33,6 @@ import {
   SkuCode,
 } from '@/components/Product'
 import { ProductReviews } from '@/components/ProductReviews'
-import { Search } from '@/components/Search'
 import ShippingCostsCalculation from '@/components/ShippingCostsCalculation'
 import { Skeleton } from '@/components/Skeleton'
 import { SkuSelects, SkuSelectsRef } from '@/components/SkuSelects'
@@ -345,7 +345,13 @@ export default function Product() {
                         value: 'reviews',
                         icon: ChatCenteredText,
                         size: reviews ? reviews.length * 400 : 1000,
-                        content: <ProductReviews data={reviews ?? []} />,
+                        content: (
+                          <ProductReviews
+                            data={reviews ?? []}
+                            productId={product.id}
+                            productName={product.name}
+                          />
+                        ),
                       },
                       {
                         title: 'Dúvidas (0)',

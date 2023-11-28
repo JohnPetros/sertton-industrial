@@ -1,17 +1,10 @@
 import { useState } from 'react'
-import {
-  Buildings,
-  ChatCentered,
-  ChatCenteredText,
-  Question,
-} from 'phosphor-react-native'
-import { getTokens, H2, Paragraph, Text, YStack } from 'tamagui'
+import { getTokens, H2, Paragraph, YStack } from 'tamagui'
 
 import type { Sorter } from '@/@types/sorter'
+import { Search } from '@/components/Form/Search'
 import { Header } from '@/components/Header'
 import { ProductsList } from '@/components/ProductsList'
-import { Search } from '@/components/Search'
-import { Tabs } from '@/components/Tabs'
 import { useCatogory } from '@/hooks/useCategory'
 import { useProducts } from '@/hooks/useProducts'
 import { useProductsFilterStore } from '@/stores/productsFilterStore'
@@ -31,8 +24,6 @@ export default function Products() {
       sorter: selectedSorter,
       brandsIds,
     })
-
-  console.log(isLoading)
 
   function handleProductsListEndReached() {
     fetchNextPage()

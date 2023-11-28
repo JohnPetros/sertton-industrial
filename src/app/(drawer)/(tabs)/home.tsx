@@ -1,8 +1,8 @@
 import { YStack } from 'tamagui'
 
 import { Collection } from '@/components/Collection'
+import { Search } from '@/components/Form/Search'
 import { Header } from '@/components/Header'
-import { Search } from '@/components/Search'
 import { useCollections } from '@/hooks/useCollections'
 import { collectionsMock } from '@/tests/mocks/collectionsMock'
 

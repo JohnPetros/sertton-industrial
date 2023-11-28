@@ -105,7 +105,7 @@ export default function Cart() {
                 w="100%"
               >
                 <CartSummary items={products} />
-                <Link href={ROUTES.checkout} style={{ width: '100%' }}>
+                <Link href={ROUTES.checkout} style={{ width: '100%' }} asChild>
                   <Button w={SCREEN.width - SCREEN.paddingX * 2}>
                     Finalizar compra
                   </Button>
