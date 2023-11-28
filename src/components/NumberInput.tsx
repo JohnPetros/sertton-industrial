@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Minus, Plus } from 'phosphor-react-native'
 import { getTokens, Text, View, XStack } from 'tamagui'
 
@@ -14,16 +15,24 @@ export function NumberInput({
   number,
   onChangeNumber,
 }: NumberInputProps) {
-  function handleDecreaseValue() {
-    const updatedNumber = number - 1
+  const [numberValue, setNumberValue] = useState(number)
 
-    if (updatedNumber >= 1) onChangeNumber(updatedNumber)
+  function handleDecreaseValue() {
+    const updatedNumber = numberValue - 1
+
+    if (updatedNumber >= 1) {
+      setNumberValue(updatedNumber)
+    }
   }
 
   function handleIncreaseValue() {
-    const updatedNumber = number + 1
-    onChangeNumber(updatedNumber)
+    const updatedNumber = numberValue + 1
+    setNumberValue(updatedNumber)
   }
+
+  useEffect(() => {
+    onChangeNumber(numberValue)
+  }, [numberValue])
 
   return (
     <XStack gap={12} alignItems="center" justifyContent="center">
@@ -42,7 +51,7 @@ export function NumberInput({
         h={44}
         aria-label={label}
       >
-        <Text fontSize={16}>{number}</Text>
+        <Text fontSize={16}>{numberValue}</Text>
       </View>
       <Button
         w={24}
