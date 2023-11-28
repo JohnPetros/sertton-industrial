@@ -338,6 +338,7 @@ export default function Product() {
                 </YStack>
                 <View mt={12}>
                   <Tabs
+                    width={SCREEN.width - SCREEN.paddingX * 2}
                     label="Avaliações e Dúvidas"
                     tabs={[
                       {
