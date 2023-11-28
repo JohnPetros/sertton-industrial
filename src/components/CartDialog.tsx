@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from 'react'
+import { ReactNode, useRef } from 'react'
 import { DialogClose, Text, View, XStack, YStack } from 'tamagui'
 
 import type { Sku } from '@/@types/sku'
@@ -19,28 +19,16 @@ interface CartDialogProps {
 }
 
 export function CartDialog({ children, product }: CartDialogProps) {
-  const [quantity, setQuantity] = useState(1)
-  const [isOpen, setIsOpen] = useState(false)
   const dialogRef = useRef<DialogRef | null>(null)
   const skuSelectsRef = useRef<SkuSelectsRef | null>(null)
+  const quantity = useRef(1)
 
-  const {
-    state: { items },
-    actions: { addItem, setItemQuantity },
-  } = useCartStore()
+  const addItem = useCartStore((store) => store.actions.addItem)
 
-  const item = items.find((item) => item.slug === product.slug)
-  const isInCart = !!item
   const hasVariations = product.skus.every((sku) => sku.variations.length > 0)
 
-  function handleDialogOpenChange(isOpen: boolean) {
-    setIsOpen(isOpen)
-  }
-
-  function handleQuantityChange(quantity: number) {
-    setQuantity(quantity)
-
-    if (isInCart) setItemQuantity(item.skuId, quantity)
+  function handleQuantityChange(newQuantity: number) {
+    quantity.current = newQuantity
   }
 
   function handleAddCartItem() {
@@ -52,11 +40,11 @@ export function CartDialog({ children, product }: CartDialogProps) {
 
     if (hasVariations && !shouldAddToCart) return
 
-    if (selectedSku && !isInCart) {
+    if (selectedSku) {
       const item = {
         slug: product.slug,
         skuId: selectedSku.id,
-        quantity,
+        quantity: quantity.current,
       }
 
       addItem(item)
@@ -65,17 +53,9 @@ export function CartDialog({ children, product }: CartDialogProps) {
     dialogRef.current?.close()
   }
 
-  useEffect(() => {
-    if (isOpen) {
-      // setSkusVariations(skus)
-      setQuantity(isInCart ? item.quantity : 1)
-    }
-  }, [isOpen, isInCart])
-
   return (
     <Dialog
       ref={dialogRef}
-      onOpenChange={handleDialogOpenChange}
       title="Adicionar ao carrinho"
       content={
         <YStack mt={8}>
@@ -101,7 +81,7 @@ export function CartDialog({ children, product }: CartDialogProps) {
             <View mt={24}>
               <NumberInput
                 label="Quantidade do produto"
-                number={quantity}
+                number={quantity.current}
                 onChangeNumber={handleQuantityChange}
               />
             </View>

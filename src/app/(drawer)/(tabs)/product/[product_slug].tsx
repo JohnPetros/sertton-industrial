@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { LayoutChangeEvent } from 'react-native'
-import Animated, { useAnimatedScrollHandler } from 'react-native-reanimated'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
-import { useFocusEffect, useNavigation, useRouter } from 'expo-router'
+import { useFocusEffect, useRouter } from 'expo-router'
 import { useGlobalSearchParams } from 'expo-router/src/hooks'
 import { ArrowsOut, ChatCenteredText, Question } from 'phosphor-react-native'
 import {
@@ -17,7 +16,6 @@ import {
 import { Text } from 'tamagui'
 
 import type { Sku } from '@/@types/sku'
-import { BottomCartButton } from '@/components/BottomCartButton'
 import { Button } from '@/components/Button'
 import { Collection } from '@/components/Collection'
 import { FullImage, FullImageRef } from '@/components/FullImage'
@@ -41,6 +39,7 @@ import { SkuSelects, SkuSelectsRef } from '@/components/SkuSelects'
 import { Tabs } from '@/components/Tabs'
 import { Timer } from '@/components/Timer'
 import { useProduct } from '@/hooks/useProduct'
+import { useProductReviews } from '@/hooks/useProductReviews'
 import { useDate } from '@/services/date'
 import { useCartStore } from '@/stores/cartStore'
 import { ROUTES } from '@/utils/constants/routes'
@@ -50,23 +49,21 @@ import { removeHTMLTags } from '@/utils/helpers/removeHTMLTags'
 
 export default function Product() {
   const { product_slug } = useGlobalSearchParams()
-  const { product, similarProducts, refetch } = useProduct(String(product_slug))
+  const { product, similarProducts } = useProduct(String(product_slug))
+  const productId = useRef(0)
+  const { reviews } = useProductReviews(productId.current)
+
+  const addItem = useCartStore((store) => store.actions.addItem)
+
   const [isLoading, setIsLoading] = useState(true)
-  const [quantity, setQuantity] = useState(1)
   const [selectedSku, setSelectedSku] = useState<Sku | null>(null)
   const skuSelectsRef = useRef<SkuSelectsRef | null>(null)
   const fullImageRef = useRef<FullImageRef | null>(null)
   const scrollRef = useRef<ScrollView | null>(null)
+  const quantity = useRef(1)
   const bottomTabBarHeight = useBottomTabBarHeight()
 
-  console.log(selectedSku?.variations[0].name)
-
-  const {
-    state: { items },
-    actions: { addItem, setItemQuantity },
-  } = useCartStore()
   const router = useRouter()
-  const navigation = useNavigation()
   const { calculateTimeUtilTodayEnd } = useDate()
   const timeUtilTodayEnd = calculateTimeUtilTodayEnd()
 
@@ -74,18 +71,12 @@ export default function Product() {
     skuSelectsRef.current?.selectedSku?.variations.length
   )
 
-  const item = items.find((item) => item.slug === product?.slug)
-  const isInCart = !!item
-  const isSkeletonVisible = !product || isLoading || !selectedSku
-
   function handleSkuChange(sku: Sku) {
     setSelectedSku(sku)
   }
 
-  function handleQuantityChange(quantity: number) {
-    setQuantity(quantity)
-
-    if (isInCart) setItemQuantity(item.skuId, quantity)
+  function handleQuantityChange(newQuantity: number) {
+    quantity.current = newQuantity
   }
 
   function handleFullImage() {
@@ -95,10 +86,16 @@ export default function Product() {
   function handleAddToCart() {
     const shouldAddTocart = skuSelectsRef.current?.onAddSkuToCart()
 
+    console.log({ canAddItem: hasVariations && !shouldAddTocart })
+
     if (hasVariations && !shouldAddTocart) return
 
-    if (!isInCart && product && selectedSku) {
-      addItem({ slug: product.slug, skuId: selectedSku.id, quantity })
+    if (product && selectedSku) {
+      addItem({
+        slug: product.slug,
+        skuId: selectedSku.id,
+        quantity: quantity.current,
+      })
       router.push(ROUTES.cart)
     }
   }
@@ -107,47 +104,29 @@ export default function Product() {
     const { x, y, width, height } = nativeEvent.layout
   }
 
-  const scrollHandler = useAnimatedScrollHandler((event) => {
-    const scrollY = event.contentOffset.y
-  })
-
-  function handleScreenBlur() {
-    setIsLoading(true)
-  }
-
   useEffect(() => {
-    if (product && skuSelectsRef.current?.selectedSku) {
-      setSelectedSku(skuSelectsRef.current.selectedSku)
-    }
-  }, [product, skuSelectsRef.current?.selectedSku])
+    if (selectedSku) setIsLoading(false)
+  }, [selectedSku])
 
   useFocusEffect(
     useCallback(() => {
-      setIsLoading(true)
-      refetch()
-      scrollRef.current?.scrollTo({ y: 0 })
-    }, [])
+      if (product) productId.current = product.id
+
+      return () => {
+        console.log(quantity.current)
+
+        setIsLoading(true)
+        setSelectedSku(null)
+        scrollRef.current?.scrollTo({ y: 0 })
+        productId.current = 0
+        quantity.current = 0
+      }
+    }, [product])
   )
-
-  useEffect(() => {
-    navigation.addListener('blur', () => handleScreenBlur())
-
-    return () => navigation.removeListener('blur', () => handleScreenBlur())
-  }, [navigation])
-
-  useEffect(() => {
-    if (!isLoading) return
-
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 100)
-
-    return () => clearTimeout(timer)
-  }, [selectedSku])
 
   return (
     <KeyboardHandlerView>
-      {selectedSku && !isSkeletonVisible && (
+      {selectedSku && !isLoading && (
         <FullImage ref={fullImageRef} data={selectedSku.images.data} />
       )}
       <YStack zIndex={-100}>
@@ -159,15 +138,11 @@ export default function Product() {
         <ScrollView
           ref={(ref) => (scrollRef.current = ref)}
           contentContainerStyle={{
-            paddingBottom: bottomTabBarHeight * 2,
+            paddingBottom: bottomTabBarHeight * 8,
           }}
-          scrollEnabled={!isSkeletonVisible}
+          scrollEnabled={!isLoading}
         >
-          <Skeleton
-            isVisible={isSkeletonVisible}
-            width={SCREEN.width}
-            height={224}
-          >
+          <Skeleton isVisible={isLoading} width={SCREEN.width} height={224}>
             <View
               position="relative"
               mt={24}
@@ -198,18 +173,18 @@ export default function Product() {
           </Skeleton>
           <YStack px={SCREEN.paddingX} mt={12} gap={8}>
             <>
-              <Skeleton isVisible={isSkeletonVisible} width={120} height={24}>
+              <Skeleton isVisible={isLoading} width={120} height={24}>
                 {selectedSku && (
                   <SkuCode fontSize={14}>{selectedSku?.sku}</SkuCode>
                 )}
               </Skeleton>
-              <Skeleton isVisible={isSkeletonVisible} width={300} height={48}>
+              <Skeleton isVisible={isLoading} width={300} height={48}>
                 {selectedSku && (
                   <Name fontSize={24}>{String(product?.name)}</Name>
                 )}
               </Skeleton>
 
-              <Skeleton isVisible={isSkeletonVisible} width={150} height={48}>
+              <Skeleton isVisible={isLoading} width={150} height={48}>
                 {selectedSku && (
                   <XStack alignItems="flex-start" gap={12}>
                     <YStack>
@@ -238,7 +213,7 @@ export default function Product() {
               <View position="relative">
                 <View position="absolute" zIndex={50}>
                   <Skeleton
-                    isVisible={isSkeletonVisible}
+                    isVisible={isLoading}
                     width={SCREEN.width - SCREEN.paddingX}
                     height={70}
                   >
@@ -248,21 +223,24 @@ export default function Product() {
                 {product && (
                   <SkuSelects
                     ref={skuSelectsRef}
-                    productId={product.id}
+                    isDisabled={isLoading}
+                    productId={productId.current}
                     onSkuChange={handleSkuChange}
                   />
                 )}
               </View>
 
-              <Skeleton isVisible={isSkeletonVisible} height={40}>
-                <NumberInput
-                  label="Quantidade do produto"
-                  number={quantity}
-                  onChangeNumber={handleQuantityChange}
-                />
+              <Skeleton isVisible={isLoading} height={40}>
+                {product && (
+                  <NumberInput
+                    label={`Quantidade do produto ${product.name}`}
+                    number={quantity.current}
+                    onChangeNumber={handleQuantityChange}
+                  />
+                )}
               </Skeleton>
 
-              <Skeleton isVisible={isSkeletonVisible} height={40}>
+              <Skeleton isVisible={isLoading} height={40}>
                 {selectedSku && (
                   <YStack gap={12}>
                     <XStack gap={4}>
@@ -293,9 +271,9 @@ export default function Product() {
                 )}
               </Skeleton>
 
-              {isSkeletonVisible ? (
+              {isLoading ? (
                 <Skeleton
-                  isVisible={isSkeletonVisible}
+                  isVisible={isLoading}
                   width={SCREEN.width}
                   height={40}
                 >
@@ -315,13 +293,13 @@ export default function Product() {
             {selectedSku && (
               <View mt={24}>
                 <Skeleton
-                  isVisible={isSkeletonVisible}
+                  isVisible={isLoading}
                   width={SCREEN.width - 48}
                   height={40}
                 >
                   <ShippingCostsCalculation
                     skus_ids={[selectedSku.id]}
-                    quantities={[quantity]}
+                    quantities={[quantity.current]}
                     total={selectedSku?.price_sale}
                   />
                 </Skeleton>
@@ -358,32 +336,29 @@ export default function Product() {
                     />
                   )}
                 </YStack>
+                <View mt={12}>
+                  <Tabs
+                    label="Avaliações e Dúvidas"
+                    tabs={[
+                      {
+                        title: `Avaliações (${reviews?.length ?? '0'})`,
+                        value: 'reviews',
+                        icon: ChatCenteredText,
+                        size: reviews ? reviews.length * 400 : 1000,
+                        content: <ProductReviews data={reviews ?? []} />,
+                      },
+                      {
+                        title: 'Dúvidas (0)',
+                        value: 'questions',
+                        icon: Question,
+                        size: 400,
+                        content: <Text>Tab 2</Text>,
+                      },
+                    ]}
+                  />
+                </View>
               </YStack>
             )}
-
-            <View mt={48}>
-              {product && (
-                <Tabs
-                  label="Avaliações e Dúvidas"
-                  tabs={[
-                    {
-                      title: 'Avaliações',
-                      value: 'reviews',
-                      icon: ChatCenteredText,
-                      size: 1200,
-                      content: <ProductReviews productId={product.id} />,
-                    },
-                    {
-                      title: 'Dúvidas',
-                      value: 'questions',
-                      icon: Question,
-                      size: 200,
-                      content: <Text>Tab 2</Text>,
-                    },
-                  ]}
-                />
-              )}
-            </View>
           </YStack>
         </ScrollView>
       </YStack>

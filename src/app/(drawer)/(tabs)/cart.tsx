@@ -30,7 +30,7 @@ export default function Cart() {
   return (
     <YStack px={24} flex={1}>
       <Header />
-      <XStack mt={12} alignItems="center" justifyContent="space-between">
+      <XStack mt={8} alignItems="center" justifyContent="space-between">
         <H1 fontSize={24}>Meu Carrinho</H1>
         {!isCartEmpty && (
           <Alert
@@ -48,7 +48,7 @@ export default function Cart() {
         )}
       </XStack>
 
-      <View flex={1} mt={24}>
+      <View flex={1} mt={12}>
         {isCartEmpty ? (
           <EmptyItemsMessage
             title="Seu carrinho está vazio"
