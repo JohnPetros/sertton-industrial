@@ -3,6 +3,9 @@ export type Review = {
   name: string
   email: string
   approved: false
-  rating: 1 | 2 | 3 | 4 | 5
+  rating: number
   message: string
+  updated_at: {
+    date: string
+  }
 }
