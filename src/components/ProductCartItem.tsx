@@ -12,6 +12,8 @@ import * as Product from '@/components/Product'
 import { Skeleton } from '@/components/Skeleton'
 import { useCartStore } from '@/stores/cartStore'
 
+const GAP = 12
+
 interface ProductCartItemProps {
   data: ProductData
   quantity: number
@@ -34,7 +36,7 @@ export function ProductCartItem({
 
   const isSKeletonVisible = isLoading || !selectedSku
 
-  const halfWidth = (width - 12) / 2
+  const halfWidth = (width - GAP) / 2
   const hasVariations = Boolean(selectedSku?.variations.length)
 
   function handleQuantityChange(newQuantity: number) {
@@ -61,7 +63,7 @@ export function ProductCartItem({
         <Product.Image
           data={images.data}
           size="medium"
-          width={halfWidth}
+          width={halfWidth - 24}
           height={160}
         />
       </Skeleton>
