@@ -1,5 +1,6 @@
 import { useQuery } from 'react-query'
 
+import { useRefetchOnFocus } from '@/hooks/useRefetchOnFocus'
 import { useApi } from '@/services/api'
 
 export function useProduct(slug: string) {
@@ -20,6 +21,7 @@ export function useProduct(slug: string) {
       enabled: !!product?.id,
     }
   )
+  useRefetchOnFocus({ refetch })
 
   return {
     product,
