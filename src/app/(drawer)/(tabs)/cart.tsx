@@ -57,10 +57,9 @@ export default function Cart() {
             callback={<Button>Procurar produtos</Button>}
           />
         ) : isLoading ? (
-          <FlashList
+          <FlatList
             key="cart-items-loading"
             data={cartItemsMock.slice(0, totalCartItems)}
-            estimatedItemSize={200}
             keyExtractor={(item) => String(item.id)}
             renderItem={({ item }) => (
               <View mb={32}>
@@ -77,10 +76,11 @@ export default function Cart() {
           />
         ) : (
           <>
-            <FlatList
+            <FlashList
               key="cart-items"
               data={products}
               keyExtractor={(item) => String(item.id)}
+              estimatedItemSize={200}
               renderItem={({ item }) => (
                 <View mb={32}>
                   <ProductCartItem
