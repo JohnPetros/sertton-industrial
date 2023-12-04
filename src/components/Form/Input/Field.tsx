@@ -18,16 +18,12 @@ export const Field = styled(Input, {
       success: {
         bg: '$green50',
         color: '$green900',
-        focusStyle: {
-          borderBottomColor: '$green500',
-        },
+        borderBottomColor: '$green500',
       },
       error: {
         bg: '$red100',
         color: '$red400',
-        focusStyle: {
-          borderBottomColor: '$red500',
-        },
+        borderBottomColor: '$red500',
       },
       disabled: {
         bg: '$gray200',

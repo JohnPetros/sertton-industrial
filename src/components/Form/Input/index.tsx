@@ -16,9 +16,9 @@ import { Icon } from '@/components/input/Icon'
 import { useMask } from '@/hooks/useMask'
 
 type InputState = 'default' | 'success' | 'error'
-type IconState = InputState | 'focus'
+type IconState = 'default' | 'disabled' | 'success' | 'error'
 
-interface InputProps extends FieldProps {
+export interface InputProps extends FieldProps {
   label?: string
   error?: string
   icon?: IconProps
@@ -34,6 +34,8 @@ export function Input({
   value,
   disabled,
   keyboardType,
+  autoCapitalize,
+  secureTextEntry,
   mask,
   error,
   onChangeText,
@@ -45,22 +47,23 @@ export function Input({
   const id = useId()
 
   function handleFocus() {
-    if (disabled) return
+    if (disabled || error) return
 
     setInputState('default')
-    setIconState('focus')
+    setInputState('default')
   }
 
   function handleBlur() {
-    if (disabled) return
+    if (disabled || error) return
 
     setIconState('default')
+    setInputState('default')
   }
 
   function handleTextChange(text: string) {
     if (disabled) return
 
-    const maskedText = maskText(text)
+    const maskedText = maskText(text).toString()
     setInputValue(maskedText)
 
     if (onChangeText) onChangeText(maskedText)
@@ -70,13 +73,22 @@ export function Input({
     if (disabled) setInputValue('')
   }, [disabled])
 
+  useEffect(() => {
+    console.log(error)
+
+    if (error) {
+      setInputState('error')
+      setIconState('error')
+    }
+  }, [error])
+
   return (
     <YStack gap={3}>
       {label && <Label id={id}>{label}</Label>}
       <XStack w={w} gap={4}>
         {InputIcon && (
           <Icon
-            state={disabled ? 'disabled' : 'default'}
+            state={disabled ? 'disabled' : iconState}
             focus={'inactive'}
             icon={<InputIcon color={getTokens().color.gray800.val} size={28} />}
           />
@@ -93,6 +105,8 @@ export function Input({
           onChangeText={handleTextChange}
           disabled={disabled}
           autoCorrect={autoCorrect}
+          autoCapitalize={autoCapitalize}
+          secureTextEntry={secureTextEntry}
         />
       </XStack>
       {error && (
