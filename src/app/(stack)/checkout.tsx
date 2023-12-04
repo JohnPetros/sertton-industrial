@@ -15,7 +15,7 @@ const STEP_WIDTH = (SCREEN.width - SCREEN.paddingX * 2) / 3 - STEP_GAP
 export default function checkout() {
   return (
     <YStack pb={24}>
-      <XStack py={12} px={SCREEN.paddingX} justifyContent="space-between">
+      <XStack pb={12} px={SCREEN.paddingX} justifyContent="space-between">
         <Logo />
         <XStack gap={8} alignItems="center">
           <Lock color={getTokens().color.gray300.val} />
@@ -59,12 +59,7 @@ export default function checkout() {
         px={SCREEN.paddingX}
         justifyContent="space-between"
       >
-        <Step
-          number={1}
-          width={STEP_WIDTH}
-          isActive={true}
-          label="Informações pessoais"
-        />
+        <Step number={1} width={STEP_WIDTH} isActive={true} label="Cadastro" />
         <Step number={2} width={STEP_WIDTH} isActive={false} label="Entrega" />
         <Step
           number={3}

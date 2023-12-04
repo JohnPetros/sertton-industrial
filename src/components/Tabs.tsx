@@ -91,7 +91,7 @@ export function Tabs({ label, tabs, width }: TabsProps) {
               borderRadius={4}
               w={TAB_INDICATOR_WIDTH}
               h={TAB_INDICATOR_HEIGHT}
-              gap={8}
+              gap={4}
               zIndex={50}
               onPress={() => handleTabPress(tab.value, index)}
               onLayout={(event) => handleTabLayout(event, index)}
@@ -102,9 +102,11 @@ export function Tabs({ label, tabs, width }: TabsProps) {
                     activeTab === tab.value ? 'white' : 'gray800'
                   ].val
                 }
+                size={16}
               />
               <Text
                 color={activeTab === tab.value ? '$white' : '$gray800'}
+                fontSize={12}
                 fontWeight="600"
               >
                 {tab.title}

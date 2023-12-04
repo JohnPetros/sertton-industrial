@@ -6,10 +6,10 @@ import { SCREEN } from '@/utils/constants/screen'
 
 export function CheckoutForm() {
   return (
-    <KeyboardHandlerView>
+    <>
       <YStack bg="$white" px={SCREEN.paddingX} py={12} mt={24}>
         <Step1 />
       </YStack>
-    </KeyboardHandlerView>
+    </>
   )
 }

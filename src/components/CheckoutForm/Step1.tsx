@@ -8,7 +8,7 @@ import { Tabs } from '@/components/Tabs'
 
 export function Step1() {
   function handleSubmit() {
-    console.log()
+    console.log('submit')
   }
 
   return (
@@ -26,14 +26,14 @@ export function Step1() {
             title: 'Pessoa física',
             value: 'reviews',
             icon: User,
-            size: 700,
+            size: 900,
             content: <NaturalPersonForm onSubmit={handleSubmit} />,
           },
           {
             title: 'Pessoa jurídica',
             value: 'questions',
             icon: Buildings,
-            size: 700,
+            size: 900,
             content: <LegalPersonForm onSubmit={handleSubmit} />,
           },
         ]}
