@@ -2,38 +2,64 @@ import { z } from 'zod'
 
 import { REGEX } from '@/utils/constants/regex'
 
-const nameSchema = z.string().min(1, 'Campo obrigatório')
-const emailSchema = z.string().min(1, 'Campo obrigatório')
-const cpfSchema = z
-  .string()
-  .min(1, 'Campo obrigatório')
-  .regex(REGEX.cpf, 'CPF inválido')
-const cnpjSchema = z
-  .string()
-  .min(1, 'Campo obrigatório')
-  .regex(REGEX.cpf, 'CPF inválido')
-const phoneSchema = z
-  .string()
-  .min(1, 'Campo obrigatório')
-  .regex(REGEX.cpf, 'CPF inválido')
-
-const razaoSocialSchema = z
-  .string()
-  .min(1, 'Campo obrigatório')
-  .regex(REGEX.cpf, 'CPF inválido')
-
-const naturalPersonFormSchema = z.object({
-  name: nameSchema,
-  cpf: cpfSchema,
-  phone: phoneSchema,
+const nameSchema = z.string({
+  required_error: 'Campo obrigatório',
+})
+const emailSchema = z
+  .string({
+    required_error: 'Campo obrigatório',
+  })
+  .regex(REGEX.email, 'E-mail inválido')
+const cpfSchema = z.string({
+  required_error: 'Campo obrigatório',
+})
+const cnpjSchema = z.string({
+  required_error: 'Campo obrigatório',
+})
+const phoneSchema = z.string({
+  required_error: 'Campo obrigatório',
 })
 
-const legalPersonFormSchema = z.object({
-  razaoSocial: razaoSocialSchema,
-  email: emailSchema,
-  cnpj: cnpjSchema,
-  phone: phoneSchema,
+const razaoSocialSchema = z.number({
+  required_error: 'Campo obrigatório',
 })
+
+const passwordSchema = z
+  .string({
+    required_error: 'Campo obrigatório',
+  })
+  .regex(
+    REGEX.password,
+    'Senha deve conter pelo menos uma letra minúscula, uma maiúscula, um dígito e um caractere especial.'
+  )
+
+const naturalPersonFormSchema = z
+  .object({
+    name: nameSchema,
+    email: emailSchema,
+    password: passwordSchema,
+    passwordConfirmation: z.string(),
+    cpf: cpfSchema,
+    phone: phoneSchema,
+  })
+  .refine((fields) => fields.password === fields.passwordConfirmation, {
+    path: ['passwordConfirmation'],
+    message: 'As senhas precisam de iguais',
+  })
+
+const legalPersonFormSchema = z
+  .object({
+    razaoSocial: razaoSocialSchema,
+    email: emailSchema,
+    password: passwordSchema,
+    passwordConfirmation: z.string(),
+    cnpj: cnpjSchema,
+    phone: phoneSchema,
+  })
+  .refine((fields) => fields.password === fields.passwordConfirmation, {
+    path: ['passwordConfirmation'],
+    message: 'As senhas precisam de iguais',
+  })
 
 export type NaturalPersonFormFields = z.infer<typeof naturalPersonFormSchema>
 export type LegalPersonFormFields = z.infer<typeof legalPersonFormSchema>
