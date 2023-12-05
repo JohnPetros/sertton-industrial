@@ -22,6 +22,8 @@ initializeStorage(mmkvStorage)
 initializeDateProvider(dayjsProvider)
 initializeApi(axiosApi)
 
+const queryClient = new QueryClient()
+
 export default function Layout() {
   const colorScheme = useColorScheme()
 
@@ -37,8 +39,6 @@ export default function Layout() {
   }, [loaded])
 
   if (!loaded) return null
-
-  const queryClient = new QueryClient()
 
   return (
     <QueryClientProvider client={queryClient}>
