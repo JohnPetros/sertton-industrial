@@ -1,4 +1,5 @@
-import { Controller, useForm } from 'react-hook-form'
+import { useEffect } from 'react'
+import { Controller, SetFieldValue, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Envelope,
@@ -16,8 +17,9 @@ import { Input } from '@/components/Form/Input'
 import { PasswordInput } from '@/components/Form/PasswordInput'
 import { NaturalPersonFormFields, naturalPersonFormSchema } from '@/libs/zod'
 
+type FieldName = keyof NaturalPersonFormFields
 interface NaturalPersonFormProps {
-  onSubmit: () => void
+  onSubmit: (personType: 'natural' | 'legal') => void
   personFormData: React.MutableRefObject<PersonFormData>
 }
 
@@ -28,24 +30,19 @@ export function NaturalPersonForm({
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    setValue,
+    formState: { errors, isSubmitting, isValid },
   } = useForm<NaturalPersonFormFields>({
     mode: 'onBlur',
     resolver: zodResolver(naturalPersonFormSchema),
-    defaultValues: {
-      name: personFormData.current.naturalPerson.name,
-      email: personFormData.current.naturalPerson.email,
-      cpf: personFormData.current.naturalPerson.email,
-      phone: personFormData.current.naturalPerson.phone,
-      password: personFormData.current.naturalPerson.password,
-      passwordConfirmation:
-        personFormData.current.naturalPerson.passwordConfirmation,
-    },
   })
 
-  function handleFormSubmit(data: NaturalPersonFormFields) {
-    console.log({ data })
-    // onSubmit()
+  const { name, email, password, passwordConfirmation, cpf, phone } =
+    personFormData.current.naturalPerson
+
+  function handleFormSubmit() {
+    console.log({ isValid })
+    // onSubmit('natural')
   }
 
   function handleInputChange(
@@ -58,6 +55,17 @@ export function NaturalPersonForm({
     personFormData.current.naturalPerson[fieldName] = value
   }
 
+  console.log(personFormData.current.naturalPerson)
+
+  useEffect(() => {
+    const { naturalPerson } = personFormData.current
+
+    for (const fieldName of Object.keys(naturalPerson)) {
+      const value = naturalPerson[fieldName as keyof NaturalPersonFormFields]
+      if (value) setValue(fieldName as FieldName, value)
+    }
+  }, [])
+
   return (
     <YStack gap={16} mt={12}>
       <Controller
@@ -68,7 +76,7 @@ export function NaturalPersonForm({
             label="Nome completo"
             placeholder="Maria Joaquina dos Santos"
             icon={User}
-            defaultValue={personFormData.current.naturalPerson.name}
+            defaultValue={name}
             onChangeText={(value: string) =>
               handleInputChange(onChange, value, 'name')
             }
@@ -86,7 +94,7 @@ export function NaturalPersonForm({
             icon={Envelope}
             autoCapitalize="none"
             placeholder="Exemplo: maria@gmail.com"
-            defaultValue={personFormData.current.naturalPerson.email}
+            defaultValue={email}
             onChangeText={(value: string) =>
               handleInputChange(onChange, value, 'email')
             }
@@ -104,7 +112,7 @@ export function NaturalPersonForm({
             keyboardType="numeric"
             placeholder="00.000.000-00"
             mask="cpf"
-            defaultValue={personFormData.current.naturalPerson.cpf}
+            defaultValue={cpf}
             onChangeText={(value: string) =>
               handleInputChange(onChange, value, 'cpf')
             }
@@ -122,7 +130,7 @@ export function NaturalPersonForm({
             keyboardType="numeric"
             label="Celular / Whatsapp"
             placeholder="(12) 98881-5499"
-            defaultValue={personFormData.current.naturalPerson.phone}
+            defaultValue={phone}
             onChangeText={(value: string) =>
               handleInputChange(onChange, value, 'phone')
             }
@@ -141,7 +149,7 @@ export function NaturalPersonForm({
             label="Senha"
             placeholder="******"
             icon={Lock}
-            defaultValue={personFormData.current.naturalPerson.password}
+            defaultValue={password}
             onChangeText={(value: string) =>
               handleInputChange(onChange, value, 'password')
             }
@@ -157,13 +165,11 @@ export function NaturalPersonForm({
           <PasswordInput
             label="Confirmação de senha"
             icon={Lock}
-            defaultValue={
-              personFormData.current.naturalPerson.passwordConfirmation
-            }
+            defaultValue={passwordConfirmation}
             onChangeText={(value: string) =>
               handleInputChange(onChange, value, 'passwordConfirmation')
             }
-            error={errors.password?.message}
+            error={errors.passwordConfirmation?.message}
           />
         )}
       />

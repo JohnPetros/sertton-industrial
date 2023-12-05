@@ -7,6 +7,8 @@ import { LegalPersonForm } from '@/components/CheckoutForm/LegalPersonForm'
 import { NaturalPersonForm } from '@/components/CheckoutForm/NaturalPersonForm'
 import { Tabs } from '@/components/Tabs'
 import { LegalPersonFormFields, NaturalPersonFormFields } from '@/libs/zod'
+import { useApi } from '@/services/api'
+import { getOnlyNumbers } from '@/utils/helpers/getOnlyNumbers'
 
 export type PersonFormData = {
   naturalPerson: NaturalPersonFormFields
@@ -33,8 +35,40 @@ export function Step1() {
     },
   })
 
-  function handleSubmit() {
+  const api = useApi()
+
+  async function handleSubmit(personType: 'legal' | 'natural') {
     console.log('submit')
+
+    try {
+      if (personType === 'natural') {
+        const { naturalPerson } = personFormData.current
+        await api.createCustomer({
+          type: 'f',
+          active: true,
+          name: naturalPerson.name,
+          email: naturalPerson.email,
+          cpf: getOnlyNumbers(naturalPerson.cpf),
+          homephone: getOnlyNumbers(naturalPerson.phone),
+          password: naturalPerson.password,
+          password_confirmation: naturalPerson.passwordConfirmation,
+        })
+      } else if (personType === 'legal') {
+        const { legalPerson } = personFormData.current
+        await api.createCustomer({
+          type: 'j',
+          active: true,
+          razao_social: legalPerson.razaoSocial,
+          cnpj: getOnlyNumbers(legalPerson.cnpj),
+          email: legalPerson.email,
+          homephone: getOnlyNumbers(legalPerson.phone),
+          password: legalPerson.password,
+          password_confirmation: legalPerson.passwordConfirmation,
+        })
+      }
+    } catch (error) {
+      // api.handleError(error)
+    }
   }
 
   return (

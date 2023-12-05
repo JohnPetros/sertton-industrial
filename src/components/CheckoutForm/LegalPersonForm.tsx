@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -7,7 +8,7 @@ import {
   Lock,
   Phone,
 } from 'phosphor-react-native'
-import { YStack } from 'tamagui'
+import { Spinner, YStack } from 'tamagui'
 
 import { Button } from '@/components/Button'
 import { PersonFormData } from '@/components/CheckoutForm/Step1'
@@ -15,8 +16,10 @@ import { Input } from '@/components/Form/Input'
 import { PasswordInput } from '@/components/Form/PasswordInput'
 import { LegalPersonFormFields, legalPersonFormSchema } from '@/libs/zod'
 
+type FieldName = keyof LegalPersonFormFields
+
 interface LegalPersonFormProps {
-  onSubmit: () => void
+  onSubmit: (personType: 'natural' | 'legal') => void
   personFormData: React.MutableRefObject<PersonFormData>
 }
 
@@ -27,24 +30,18 @@ export function LegalPersonForm({
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<LegalPersonFormFields>({
     mode: 'onBlur',
-    defaultValues: {
-      razaoSocial: personFormData.current.legalPerson.razaoSocial,
-      email: personFormData.current.legalPerson.email,
-      cnpj: personFormData.current.legalPerson.cnpj,
-      phone: personFormData.current.legalPerson.phone,
-      password: personFormData.current.legalPerson.password,
-      passwordConfirmation:
-        personFormData.current.legalPerson.passwordConfirmation,
-    },
     resolver: zodResolver(legalPersonFormSchema),
   })
 
+  const { razaoSocial, email, password, passwordConfirmation, cnpj, phone } =
+    personFormData.current.legalPerson
+
   function handleFormSubmit() {
-    console.log('submit')
-    onSubmit()
+    // onSubmit('legal')
   }
 
   function handleInputChange(
@@ -57,6 +54,15 @@ export function LegalPersonForm({
     personFormData.current.legalPerson[fieldName] = value
   }
 
+  useEffect(() => {
+    const { legalPerson } = personFormData.current
+
+    for (const fieldName of Object.keys(legalPerson)) {
+      const value = legalPerson[fieldName as keyof LegalPersonFormFields]
+      if (value) setValue(fieldName as FieldName, value)
+    }
+  }, [])
+
   return (
     <YStack gap={16} mt={12}>
       <Controller
@@ -67,7 +73,7 @@ export function LegalPersonForm({
             label="Razão social"
             icon={ComputerTower}
             placeholder="Exemplo: Maria de Almeira LTDA"
-            defaultValue={personFormData.current.legalPerson.razaoSocial}
+            defaultValue={razaoSocial}
             onChangeText={(value: string) =>
               handleInputChange(onChange, value, 'razaoSocial')
             }
@@ -84,7 +90,7 @@ export function LegalPersonForm({
             label="E-mail"
             icon={Envelope}
             placeholder="Exemplo: maria@gmail.com"
-            defaultValue={personFormData.current.legalPerson.email}
+            defaultValue={email}
             onChangeText={(value: string) =>
               handleInputChange(onChange, value, 'email')
             }
@@ -103,7 +109,7 @@ export function LegalPersonForm({
             icon={CreditCard}
             mask="cnpj"
             placeholder="00.000.000/0000-00"
-            defaultValue={personFormData.current.legalPerson.cnpj}
+            defaultValue={cnpj}
             onChangeText={(value: string) =>
               handleInputChange(onChange, value, 'cnpj')
             }
@@ -122,7 +128,7 @@ export function LegalPersonForm({
             placeholder="(12) 98881-5499"
             icon={Phone}
             mask="phone"
-            defaultValue={personFormData.current.legalPerson.phone}
+            defaultValue={phone}
             onChangeText={(value: string) =>
               handleInputChange(onChange, value, 'phone')
             }
@@ -139,7 +145,7 @@ export function LegalPersonForm({
             label="Senha"
             placeholder="******"
             icon={Lock}
-            defaultValue={personFormData.current.legalPerson.password}
+            defaultValue={password}
             onChangeText={(value: string) =>
               handleInputChange(onChange, value, 'password')
             }
@@ -155,19 +161,21 @@ export function LegalPersonForm({
           <PasswordInput
             label="Confirmação de senha"
             icon={Lock}
-            defaultValue={
-              personFormData.current.legalPerson.passwordConfirmation
-            }
+            defaultValue={passwordConfirmation}
             onChangeText={(value: string) =>
               handleInputChange(onChange, value, 'passwordConfirmation')
             }
-            error={errors.password?.message}
+            error={errors.passwordConfirmation?.message}
           />
         )}
       />
 
-      <Button mt={24} onPress={handleSubmit(handleFormSubmit)}>
-        Continuar
+      <Button
+        mt={24}
+        onPress={handleSubmit(handleFormSubmit)}
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? <Spinner color="$white" /> : 'Continuar'}
       </Button>
     </YStack>
   )
