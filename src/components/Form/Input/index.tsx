@@ -23,6 +23,7 @@ export interface InputProps extends FieldProps {
   error?: string
   icon?: IconProps
   mask?: Mask
+  defaultValue?: string
 }
 
 export function Input({
@@ -31,7 +32,7 @@ export function Input({
   placeholder,
   w,
   autoCorrect,
-  value,
+  defaultValue,
   disabled,
   keyboardType,
   autoCapitalize,
@@ -42,7 +43,7 @@ export function Input({
 }: InputProps) {
   const [inputState, setInputState] = useState<InputState>('default')
   const [iconState, setIconState] = useState<IconState>('default')
-  const [inputValue, setInputValue] = useState(value)
+  const [inputValue, setInputValue] = useState(defaultValue)
   const maskText = useMask(mask)
   const id = useId()
 
@@ -67,6 +68,11 @@ export function Input({
     setInputValue(maskedText)
 
     if (onChangeText) onChangeText(maskedText)
+
+    if (!error) {
+      setInputState('default')
+      setIconState('default')
+    }
   }
 
   useEffect(() => {
@@ -74,8 +80,6 @@ export function Input({
   }, [disabled])
 
   useEffect(() => {
-    console.log(error)
-
     if (error) {
       setInputState('error')
       setIconState('error')
