@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRouter } from 'expo-router'
 import { Buildings, User } from 'phosphor-react-native'
 import { YStack } from 'tamagui'
 
@@ -8,7 +8,7 @@ import { NaturalPersonForm } from '@/components/CheckoutForm/NaturalPersonForm'
 import { Tabs } from '@/components/Tabs'
 import { LegalPersonFormFields, NaturalPersonFormFields } from '@/libs/zod'
 import { useApi } from '@/services/api'
-import { getOnlyNumbers } from '@/utils/helpers/getOnlyNumbers'
+import { useCheckoutStore } from '@/stores/checkoutStore'
 
 export type PersonFormData = {
   naturalPerson: NaturalPersonFormFields
@@ -16,25 +16,8 @@ export type PersonFormData = {
 }
 
 export function Step1() {
-  const personFormData = useRef<PersonFormData>({
-    naturalPerson: {
-      name: '',
-      email: '',
-      password: '',
-      passwordConfirmation: '',
-      cpf: '',
-      phone: '',
-    },
-    legalPerson: {
-      email: '',
-      password: '',
-      passwordConfirmation: '',
-      phone: '',
-      razaoSocial: '',
-      cnpj: '',
-    },
-  })
-
+  const personFormData = useCheckoutStore((store) => store.state.personFormData)
+  const setStep = useCheckoutStore((store) => store.actions.setStep)
   const api = useApi()
 
   async function handleSubmit(personType: 'legal' | 'natural') {
@@ -42,30 +25,31 @@ export function Step1() {
 
     try {
       if (personType === 'natural') {
-        const { naturalPerson } = personFormData.current
+        const { naturalPerson } = personFormData
         await api.createCustomer({
           type: 'f',
           active: true,
           name: naturalPerson.name,
           email: naturalPerson.email,
-          cpf: getOnlyNumbers(naturalPerson.cpf),
-          homephone: getOnlyNumbers(naturalPerson.phone),
+          cpf: naturalPerson.cpf,
+          homephone: naturalPerson.phone,
           password: naturalPerson.password,
           password_confirmation: naturalPerson.passwordConfirmation,
         })
       } else if (personType === 'legal') {
-        const { legalPerson } = personFormData.current
+        const { legalPerson } = personFormData
         await api.createCustomer({
           type: 'j',
           active: true,
           razao_social: legalPerson.razaoSocial,
-          cnpj: getOnlyNumbers(legalPerson.cnpj),
+          cnpj: legalPerson.cnpj,
           email: legalPerson.email,
-          homephone: getOnlyNumbers(legalPerson.phone),
+          homephone: legalPerson.phone,
           password: legalPerson.password,
           password_confirmation: legalPerson.passwordConfirmation,
         })
       }
+      setStep(2)
     } catch (error) {
       // api.handleError(error)
     }
@@ -87,24 +71,14 @@ export function Step1() {
             value: 'reviews',
             icon: User,
             size: 900,
-            content: (
-              <NaturalPersonForm
-                onSubmit={handleSubmit}
-                personFormData={personFormData}
-              />
-            ),
+            content: <NaturalPersonForm onSubmit={handleSubmit} />,
           },
           {
             title: 'Pessoa jurídica',
             value: 'questions',
             icon: Buildings,
             size: 900,
-            content: (
-              <LegalPersonForm
-                onSubmit={handleSubmit}
-                personFormData={personFormData}
-              />
-            ),
+            content: <LegalPersonForm onSubmit={handleSubmit} />,
           },
         ]}
       />
