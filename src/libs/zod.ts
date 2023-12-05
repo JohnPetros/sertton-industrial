@@ -14,17 +14,23 @@ const emailSchema = z
   })
   .regex(REGEX.email, 'E-mail inválido')
 
-const cpfSchema = z.string({
-  required_error: 'Campo obrigatório',
-})
+const cpfSchema = z
+  .string({
+    required_error: 'Campo obrigatório',
+  })
+  .max(11)
 
-const cnpjSchema = z.string({
-  required_error: 'Campo obrigatório',
-})
+const cnpjSchema = z
+  .string({
+    required_error: 'Campo obrigatório',
+  })
+  .max(14)
 
-const phoneSchema = z.string({
-  required_error: 'Campo obrigatório',
-})
+const phoneSchema = z
+  .string({
+    required_error: 'Campo obrigatório',
+  })
+  .max(11)
 
 const razaoSocialSchema = z.string({
   required_error: 'Campo obrigatório',
