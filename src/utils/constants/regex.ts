@@ -1,5 +1,5 @@
 export const REGEX = {
-  fullname: /^(?:\b\w{2,}\b\s+){1,}\b\w{2,}\b$/,
+  fullname: /^(?:\b[\p{L}\d]{2,}\b\s+){1,}\b[\p{L}\d]{2,}\b$/u,
   number: /\d/g,
   htmlTags: /<\/?[^>]+(>|$)/g,
   htmlList: /<li>(.*?)<\/li>/g,
