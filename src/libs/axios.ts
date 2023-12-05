@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { isAxiosError } from 'axios'
 
 import type { Api } from '@/@types/api'
 
@@ -26,5 +26,15 @@ export const axiosApi: Api = {
   },
   async delete<Response>(url: string) {
     return (await axiosClient.delete(url)) as Response
+  },
+  handleError(error: unknown) {
+    if (isAxiosError(error)) {
+      console.error('REQUEST =>', error.request)
+      console.error('RESPONSE =>', error.response)
+
+      return error.message
+    }
+
+    return 'Unknown Api Error'
   },
 }
