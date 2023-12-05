@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Controller, SetFieldValue, useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Envelope,
@@ -12,21 +12,17 @@ import { YStack } from 'tamagui'
 import { Spinner } from 'tamagui'
 
 import { Button } from '@/components/Button'
-import { PersonFormData } from '@/components/CheckoutForm/Step1'
 import { Input } from '@/components/Form/Input'
 import { PasswordInput } from '@/components/Form/PasswordInput'
 import { NaturalPersonFormFields, naturalPersonFormSchema } from '@/libs/zod'
+import { useCheckoutStore } from '@/stores/checkoutStore'
 
 type FieldName = keyof NaturalPersonFormFields
 interface NaturalPersonFormProps {
   onSubmit: (personType: 'natural' | 'legal') => void
-  personFormData: React.MutableRefObject<PersonFormData>
 }
 
-export function NaturalPersonForm({
-  onSubmit,
-  personFormData,
-}: NaturalPersonFormProps) {
+export function NaturalPersonForm({ onSubmit }: NaturalPersonFormProps) {
   const {
     control,
     handleSubmit,
@@ -37,12 +33,17 @@ export function NaturalPersonForm({
     resolver: zodResolver(naturalPersonFormSchema),
   })
 
+  const personFormData = useCheckoutStore((store) => store.state.personFormData)
+  const setPersonFormData = useCheckoutStore(
+    (store) => store.actions.setPersonFormData
+  )
+
   const { name, email, password, passwordConfirmation, cpf, phone } =
-    personFormData.current.naturalPerson
+    personFormData.naturalPerson
 
   function handleFormSubmit() {
     console.log({ isValid })
-    // onSubmit('natural')
+    onSubmit('natural')
   }
 
   function handleInputChange(
@@ -52,13 +53,11 @@ export function NaturalPersonForm({
   ) {
     changeHandler(value)
 
-    personFormData.current.naturalPerson[fieldName] = value
+    setPersonFormData('natural', fieldName, value)
   }
 
-  console.log(personFormData.current.naturalPerson)
-
   useEffect(() => {
-    const { naturalPerson } = personFormData.current
+    const { naturalPerson } = personFormData
 
     for (const fieldName of Object.keys(naturalPerson)) {
       const value = naturalPerson[fieldName as keyof NaturalPersonFormFields]
@@ -113,6 +112,7 @@ export function NaturalPersonForm({
             placeholder="00.000.000-00"
             mask="cpf"
             defaultValue={cpf}
+            max={11}
             onChangeText={(value: string) =>
               handleInputChange(onChange, value, 'cpf')
             }
@@ -130,6 +130,7 @@ export function NaturalPersonForm({
             keyboardType="numeric"
             label="Celular / Whatsapp"
             placeholder="(12) 98881-5499"
+            max={11}
             defaultValue={phone}
             onChangeText={(value: string) =>
               handleInputChange(onChange, value, 'phone')

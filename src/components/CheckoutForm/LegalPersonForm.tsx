@@ -11,22 +11,18 @@ import {
 import { Spinner, YStack } from 'tamagui'
 
 import { Button } from '@/components/Button'
-import { PersonFormData } from '@/components/CheckoutForm/Step1'
 import { Input } from '@/components/Form/Input'
 import { PasswordInput } from '@/components/Form/PasswordInput'
 import { LegalPersonFormFields, legalPersonFormSchema } from '@/libs/zod'
+import { useCheckoutStore } from '@/stores/checkoutStore'
 
 type FieldName = keyof LegalPersonFormFields
 
 interface LegalPersonFormProps {
   onSubmit: (personType: 'natural' | 'legal') => void
-  personFormData: React.MutableRefObject<PersonFormData>
 }
 
-export function LegalPersonForm({
-  onSubmit,
-  personFormData,
-}: LegalPersonFormProps) {
+export function LegalPersonForm({ onSubmit }: LegalPersonFormProps) {
   const {
     control,
     handleSubmit,
@@ -37,8 +33,13 @@ export function LegalPersonForm({
     resolver: zodResolver(legalPersonFormSchema),
   })
 
+  const personFormData = useCheckoutStore((store) => store.state.personFormData)
+  const setPersonFormData = useCheckoutStore(
+    (store) => store.actions.setPersonFormData
+  )
+
   const { razaoSocial, email, password, passwordConfirmation, cnpj, phone } =
-    personFormData.current.legalPerson
+    personFormData.legalPerson
 
   function handleFormSubmit() {
     // onSubmit('legal')
@@ -51,11 +52,11 @@ export function LegalPersonForm({
   ) {
     changeHandler(value)
 
-    personFormData.current.legalPerson[fieldName] = value
+    setPersonFormData('legal', fieldName, value)
   }
 
   useEffect(() => {
-    const { legalPerson } = personFormData.current
+    const { legalPerson } = personFormData
 
     for (const fieldName of Object.keys(legalPerson)) {
       const value = legalPerson[fieldName as keyof LegalPersonFormFields]
@@ -110,6 +111,7 @@ export function LegalPersonForm({
             mask="cnpj"
             placeholder="00.000.000/0000-00"
             defaultValue={cnpj}
+            max={14}
             onChangeText={(value: string) =>
               handleInputChange(onChange, value, 'cnpj')
             }
@@ -129,6 +131,7 @@ export function LegalPersonForm({
             icon={Phone}
             mask="phone"
             defaultValue={phone}
+            max={11}
             onChangeText={(value: string) =>
               handleInputChange(onChange, value, 'phone')
             }
