@@ -1,6 +1,9 @@
 export type Customer = {
   id: number
-  name: string
+  type: 'f' | 'j'
+  name?: string
+  cpf?: string
+  cnpj?: string
   email: string
   razao_social?: string
   active: boolean
