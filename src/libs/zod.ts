@@ -20,7 +20,7 @@ const phoneSchema = z.string({
   required_error: 'Campo obrigatório',
 })
 
-const razaoSocialSchema = z.number({
+const razaoSocialSchema = z.string({
   required_error: 'Campo obrigatório',
 })
 
