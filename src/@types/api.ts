@@ -19,4 +19,5 @@ export type Api = {
     url: string,
     request: Request
   ) => Promise<{ data: Response }>
+  handleError(error: unknown): string
 }

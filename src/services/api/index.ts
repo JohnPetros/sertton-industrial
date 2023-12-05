@@ -3,6 +3,7 @@ import { brandsService } from '@/services/api/brandsService'
 import { categoriesService } from '@/services/api/categoriesService'
 import { collectionsService } from '@/services/api/collectionsService'
 import { commentsService } from '@/services/api/commentsService'
+import { customersService } from '@/services/api/customersService'
 import { logisticsService } from '@/services/api/logisticsService'
 import { productsService } from '@/services/api/productsService'
 import { reviewsService } from '@/services/api/reviewsService'
@@ -23,6 +24,7 @@ export function useApi() {
   return {
     ...brandsService(api),
     ...categoriesService(api),
+    ...customersService(api),
     ...collectionsService(api),
     ...logisticsService(api),
     ...productsService(api),
@@ -30,5 +32,6 @@ export function useApi() {
     ...skusService(api),
     ...commentsService(api),
     ...reviewsService(api),
+    handleError: (error: unknown) => api.handleError(error),
   }
 }

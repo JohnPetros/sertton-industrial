@@ -1,5 +1,6 @@
 import type { Customer } from '@/@types/customer'
 
+export type CreateCustomerPayload = Omit<Customer, 'id'> & { active: boolean }
 export interface ICustomersService {
-  createCustomer(customer: Customer): Promise<void>
+  createCustomer(payload: CreateCustomerPayload): Promise<void>
 }
