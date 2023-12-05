@@ -1,4 +1,6 @@
 export const REGEX = {
+  fullname: /^(?:\b\w{2,}\b\s+){1,}\b\w{2,}\b$/,
+  number: /\d/g,
   htmlTags: /<\/?[^>]+(>|$)/g,
   htmlList: /<li>(.*?)<\/li>/g,
   htmlLiTag: /<\/?li>/g,
