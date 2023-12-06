@@ -1,18 +1,11 @@
-import { YStack } from 'tamagui'
+import { Controller, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Globe, Signpost } from 'phosphor-react-native'
+import { XStack, YStack } from 'tamagui'
 
-import { Heading } from '@/components/CheckoutForm/Heading'
-import { Input } from '@/components/Form/Input'
+import { Button } from '@/components/Button'
+import { AddressForm } from '@/components/CheckoutForm/AddressForm'
 
 export function Step2() {
-  return (
-    <YStack gap={24}>
-      <Heading
-        step={2}
-        title="Entrega"
-        subtitle="Cadastre ou selecione um endereço."
-      />
-
-      <Input keyboardType="numeric" label="cep" mask="zipcode" max={8} />
-    </YStack>
-  )
+  return <AddressForm />
 }

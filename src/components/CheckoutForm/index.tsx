@@ -10,7 +10,7 @@ export function CheckoutForm() {
 
   return (
     <>
-      <YStack bg="$white" px={SCREEN.paddingX} py={12} mt={24}>
+      <YStack bg="$white" px={SCREEN.paddingX} py={12} pb={200} mt={24}>
         {step === 1 && <Step1 />}
         {step === 2 && <Step2 />}
       </YStack>
