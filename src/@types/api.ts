@@ -9,7 +9,7 @@ type Meta = {
 }
 
 export type Api = {
-  get: <Response>(url: string) => Promise<{ data: Response; meta: Meta }>
+  get: <Response>(url: string) => Promise<{ data: Response; meta?: Meta }>
   post: <Request, Response>(
     url: string,
     request: Request
