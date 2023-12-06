@@ -1,10 +1,11 @@
 import type { Api } from '@/@types/api'
+import type { Meta } from '@/@types/meta'
 import type { Product } from '@/@types/product'
 import { Endpoints } from '@/services/api/endpoints'
-import { IProductsService } from '@/services/api/interfaces/IProductsService'
+import { IProductsController } from '@/services/api/interfaces/IProductsService'
 import { Resources } from '@/services/api/resources'
 
-export function productsService(api: Api): IProductsService {
+export function productsController(api: Api): IProductsController {
   return {
     async getProducts({ page, search, sorter, categoryId, brandsIds }) {
       const sorterParam = sorter
@@ -19,7 +20,7 @@ export function productsService(api: Api): IProductsService {
         ? `&${brandsIds.map((id) => `brand_id[]=${id}`).join('&')}`
         : ''
 
-      const response = await api.get<Product[]>(
+      const response = await api.get<{ data: Product[]; meta: Meta }>(
         `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand${searchParam}${sorterParam}${categoryParam}${brandsIdsParam}&page=${page}&limit=20`
       )
       const { data, meta } = response
@@ -30,14 +31,14 @@ export function productsService(api: Api): IProductsService {
     },
 
     async getProductsByCollection(collectionId: number) {
-      const response = await api.get<Product[]>(
+      const response = await api.get<{ data: Product[] }>(
         `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand&collection_id[]=${collectionId}`
       )
       return response.data
     },
 
     async getProductBySlug(slug: string) {
-      const response = await api.get<Product[]>(
+      const response = await api.get<{ data: Product[] }>(
         `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand,texts&search=${slug}&searchFields=slug`
       )
 
@@ -45,7 +46,7 @@ export function productsService(api: Api): IProductsService {
     },
 
     async getSimiliarProducts(id: string) {
-      const response = await api.get<Product[]>(
+      const response = await api.get<{ data: Product[] }>(
         `/${Resources.CATALOG}/${Endpoints.PRODUCT}/${id}/${Endpoints.SIMILAR}?include=images,skus,brand,`
       )
 

@@ -1,5 +1,5 @@
 import type { Sku } from '@/@types/sku'
 
-export interface ISkusService {
+export interface ISkusController {
   getSkusByProductId(productId: number): Promise<Sku[]>
 }

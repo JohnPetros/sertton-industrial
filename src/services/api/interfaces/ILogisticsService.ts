@@ -7,7 +7,7 @@ export interface CalculateShippingCostsRequest {
   quantities: number[]
 }
 
-export interface ILogisticsService {
+export interface ILogisticsController {
   calculateShippingCosts(
     request: CalculateShippingCostsRequest
   ): Promise<ShippingCosts>

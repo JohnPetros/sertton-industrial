@@ -2,21 +2,12 @@ import axios, { isAxiosError } from 'axios'
 
 import type { Api } from '@/@types/api'
 
-const BASE_URL = process.env.YAMPI_BASE_URL
-const ALIAS = process.env.ALIAS
-
-const axiosClient = axios.create({
-  baseURL: `${BASE_URL}/${ALIAS}`,
-  headers: {
-    'User-Token': process.env.YAMPI_TOKEN,
-    'User-Secret-Key': process.env.YAMPI_SECRET_KEY,
-  },
-})
+const axiosClient = axios.create()
 
 export const axiosApi: Api = {
-  async get(url) {
+  async get<Response>(url: string) {
     const { data } = await axiosClient.get(url)
-    return data
+    return data as Response
   },
   async post<Request, Response>(url: string, request: Request) {
     return (await axiosClient.post(url, request)) as Response
@@ -27,12 +18,28 @@ export const axiosApi: Api = {
   async delete<Response>(url: string) {
     return (await axiosClient.delete(url)) as Response
   },
+
+  getBaseUrl() {
+    return axiosClient.defaults.baseURL ?? ''
+  },
+
+  setBaseUrl(baseUrl) {
+    axiosClient.defaults.baseURL = baseUrl
+  },
+
+  setHeader(key: string, value: string) {
+    axiosClient.defaults.headers[key] = value
+  },
+
   handleError(error: unknown) {
     if (isAxiosError(error)) {
-      console.error('RESPONSE =>', error.response)
+      console.error('REQUEST =>', error.request)
+      console.error(error.message)
 
       return error.message
     }
+
+    console.error(error)
 
     return 'Unknown Api Error'
   },

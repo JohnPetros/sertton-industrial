@@ -1,5 +1,6 @@
 export enum Endpoints {
   COLLECTION = 'collections',
+  CUSTOMERS = 'customers',
   PRODUCT = 'products',
   CLIENT = 'clients',
   CATEGORY = 'categories',

@@ -9,7 +9,7 @@ interface getProductsParams {
   brandsIds: number[]
 }
 
-export interface IProductsService {
+export interface IProductsController {
   getProducts(
     params: getProductsParams
   ): Promise<{ products: Product[]; totalPages: number }>

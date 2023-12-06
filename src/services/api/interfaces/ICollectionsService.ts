@@ -1,5 +1,5 @@
 import type { Collection } from '@/@types/collection'
 
-export interface ICollectionsService {
+export interface ICollectionsController {
   getCollections(productId: string): Promise<Collection[]>
 }

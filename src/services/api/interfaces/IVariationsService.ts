@@ -1,5 +1,5 @@
 import type { Variation } from '@/@types/variation'
 
-export interface IVariationsService {
+export interface IVariationsController {
   getVariations(): Promise<Variation[]>
 }

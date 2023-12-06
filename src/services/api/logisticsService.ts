@@ -3,11 +3,11 @@ import type { ShippingCosts } from '@/@types/shippingCosts'
 import { Endpoints } from '@/services/api/endpoints'
 import {
   CalculateShippingCostsRequest,
-  ILogisticsService,
+  ILogisticsController,
 } from '@/services/api/interfaces/ILogisticsService'
 import { Resources } from '@/services/api/resources'
 
-export function logisticsService(api: Api): ILogisticsService {
+export function logisticsController(api: Api): ILogisticsController {
   return {
     async calculateShippingCosts({
       zipcode,

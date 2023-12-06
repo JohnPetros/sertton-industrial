@@ -1,6 +1,6 @@
 import type { Category } from '@/@types/category'
 
-export interface ICategoriesService {
+export interface ICategoriesController {
   getCategories(): Promise<Category[]>
   getCategory(categoryId: number): Promise<Category>
 }

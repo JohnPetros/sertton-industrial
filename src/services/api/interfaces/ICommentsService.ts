@@ -1,5 +1,5 @@
 import type { Comment } from '@/@types/comment'
 
-export interface ICommentsService {
+export interface ICommentsController {
   getComments(): Promise<Comment[]>
 }

@@ -1,19 +1,26 @@
 import type { Api } from '@/@types/api'
+import type { Customer } from '@/@types/customer'
 import {
-  CreateCustomerPayload,
-  ICustomersService,
+  CreateCustomerRequest,
+  ICustomersController,
 } from '@/services/api/interfaces/ICustomersService'
 import { Resources } from '@/services/api/resources'
 
-export function customersService(api: Api): ICustomersService {
+export function customersController(api: Api): ICustomersController {
   return {
-    async createCustomer(customer: CreateCustomerPayload) {
-      const response = await api.post<CreateCustomerPayload, void>(
+    async createCustomer(customer: CreateCustomerRequest) {
+      await api.post<CreateCustomerRequest, void>(
         `/${Resources.CUSTOMERS}`,
         customer
       )
+    },
 
-      console.log(customer)
+    async getCustomerByEmail(email: string): Promise<Customer> {
+      const response = await api.get<{ data: Customer }>(
+        `/${Resources.CUSTOMERS}?q=${email}`
+      )
+
+      return response.data
     },
   }
 }
