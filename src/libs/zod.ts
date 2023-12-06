@@ -49,6 +49,34 @@ const passwordConfirmationSchema = z.string({
   required_error: 'Campo obrigatório',
 })
 
+const zipcodeSchema = z
+  .string({
+    required_error: 'Campo obrigatório',
+  })
+  .max(8)
+
+const citySchema = z.string({
+  required_error: 'Campo obrigatório',
+})
+
+const numberSchema = z.number({
+  required_error: 'Campo obrigatório',
+})
+
+const streetSchema = z.number({
+  required_error: 'Campo obrigatório',
+})
+
+const neighborhoodSchema = z.number({
+  required_error: 'Campo obrigatório',
+})
+
+const ufSchema = z.number({
+  required_error: 'Campo obrigatório',
+})
+
+const complementSchema = z.string().optional()
+
 const naturalPersonFormSchema = z
   .object({
     name: nameSchema,
@@ -77,7 +105,19 @@ const legalPersonFormSchema = z
     message: 'As senhas precisam de iguais',
   })
 
+const addressFormSchema = z.object({
+  number: numberSchema,
+  zipcode: zipcodeSchema,
+  city: citySchema,
+  street: streetSchema,
+  uf: ufSchema,
+  neighborhood: neighborhoodSchema,
+  complement: complementSchema,
+  receiver: nameSchema,
+})
+
 export type NaturalPersonFormFields = z.infer<typeof naturalPersonFormSchema>
 export type LegalPersonFormFields = z.infer<typeof legalPersonFormSchema>
+export type AdressFormFields = z.infer<typeof addressFormSchema>
 
-export { legalPersonFormSchema, naturalPersonFormSchema }
+export { addressFormSchema, legalPersonFormSchema, naturalPersonFormSchema }
