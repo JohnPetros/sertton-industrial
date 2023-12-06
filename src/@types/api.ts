@@ -9,7 +9,7 @@ type Meta = {
 }
 
 export type Api = {
-  get: <Response>(url: string) => Promise<{ data: Response; meta?: Meta }>
+  get: <Response>(url: string) => Promise<Response>
   post: <Request, Response>(
     url: string,
     request: Request
@@ -19,5 +19,8 @@ export type Api = {
     url: string,
     request: Request
   ) => Promise<{ data: Response }>
+  getBaseUrl(): string
+  setBaseUrl(baseUrl: string): void
+  setHeader(key: string, value: string): void
   handleError(error: unknown): string
 }
