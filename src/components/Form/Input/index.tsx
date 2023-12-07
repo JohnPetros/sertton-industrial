@@ -3,6 +3,7 @@ import { Icon as IconProps } from 'phosphor-react-native'
 import {
   getTokens,
   InputProps as FieldProps,
+  Spinner,
   Text,
   XStack,
   YStack,
@@ -25,7 +26,8 @@ export interface InputProps extends FieldProps {
   icon?: IconProps
   mask?: Mask
   max?: number
-  defaultValue?: string
+  isOptional?: boolean
+  isLoading?: boolean
 }
 
 export function Input({
@@ -34,19 +36,20 @@ export function Input({
   placeholder,
   w,
   autoCorrect,
-  defaultValue,
+  value,
   disabled,
   keyboardType,
   autoCapitalize,
   secureTextEntry,
   max,
   mask,
+  isLoading = false,
+  isOptional = false,
   error,
   onChangeText,
 }: InputProps) {
-  const [inputState, setInputState] = useState<InputState>('default')
   const [iconState, setIconState] = useState<IconState>('default')
-  const [inputValue, setInputValue] = useState(defaultValue)
+  const [inputState, setInputState] = useState<InputState>('default')
   const maskText = useMask(mask)
   const id = useId()
 
@@ -67,8 +70,7 @@ export function Input({
   function handleTextChange(text: string) {
     if (disabled) return
 
-    const maskedText = maskText(text).toString()
-    setInputValue(maskedText)
+    const maskedText = text
 
     if (onChangeText) {
       const value =
@@ -86,10 +88,6 @@ export function Input({
   }
 
   useEffect(() => {
-    if (disabled) setInputValue('')
-  }, [disabled])
-
-  useEffect(() => {
     if (error) {
       setInputState('error')
       setIconState('error')
@@ -103,7 +101,11 @@ export function Input({
 
   return (
     <YStack gap={3}>
-      {label && <Label id={id}>{label}</Label>}
+      {label && (
+        <Label id={id} subLabel={isOptional ? '(opcional)' : ''}>
+          {label}
+        </Label>
+      )}
       <XStack w={w} gap={4}>
         {InputIcon && (
           <Icon
@@ -118,7 +120,7 @@ export function Input({
           keyboardType={keyboardType}
           state={disabled ? 'disabled' : inputState}
           placeholder={placeholder}
-          value={inputValue}
+          value={maskText(value ?? '')}
           onFocus={handleFocus}
           onBlur={handleBlur}
           onChangeText={handleTextChange}
@@ -132,6 +134,10 @@ export function Input({
         <Text color="$red500" fontSize={12}>
           {error}
         </Text>
+      )}
+
+      {isLoading && (
+        <Spinner top="50%" right={12} position="absolute" color="$blue500" />
       )}
     </YStack>
   )

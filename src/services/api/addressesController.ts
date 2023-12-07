@@ -34,23 +34,32 @@ export function addressesController(api: Api): IAdressesController {
 
     async getAddressesByCustomerId(customerId: number): Promise<Address[]> {
       const response = await api.get<{ data: Address[] }>(
-        `${Resources.CUSTOMERS}/${customerId}/addresses`
+        `${Resources.CUSTOMERS}/${customerId}/${Resources.ADDRESSES}`
       )
 
       return response.data
     },
 
     async saveAddress(address: Address, customerId: number) {
-      await api.post(`${Resources.CUSTOMERS}/${customerId}/addresses`, address)
+      await api.post(
+        `${Resources.CUSTOMERS}/${customerId}/${Resources.ADDRESSES}`,
+        address
+      )
     },
 
     async updateAddress(address: Address, customerId: number) {
       await api.put(
-        `${Resources.CUSTOMERS}/${customerId}/addresses/${address.id}`,
+        `${Resources.CUSTOMERS}/${customerId}/${Resources.ADDRESSES}/${address.id}`,
         {
           ...address,
           zipcode: address.zip_code,
         }
+      )
+    },
+
+    async deleteAddress(addressId: number, customerId: number) {
+      await api.delete(
+        `${Resources.CUSTOMERS}/${customerId}/${Resources.ADDRESSES}/${addressId}`
       )
     },
   }

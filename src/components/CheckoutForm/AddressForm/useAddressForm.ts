@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Address } from '@/@types/address'
@@ -8,6 +8,21 @@ import { useCustomerContext } from '@/contexts/CustomerContext'
 import { AddressFormFields, addressFormSchema, zipcodeSchema } from '@/libs/zod'
 import { useApi } from '@/services/api'
 import { useStorage } from '@/services/storage'
+
+type MutationCustomerAdressAddingParams = {
+  address: Omit<Address, 'id'>
+  customerId: number
+}
+
+type MutationCustomerAdressUpdatingParams = {
+  address: Address
+  customerId: number
+}
+
+type MutationCustomerAdressDeletingParams = {
+  addressId: number
+  customerId: number
+}
 
 export function useAddressForm() {
   const { customer } = useCustomerContext()
@@ -72,11 +87,44 @@ export function useAddressForm() {
     }
   }
 
-  const { data: addresses } = useQuery(
+  const { data: addresses, refetch } = useQuery(
     ['addresses', customer],
     getAddressesByCustomerId,
     {
       enabled: !!customer,
+    }
+  )
+
+  const addressAddingMutation = useMutation(
+    ({ address, customerId }: MutationCustomerAdressAddingParams) =>
+      api.saveAddress(address, customerId),
+    {
+      onSuccess: () => refetch(),
+      onError: (error) => {
+        api.handleError(error)
+      },
+    }
+  )
+
+  const addressUpdatingMutation = useMutation(
+    ({ address, customerId }: MutationCustomerAdressUpdatingParams) =>
+      api.updateAddress(address, customerId),
+    {
+      onSuccess: () => refetch(),
+      onError: (error) => {
+        api.handleError(error)
+      },
+    }
+  )
+
+  const addressDeletingMutation = useMutation(
+    ({ addressId, customerId }: MutationCustomerAdressDeletingParams) =>
+      api.deleteAddress(addressId, customerId),
+    {
+      onSuccess: () => refetch(),
+      onError: (error) => {
+        api.handleError(error)
+      },
     }
   )
 
@@ -165,10 +213,20 @@ export function useAddressForm() {
     }
   }
 
-  function handleDeleteAddress(zipcode: string) {
+  async function handleDeleteAddress(zipcode: string) {
     const address = getCustomerAddressByZipcode(zipcode)
 
-    console.log({ address })
+    if (!address || !customer) return
+
+    addressDeletingMutation.mutate({
+      addressId: address.id,
+      customerId: customer.id,
+    })
+
+    const isSelected = address.zip_code === selectedAddressZipcode
+
+    if (isSelected && addresses)
+      setSelectedAddressZipcode(addresses[0].zip_code)
   }
 
   async function handleFormSubmit(fields: AddressFormFields) {
@@ -188,21 +246,22 @@ export function useAddressForm() {
       submitedAddress.zip_code
     )
 
-    try {
-      if (customerAddress) {
-        const address: Address = {
-          id: customerAddress.id,
-          ...submitedAddress,
-        }
-
-        await api.updateAddress(address, customer.id)
-        return
+    if (customerAddress) {
+      const address: Address = {
+        id: customerAddress.id,
+        ...submitedAddress,
       }
 
-      await api.saveAddress(submitedAddress, customer.id)
-    } catch (error) {
-      api.handleError(error)
+      addressUpdatingMutation.mutate({ address, customerId: customer.id })
+      setIsAddressRadioGroupVisible(true)
+      return
     }
+
+    addressAddingMutation.mutate({
+      address: submitedAddress,
+      customerId: customer.id,
+    })
+    setIsAddressRadioGroupVisible(true)
   }
 
   useEffect(() => {

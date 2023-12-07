@@ -49,29 +49,29 @@ const passwordConfirmationSchema = z.string({
   required_error: 'Campo obrigatório',
 })
 
-const zipcodeSchema = z
+export const zipcodeSchema = z
   .string({
     required_error: 'Campo obrigatório',
   })
-  .max(8)
+  .length(8)
 
 const citySchema = z.string({
   required_error: 'Campo obrigatório',
 })
 
-const numberSchema = z.number({
+const numberSchema = z.string({
   required_error: 'Campo obrigatório',
 })
 
-const streetSchema = z.number({
+const streetSchema = z.string({
   required_error: 'Campo obrigatório',
 })
 
-const neighborhoodSchema = z.number({
+const neighborhoodSchema = z.string({
   required_error: 'Campo obrigatório',
 })
 
-const ufSchema = z.number({
+const ufSchema = z.string({
   required_error: 'Campo obrigatório',
 })
 
@@ -118,6 +118,6 @@ const addressFormSchema = z.object({
 
 export type NaturalPersonFormFields = z.infer<typeof naturalPersonFormSchema>
 export type LegalPersonFormFields = z.infer<typeof legalPersonFormSchema>
-export type AdressFormFields = z.infer<typeof addressFormSchema>
+export type AddressFormFields = z.infer<typeof addressFormSchema>
 
 export { addressFormSchema, legalPersonFormSchema, naturalPersonFormSchema }
