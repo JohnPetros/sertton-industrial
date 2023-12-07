@@ -1,3 +1,5 @@
+import type { Address } from '@/@types/address'
+
 export type Customer = {
   id: number
   type: 'f' | 'j'
@@ -10,4 +12,7 @@ export type Customer = {
   password: string
   password_confirmation: string
   homephone: string
+  addresses?: {
+    data: Address[]
+  }
 }
