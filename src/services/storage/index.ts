@@ -1,5 +1,5 @@
 import type { Storage } from '@/@types/storage'
-import { cartStorage } from '@/services/storage/cartStorage'
+import { customerStorage } from '@/services/storage/customerStorage'
 
 let storage: Storage
 
@@ -13,6 +13,6 @@ export function useStorage() {
   }
 
   return {
-    ...cartStorage(storage),
+    ...customerStorage(storage),
   }
 }

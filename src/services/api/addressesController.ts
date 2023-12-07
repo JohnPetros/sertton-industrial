@@ -39,5 +39,9 @@ export function addressesController(api: Api): IAdressesController {
 
       return response.data
     },
+
+    async saveAddress(address: Address, customerId: number) {
+      await api.post(`${Resources.CUSTOMERS}/${customerId}/addresses`, address)
+    },
   }
 }

@@ -16,11 +16,11 @@ export function customersController(api: Api): ICustomersController {
     },
 
     async getCustomerByEmail(email: string): Promise<Customer> {
-      const response = await api.get<{ data: Customer }>(
-        `/${Resources.CUSTOMERS}?q=${email}`
+      const response = await api.get<{ data: Customer[] }>(
+        `/${Resources.CUSTOMERS}?q=${email}&includes=addresses`
       )
 
-      return response.data
+      return response.data[0]
     },
   }
 }

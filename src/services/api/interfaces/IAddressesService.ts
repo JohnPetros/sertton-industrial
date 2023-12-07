@@ -19,4 +19,5 @@ export interface IAdressesController {
   getAddressByZipcode(
     zipcode: string
   ): Promise<Omit<Address, 'number' | 'receiver'> | null>
+  saveAddress(address: Address, customerId: number): Promise<void>
 }
