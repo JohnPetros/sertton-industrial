@@ -12,10 +12,10 @@ export function addressesController(api: Api): IAdressesController {
   return {
     async getAddressByZipcode(
       zipcode: string
-    ): Promise<Omit<Address, 'number' | 'receiver'> | null> {
+    ): Promise<Omit<Address, 'number' | 'receiver' | 'id'> | null> {
       if (!BASE_URL) throw new Error()
 
-      api.setBaseUrl('https://viacep.com.br/ws')
+      api.setBaseUrl(BASE_URL)
 
       const data = await api.get<GetAddressByZipcodeResponse>(
         `/${zipcode}/json/`
@@ -42,6 +42,16 @@ export function addressesController(api: Api): IAdressesController {
 
     async saveAddress(address: Address, customerId: number) {
       await api.post(`${Resources.CUSTOMERS}/${customerId}/addresses`, address)
+    },
+
+    async updateAddress(address: Address, customerId: number) {
+      await api.put(
+        `${Resources.CUSTOMERS}/${customerId}/addresses/${address.id}`,
+        {
+          ...address,
+          zipcode: address.zip_code,
+        }
+      )
     },
   }
 }

@@ -75,6 +75,7 @@ export const useCheckoutStore = create<CheckoutStoreProps>()(
             }
           })
         },
+
         setStep(step: number) {
           return set(({ state }) => {
             if (step <= 3) state.step = step

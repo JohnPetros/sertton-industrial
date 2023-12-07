@@ -42,14 +42,14 @@ export function useAddressForm() {
         (await storage.getCustomerSelectedAddressZipcode()) ??
         addresses[0].zip_code
 
-      console.log({ selectedAddressZipcode })
-
       if (selectedAddressZipcode) {
         setSelectedAddressZipcode(selectedAddressZipcode)
 
         const selectedAddress = addresses.find(
           (address) => address.zip_code === selectedAddressZipcode
         )
+
+        console.log({ selectedAddress })
 
         if (selectedAddress) {
           setAddressFormData({
@@ -63,6 +63,7 @@ export function useAddressForm() {
             receiver: customer.name ?? '',
           })
 
+          setSelectedAddressZipcode(selectedAddress.zip_code)
           setIsAddressRadioGroupVisible(true)
         }
       }
@@ -78,6 +79,14 @@ export function useAddressForm() {
       enabled: !!customer,
     }
   )
+
+  function toggleAddressRadioGroupVisibility() {
+    setIsAddressRadioGroupVisible(!isAddressRadioGroupVisible)
+  }
+
+  function getCustomerAddressByZipcode(zipcode: string) {
+    return addresses?.find((address) => address.zip_code === zipcode)
+  }
 
   async function getAddressByZipcode(zipcode: string) {
     try {
@@ -103,6 +112,7 @@ export function useAddressForm() {
     try {
       setIsLoading(true)
       const address = await getAddressByZipcode(zipcode)
+
       if (address) {
         setAddressFormData({
           city: address.city,
@@ -136,10 +146,35 @@ export function useAddressForm() {
     await storage.setCustomerSelectedAddressZipcode(selectedAddressZipcode)
   }
 
-  function handleFormSubmit(fields: AddressFormFields) {
+  function handleEditAddress(zipcode: string) {
+    const address = getCustomerAddressByZipcode(zipcode)
+
+    if (address) {
+      setAddressFormData({
+        city: address.city,
+        street: address.street,
+        zipcode: address.zip_code,
+        uf: address.uf,
+        neighborhood: address.neighborhood,
+        complement: address.complement,
+        number: address.number,
+        receiver: customer?.name ?? '',
+      })
+      setIsAddressRadioGroupVisible(false)
+      setIsZipcodeValid(true)
+    }
+  }
+
+  function handleDeleteAddress(zipcode: string) {
+    const address = getCustomerAddressByZipcode(zipcode)
+
+    console.log({ address })
+  }
+
+  async function handleFormSubmit(fields: AddressFormFields) {
     if (!customer) return
 
-    const address: Address = {
+    const submitedAddress: Omit<Address, 'id'> = {
       city: fields.city,
       number: fields.number,
       uf: fields.uf,
@@ -149,7 +184,25 @@ export function useAddressForm() {
       receiver: fields.receiver,
     }
 
-    api.saveAddress(address, customer.id)
+    const customerAddress = getCustomerAddressByZipcode(
+      submitedAddress.zip_code
+    )
+
+    try {
+      if (customerAddress) {
+        const address: Address = {
+          id: customerAddress.id,
+          ...submitedAddress,
+        }
+
+        await api.updateAddress(address, customer.id)
+        return
+      }
+
+      await api.saveAddress(submitedAddress, customer.id)
+    } catch (error) {
+      api.handleError(error)
+    }
   }
 
   useEffect(() => {
@@ -172,7 +225,10 @@ export function useAddressForm() {
     isZipcodeValid,
     isLoading,
     handleZipcodeChange,
+    handleEditAddress,
+    handleDeleteAddress,
     handleSelectedAddressChange,
+    toggleAddressRadioGroupVisibility,
     handleSubmit: handleSubmit(handleFormSubmit),
   }
 }

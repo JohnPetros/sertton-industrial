@@ -5,7 +5,7 @@ import { XStack, YStack } from 'tamagui'
 import { Logo } from '@/components/Logo'
 import { SCREEN } from '@/utils/constants/screen'
 
-export default function Header() {
+export function Header() {
   return (
     <XStack pb={12} px={SCREEN.paddingX} justifyContent="space-between">
       <Logo />
