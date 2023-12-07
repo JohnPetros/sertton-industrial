@@ -11,6 +11,8 @@ interface AddressRadioItem {
   street: string
   city: string
   isSelected: boolean
+  onEdit: (zipcode: string) => void
+  onDelete: (zipcode: string) => void
 }
 
 export function AddressRadioItem({
@@ -21,6 +23,8 @@ export function AddressRadioItem({
   neighborhood,
   street,
   isSelected,
+  onEdit,
+  onDelete,
 }: AddressRadioItem) {
   return (
     <RadioGroup.Item unstyled id={zipCode} flex={1} value={zipCode}>
@@ -52,7 +56,7 @@ export function AddressRadioItem({
           </Text>
         </YStack>
         <XStack h="100%" alignItems="flex-start">
-          <Button background="transparent">
+          <Button background="transparent" onPress={() => onEdit(zipCode)}>
             <YStack alignItems="center">
               <Pencil color={getTokens().color.gray400.val} />
               <Text fontSize={12} color="$gray400" fontWeight="600">
@@ -60,7 +64,7 @@ export function AddressRadioItem({
               </Text>
             </YStack>
           </Button>
-          <Button background="transparent">
+          <Button background="transparent" onPress={() => onDelete(zipCode)}>
             <YStack alignItems="center">
               <Trash color={getTokens().color.gray400.val} />
               <Text fontSize={12} color="$gray400" fontWeight="600">

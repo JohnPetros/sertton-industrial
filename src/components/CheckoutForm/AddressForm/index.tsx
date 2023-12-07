@@ -31,6 +31,9 @@ export function AddressForm() {
     handleSubmit,
     handleZipcodeChange,
     handleSelectedAddressChange,
+    handleDeleteAddress,
+    handleEditAddress,
+    toggleAddressRadioGroupVisibility,
   } = useAddressForm()
 
   console.log(isAddressRadioGroupVisible)
@@ -42,6 +45,32 @@ export function AddressForm() {
         title="Entrega"
         subtitle="Cadastre ou selecione um endereço."
       />
+
+      {addresses && isAddressRadioGroupVisible && (
+        <Button
+          background="transparent"
+          color="$blue500"
+          fontWeight="600"
+          borderWidth={1}
+          borderColor="$blue500"
+          onPress={toggleAddressRadioGroupVisibility}
+        >
+          Cadastrar novo endereço
+        </Button>
+      )}
+
+      {addresses && !isAddressRadioGroupVisible && (
+        <Button
+          background="transparent"
+          color="$blue500"
+          fontWeight="600"
+          borderWidth={1}
+          borderColor="$blue500"
+          onPress={toggleAddressRadioGroupVisibility}
+        >
+          Ver endereços cadastrados
+        </Button>
+      )}
 
       {!isAddressRadioGroupVisible && (
         <>
@@ -167,6 +196,8 @@ export function AddressForm() {
               uf={address.uf}
               zipCode={address.zip_code}
               isSelected={selectedAddressZipcode === address.zip_code}
+              onEdit={handleEditAddress}
+              onDelete={handleDeleteAddress}
             />
           ))}
         </AddressesRadioGroup>
