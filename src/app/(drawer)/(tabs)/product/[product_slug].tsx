@@ -3,7 +3,7 @@ import { LayoutChangeEvent } from 'react-native'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { useFocusEffect, useRouter } from 'expo-router'
 import { useGlobalSearchParams } from 'expo-router/src/hooks'
-import { ArrowsOut, ChatCenteredText, Question } from 'phosphor-react-native'
+import { ArrowsOut } from 'phosphor-react-native'
 import {
   getTokens,
   H2,
@@ -32,11 +32,9 @@ import {
   SalePrice,
   SkuCode,
 } from '@/components/Product'
-import { ProductReviews } from '@/components/ProductReviews'
 import ShippingCostsCalculation from '@/components/ShippingCostsCalculation'
 import { Skeleton } from '@/components/Skeleton'
 import { SkuSelects, SkuSelectsRef } from '@/components/SkuSelects'
-import { Tabs } from '@/components/Tabs'
 import { Timer } from '@/components/Timer'
 import { useProduct } from '@/hooks/useProduct'
 import { useProductReviews } from '@/hooks/useProductReviews'
@@ -85,8 +83,6 @@ export default function Product() {
 
   function handleAddToCart() {
     const shouldAddTocart = skuSelectsRef.current?.onAddSkuToCart()
-
-    console.log({ canAddItem: hasVariations && !shouldAddTocart })
 
     if (hasVariations && !shouldAddTocart) return
 
@@ -336,34 +332,6 @@ export default function Product() {
                     />
                   )}
                 </YStack>
-                <View mt={12}>
-                  <Tabs
-                    width={SCREEN.width - SCREEN.paddingX * 2}
-                    label="Avaliações e Dúvidas"
-                    tabs={[
-                      {
-                        title: `Avaliações (${reviews?.length ?? '0'})`,
-                        value: 'reviews',
-                        icon: ChatCenteredText,
-                        size: reviews ? reviews.length * 400 : 1000,
-                        content: (
-                          <ProductReviews
-                            data={reviews ?? []}
-                            productId={product.id}
-                            productName={product.name}
-                          />
-                        ),
-                      },
-                      {
-                        title: 'Dúvidas (0)',
-                        value: 'questions',
-                        icon: Question,
-                        size: 400,
-                        content: <Text>Tab 2</Text>,
-                      },
-                    ]}
-                  />
-                </View>
               </YStack>
             )}
           </YStack>
