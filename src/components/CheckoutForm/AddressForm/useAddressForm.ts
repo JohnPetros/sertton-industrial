@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Address } from '@/@types/address'
 import { useCustomerContext } from '@/contexts/CustomerContext'
-import { addressFormSchema, AdressFormFields, zipcodeSchema } from '@/libs/zod'
+import { AddressFormFields, addressFormSchema, zipcodeSchema } from '@/libs/zod'
 import { useApi } from '@/services/api'
 import { useStorage } from '@/services/storage'
 
@@ -21,7 +21,7 @@ export function useAddressForm() {
     setError,
     clearErrors,
     formState: { errors },
-  } = useForm<AdressFormFields>({
+  } = useForm<AddressFormFields>({
     mode: 'onBlur',
     resolver: zodResolver(addressFormSchema),
   })
@@ -29,14 +29,20 @@ export function useAddressForm() {
   const [selectedAddressZipcode, setSelectedAddressZipcode] = useState('')
   const [isZipcodeValid, setIsZipcodeValid] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [addressFormData, setAddressFormData] = useState<Partial<Address>>({})
+  const [isAddressRadioGroupVisible, setIsAddressRadioGroupVisible] =
+    useState(true)
+  const [addressFormData, setAddressFormData] =
+    useState<AddressFormFields | null>(null)
 
   async function getAddressesByCustomerId() {
     if (customer) {
       const addresses = await api.getAddressesByCustomerId(customer.id)
 
       const selectedAddressZipcode =
-        await storage.getCustomerSelectedAddressZipcode()
+        (await storage.getCustomerSelectedAddressZipcode()) ??
+        addresses[0].zip_code
+
+      console.log({ selectedAddressZipcode })
 
       if (selectedAddressZipcode) {
         setSelectedAddressZipcode(selectedAddressZipcode)
@@ -45,15 +51,28 @@ export function useAddressForm() {
           (address) => address.zip_code === selectedAddressZipcode
         )
 
-        if (selectedAddress) setAddressFormData(selectedAddress)
+        if (selectedAddress) {
+          setAddressFormData({
+            city: selectedAddress.city,
+            street: selectedAddress.street,
+            zipcode: selectedAddress.zip_code,
+            uf: selectedAddress.uf,
+            neighborhood: selectedAddress.neighborhood,
+            complement: selectedAddress.complement,
+            number: selectedAddress.number,
+            receiver: customer.name ?? '',
+          })
+
+          setIsAddressRadioGroupVisible(true)
+        }
       }
 
       return addresses
     }
   }
 
-  const { data: adresses } = useQuery(
-    ['adresses', customer],
+  const { data: addresses } = useQuery(
+    ['addresses', customer],
     getAddressesByCustomerId,
     {
       enabled: !!customer,
@@ -84,11 +103,14 @@ export function useAddressForm() {
     try {
       setIsLoading(true)
       const address = await getAddressByZipcode(zipcode)
-      console.log(address)
-
       if (address) {
         setAddressFormData({
-          ...address,
+          city: address.city,
+          street: address.street,
+          zipcode: address.zip_code,
+          uf: address.uf,
+          neighborhood: address.neighborhood,
+          complement: address.complement,
           number: '',
           receiver: customer?.name ?? '',
         })
@@ -109,27 +131,48 @@ export function useAddressForm() {
     }
   }
 
-  function handleFormSubmit(fields: AdressFormFields) {
-    console.log(fields)
+  async function handleSelectedAddressChange(selectedAddressZipcode: string) {
+    setSelectedAddressZipcode(selectedAddressZipcode)
+    await storage.setCustomerSelectedAddressZipcode(selectedAddressZipcode)
+  }
+
+  function handleFormSubmit(fields: AddressFormFields) {
+    if (!customer) return
+
+    const address: Address = {
+      city: fields.city,
+      number: fields.number,
+      uf: fields.uf,
+      zip_code: fields.zipcode,
+      street: fields.street,
+      neighborhood: fields.neighborhood,
+      receiver: fields.receiver,
+    }
+
+    api.saveAddress(address, customer.id)
   }
 
   useEffect(() => {
+    if (!addressFormData) return
+
     for (const fieldName of Object.keys(addressFormData)) {
       const value = addressFormData[fieldName as keyof typeof addressFormData]
 
-      if (value) setValue(fieldName as keyof AdressFormFields, value)
+      if (value) setValue(fieldName as keyof AddressFormFields, value)
     }
   }, [addressFormData])
 
   return {
     control,
-    adresses,
+    addresses,
     errors,
     selectedAddressZipcode,
+    isAddressRadioGroupVisible,
     addressFormData,
     isZipcodeValid,
     isLoading,
     handleZipcodeChange,
+    handleSelectedAddressChange,
     handleSubmit: handleSubmit(handleFormSubmit),
   }
 }
