@@ -21,11 +21,20 @@ export function Step1() {
   const api = useApi()
 
   async function handleSubmit(personType: 'legal' | 'natural') {
-    console.log('submit')
-
     try {
       if (personType === 'natural') {
         const { naturalPerson } = personFormData
+        console.log({
+          type: 'f',
+          active: true,
+          name: naturalPerson.name,
+          email: naturalPerson.email,
+          cpf: naturalPerson.cpf,
+          homephone: naturalPerson.phone,
+          password: naturalPerson.password,
+          password_confirmation: naturalPerson.passwordConfirmation,
+        })
+
         await api.createCustomer({
           type: 'f',
           active: true,
@@ -49,9 +58,9 @@ export function Step1() {
           password_confirmation: legalPerson.passwordConfirmation,
         })
       }
-      setStep(2)
+      // setStep(2)
     } catch (error) {
-      // api.handleError(error)
+      api.handleError(error)
     }
   }
 
