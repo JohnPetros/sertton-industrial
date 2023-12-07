@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { Keyboard } from 'react-native'
 import { useMutation, useQuery } from 'react-query'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -35,6 +36,7 @@ export function useAddressForm() {
     setValue,
     setError,
     clearErrors,
+    getValues,
     formState: { errors },
   } = useForm<AddressFormFields>({
     mode: 'onBlur',
@@ -161,6 +163,8 @@ export function useAddressForm() {
       setIsLoading(true)
       const address = await getAddressByZipcode(zipcode)
 
+      console.log({ address })
+
       if (address) {
         setAddressFormData({
           city: address.city,
@@ -175,6 +179,8 @@ export function useAddressForm() {
 
         setIsZipcodeValid(true)
         clearErrors()
+        console.log(getValues())
+        Keyboard.dismiss()
       } else {
         setIsZipcodeValid(false)
         setError('zipcode', {
@@ -274,9 +280,15 @@ export function useAddressForm() {
     }
   }, [addressFormData])
 
+  useEffect(() => {
+    const hasCustomerAddress = addresses && addresses.length > 0
+    if (!hasCustomerAddress) setIsAddressRadioGroupVisible(false)
+  }, [addresses])
+
   return {
     control,
     addresses,
+    hasCustomerAddress: addresses && addresses.length > 0,
     errors,
     selectedAddressZipcode,
     isAddressRadioGroupVisible,

@@ -22,6 +22,7 @@ export function AddressForm() {
   const {
     control,
     addresses,
+    hasCustomerAddress,
     addressFormData,
     selectedAddressZipcode,
     isAddressRadioGroupVisible,
@@ -36,8 +37,6 @@ export function AddressForm() {
     toggleAddressRadioGroupVisibility,
   } = useAddressForm()
 
-  console.log(isAddressRadioGroupVisible)
-
   return (
     <YStack gap={24}>
       <Heading
@@ -46,7 +45,7 @@ export function AddressForm() {
         subtitle="Cadastre ou selecione um endereço."
       />
 
-      {addresses && isAddressRadioGroupVisible && (
+      {hasCustomerAddress && isAddressRadioGroupVisible && (
         <Button
           background="transparent"
           color="$blue500"
@@ -59,7 +58,7 @@ export function AddressForm() {
         </Button>
       )}
 
-      {addresses && !isAddressRadioGroupVisible && (
+      {hasCustomerAddress && !isAddressRadioGroupVisible && (
         <Button
           background="transparent"
           color="$blue500"

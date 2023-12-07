@@ -5,6 +5,7 @@ import {
   IAdressesController,
 } from '@/services/api/interfaces/IAddressesService'
 import { Resources } from '@/services/api/resources'
+import { getOnlyNumbers } from '@/utils/helpers/getOnlyNumbers'
 
 const BASE_URL = process.env.VIA_CEP_BASE_URL
 
@@ -28,7 +29,7 @@ export function addressesController(api: Api): IAdressesController {
         city: data.localidade,
         street: data.logradouro,
         neighborhood: data.bairro,
-        zip_code: data.cep,
+        zip_code: getOnlyNumbers(data.cep),
       }
     },
 
@@ -43,7 +44,10 @@ export function addressesController(api: Api): IAdressesController {
     async saveAddress(address: Address, customerId: number) {
       await api.post(
         `${Resources.CUSTOMERS}/${customerId}/${Resources.ADDRESSES}`,
-        address
+        {
+          ...address,
+          zipcode: address.zip_code,
+        }
       )
     },
 

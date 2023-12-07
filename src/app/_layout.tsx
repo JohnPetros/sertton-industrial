@@ -9,6 +9,7 @@ import { TamaguiProvider, Text, Theme } from 'tamagui'
 import config from '../../tamagui.config'
 import { StyledSafeAreaView } from '../components/StyledSafeAreaView'
 
+import { CustomerProvider } from '@/contexts/CustomerContext'
 import { axiosApi } from '@/libs/axios'
 import { dayjsProvider } from '@/libs/dayjs'
 import { mmkvStorage } from '@/libs/mmkv'
@@ -45,18 +46,20 @@ export default function Layout() {
       <TamaguiProvider config={config}>
         <Suspense fallback={<Text>Loading...</Text>}>
           <Theme name={colorScheme}>
-            <StyledSafeAreaView>
-              <StatusBar
-                backgroundColor={'#f5f1f1'}
-                translucent
-                barStyle="dark-content"
-              />
-              <Stack
-                screenOptions={{
-                  headerShown: false,
-                }}
-              />
-            </StyledSafeAreaView>
+            <CustomerProvider>
+              <StyledSafeAreaView>
+                <StatusBar
+                  backgroundColor={'#f5f1f1'}
+                  translucent
+                  barStyle="dark-content"
+                />
+                <Stack
+                  screenOptions={{
+                    headerShown: false,
+                  }}
+                />
+              </StyledSafeAreaView>
+            </CustomerProvider>
           </Theme>
         </Suspense>
       </TamaguiProvider>
