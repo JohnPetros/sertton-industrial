@@ -8,11 +8,8 @@ import { Resources } from '@/services/api/resources'
 
 export function customersController(api: Api): ICustomersController {
   return {
-    async createCustomer(customer: CreateCustomerRequest) {
-      await api.post<CreateCustomerRequest, void>(
-        `/${Resources.CUSTOMERS}`,
-        customer
-      )
+    async createCustomer(customer: Customer) {
+      await api.post(`/customers`, customer)
     },
 
     async getCustomerByEmail(email: string): Promise<Customer> {
