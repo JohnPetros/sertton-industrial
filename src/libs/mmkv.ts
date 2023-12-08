@@ -8,7 +8,6 @@ const storage = new MMKV({ id: STORAGE_ID })
 export const mmkvStorage: Storage = {
   async get(key: string): Promise<string | null> {
     const item = storage.getString(key)
-    console.log(item)
     return item ?? null
   },
 
