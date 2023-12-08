@@ -9,8 +9,6 @@ export type Customer = {
   email: string
   razao_social?: string
   active: boolean
-  password: string
-  password_confirmation: string
   homephone: string
   addresses?: {
     data: Address[]

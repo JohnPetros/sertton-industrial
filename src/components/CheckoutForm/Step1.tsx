@@ -5,6 +5,7 @@ import { YStack } from 'tamagui'
 import { Heading } from '@/components/CheckoutForm/Heading'
 import { LegalPersonForm } from '@/components/CheckoutForm/LegalPersonForm'
 import { NaturalPersonForm } from '@/components/CheckoutForm/NaturalPersonForm'
+import { KeyboardHandlerView } from '@/components/KeyboardHandlerView'
 import { Tabs } from '@/components/Tabs'
 import { LegalPersonFormFields, NaturalPersonFormFields } from '@/libs/zod'
 import { useApi } from '@/services/api'
@@ -24,16 +25,6 @@ export function Step1() {
     try {
       if (personType === 'natural') {
         const { naturalPerson } = personFormData
-        console.log({
-          type: 'f',
-          active: true,
-          name: naturalPerson.name,
-          email: naturalPerson.email,
-          cpf: naturalPerson.cpf,
-          homephone: naturalPerson.phone,
-          password: naturalPerson.password,
-          password_confirmation: naturalPerson.passwordConfirmation,
-        })
 
         await api.createCustomer({
           type: 'f',
@@ -42,11 +33,10 @@ export function Step1() {
           email: naturalPerson.email,
           cpf: naturalPerson.cpf,
           homephone: naturalPerson.phone,
-          password: naturalPerson.password,
-          password_confirmation: naturalPerson.passwordConfirmation,
         })
       } else if (personType === 'legal') {
         const { legalPerson } = personFormData
+
         await api.createCustomer({
           type: 'j',
           active: true,
@@ -54,12 +44,11 @@ export function Step1() {
           cnpj: legalPerson.cnpj,
           email: legalPerson.email,
           homephone: legalPerson.phone,
-          password: legalPerson.password,
-          password_confirmation: legalPerson.passwordConfirmation,
         })
       }
       // setStep(2)
     } catch (error) {
+      console.error({ error })
       api.handleError(error)
     }
   }
@@ -79,14 +68,14 @@ export function Step1() {
             title: 'Pessoa física',
             value: 'reviews',
             icon: User,
-            size: 900,
+            size: 700,
             content: <NaturalPersonForm onSubmit={handleSubmit} />,
           },
           {
             title: 'Pessoa jurídica',
             value: 'questions',
             icon: Buildings,
-            size: 900,
+            size: 700,
             content: <LegalPersonForm onSubmit={handleSubmit} />,
           },
         ]}

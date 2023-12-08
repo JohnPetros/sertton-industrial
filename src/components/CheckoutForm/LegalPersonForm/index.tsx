@@ -47,7 +47,7 @@ export function LegalPersonForm({ onSubmit }: LegalPersonFormProps) {
             icon={Envelope}
             placeholder="Exemplo: maria@gmail.com"
             value={value}
-            onChangeText={() => handleInputChange(onChange, value, name)}
+            onChangeText={(email) => handleInputChange(onChange, email, name)}
             error={errors.email?.message}
           />
         )}
@@ -65,7 +65,7 @@ export function LegalPersonForm({ onSubmit }: LegalPersonFormProps) {
             placeholder="00.000.000/0000-00"
             value={value}
             max={14}
-            onChangeText={() => handleInputChange(onChange, value, name)}
+            onChangeText={(cnpj) => handleInputChange(onChange, cnpj, name)}
             error={errors.cnpj?.message}
           />
         )}
@@ -83,37 +83,8 @@ export function LegalPersonForm({ onSubmit }: LegalPersonFormProps) {
             mask="phone"
             value={value}
             max={11}
-            onChangeText={() => handleInputChange(onChange, value, name)}
+            onChangeText={(phone) => handleInputChange(onChange, phone, name)}
             error={errors.phone?.message}
-          />
-        )}
-      />
-
-      <Controller
-        control={control}
-        name="password"
-        render={({ field: { onChange, value, name } }) => (
-          <PasswordInput
-            label="Senha"
-            placeholder="******"
-            icon={Lock}
-            value={value}
-            onChangeText={() => handleInputChange(onChange, value, name)}
-            error={errors.password?.message}
-          />
-        )}
-      />
-
-      <Controller
-        control={control}
-        name="passwordConfirmation"
-        render={({ field: { onChange, value, name } }) => (
-          <PasswordInput
-            label="Confirmação de senha"
-            icon={Lock}
-            value={value}
-            onChangeText={() => handleInputChange(onChange, value, name)}
-            error={errors.passwordConfirmation?.message}
           />
         )}
       />
