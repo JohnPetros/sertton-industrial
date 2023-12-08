@@ -36,19 +36,6 @@ const razaoSocialSchema = z.string({
   required_error: 'Campo obrigatório',
 })
 
-const passwordSchema = z
-  .string({
-    required_error: 'Campo obrigatório',
-  })
-  .regex(
-    REGEX.password,
-    'Senha deve conter pelo menos uma letra minúscula, uma maiúscula, um dígito e um caractere especial.'
-  )
-
-const passwordConfirmationSchema = z.string({
-  required_error: 'Campo obrigatório',
-})
-
 export const zipcodeSchema = z
   .string({
     required_error: 'Campo obrigatório',
@@ -75,35 +62,25 @@ const ufSchema = z.string({
   required_error: 'Campo obrigatório',
 })
 
+const creditCardExpirationDateSchema = z.string({
+  required_error: 'Campo obrigatório',
+})
+
 const complementSchema = z.string().optional()
 
-const naturalPersonFormSchema = z
-  .object({
-    name: nameSchema,
-    email: emailSchema,
-    password: passwordSchema,
-    passwordConfirmation: passwordConfirmationSchema,
-    cpf: cpfSchema,
-    phone: phoneSchema,
-  })
-  .refine((fields) => fields.password === fields.passwordConfirmation, {
-    path: ['passwordConfirmation'],
-    message: 'As senhas precisam de iguais',
-  })
+const naturalPersonFormSchema = z.object({
+  name: nameSchema,
+  email: emailSchema,
+  cpf: cpfSchema,
+  phone: phoneSchema,
+})
 
-const legalPersonFormSchema = z
-  .object({
-    razaoSocial: razaoSocialSchema,
-    email: emailSchema,
-    password: passwordSchema,
-    passwordConfirmation: passwordConfirmationSchema,
-    cnpj: cnpjSchema,
-    phone: phoneSchema,
-  })
-  .refine((fields) => fields.password === fields.passwordConfirmation, {
-    path: ['passwordConfirmation'],
-    message: 'As senhas precisam de iguais',
-  })
+const legalPersonFormSchema = z.object({
+  razaoSocial: razaoSocialSchema,
+  email: emailSchema,
+  cnpj: cnpjSchema,
+  phone: phoneSchema,
+})
 
 const addressFormSchema = z.object({
   number: numberSchema,
@@ -114,6 +91,12 @@ const addressFormSchema = z.object({
   neighborhood: neighborhoodSchema,
   complement: complementSchema,
   receiver: nameSchema,
+})
+
+const creditFormSchema = z.object({
+  number: numberSchema,
+  cpf: cpfSchema,
+  name: nameSchema,
 })
 
 export type NaturalPersonFormFields = z.infer<typeof naturalPersonFormSchema>

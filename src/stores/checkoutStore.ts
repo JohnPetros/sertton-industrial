@@ -30,20 +30,16 @@ type CheckoutStoreProps = {
 }
 
 const initialState: CheckoutStoreState = {
-  step: 2,
+  step: 3,
   personFormData: {
     naturalPerson: {
       name: '',
       email: '',
-      password: '',
-      passwordConfirmation: '',
       cpf: '',
       phone: '',
     },
     legalPerson: {
       email: '',
-      password: '',
-      passwordConfirmation: '',
       phone: '',
       razaoSocial: '',
       cnpj: '',
