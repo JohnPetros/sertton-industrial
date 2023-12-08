@@ -5,6 +5,8 @@ import { useCartStore } from '@/stores/cartStore'
 
 export function useCart() {
   const items = useCartStore((store) => store.state.items)
+  const removeAllItems = useCartStore((store) => store.actions.removeAllItems)
+
   const api = useApi()
 
   async function getCartProducts() {
@@ -28,10 +30,15 @@ export function useCart() {
     getCartProducts
   )
 
+  function handleRemoveAllItems() {
+    removeAllItems()
+  }
+
   return {
     products: data,
     totalCartItems: items.length,
     error,
     isLoading,
+    handleRemoveAllItems,
   }
 }

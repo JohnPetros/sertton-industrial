@@ -11,7 +11,6 @@ import { EmptyItemsMessage } from '@/components/EmptyItemsMessage'
 import { Header } from '@/components/Header'
 import { ProductCartItem } from '@/components/ProductCartItem'
 import { useCart } from '@/hooks/useCart'
-import { useCartStore } from '@/stores/cartStore'
 import { cartItemsMock } from '@/tests/mocks/cartItemsMock'
 import { ROUTES } from '@/utils/constants/routes'
 import { SCREEN } from '@/utils/constants/screen'
@@ -19,13 +18,9 @@ import { SCREEN } from '@/utils/constants/screen'
 const PRODUCT_CART_ITEM_WIDTH = SCREEN.width - SCREEN.paddingX * 2
 
 export default function Cart() {
-  const removeAllItems = useCartStore((store) => store.actions.removeAllItems)
-  const { products, isLoading, totalCartItems } = useCart()
+  const { products, isLoading, totalCartItems, handleRemoveAllItems } =
+    useCart()
   const isCartEmpty = totalCartItems <= 0
-
-  function handleRemoveAllItems() {
-    removeAllItems()
-  }
 
   return (
     <YStack px={24} flex={1}>
