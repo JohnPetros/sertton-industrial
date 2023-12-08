@@ -1,7 +1,7 @@
 import { mask as format } from 'react-native-mask-text'
 
 import type { Mask } from '@/@types/mask'
-import { MASKS } from '@/utils/constants/mask'
+import { MASKS } from '@/utils/constants/masks'
 
 export function useMask(mask: Mask | undefined) {
   function maskValue(value: string) {

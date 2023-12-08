@@ -39,7 +39,7 @@ export const axiosApi: Api = {
       return error.message
     }
 
-    console.error(error)
+    console.error({ error })
 
     return 'Unknown Api Error'
   },
