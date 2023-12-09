@@ -11,11 +11,11 @@ import { YStack } from 'tamagui'
 import { Text } from 'tamagui'
 
 import { Button } from '@/components/Button'
-import { AddressesRadioGroup } from '@/components/CheckoutForm/AddressForm/AddressesRadioGroup'
-import { AddressRadioItem } from '@/components/CheckoutForm/AddressForm/AddressesRadioGroup/AddressRadioItem'
+import { Address } from '@/components/CheckoutForm/AddressForm/Address'
 import { useAddressForm } from '@/components/CheckoutForm/AddressForm/useAddressForm'
-import { Heading } from '@/components/CheckoutForm/Heading'
 import { Input } from '@/components/Form/Input'
+import { RadioGroup } from '@/components/Form/RadioGroup'
+import { Radio } from '@/components/Form/RadioGroup/Radio'
 import { SCREEN } from '@/utils/constants/screen'
 
 export function AddressForm() {
@@ -39,12 +39,6 @@ export function AddressForm() {
 
   return (
     <YStack gap={24}>
-      <Heading
-        step={2}
-        title="Entrega"
-        subtitle="Cadastre ou selecione um endereço."
-      />
-
       {hasCustomerAddress && isAddressRadioGroupVisible && (
         <Button
           background="transparent"
@@ -152,7 +146,7 @@ export function AddressForm() {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     label="Complemento"
-                    isOptional
+                    subLabel="(opcional)"
                     value={value}
                     icon={NotePencil}
                     onChangeText={onChange}
@@ -182,24 +176,32 @@ export function AddressForm() {
       )}
 
       {isAddressRadioGroupVisible && addresses && (
-        <AddressesRadioGroup
-          onSelectedAddressChange={handleSelectedAddressChange}
+        <RadioGroup
+          onChange={handleSelectedAddressChange}
+          value="selected-address"
         >
           {addresses.map((address) => (
-            <AddressRadioItem
-              key={address.zip_code}
-              city={address.city}
-              neighborhood={address.neighborhood}
-              number={address.number}
-              street={address.street}
-              uf={address.uf}
-              zipCode={address.zip_code}
+            <Radio
+              key={address.id}
+              value={address.zip_code}
               isSelected={selectedAddressZipcode === address.zip_code}
-              onEdit={handleEditAddress}
-              onDelete={handleDeleteAddress}
+              isOpen={true}
+              label={
+                <Address
+                  key={address.zip_code}
+                  city={address.city}
+                  neighborhood={address.neighborhood}
+                  number={address.number}
+                  street={address.street}
+                  uf={address.uf}
+                  zipCode={address.zip_code}
+                  onEdit={handleEditAddress}
+                  onDelete={handleDeleteAddress}
+                />
+              }
             />
           ))}
-        </AddressesRadioGroup>
+        </RadioGroup>
       )}
     </YStack>
   )
