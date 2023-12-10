@@ -15,7 +15,7 @@ export function Header() {
           <Text color="$gray800" fontWeight="600">
             Pagamento
           </Text>
-          <Text color="$gray300">100%</Text>
+          <Text color="$gray400">100% Seguro</Text>
         </YStack>
       </XStack>
     </XStack>
