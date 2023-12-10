@@ -1,9 +1,6 @@
 import type { Api } from '@/@types/api'
 import type { Customer } from '@/@types/customer'
-import {
-  CreateCustomerRequest,
-  ICustomersController,
-} from '@/services/api/interfaces/ICustomersService'
+import { ICustomersController } from '@/services/api/interfaces/ICustomersService'
 import { Resources } from '@/services/api/resources'
 
 export function customersController(api: Api): ICustomersController {
@@ -17,7 +14,12 @@ export function customersController(api: Api): ICustomersController {
         `/${Resources.CUSTOMERS}?q=${email}&includes=addresses`
       )
 
-      return response.data[0]
+      const customer = {
+        ...response.data[0],
+        id: response.data[0].id.toString(),
+      }
+
+      return customer
     },
   }
 }

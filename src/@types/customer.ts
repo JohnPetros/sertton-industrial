@@ -1,7 +1,7 @@
 import type { Address } from '@/@types/address'
 
 export type Customer = {
-  id: number
+  id: string
   type: 'f' | 'j'
   name?: string
   cpf?: string
