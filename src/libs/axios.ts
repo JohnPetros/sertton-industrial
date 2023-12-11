@@ -2,6 +2,11 @@ import axios, { isAxiosError } from 'axios'
 
 import type { Api } from '@/@types/api'
 
+const BASE_URL = process.env.YAMPI_BASE_URL
+const ALIAS = process.env.ALIAS
+const TOKEN = process.env.YAMPI_TOKEN
+const SECRET_KEY = process.env.YAMPI_SECRET_KEY
+
 const axiosClient = axios.create()
 
 export const axiosApi: Api = {
@@ -10,7 +15,8 @@ export const axiosApi: Api = {
     return data as Response
   },
   async post<Request, Response>(url: string, request: Request) {
-    return (await axiosClient.post(url, request)) as Response
+    const response = await axiosClient.post(url, request)
+    return response.data as Response
   },
   async put<Request, Response>(url: string, request: Request) {
     return (await axiosClient.put(url, request)) as Response
@@ -31,10 +37,19 @@ export const axiosApi: Api = {
     axiosClient.defaults.headers[key] = value
   },
 
+  setDefaultConfig() {
+    if (!BASE_URL || !ALIAS || !TOKEN || !SECRET_KEY) {
+      throw new Error('invalid API env vars')
+    }
+
+    this.setBaseUrl(`${BASE_URL}/${ALIAS}`)
+    this.setHeader('User-Token', TOKEN)
+    this.setHeader('User-Secret-Key', SECRET_KEY)
+  },
+
   handleError(error: unknown) {
     if (isAxiosError(error)) {
-      console.error('REQUEST =>', error.request)
-      console.error(error.message)
+      console.error(error.response)
 
       return error.message
     }
