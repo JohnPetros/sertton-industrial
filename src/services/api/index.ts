@@ -10,6 +10,7 @@ import { ordersController } from '@/services/api/ordersController'
 import { paymentController } from '@/services/api/paymentController'
 import { productsController } from '@/services/api/productsController'
 import { reviewsController } from '@/services/api/reviewsController'
+import { shipmentServiceController } from '@/services/api/shipmentServiceController'
 import { skusController } from '@/services/api/skusController'
 import { variationsController } from '@/services/api/variationsController'
 
@@ -49,6 +50,7 @@ export function useApi() {
     ...addressesController(api),
     ...ordersController(api),
     ...paymentController(api),
+    ...shipmentServiceController(api),
     handleError: (error: unknown) => api.handleError(error),
   }
 }
