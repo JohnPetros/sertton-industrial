@@ -2,6 +2,7 @@ import { Suspense, useEffect } from 'react'
 import { useColorScheme } from 'react-native'
 import { StatusBar } from 'react-native'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { PortalProvider } from '@gorhom/portal'
 import { useFonts } from 'expo-font'
 import { SplashScreen, Stack } from 'expo-router'
 import { TamaguiProvider, Text, Theme } from 'tamagui'
@@ -42,27 +43,29 @@ export default function Layout() {
   if (!loaded) return null
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TamaguiProvider config={config}>
-        <Suspense fallback={<Text>Loading...</Text>}>
-          <Theme name={colorScheme}>
-            <CustomerProvider>
-              <StyledSafeAreaView>
-                <StatusBar
-                  backgroundColor={'#f5f1f1'}
-                  translucent
-                  barStyle="dark-content"
-                />
-                <Stack
-                  screenOptions={{
-                    headerShown: false,
-                  }}
-                />
-              </StyledSafeAreaView>
-            </CustomerProvider>
-          </Theme>
-        </Suspense>
-      </TamaguiProvider>
-    </QueryClientProvider>
+    <PortalProvider>
+      <QueryClientProvider client={queryClient}>
+        <TamaguiProvider config={config}>
+          <Suspense fallback={<Text>Loading...</Text>}>
+            <Theme name={colorScheme}>
+              <CustomerProvider>
+                <StyledSafeAreaView>
+                  <StatusBar
+                    backgroundColor={'#f5f1f1'}
+                    translucent
+                    barStyle="dark-content"
+                  />
+                  <Stack
+                    screenOptions={{
+                      headerShown: false,
+                    }}
+                  />
+                </StyledSafeAreaView>
+              </CustomerProvider>
+            </Theme>
+          </Suspense>
+        </TamaguiProvider>
+      </QueryClientProvider>
+    </PortalProvider>
   )
 }
