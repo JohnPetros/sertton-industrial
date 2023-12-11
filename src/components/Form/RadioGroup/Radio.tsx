@@ -16,9 +16,15 @@ export function Radio({
   children,
 }: RadioProps) {
   return (
-    <RadioGroup.Item unstyled id={value} flex={1} value={value}>
+    <RadioGroup.Item
+      unstyled
+      id={value}
+      flex={1}
+      value={value}
+      onPress={() => console.log('888')}
+    >
       <YStack
-        borderColor={isSelected ? '$blue500' : '$colorTransparent'}
+        borderColor={isSelected ? '$blue500' : '$gray200'}
         borderWidth={1}
         borderRadius={4}
         bg={isOpen ? '$gray50' : '$colorTransparent'}
@@ -26,7 +32,7 @@ export function Radio({
         gap={12}
       >
         <XStack alignItems="center" gap={12}>
-          <Circle w={24} h={24} bg="$gray50" borderRadius={12}>
+          <Circle w={24} h={24} bg="$gray100" borderRadius={12}>
             {isSelected && (
               <Circle
                 borderWidth={8}
@@ -39,7 +45,7 @@ export function Radio({
           </Circle>
           {label}
         </XStack>
-        {isOpen && children}
+        {isOpen || isSelected ? children : null}
       </YStack>
     </RadioGroup.Item>
   )
