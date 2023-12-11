@@ -6,4 +6,5 @@ export const ROUTES = {
   product: '/(drawer)/(tabs)/product',
   splash: '/(stack)/splash',
   checkout: '/(stack)/checkout',
+  paymentResult: '/(stack)/payment-result',
 }
