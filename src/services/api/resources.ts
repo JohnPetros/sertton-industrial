@@ -6,4 +6,5 @@ export enum Resources {
   CUSTOMERS = 'customers',
   ADDRESSES = 'addresses',
   PAYMENT = 'payment',
+  SHIPMENT = 'shipment',
 }

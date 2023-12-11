@@ -6,7 +6,6 @@ export enum Endpoints {
   CATEGORY = 'categories',
   VARIATION = 'variations',
   SKU = 'skus',
-  SHIPPING_COST = 'shipping-costs',
   BRAND = 'brands',
   SIMILAR = 'similars',
   COMMENT = 'comments',
