@@ -4,12 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { CreditCardFormFields, creditCardFormSchema } from '@/libs/zod'
 
 export function useCreditCardForm() {
-  const {
-    control,
-    handleSubmit,
-    setValue,
-    formState: { errors, isSubmitting },
-  } = useForm<CreditCardFormFields>({
+  const formFields = useForm<CreditCardFormFields>({
     mode: 'onBlur',
     resolver: zodResolver(creditCardFormSchema),
   })
@@ -19,8 +14,9 @@ export function useCreditCardForm() {
   }
 
   return {
-    control,
-    errors,
-    handleSubmit: handleSubmit(handleFormSubmit),
+    formFields,
+    control: formFields.control,
+    errors: formFields.formState.errors,
+    handleSubmit: formFields.handleSubmit(handleFormSubmit),
   }
 }

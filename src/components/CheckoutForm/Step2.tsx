@@ -1,19 +1,38 @@
-import { View, YStack } from 'tamagui'
+import { Separator, YStack } from 'tamagui'
 
+import { Button } from '@/components/Button'
 import { AddressForm } from '@/components/CheckoutForm/AddressForm'
 import { Heading } from '@/components/CheckoutForm/Heading'
+import { ShipmentServiceForm } from '@/components/CheckoutForm/ShipmentServiceForm'
+import { useCustomerContext } from '@/contexts/CustomerContext'
+import { useCheckoutStore } from '@/stores/checkoutStore'
+import { SCREEN } from '@/utils/constants/screen'
 
 export function Step2() {
+  const { customer } = useCustomerContext()
+  const selectedShipmentService = useCheckoutStore(
+    (store) => store.state.shipmentService
+  )
+  const setStep = useCheckoutStore((store) => store.actions.setStep)
+
   return (
-    <YStack>
+    <YStack px={SCREEN.paddingX}>
       <Heading
         step={2}
         title="Entrega"
         subtitle="Cadastre ou selecione um endereço."
       />
-      <View mt={24}>
-        <AddressForm />
-      </View>
+      {customer?.selectedAddressZipcode && (
+        <YStack mt={24} gap={24} separator={<Separator bg="$gray500" />}>
+          <AddressForm />
+          <ShipmentServiceForm />
+        </YStack>
+      )}
+      {selectedShipmentService && (
+        <Button mt={36} onPress={() => setStep(3)}>
+          Continuar
+        </Button>
+      )}
     </YStack>
   )
 }
