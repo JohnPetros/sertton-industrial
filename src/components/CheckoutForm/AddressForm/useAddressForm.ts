@@ -61,12 +61,11 @@ export function useAddressForm() {
 
       if (selectedAddressZipcode) {
         setSelectedAddressZipcode(selectedAddressZipcode)
+        await storage.setCustomerSelectedAddressZipcode(selectedAddressZipcode)
 
         const selectedAddress = addresses.find(
           (address) => address.zip_code === selectedAddressZipcode
         )
-
-        console.log({ selectedAddress })
 
         if (selectedAddress) {
           setAddressFormData({
