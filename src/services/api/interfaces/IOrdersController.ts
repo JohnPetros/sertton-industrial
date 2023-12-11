@@ -1,15 +1,4 @@
-import type { Customer } from '@/@types/customer'
-
-export type CheckoutRequest = {
-  customer: Customer
-  products: {
-    id: string
-    name: string
-    price: number
-    quantity: number
-  }[]
-}
-
+import { Order } from '@/@types/order'
 export interface IOrdersController {
-  checkout(request: CheckoutRequest): Promise<string>
+  saveOrder(order: Order): Promise<void>
 }

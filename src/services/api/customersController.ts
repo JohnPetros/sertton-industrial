@@ -16,7 +16,6 @@ export function customersController(api: Api): ICustomersController {
 
       const customer = {
         ...response.data[0],
-        id: response.data[0].id.toString(),
       }
 
       return customer
