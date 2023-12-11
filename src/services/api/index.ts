@@ -7,6 +7,7 @@ import { commentsController } from '@/services/api/commentsController'
 import { customersController } from '@/services/api/customersController'
 import { logisticsController } from '@/services/api/logisticsController'
 import { ordersController } from '@/services/api/ordersController'
+import { paymentController } from '@/services/api/paymentController'
 import { productsController } from '@/services/api/productsController'
 import { reviewsController } from '@/services/api/reviewsController'
 import { skusController } from '@/services/api/skusController'
@@ -32,9 +33,7 @@ export function useApi() {
     throw new Error('invalid API env vars')
   }
 
-  api.setBaseUrl(`${BASE_URL}/${ALIAS}`)
-  api.setHeader('User-Token', TOKEN)
-  api.setHeader('User-Secret-Key', SECRET_KEY)
+  api.setDefaultConfig()
 
   return {
     ...brandsController(api),
@@ -49,6 +48,7 @@ export function useApi() {
     ...reviewsController(api),
     ...addressesController(api),
     ...ordersController(api),
+    ...paymentController(api),
     handleError: (error: unknown) => api.handleError(error),
   }
 }
