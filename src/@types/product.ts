@@ -3,7 +3,7 @@ import type { Image } from '@/@types/image'
 import type { Sku } from '@/@types/sku'
 
 export type Product = {
-  id: string
+  id: number
   slug: string
   sku: number
   name: string
