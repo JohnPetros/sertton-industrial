@@ -6,7 +6,7 @@ const nameSchema = z
   .string({
     required_error: 'Campo obrigatório',
   })
-  .regex(REGEX.fullname, 'Digite seu nome completo')
+  .regex(REGEX.fullname, 'Digite seu nome completo e sem espaço no final')
 
 const emailSchema = z
   .string({
@@ -46,10 +46,6 @@ const citySchema = z.string({
   required_error: 'Campo obrigatório',
 })
 
-const numberSchema = z.string({
-  required_error: 'Campo obrigatório',
-})
-
 const streetSchema = z.string({
   required_error: 'Campo obrigatório',
 })
@@ -61,6 +57,18 @@ const neighborhoodSchema = z.string({
 const ufSchema = z.string({
   required_error: 'Campo obrigatório',
 })
+
+const creditCardNumberSchema = z
+  .string({
+    required_error: 'Campo obrigatório',
+  })
+  .length(16, 'Número do cartão deve conter 16 caracteres')
+
+const securyCodeSchema = z
+  .string({
+    required_error: 'Campo obrigatório',
+  })
+  .max(4)
 
 const creditCardExpirationDateSchema = z.string({
   required_error: 'Campo obrigatório',
@@ -83,7 +91,7 @@ const legalPersonFormSchema = z.object({
 })
 
 const addressFormSchema = z.object({
-  number: numberSchema,
+  number: securyCodeSchema,
   zipcode: zipcodeSchema,
   city: citySchema,
   street: streetSchema,
@@ -93,14 +101,22 @@ const addressFormSchema = z.object({
   receiver: nameSchema,
 })
 
-const creditFormSchema = z.object({
-  number: numberSchema,
+const creditCardFormSchema = z.object({
+  number: creditCardNumberSchema,
   cpf: cpfSchema,
   name: nameSchema,
+  securityCode: creditCardNumberSchema,
+  expirationDate: creditCardExpirationDateSchema,
 })
 
 export type NaturalPersonFormFields = z.infer<typeof naturalPersonFormSchema>
 export type LegalPersonFormFields = z.infer<typeof legalPersonFormSchema>
 export type AddressFormFields = z.infer<typeof addressFormSchema>
+export type CreditCardFormFields = z.infer<typeof creditCardFormSchema>
 
-export { addressFormSchema, legalPersonFormSchema, naturalPersonFormSchema }
+export {
+  addressFormSchema,
+  creditCardFormSchema,
+  legalPersonFormSchema,
+  naturalPersonFormSchema,
+}
