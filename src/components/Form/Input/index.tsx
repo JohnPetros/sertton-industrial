@@ -22,11 +22,11 @@ type IconState = 'default' | 'disabled' | 'success' | 'error'
 
 export interface InputProps extends FieldProps {
   label?: string
+  subLabel?: string
   error?: string
   icon?: IconProps
   mask?: Mask
   max?: number
-  isOptional?: boolean
   isLoading?: boolean
 }
 
@@ -44,7 +44,7 @@ export function Input({
   max,
   mask,
   isLoading = false,
-  isOptional = false,
+  subLabel,
   error,
   onChangeText,
 }: InputProps) {
@@ -102,7 +102,7 @@ export function Input({
   return (
     <YStack gap={3}>
       {label && (
-        <Label id={id} subLabel={isOptional ? '(opcional)' : ''}>
+        <Label id={id} subLabel={subLabel}>
           {label}
         </Label>
       )}
