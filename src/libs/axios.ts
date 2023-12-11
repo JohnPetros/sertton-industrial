@@ -49,7 +49,7 @@ export const axiosApi: Api = {
 
   handleError(error: unknown) {
     if (isAxiosError(error)) {
-      console.error(error.response)
+      console.error(error.request)
 
       return error.message
     }
