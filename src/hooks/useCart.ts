@@ -1,5 +1,6 @@
 import { useQuery } from 'react-query'
 
+import type { ComputedProduct } from '@/@types/computedProduct'
 import { useApi } from '@/services/api'
 import { useCartStore } from '@/stores/cartStore'
 
@@ -10,7 +11,7 @@ export function useCart() {
   const api = useApi()
 
   async function getCartProducts() {
-    const products = []
+    const products: ComputedProduct[] = []
 
     for (const item of items) {
       const product = await api.getProductBySlug(item.slug)
@@ -34,11 +35,20 @@ export function useCart() {
     removeAllItems()
   }
 
+  function getSelectedSkus() {
+    if (!data) return
+
+    return data?.map((product) =>
+      product.skus.data.find((skus) => skus.id === product.selectedSkuId)
+    )
+  }
+
   return {
     products: data,
     totalCartItems: items.length,
     error,
     isLoading,
+    getSelectedSkus,
     handleRemoveAllItems,
   }
 }

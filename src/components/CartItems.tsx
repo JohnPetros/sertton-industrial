@@ -12,7 +12,7 @@ import { useCart } from '@/hooks/useCart'
 import { cartItemsMock } from '@/tests/mocks/cartItemsMock'
 import { SCREEN } from '@/utils/constants/screen'
 
-const PADDING = 12
+const PADDING = 8
 const PRODUCT_CART_ITEM_WIDTH = SCREEN.width - SCREEN.paddingX * 2 - PADDING * 2
 
 export function CartItems() {

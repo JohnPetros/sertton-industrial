@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
 import { Separator, Text, XStack, YStack } from 'tamagui'
 
 import { Product } from '@/@types/product'
-import { useCartStore } from '@/stores/cartStore'
+import { useCartSummary } from '@/hooks/useCartSummary'
 import { formatPrice } from '@/utils/helpers/formatPrice'
 
 type Item = Product & { quantity: number; selectedSkuId: number }
@@ -12,60 +11,7 @@ interface CartSummaryProps {
 }
 
 export function CartSummary({ items }: CartSummaryProps) {
-  const cartItems = useCartStore((store) => store.state.items)
-
-  const [totalToPay, setTotalToPay] = useState(0)
-  const [totalDiscount, setTotalDiscount] = useState(0)
-  const [totalItems, setTotalItems] = useState(0)
-
-  function calculateTotals() {
-    const totalToPay = items.reduce((total, product) => {
-      const selectedSku = product.skus.data.find(
-        (sku) => sku.id === product.selectedSkuId
-      )
-
-      const quantity = cartItems.find(
-        (cartItem) => cartItem.skuId === selectedSku?.id
-      )?.quantity
-
-      if (selectedSku && quantity)
-        return (
-          total +
-          (selectedSku.price_sale + selectedSku.price_discount) * quantity
-        )
-      else return total
-    }, 0)
-
-    const totalDiscount = items.reduce((total, product) => {
-      const selectedSku = product.skus.data.find(
-        (sku) => sku.id === product.selectedSkuId
-      )
-
-      const quantity = cartItems.find(
-        (cartItem) => cartItem.skuId === selectedSku?.id
-      )?.quantity
-
-      if (selectedSku && quantity)
-        return total + selectedSku.price_discount * quantity
-      else return total
-    }, 0)
-
-    const totalItems = items.reduce((total, product) => {
-      const quantity = cartItems.find(
-        (cartItem) => cartItem.skuId === product.selectedSkuId
-      )?.quantity
-
-      return quantity ? total + quantity : 0
-    }, 0)
-
-    setTotalToPay(totalToPay)
-    setTotalDiscount(totalDiscount)
-    setTotalItems(totalItems)
-  }
-
-  useEffect(() => {
-    if (cartItems?.length) calculateTotals()
-  }, [cartItems])
+  const { totalDiscount, totalItems, totalToPay } = useCartSummary(items)
 
   return (
     <YStack separator={<Separator bg="$gray400" />} gap={8}>
