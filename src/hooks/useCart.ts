@@ -38,9 +38,21 @@ export function useCart() {
   function getSelectedSkus() {
     if (!data) return
 
-    return data?.map((product) =>
-      product.skus.data.find((skus) => skus.id === product.selectedSkuId)
-    )
+    const selectedSkus = []
+
+    for (const product of data) {
+      const selectedSku = product.skus.data.find(
+        (sku) => sku.id === product.selectedSkuId
+      )
+
+      if (selectedSku)
+        selectedSkus.push({
+          quantity: product.quantity,
+          ...selectedSku,
+        })
+    }
+
+    return selectedSkus
   }
 
   return {
