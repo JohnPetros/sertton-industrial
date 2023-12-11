@@ -27,8 +27,6 @@ export function usePaymentForm() {
         (address) => address.zip_code === customer.selectedAddressZipcode
       ) ?? customer.addresses.data[0]
 
-    console.log(selectedAddress)
-
     if (!selectedAddress) return
 
     try {
@@ -131,5 +129,6 @@ export function usePaymentForm() {
     handlePaymentNavigation,
     handlePaymentMethodChange,
     checkout,
+    totalToPay: totalToPay - totalDiscount,
   }
 }
