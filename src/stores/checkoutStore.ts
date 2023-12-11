@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 
+import { ShipmentService } from '@/@types/shipmentService'
 import { LegalPersonFormFields, NaturalPersonFormFields } from '@/libs/zod'
 
 export type PersonFormData = {
@@ -11,6 +12,7 @@ export type PersonFormData = {
 export type CheckoutStoreState = {
   step: number
   personFormData: PersonFormData
+  shipmentService: ShipmentService | null
 }
 
 export type PersonType = 'natural' | 'legal'
@@ -22,6 +24,7 @@ type CheckoutStoreActions = {
     value: string
   ) => void
   setStep(step: number): void
+  setShipmentService(step: ShipementService): void
 }
 
 type CheckoutStoreProps = {
@@ -30,7 +33,7 @@ type CheckoutStoreProps = {
 }
 
 const initialState: CheckoutStoreState = {
-  step: 3,
+  step: 2,
   personFormData: {
     naturalPerson: {
       name: '',
@@ -45,6 +48,7 @@ const initialState: CheckoutStoreState = {
       cnpj: '',
     },
   },
+  shipmentService: null,
 }
 
 export const useCheckoutStore = create<CheckoutStoreProps>()(
@@ -75,6 +79,12 @@ export const useCheckoutStore = create<CheckoutStoreProps>()(
         setStep(step: number) {
           return set(({ state }) => {
             if (step <= 3) state.step = step
+          })
+        },
+
+        setShipmentService(shipmentService: ShipmentService) {
+          return set(({ state }) => {
+            state.shipmentService = shipmentService
           })
         },
       },
