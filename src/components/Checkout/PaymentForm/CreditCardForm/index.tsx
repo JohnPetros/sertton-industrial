@@ -1,4 +1,4 @@
-import { Controller, FormProvider } from 'react-hook-form'
+import { Controller } from 'react-hook-form'
 import { XStack, YStack } from 'tamagui'
 
 import { Button } from '@/components/Button'
@@ -6,15 +6,11 @@ import { useCreditCardForm } from '@/components/Checkout/PaymentForm/CreditCardF
 import { Input } from '@/components/Form/Input'
 
 export function CreditCardForm() {
-  const { control, formFields, errors, handleSubmit } = useCreditCardForm()
+  const { control, errors, handleSubmit } = useCreditCardForm()
 
   return (
     <YStack gap={24}>
-      <FormProvider {...formFields}>
-        <CreditCardForm />
-      </FormProvider>
-
-      {/* <Controller
+      <Controller
         control={control}
         name="number"
         render={({ field: { onChange, value } }) => (
@@ -94,7 +90,7 @@ export function CreditCardForm() {
             error={errors.cpf?.message}
           />
         )}
-      /> */}
+      />
 
       <Button onPress={handleSubmit}>Comprar agora</Button>
     </YStack>
