@@ -1,5 +1,5 @@
 import { Circle } from 'phosphor-react-native'
-import { getTokens, ListItem, YGroup } from 'tamagui'
+import { getTokens, ListItem, Text, YGroup } from 'tamagui'
 
 interface ListProps {
   items: string[]
@@ -13,9 +13,9 @@ export function List({ items }: ListProps) {
           <ListItem
             my={-4}
             px={0}
-            bg="$gray50"
             fontSize={12}
-            textAlign="left"
+            alignItems="center"
+            justifyContent="flex-start"
             icon={
               <Circle
                 size={8}
@@ -23,8 +23,9 @@ export function List({ items }: ListProps) {
                 weight="fill"
               />
             }
-            title={item}
-          />
+          >
+            <Text textAlign="left">{item}</Text>
+          </ListItem>
         </YGroup.Item>
       ))}
     </YGroup>
