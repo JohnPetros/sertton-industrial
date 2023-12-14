@@ -1,6 +1,7 @@
 import { Suspense, useEffect } from 'react'
 import { useColorScheme } from 'react-native'
 import { StatusBar } from 'react-native'
+import ErrorBoundary from 'react-native-error-boundary'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { PortalProvider } from '@gorhom/portal'
 import { useFonts } from 'expo-font'
@@ -10,6 +11,8 @@ import { TamaguiProvider, Text, Theme } from 'tamagui'
 import config from '../../tamagui.config'
 import { StyledSafeAreaView } from '../components/StyledSafeAreaView'
 
+import { AppError } from '@/components/AppError'
+import { useAppError } from '@/components/AppError/useAppError'
 import { CustomerProvider } from '@/contexts/CustomerContext'
 import { axiosApi } from '@/libs/axios'
 import { dayjsProvider } from '@/libs/dayjs'
@@ -28,6 +31,7 @@ const queryClient = new QueryClient()
 
 export default function Layout() {
   const colorScheme = useColorScheme()
+  const { handleAppError } = useAppError()
 
   const [loaded] = useFonts({
     Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
@@ -43,29 +47,31 @@ export default function Layout() {
   if (!loaded) return null
 
   return (
-    <PortalProvider>
-      <QueryClientProvider client={queryClient}>
-        <TamaguiProvider config={config}>
-          <Suspense fallback={<Text>Loading...</Text>}>
-            <Theme name={colorScheme}>
-              <CustomerProvider>
-                <StyledSafeAreaView>
-                  <StatusBar
-                    backgroundColor={'#f5f1f1'}
-                    translucent
-                    barStyle="dark-content"
-                  />
-                  <Stack
-                    screenOptions={{
-                      headerShown: false,
-                    }}
-                  />
-                </StyledSafeAreaView>
-              </CustomerProvider>
-            </Theme>
-          </Suspense>
-        </TamaguiProvider>
-      </QueryClientProvider>
-    </PortalProvider>
+    <TamaguiProvider config={config}>
+      <ErrorBoundary onError={handleAppError} FallbackComponent={AppError}>
+        <PortalProvider>
+          <QueryClientProvider client={queryClient}>
+            <Suspense fallback={<Text>Loading...</Text>}>
+              <Theme name={colorScheme}>
+                <CustomerProvider>
+                  <StyledSafeAreaView>
+                    <StatusBar
+                      backgroundColor={'#f5f1f1'}
+                      translucent
+                      barStyle="dark-content"
+                    />
+                    <Stack
+                      screenOptions={{
+                        headerShown: false,
+                      }}
+                    />
+                  </StyledSafeAreaView>
+                </CustomerProvider>
+              </Theme>
+            </Suspense>
+          </QueryClientProvider>
+        </PortalProvider>
+      </ErrorBoundary>
+    </TamaguiProvider>
   )
 }
