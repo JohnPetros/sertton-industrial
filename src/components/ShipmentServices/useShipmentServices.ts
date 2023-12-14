@@ -2,16 +2,29 @@ import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import type { ComputedSku } from '@/@types/ComputedSku'
+import { useAppError } from '@/components/AppError/useAppError'
 import { useApi } from '@/services/api'
 
 export function useShipmentServices(product: ComputedSku) {
   const [zipcode, setZipcode] = useState('')
   const [shouldCalculate, setShouldCalculate] = useState(false)
   const api = useApi()
+  const { throwAppError } = useAppError()
+
+  async function getShipmentServices() {
+    if (!shouldCalculate || !zipcode) return
+
+    try {
+      return await api.getShipmentServices(zipcode, [product])
+    } catch (error) {
+      console.log({ error })
+      throwAppError('Não foi possível calcular frete para esse CEP ' + zipcode)
+    }
+  }
 
   const { data: shipmentServices } = useQuery(
     ['shipment-services-costs', product],
-    () => api.getShipmentServices(zipcode, [product]),
+    getShipmentServices,
     {
       enabled: shouldCalculate,
     }
@@ -26,11 +39,14 @@ export function useShipmentServices(product: ComputedSku) {
   }
 
   function handleShipmentServicesDialogOpenChange(isOpen: boolean) {
+    console.log({ isOpen })
     setShouldCalculate(isOpen)
   }
 
   useEffect(() => {
-    if (shouldCalculate && shipmentServices) setShouldCalculate(false)
+    if (shouldCalculate && shipmentServices) {
+      setShouldCalculate(false)
+    }
   }, [shouldCalculate, shipmentServices])
 
   return {
