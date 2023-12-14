@@ -25,8 +25,6 @@ export function ShipmentServices({ product }: ShipmentServicesProps) {
     handleCalculateShipmentServices,
   } = useShipmentServices(product)
 
-  console.log({ shipmentServices })
-
   return (
     <XStack gap={8} alignItems="flex-end" justifyContent="center">
       <Input

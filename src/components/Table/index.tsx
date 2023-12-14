@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react'
-import { Heading, XStack, YStack } from 'tamagui'
+import { ReactNode } from 'react'
+import { Text, XStack, YStack } from 'tamagui'
 
 import { Cell } from '@/components/Table/Cell'
 
@@ -10,13 +10,13 @@ interface TableProps {
 
 export default function Table({ header, children }: TableProps) {
   return (
-    <YStack>
-      <XStack>
+    <YStack w="100%" borderRadius={4}>
+      <XStack w="100%">
         {header.map((heading) => (
           <Cell key={heading}>
-            <Heading fontWeight="600" textTransform="capitalize">
+            <Text fontWeight="600" fontSize={14} textTransform="capitalize">
               {heading}
-            </Heading>
+            </Text>
           </Cell>
         ))}
       </XStack>

@@ -8,11 +8,12 @@ interface CellProps {
 export function Cell({ children }: CellProps) {
   return (
     <View
-      borderRadius={4}
       borderWidth={1}
       borderColor="$gray400"
-      p={12}
+      p={8}
+      flex={1}
       alignItems="center"
+      h="100%"
     >
       {children}
     </View>
