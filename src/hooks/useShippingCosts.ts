@@ -2,23 +2,22 @@ import { useQuery } from 'react-query'
 import { AxiosError } from 'axios'
 
 import { useApi } from '@/services/api'
-import { Endpoints } from '@/services/api/endpoints'
 import { CalculateShippingCostsRequest } from '@/services/api/interfaces/ILogisticsService'
 
 export function useShippingCosts(
-  { zipcode, quantities, total, skus_ids }: CalculateShippingCostsRequest,
+  { zipcode, quantities, total, skusIds }: CalculateShippingCostsRequest,
   shouldCalculate = false
 ) {
   const api = useApi()
 
   const { data, error } = useQuery(
-    [Endpoints.SHIPPING_COST],
+    'shipment-costs',
     () =>
       api.calculateShippingCosts({
         zipcode,
         quantities,
         total,
-        skus_ids,
+        skusIds,
       }),
     {
       enabled: shouldCalculate,

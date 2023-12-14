@@ -1,14 +1,9 @@
-import {
-  ForwardedRef,
-  forwardRef,
-  ReactNode,
-  useImperativeHandle,
-  useState,
-} from 'react'
+import { ForwardedRef, forwardRef, ReactNode, useImperativeHandle } from 'react'
 import { X } from 'phosphor-react-native'
 import { Dialog as D, XStack } from 'tamagui'
 
 import { Button } from '@/components/Button'
+import { useDialog } from '@/components/Dialog/useDialog'
 
 export type DialogRef = {
   close: () => void
@@ -27,17 +22,7 @@ export const DialogComponent = (
   { children, content, title, width, height, onOpenChange }: DialogProps,
   ref: ForwardedRef<DialogRef>
 ) => {
-  const [isOpen, setIsOpen] = useState(false)
-
-  function handleOpenChange(isOpen: boolean) {
-    setIsOpen(isOpen)
-
-    if (onOpenChange) onOpenChange(isOpen)
-  }
-
-  function close() {
-    setIsOpen(false)
-  }
+  const { close, handleOpenChange, isOpen } = useDialog(onOpenChange ?? null)
 
   useImperativeHandle(ref, () => {
     return {
@@ -72,7 +57,7 @@ export const DialogComponent = (
           h={height}
         >
           <XStack justifyContent="space-between">
-            <D.Title fontSize={16} color="$gray900" fontWeight="600">
+            <D.Title fontSize={20} color="$gray900" fontWeight="600">
               {title}
             </D.Title>
             <D.Close asChild>

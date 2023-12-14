@@ -32,7 +32,7 @@ import {
   SalePrice,
   SkuCode,
 } from '@/components/Product'
-import ShippingCostsCalculation from '@/components/ShippingCostsCalculation'
+import { ShipmentServices } from '@/components/ShipmentServices'
 import { Skeleton } from '@/components/Skeleton'
 import { SkuSelects, SkuSelectsRef } from '@/components/SkuSelects'
 import { Timer } from '@/components/Timer'
@@ -286,17 +286,18 @@ export default function Product() {
               )}
             </YStack>
 
-            {selectedSku && (
+            {selectedSku && product && (
               <View mt={24}>
                 <Skeleton
                   isVisible={isLoading}
                   width={SCREEN.width - 48}
                   height={40}
                 >
-                  <ShippingCostsCalculation
-                    skus_ids={[selectedSku.id]}
-                    quantities={[quantity.current]}
-                    total={selectedSku?.price_sale}
+                  <ShipmentServices
+                    product={{
+                      ...selectedSku,
+                      quantity: quantity.current,
+                    }}
                   />
                 </Skeleton>
               </View>

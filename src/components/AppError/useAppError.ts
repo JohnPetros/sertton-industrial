@@ -12,7 +12,7 @@ export function useAppError(error = '') {
   }, [])
 
   function handleAppError(error: Error) {
-    console.error(error)
+    // console.warn(error)
   }
 
   useEffect(() => {

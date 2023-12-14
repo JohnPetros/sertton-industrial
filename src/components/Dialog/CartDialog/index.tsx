@@ -1,12 +1,12 @@
-import { ReactNode, useRef } from 'react'
+import { ReactNode } from 'react'
 import { DialogClose, Text, View, XStack, YStack } from 'tamagui'
 
 import type { Sku } from '@/@types/sku'
 import { Button } from '@/components/Button'
-import { Dialog, DialogRef } from '@/components/Dialog'
+import { Dialog } from '@/components/Dialog'
+import { useCartDialog } from '@/components/Dialog/CartDialog/useCartDialog'
 import { NumberInput } from '@/components/NumberInput'
-import { SkuSelects, SkuSelectsRef } from '@/components/SkuSelects'
-import { useCartStore } from '@/stores/cartStore'
+import { SkuSelects } from '@/components/SkuSelects'
 
 interface CartDialogProps {
   children: ReactNode
@@ -19,39 +19,13 @@ interface CartDialogProps {
 }
 
 export function CartDialog({ children, product }: CartDialogProps) {
-  const dialogRef = useRef<DialogRef | null>(null)
-  const skuSelectsRef = useRef<SkuSelectsRef | null>(null)
-  const quantity = useRef(1)
-
-  const addItem = useCartStore((store) => store.actions.addItem)
-
-  const hasVariations = product.skus.every((sku) => sku.variations.length > 0)
-
-  function handleQuantityChange(newQuantity: number) {
-    quantity.current = newQuantity
-  }
-
-  function handleAddCartItem() {
-    if (!skuSelectsRef.current) return
-
-    const { onAddSkuToCart, selectedSku } = skuSelectsRef.current
-
-    const shouldAddToCart = onAddSkuToCart()
-
-    if (hasVariations && !shouldAddToCart) return
-
-    if (selectedSku) {
-      const item = {
-        slug: product.slug,
-        skuId: selectedSku.id,
-        quantity: quantity.current,
-      }
-
-      addItem(item)
-    }
-
-    dialogRef.current?.close()
-  }
+  const {
+    handleAddCartItem,
+    handleQuantityChange,
+    quantity,
+    dialogRef,
+    skuSelectsRef,
+  } = useCartDialog(product.slug, product.skus)
 
   return (
     <Dialog
@@ -74,14 +48,14 @@ export function CartDialog({ children, product }: CartDialogProps) {
             >
               {product.name}
             </Text>
-            <YStack gap={12} mt={hasVariations ? 24 : 0}>
+            <YStack mt={12}>
               <SkuSelects ref={skuSelectsRef} productId={product.id} />
             </YStack>
 
             <View mt={24}>
               <NumberInput
                 label="Quantidade do produto"
-                number={quantity.current}
+                number={quantity}
                 onChangeNumber={handleQuantityChange}
               />
             </View>

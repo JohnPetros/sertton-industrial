@@ -15,7 +15,7 @@ export function NumberInput({
   number,
   onChangeNumber,
 }: NumberInputProps) {
-  const [numberValue, setNumberValue] = useState(number)
+  const [numberValue, setNumberValue] = useState(number ?? 1)
 
   function handleDecreaseValue() {
     const updatedNumber = numberValue - 1

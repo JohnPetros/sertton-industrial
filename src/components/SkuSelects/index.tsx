@@ -27,15 +27,17 @@ export const SkuSelectsComponent = (
   { productId, isDisabled, onSkuChange }: SkuSelectsProps,
   ref: ForwardedRef<SkuSelectsRef>
 ) => {
+  console.log({ productId })
+
   const {
-    skus,
     selectedSku,
+    skus,
     variations,
-    selectedVariationsValues,
     variationNames,
+    selectedVariationsValues,
+    getVariationValuesByVariationName,
     setSkusVariations,
     handleSelectedVariationChange,
-    getVariationValuesByVariationName,
   } = useSkus(productId)
   const selectRefs = useRef<SelectRef[]>([])
 

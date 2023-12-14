@@ -3,8 +3,7 @@ import { getTokens } from 'tamagui'
 
 import type { Sku } from '@/@types/sku'
 import { Button } from '@/components/Button'
-import { CartDialog } from '@/components/CartDialog'
-import { useCartStore } from '@/stores/cartStore'
+import { CartDialog } from '@/components/Dialog/CartDialog'
 
 interface CartButtonProps {
   product: {

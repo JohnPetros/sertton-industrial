@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import type { Api } from '@/@types/api'
 import { addressesController } from '@/services/api/addressesController'
 import { brandsController } from '@/services/api/brandsController'
@@ -36,21 +38,24 @@ export function useApi() {
 
   api.setDefaultConfig()
 
-  return {
-    ...brandsController(api),
-    ...categoriesController(api),
-    ...customersController(api),
-    ...collectionsController(api),
-    ...logisticsController(api),
-    ...productsController(api),
-    ...variationsController(api),
-    ...skusController(api),
-    ...commentsController(api),
-    ...reviewsController(api),
-    ...addressesController(api),
-    ...ordersController(api),
-    ...paymentController(api),
-    ...shipmentServiceController(api),
-    handleError: (error: unknown) => api.handleError(error),
-  }
+  return useMemo(
+    () => ({
+      ...brandsController(api),
+      ...categoriesController(api),
+      ...customersController(api),
+      ...collectionsController(api),
+      ...logisticsController(api),
+      ...productsController(api),
+      ...variationsController(api),
+      ...skusController(api),
+      ...commentsController(api),
+      ...reviewsController(api),
+      ...addressesController(api),
+      ...ordersController(api),
+      ...paymentController(api),
+      ...shipmentServiceController(api),
+      handleError: (error: unknown) => api.handleError(error),
+    }),
+    [api]
+  )
 }

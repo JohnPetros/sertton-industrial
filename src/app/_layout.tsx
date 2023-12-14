@@ -47,10 +47,10 @@ export default function Layout() {
   if (!loaded) return null
 
   return (
-    <TamaguiProvider config={config}>
-      <ErrorBoundary onError={handleAppError} FallbackComponent={AppError}>
-        <PortalProvider>
-          <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <TamaguiProvider config={config}>
+        <ErrorBoundary onError={handleAppError} FallbackComponent={AppError}>
+          <PortalProvider>
             <Suspense fallback={<Text>Loading...</Text>}>
               <Theme name={colorScheme}>
                 <CustomerProvider>
@@ -69,9 +69,9 @@ export default function Layout() {
                 </CustomerProvider>
               </Theme>
             </Suspense>
-          </QueryClientProvider>
-        </PortalProvider>
-      </ErrorBoundary>
-    </TamaguiProvider>
+          </PortalProvider>
+        </ErrorBoundary>
+      </TamaguiProvider>
+    </QueryClientProvider>
   )
 }
