@@ -61,7 +61,6 @@ export function usePaymentForm() {
   async function handlePaymentMethod(paymentMethod: PaymentMethod) {
     switch (paymentMethod) {
       case 'credit-card':
-        console.log('credit_card')
         await saveOrder()
         break
       case 'ticket':
@@ -76,11 +75,8 @@ export function usePaymentForm() {
 
     setCheckoutUrl('')
 
-    console.log({ url })
-
     if (url.includes('success')) {
       const paymentMethod = getSearchParams(url, 'payment_type')
-      console.log({ paymentMethod })
       handlePaymentMethod(paymentMethod as PaymentMethod)
     }
 
@@ -119,7 +115,6 @@ export function usePaymentForm() {
   }
 
   function handlePaymentMethodChange(paymentMethod: string) {
-    console.log({ paymentMethod })
     setSelectedPaymentMethod(paymentMethod as PaymentMethod)
   }
 

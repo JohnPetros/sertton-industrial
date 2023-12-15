@@ -66,15 +66,11 @@ export function useProductPage(slug: string) {
 
   useEffect(() => {
     if (selectedSku) setIsLoading(false)
-
-    console.log({ product })
   }, [selectedSku])
 
   useFocusEffect(
     useCallback(() => {
       return () => {
-        console.log(quantity.current)
-
         setIsLoading(true)
         setSelectedSku(null)
         scrollRef.current?.scrollTo({ y: 0 })

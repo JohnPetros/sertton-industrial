@@ -12,11 +12,11 @@ export function CheckoutTimer() {
       justifyContent="center"
       bg="$blue700"
     >
-      <Clock color={getTokens().color.white.val} />
+      <Clock size={20} color={getTokens().color.white.val} />
       <Text
         textTransform="uppercase"
         color="$white"
-        fontSize={20}
+        fontSize={14}
         fontWeight="600"
       >
         Oferta termina em
@@ -26,7 +26,7 @@ export function CheckoutTimer() {
         initialMinutes={15}
         initialSeconds={0}
         color="secondary"
-        fontSize={20}
+        fontSize={14}
       />
     </XStack>
   )

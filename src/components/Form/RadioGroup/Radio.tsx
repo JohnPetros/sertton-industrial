@@ -16,13 +16,7 @@ export function Radio({
   children,
 }: RadioProps) {
   return (
-    <RadioGroup.Item
-      unstyled
-      id={value}
-      flex={1}
-      value={value}
-      onPress={() => console.log('888')}
-    >
+    <RadioGroup.Item unstyled id={value} flex={1} value={value}>
       <YStack
         borderColor={isSelected ? '$blue500' : '$gray200'}
         borderWidth={1}

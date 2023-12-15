@@ -23,9 +23,7 @@ export function Header() {
       >
         <ListBullets color={getTokens().color.blue800.val} />
       </Button>
-      <Link href="/(drawer)/(tabs)/home">
-        <Logo />
-      </Link>
+      <Logo />
     </XStack>
   )
 }

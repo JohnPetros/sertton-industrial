@@ -12,16 +12,15 @@ export const Icon = styled(Button, {
       default: {
         color: '$gray900',
       },
-      focus: {
-        focusStyle: {
-          color: '$gray400',
-          borderBottomColor: '$blue400',
-        },
-      },
       success: {
         bg: '$green50',
         color: '$green900',
         borderBottomColor: '$green500',
+      },
+      disabled: {
+        bg: '$gray50',
+        color: '$gray900',
+        borderBottomColor: '$gray500',
       },
       error: {
         bg: '$red100',

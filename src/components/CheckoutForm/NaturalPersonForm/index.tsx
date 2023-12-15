@@ -2,7 +2,6 @@ import { Controller } from 'react-hook-form'
 import {
   Envelope,
   IdentificationCard,
-  Lock,
   Phone,
   User,
 } from 'phosphor-react-native'
@@ -25,23 +24,6 @@ export function NaturalPersonForm({ onSubmit }: NaturalPersonFormProps) {
     <YStack gap={12} mt={12}>
       <Controller
         control={control}
-        name="name"
-        render={({ field: { onChange, value, name } }) => (
-          <Input
-            label="Nome completo"
-            placeholder="Maria Joaquina dos Santos"
-            icon={User}
-            value={value}
-            onChangeText={(fullName) =>
-              handleInputChange(onChange, fullName, name)
-            }
-            error={errors.name?.message}
-          />
-        )}
-      />
-
-      <Controller
-        control={control}
         name="email"
         render={({ field: { onChange, value, name } }) => (
           <Input
@@ -53,6 +35,23 @@ export function NaturalPersonForm({ onSubmit }: NaturalPersonFormProps) {
             value={value}
             onChangeText={(email) => handleInputChange(onChange, email, name)}
             error={errors.email?.message}
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="name"
+        render={({ field: { onChange, value, name } }) => (
+          <Input
+            label="Nome completo"
+            placeholder="Maria Joaquina dos Santos"
+            icon={User}
+            value={value}
+            onChangeText={(fullName) =>
+              handleInputChange(onChange, fullName, name)
+            }
+            error={errors.name?.message}
           />
         )}
       />

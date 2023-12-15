@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext } from 'react'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 
 import { Customer as CustomerData } from '@/@types/customer'
 import { useApi } from '@/services/api'
@@ -11,6 +11,8 @@ type Customer =
 
 type CustomerContextValue = {
   customer: Customer
+  fetchCustomerByEmail: (email: string) => void
+  checkCustomerEmail: () => Promise<boolean>
   setSelectedAddressZipcode: (zipcode: string) => void
 }
 
@@ -23,37 +25,69 @@ export const CustomerContext = createContext({} as CustomerContextValue)
 export function CustomerProvider({ children }: CustomerProviderProps) {
   const storage = useStorage()
 
-  async function getCustomer() {
-    // const email = await storage.getCustomerEmail()
-    // if (!email) return
-
-    const customer = await api.getCustomerByEmail('joaopedro.nc@outlook.com')
+  async function getCustomerByEmail(email: string) {
+    const customer = await api.getCustomerByEmail(email)
 
     if (customer) {
+      await storage.setCustomerEmail(email)
       const selectedAddressZipcode =
         await storage.getCustomerSelectedAddressZipcode()
 
       return {
         ...customer,
-        selectedAddressZipcode,
+        selectedAddressZipcode: selectedAddressZipcode ?? null,
       }
     }
   }
 
+  async function fetchCustomer() {
+    const email = await storage.getCustomerEmail()
+    if (!email) return
+
+    return getCustomerByEmail(email)
+  }
+
   const api = useApi()
 
-  const { data, error, isLoading, refetch } = useQuery('customer', () =>
-    getCustomer()
+  const { data, refetch } = useQuery('customer', () => fetchCustomer())
+
+  const customerEmailMutation = useMutation(
+    (email: string) => getCustomerByEmail(email),
+    {
+      onSuccess: () => refetch(),
+      onError: (error) => {
+        api.handleError(error)
+      },
+    }
   )
 
+  const customerZipcodeMutation = useMutation(
+    (zipcode: string) => storage.setCustomerSelectedAddressZipcode(zipcode),
+    {
+      onSuccess: () => refetch(),
+    }
+  )
+
+  async function fetchCustomerByEmail(email: string) {
+    customerEmailMutation.mutate(email)
+  }
+
+  async function checkCustomerEmail() {
+    const customerEmail = await storage.getCustomerEmail()
+
+    return !!customerEmail
+  }
+
   async function setSelectedAddressZipcode(zipcode: string) {
-    await storage.setCustomerSelectedAddressZipcode(zipcode)
+    customerZipcodeMutation.mutate(zipcode)
   }
 
   return (
     <CustomerContext.Provider
       value={{
         customer: data ?? null,
+        fetchCustomerByEmail,
+        checkCustomerEmail,
         setSelectedAddressZipcode,
       }}
     >

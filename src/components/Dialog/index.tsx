@@ -7,6 +7,7 @@ import { useDialog } from '@/components/Dialog/useDialog'
 
 export type DialogRef = {
   close: () => void
+  open: () => void
 }
 
 interface DialogProps {
@@ -22,11 +23,14 @@ export const DialogComponent = (
   { children, content, title, width, height, onOpenChange }: DialogProps,
   ref: ForwardedRef<DialogRef>
 ) => {
-  const { close, handleOpenChange, isOpen } = useDialog(onOpenChange ?? null)
+  const { close, open, handleOpenChange, isOpen } = useDialog(
+    onOpenChange ?? null
+  )
 
   useImperativeHandle(ref, () => {
     return {
       close,
+      open,
     }
   })
 

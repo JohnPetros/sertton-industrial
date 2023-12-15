@@ -2,7 +2,11 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { NaturalPersonFormFields, naturalPersonFormSchema } from '@/libs/zod'
+import {
+  emailSchema,
+  NaturalPersonFormFields,
+  naturalPersonFormSchema,
+} from '@/libs/zod'
 import { useCheckoutStore } from '@/stores/checkoutStore'
 
 type FieldName = keyof NaturalPersonFormFields

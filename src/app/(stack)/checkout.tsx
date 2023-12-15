@@ -10,14 +10,14 @@ import { SCREEN } from '@/utils/constants/screen'
 
 export default function checkout() {
   return (
-    <YStack>
+    <YStack flex={1}>
       <Header />
 
       <CheckoutTimer />
 
       <Steps />
 
-      <ScrollView style={{ marginTop: 12 }}>
+      <ScrollView style={{ marginTop: 12, flex: 1 }}>
         <YStack px={SCREEN.paddingX}>
           <CartItems />
         </YStack>

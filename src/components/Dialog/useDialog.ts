@@ -9,6 +9,10 @@ export function useDialog(onOpenChange: ((isOpen: boolean) => void) | null) {
     if (onOpenChange) onOpenChange(isOpen)
   }
 
+  function open() {
+    setIsOpen(true)
+  }
+
   function close() {
     setIsOpen(false)
   }
@@ -16,6 +20,7 @@ export function useDialog(onOpenChange: ((isOpen: boolean) => void) | null) {
   return {
     isOpen,
     handleOpenChange,
+    open,
     close,
   }
 }

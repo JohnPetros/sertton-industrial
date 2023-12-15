@@ -30,8 +30,6 @@ export function useProducts() {
       brandsIds,
     })
 
-    console.log('oi')
-
     return { products, totalPages }
   }
 
@@ -59,7 +57,6 @@ export function useProducts() {
 
   function handleProductsListEndReached() {
     fetchNextPage()
-    console.log('reached')
   }
 
   let products: Product[] = []

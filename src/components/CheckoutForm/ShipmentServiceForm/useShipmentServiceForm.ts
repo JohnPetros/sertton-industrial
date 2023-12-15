@@ -23,20 +23,20 @@ export function useShipmentServiceForm() {
     const selectedAddressZipcode =
       await storage.getCustomerSelectedAddressZipcode()
 
-    if (!selectedAddressZipcode || !cartProducts) return
+    // if (!selectedAddressZipcode || !cartProducts) return
 
-    const selectedSkus = getSelectedSkus()
+    // const selectedSkus = getSelectedSkus()
 
-    if (selectedSkus) {
-      try {
-        return await api.getShipmentServices(
-          selectedAddressZipcode,
-          selectedSkus
-        )
-      } catch (error) {
-        api.handleError(error)
-      }
-    }
+    // if (selectedSkus) {
+    //   try {
+    //     return await api.getShipmentServices(
+    //       selectedAddressZipcode,
+    //       selectedSkus
+    //     )
+    //   } catch (error) {
+    //     api.handleError(error)
+    //   }
+    // }
   }
 
   const { data: shipmentServices } = useQuery(
@@ -51,7 +51,7 @@ export function useShipmentServiceForm() {
       (shipmentService) => shipmentService.name === shipmentServiceName
     )
 
-    setShipmentService(selectedShipmentService)
+    if (selectedShipmentService) setShipmentService(selectedShipmentService)
   }
 
   return {

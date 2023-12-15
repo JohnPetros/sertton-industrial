@@ -8,7 +8,7 @@ const nameSchema = z
   })
   .regex(REGEX.fullname, 'Digite seu nome completo e sem espaço no final')
 
-const emailSchema = z
+export const emailSchema = z
   .string({
     required_error: 'Campo obrigatório',
   })

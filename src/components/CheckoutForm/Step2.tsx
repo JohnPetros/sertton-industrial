@@ -16,18 +16,16 @@ export function Step2() {
   const setStep = useCheckoutStore((store) => store.actions.setStep)
 
   return (
-    <YStack px={SCREEN.paddingX}>
+    <YStack flex={1} px={SCREEN.paddingX} pb={140}>
       <Heading
         step={2}
         title="Entrega"
         subtitle="Cadastre ou selecione um endereço."
       />
-      {customer?.selectedAddressZipcode && (
-        <YStack mt={24} gap={24} separator={<Separator bg="$gray500" />}>
-          <AddressForm />
-          <ShipmentServiceForm />
-        </YStack>
-      )}
+      <YStack mt={24} gap={24} separator={<Separator bg="$gray500" />}>
+        <AddressForm />
+        {/* {customer?.selectedAddressZipcode && <ShipmentServiceForm />} */}
+      </YStack>
       {selectedShipmentService && (
         <Button mt={36} onPress={() => setStep(3)}>
           Continuar

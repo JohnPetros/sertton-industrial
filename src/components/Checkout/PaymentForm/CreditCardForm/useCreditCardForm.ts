@@ -9,9 +9,7 @@ export function useCreditCardForm() {
     resolver: zodResolver(creditCardFormSchema),
   })
 
-  function handleFormSubmit(data: CreditCardFormFields) {
-    console.log(data)
-  }
+  function handleFormSubmit(data: CreditCardFormFields) {}
 
   return {
     formFields,

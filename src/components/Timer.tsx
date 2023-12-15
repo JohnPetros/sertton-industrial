@@ -69,7 +69,7 @@ export function Timer({
   }, [])
 
   return (
-    <XStack alignItems="center" justifyContent="center" gap={4}>
+    <XStack alignItems="center" justifyContent="center" gap={2}>
       <ReText style={reTextStyle.style} text={animatedHoursText} />
       <Text color={`$${colorToken}`} fontWeight="600" fontSize={fontSize}>
         :

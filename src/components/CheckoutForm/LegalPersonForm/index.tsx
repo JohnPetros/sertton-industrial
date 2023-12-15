@@ -25,21 +25,6 @@ export function LegalPersonForm({ onSubmit }: LegalPersonFormProps) {
     <YStack gap={16} mt={12}>
       <Controller
         control={control}
-        name="razaoSocial"
-        render={({ field: { onChange, value, name } }) => (
-          <Input
-            label="Razão social"
-            icon={ComputerTower}
-            placeholder="Exemplo: Maria de Almeira LTDA"
-            value={value}
-            onChangeText={() => handleInputChange(onChange, value, name)}
-            error={errors.razaoSocial?.message}
-          />
-        )}
-      />
-
-      <Controller
-        control={control}
         name="email"
         render={({ field: { onChange, value, name } }) => (
           <Input
@@ -49,6 +34,20 @@ export function LegalPersonForm({ onSubmit }: LegalPersonFormProps) {
             value={value}
             onChangeText={(email) => handleInputChange(onChange, email, name)}
             error={errors.email?.message}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="razaoSocial"
+        render={({ field: { onChange, value, name } }) => (
+          <Input
+            label="Razão social"
+            icon={ComputerTower}
+            placeholder="Exemplo: Maria de Almeira LTDA"
+            value={value}
+            onChangeText={() => handleInputChange(onChange, value, name)}
+            error={errors.razaoSocial?.message}
           />
         )}
       />

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { ScrollView, Text, YStack } from 'tamagui'
+import { H3, ScrollView, Text, YStack } from 'tamagui'
 
 import { Button } from '@/components/Button'
 import { Dialog } from '@/components/Dialog'
@@ -42,9 +42,9 @@ export function ReviewDialog({
       title="Avalie o produto"
       content={
         <YStack mt={8}>
-          {/* <H3 fontSize={18} color="$gray600">
+          <H3 fontSize={18} color="$gray600">
             {productName}
-          </H3> */}
+          </H3>
           <ScrollView>
             <YStack mt={12} gap={8}>
               <Text color="$gray400" textTransform="uppercase">

@@ -34,7 +34,8 @@ export function AddressForm() {
     handleSelectedAddressChange,
     handleDeleteAddress,
     handleEditAddress,
-    toggleAddressRadioGroupVisibility,
+    handleAddAddressButton,
+    handleShowAddressesButton,
   } = useAddressForm()
 
   return (
@@ -46,7 +47,7 @@ export function AddressForm() {
           fontWeight="600"
           borderWidth={1}
           borderColor="$blue500"
-          onPress={toggleAddressRadioGroupVisibility}
+          onPress={handleAddAddressButton}
         >
           Cadastrar novo endereço
         </Button>
@@ -59,7 +60,7 @@ export function AddressForm() {
           fontWeight="600"
           borderWidth={1}
           borderColor="$blue500"
-          onPress={toggleAddressRadioGroupVisibility}
+          onPress={handleShowAddressesButton}
         >
           Ver endereços cadastrados
         </Button>

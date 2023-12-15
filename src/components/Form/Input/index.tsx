@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from 'react'
+import { useId } from 'react'
 import { Icon as IconProps } from 'phosphor-react-native'
 import {
   getTokens,
@@ -12,13 +12,9 @@ import {
 import { Field } from './Field'
 
 import type { Mask } from '@/@types/mask'
+import { Icon } from '@/components/Form/Input/Icon'
+import { useInput } from '@/components/Form/Input/useInput'
 import { Label } from '@/components/Form/Label'
-import { Icon } from '@/components/input/Icon'
-import { useMask } from '@/hooks/useMask'
-import { getOnlyNumbers } from '@/utils/helpers/getOnlyNumbers'
-
-type InputState = 'default' | 'success' | 'error'
-type IconState = 'default' | 'disabled' | 'success' | 'error'
 
 export interface InputProps extends FieldProps {
   label?: string
@@ -48,56 +44,22 @@ export function Input({
   error,
   onChangeText,
 }: InputProps) {
-  const [iconState, setIconState] = useState<IconState>('default')
-  const [inputState, setInputState] = useState<InputState>('default')
-  const maskText = useMask(mask)
+  const {
+    iconState,
+    inputState,
+    handleBlur,
+    handleFocus,
+    handleTextChange,
+    maskText,
+  } = useInput({
+    error,
+    keyboardType: keyboardType === 'numeric' ? 'numeric' : 'text',
+    mask,
+    isDisabled: disabled,
+    max,
+    onChangeText,
+  })
   const id = useId()
-
-  function handleFocus() {
-    if (disabled || error) return
-
-    setInputState('default')
-    setInputState('default')
-  }
-
-  function handleBlur() {
-    if (disabled || error) return
-
-    setIconState('default')
-    setInputState('default')
-  }
-
-  function handleTextChange(text: string) {
-    if (disabled) return
-
-    const maskedText = text
-
-    if (onChangeText) {
-      const value =
-        keyboardType === 'numeric'
-          ? getOnlyNumbers(maskedText).slice(0, max)
-          : maskedText
-
-      onChangeText(value)
-    }
-
-    if (!error) {
-      setInputState('default')
-      setIconState('default')
-    }
-  }
-
-  useEffect(() => {
-    if (error) {
-      setInputState('error')
-      setIconState('error')
-    }
-
-    if (!error) {
-      setInputState('default')
-      setIconState('default')
-    }
-  }, [error])
 
   return (
     <YStack gap={3}>
@@ -110,7 +72,6 @@ export function Input({
         {InputIcon && (
           <Icon
             state={disabled ? 'disabled' : iconState}
-            focus={'inactive'}
             icon={<InputIcon color={getTokens().color.gray800.val} size={28} />}
           />
         )}

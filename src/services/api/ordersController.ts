@@ -6,7 +6,6 @@ import { Resources } from '@/services/api/resources'
 export function ordersController(api: Api): IOrdersController {
   return {
     async saveOrder(order: Order) {
-      console.log('orders')
       await api.post(`/${Resources.ORDERS}`, order)
     },
   }

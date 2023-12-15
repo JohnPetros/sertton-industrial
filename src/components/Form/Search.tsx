@@ -5,7 +5,7 @@ import { MagnifyingGlass } from 'phosphor-react-native'
 import { getTokens, Spinner, XStack } from 'tamagui'
 
 import { Button } from '@/components/Button'
-import { Input } from '@/components/input'
+import { Input } from '@/components/Form/Input'
 import { useProductsFilterStore } from '@/stores/productsFilterStore'
 import { ROUTES } from '@/utils/constants/routes'
 import { SCREEN } from '@/utils/constants/screen'
