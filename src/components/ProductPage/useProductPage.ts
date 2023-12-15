@@ -7,20 +7,17 @@ import type { Sku } from '@/@types/sku'
 import { SkuSelectsRef } from '@/components/SkuSelects'
 import { useRefetchOnFocus } from '@/hooks/useRefetchOnFocus'
 import { useApi } from '@/services/api'
-import { useDate } from '@/services/date'
 import { useCartStore } from '@/stores/cartStore'
 import { ROUTES } from '@/utils/constants/routes'
 
 export function useProductPage(slug: string) {
   const api = useApi()
 
-  const {
-    data: product,
-    error: productError,
-    refetch,
-  } = useQuery(['product', slug], () => api.getProductBySlug(slug))
+  const { data: product, refetch } = useQuery(['product', slug], () =>
+    api.getProductBySlug(slug)
+  )
 
-  const { data: similarProducts, error: similarProductsError } = useQuery(
+  const { data: similarProducts } = useQuery(
     ['similiar_products', product?.id],
     () => api.getSimiliarProducts(String(product?.id)),
     {
@@ -29,8 +26,6 @@ export function useProductPage(slug: string) {
   )
 
   useRefetchOnFocus({ refetch })
-
-  const productId = useRef(0)
 
   const addItem = useCartStore((store) => store.actions.addItem)
 
@@ -41,7 +36,6 @@ export function useProductPage(slug: string) {
   const quantity = useRef(1)
 
   const router = useRouter()
-  const { calculateTimeUtilTodayEnd } = useDate()
 
   const hasVariations = Boolean(
     skuSelectsRef.current?.selectedSku?.variations.length
@@ -72,20 +66,19 @@ export function useProductPage(slug: string) {
 
   useEffect(() => {
     if (selectedSku) setIsLoading(false)
+
+    console.log({ product })
   }, [selectedSku])
 
   useFocusEffect(
     useCallback(() => {
-      if (product) productId.current = product.id
-
       return () => {
         console.log(quantity.current)
 
         setIsLoading(true)
         setSelectedSku(null)
         scrollRef.current?.scrollTo({ y: 0 })
-        productId.current = 0
-        quantity.current = 0
+        quantity.current = 1
       }
     }, [product])
   )
