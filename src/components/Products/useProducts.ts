@@ -48,8 +48,6 @@ export function useProducts() {
         hasNextPage.current =
           Math.ceil(totalProducts / PER_PAGE) < lastPage.totalPages
 
-        console.log(hasNextPage.current)
-
         return hasNextPage.current ? currentPage.current + 1 : undefined
       },
     }

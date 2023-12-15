@@ -26,8 +26,7 @@ type MutationCustomerAdressDeletingParams = {
 }
 
 export function useAddressForm() {
-  const { customer, setSelectedAddressZipcode: setCustomerAddressZipcode } =
-    useCustomerContext()
+  const { customer, setSelectedAddressZipcode } = useCustomerContext()
   const api = useApi()
   const storage = useStorage()
 
@@ -43,7 +42,7 @@ export function useAddressForm() {
     resolver: zodResolver(addressFormSchema),
   })
 
-  const [selectedAddressZipcode, setSelectedAddressZipcode] = useState('')
+  // const [selectedAddressZipcode, setSelectedAddressZipcode] = useState('')
   const [isZipcodeValid, setIsZipcodeValid] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isAddressRadioGroupVisible, setIsAddressRadioGroupVisible] =
@@ -135,6 +134,7 @@ export function useAddressForm() {
     setIsAddressRadioGroupVisible(false)
     setSelectedAddressZipcode('')
     setValue('zipcode', '')
+    setIsZipcodeValid(false)
   }
 
   function handleShowAddressesButton() {
@@ -188,7 +188,7 @@ export function useAddressForm() {
       } else {
         setIsZipcodeValid(false)
         setError('zipcode', {
-          message: 'Nenhum endereço não encontrado para esse CEP',
+          message: 'Nenhum endereço encontrado para esse CEP',
         })
       }
     } catch (error) {
@@ -200,9 +200,7 @@ export function useAddressForm() {
   }
 
   async function handleSelectedAddressChange(selectedAddressZipcode: string) {
-    // console.log({ selectedAddressZipcode })
-    // setSelectedAddressZipcode(selectedAddressZipcode)
-    // setCustomerAddressZipcode(selectedAddressZipcode)
+    setSelectedAddressZipcode(selectedAddressZipcode)
   }
 
   function handleEditAddress(zipcode: string) {
@@ -234,7 +232,7 @@ export function useAddressForm() {
       customerId: customer.id,
     })
 
-    const isSelected = address.zip_code === selectedAddressZipcode
+    const isSelected = address.zip_code === customer.selectedAddressZipcode
 
     if (isSelected && addresses)
       setSelectedAddressZipcode(addresses[0].zip_code)
@@ -264,7 +262,7 @@ export function useAddressForm() {
       }
 
       addressUpdatingMutation.mutate({ address, customerId: customer.id })
-      setCustomerAddressZipcode(address.zip_code)
+      setSelectedAddressZipcode(address.zip_code)
       setIsAddressRadioGroupVisible(true)
       return
     }
@@ -286,17 +284,12 @@ export function useAddressForm() {
     }
   }, [addressFormData])
 
-  useEffect(() => {
-    const hasCustomerAddress = addresses && addresses.length > 0
-    if (!hasCustomerAddress) setIsAddressRadioGroupVisible(false)
-  }, [addresses])
-
   return {
     control,
     addresses,
     hasCustomerAddress: addresses && addresses.length > 0,
     errors,
-    selectedAddressZipcode,
+    selectedAddressZipcode: customer?.selectedAddressZipcode ?? '',
     isAddressRadioGroupVisible,
     addressFormData,
     isZipcodeValid,

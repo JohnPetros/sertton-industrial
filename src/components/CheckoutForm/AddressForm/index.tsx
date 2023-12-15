@@ -13,6 +13,7 @@ import { Text } from 'tamagui'
 import { Button } from '@/components/Button'
 import { Address } from '@/components/CheckoutForm/AddressForm/Address'
 import { useAddressForm } from '@/components/CheckoutForm/AddressForm/useAddressForm'
+import { ShipmentServiceForm } from '@/components/CheckoutForm/ShipmentServiceForm'
 import { Input } from '@/components/Form/Input'
 import { RadioGroup } from '@/components/Form/RadioGroup'
 import { Radio } from '@/components/Form/RadioGroup/Radio'
@@ -38,9 +39,11 @@ export function AddressForm() {
     handleShowAddressesButton,
   } = useAddressForm()
 
+  console.log({ isAddressRadioGroupVisible })
+
   return (
     <YStack gap={24}>
-      {hasCustomerAddress && isAddressRadioGroupVisible && (
+      {isAddressRadioGroupVisible && (
         <Button
           background="transparent"
           color="$blue500"
@@ -53,7 +56,7 @@ export function AddressForm() {
         </Button>
       )}
 
-      {hasCustomerAddress && !isAddressRadioGroupVisible && (
+      {!isAddressRadioGroupVisible && (
         <Button
           background="transparent"
           color="$blue500"
@@ -203,6 +206,10 @@ export function AddressForm() {
             />
           ))}
         </RadioGroup>
+      )}
+
+      {selectedAddressZipcode && isAddressRadioGroupVisible && (
+        <ShipmentServiceForm />
       )}
     </YStack>
   )

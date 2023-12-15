@@ -1,12 +1,12 @@
 import { useQuery } from 'react-query'
 
+import { useCustomerContext } from '@/contexts/CustomerContext'
 import { useCart } from '@/hooks/useCart'
 import { useApi } from '@/services/api'
-import { useStorage } from '@/services/storage'
 import { useCheckoutStore } from '@/stores/checkoutStore'
 
 export function useShipmentServiceForm() {
-  const storage = useStorage()
+  const { customer } = useCustomerContext()
 
   const api = useApi()
 
@@ -20,27 +20,26 @@ export function useShipmentServiceForm() {
   )
 
   async function getShipmentServices() {
-    const selectedAddressZipcode =
-      await storage.getCustomerSelectedAddressZipcode()
+    if (!customer?.selectedAddressZipcode || !cartProducts) return
 
-    // if (!selectedAddressZipcode || !cartProducts) return
+    console.log(customer.selectedAddressZipcode)
 
-    // const selectedSkus = getSelectedSkus()
+    const selectedSkus = getSelectedSkus()
 
-    // if (selectedSkus) {
-    //   try {
-    //     return await api.getShipmentServices(
-    //       selectedAddressZipcode,
-    //       selectedSkus
-    //     )
-    //   } catch (error) {
-    //     api.handleError(error)
-    //   }
-    // }
+    if (selectedSkus) {
+      try {
+        return await api.getShipmentServices(
+          customer.selectedAddressZipcode,
+          selectedSkus
+        )
+      } catch (error) {
+        api.handleError(error)
+      }
+    }
   }
 
   const { data: shipmentServices } = useQuery(
-    ['shipment-services'],
+    ['shipment-services', customer?.selectedAddressZipcode],
     getShipmentServices
   )
 

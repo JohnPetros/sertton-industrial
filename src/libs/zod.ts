@@ -70,6 +70,10 @@ const securyCodeSchema = z
   })
   .max(4)
 
+const number = z.string({
+  required_error: 'Campo obrigatório',
+})
+
 const creditCardExpirationDateSchema = z.string({
   required_error: 'Campo obrigatório',
 })
@@ -91,7 +95,7 @@ const legalPersonFormSchema = z.object({
 })
 
 const addressFormSchema = z.object({
-  number: securyCodeSchema,
+  number: number,
   zipcode: zipcodeSchema,
   city: citySchema,
   street: streetSchema,

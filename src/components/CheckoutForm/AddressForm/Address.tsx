@@ -30,7 +30,7 @@ export function Address({
         <Text color="$blue800" fontWeight="600">
           {street}, {number} - {neighborhood}
         </Text>
-        <Text color="$gray400">
+        <Text color="$gray400" flexWrap="wrap" flexShrink={0}>
           {city} - {uf} | {zipCode}
         </Text>
       </YStack>
