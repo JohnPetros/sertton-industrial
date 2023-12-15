@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Keyboard } from 'react-native'
 import { useRouter } from 'expo-router/src/hooks'
 import { MagnifyingGlass } from 'phosphor-react-native'
 import { getTokens, Spinner, XStack } from 'tamagui'
@@ -27,9 +28,10 @@ export function Search({ isLoading }: SearchProps) {
   const router = useRouter()
 
   function handleSearch() {
-    if (searchValue && !isLoading) {
-      setSearch(searchValue)
+    if (!isLoading) {
+      setSearch(searchValue.trim())
       router.push(ROUTES.products)
+      Keyboard.dismiss()
     }
   }
 
@@ -45,6 +47,7 @@ export function Search({ isLoading }: SearchProps) {
         label="Procurar produto"
         autoCorrect={false}
         value={searchValue}
+        onSubmitEditing={handleSearch}
         onChangeText={setSearchValue}
       />
       <Button
@@ -52,6 +55,7 @@ export function Search({ isLoading }: SearchProps) {
         background="primary"
         alignSelf="flex-end"
         onPress={handleSearch}
+        disabled={isLoading}
       >
         {isloading ? (
           <Spinner size="small" color="$white" />
