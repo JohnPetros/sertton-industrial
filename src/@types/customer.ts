@@ -13,4 +13,7 @@ export type Customer = {
   addresses?: {
     data: Address[]
   }
+  phone?: {
+    full_number: string
+  }
 }
