@@ -4,7 +4,7 @@ import { getTokens, XStack } from 'tamagui'
 import type { ComputedSku } from '@/@types/ComputedSku'
 import { Button } from '@/components/Button'
 import { ShipmentServicesDialog } from '@/components/Dialog/ShipmentServicesDialog'
-import { Input } from '@/components/input'
+import { Input } from '@/components/Form/Input'
 import { useShipmentServices } from '@/components/ShipmentServices/useShipmentServices'
 import { SCREEN } from '@/utils/constants/screen'
 
