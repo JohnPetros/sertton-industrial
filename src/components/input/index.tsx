@@ -24,6 +24,7 @@ export function Input({
   disabled,
   keyboardType,
   mask,
+  onSubmitEditing,
   onChangeText,
 }: InputProps) {
   const [inputState, setInputState] = useState<InputState>('default')
@@ -62,6 +63,7 @@ export function Input({
           w="100%"
           onFocus={handleFocus}
           onBlur={handleBlur}
+          onSubmitEditing={onSubmitEditing}
           onChangeText={handleTextChange}
           disabled={disabled}
           autoCorrect={autoCorrect}

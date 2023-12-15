@@ -24,9 +24,11 @@ export function Stock({ sku }: StockProps) {
           w={24}
           h={24}
         >
-          <Text color="$white" fontWeight="600" fontSize={12}>
-            {sku.total_in_stock}
-          </Text>
+          {sku.total_in_stock > 0 && (
+            <Text color="$white" fontWeight="600" fontSize={12}>
+              {sku.total_in_stock}
+            </Text>
+          )}
         </View>
         <Text color="$gray800">produtos em estoque</Text>
       </XStack>

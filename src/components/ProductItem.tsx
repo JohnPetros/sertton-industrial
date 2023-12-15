@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { Link } from 'expo-router'
 import { View, XStack, YStack } from 'tamagui'
 
@@ -12,12 +13,12 @@ interface ProductItemProps {
   width: number
 }
 
-export function ProductItem({
+const ProductItemComponent = ({
   data: { skus, images, name, brand, slug, id },
   isLoading,
   isColumn = true,
   width = 150,
-}: ProductItemProps) {
+}: ProductItemProps) => {
   return (
     <Link href={`/product/${slug}`} asChild>
       <View
@@ -77,3 +78,5 @@ export function ProductItem({
     </Link>
   )
 }
+
+export const ProductItem = memo(ProductItemComponent)

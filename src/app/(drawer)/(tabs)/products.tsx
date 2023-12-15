@@ -1,34 +1,21 @@
-import { useState } from 'react'
 import { getTokens, H2, Paragraph, YStack } from 'tamagui'
 
-import type { Sorter } from '@/@types/sorter'
 import { Search } from '@/components/Form/Search'
 import { Header } from '@/components/Header'
-import { ProductsList } from '@/components/ProductsList'
-import { useCatogory } from '@/hooks/useCategory'
-import { useProducts } from '@/hooks/useProducts'
-import { useProductsFilterStore } from '@/stores/productsFilterStore'
+import { ProductsList } from '@/components/ProducstList'
+import { useProducts } from '@/components/Products/useProducts'
 import { removeHTMLTags } from '@/utils/helpers/removeHTMLTags'
 
-export default function Products() {
-  const { search, categoryId, brandsIds } = useProductsFilterStore(
-    (store) => store.state
-  )
-
-  const [selectedSorter, setSelectedSorter] = useState<Sorter | null>(null)
-  const { category } = useCatogory(categoryId)
-  const { products, isLoading, hasNextPage, fetchNextPage, refetch } =
-    useProducts({
-      search,
-      categoryId,
-      sorter: selectedSorter,
-      brandsIds,
-    })
-
-  function handleProductsListEndReached() {
-    fetchNextPage()
-    console.log('reached')
-  }
+export default function ProductsPage() {
+  const {
+    products,
+    category,
+    isLoading,
+    hasNextPage,
+    refetch,
+    setSelectedSorter,
+    handleProductsListEndReached,
+  } = useProducts()
 
   return (
     <YStack px={24}>
