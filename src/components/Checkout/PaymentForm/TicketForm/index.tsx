@@ -6,9 +6,10 @@ import { formatPrice } from '@/utils/helpers/formatPrice'
 
 interface TicketFormProps {
   total: number
+  onGenerate: () => void
 }
 
-export function TicketForm({ total }: TicketFormProps) {
+export function TicketForm({ total, onGenerate }: TicketFormProps) {
   return (
     <YStack gap={16}>
       <Paragraph color="$gray900" fontWeight="600">
@@ -26,7 +27,7 @@ export function TicketForm({ total }: TicketFormProps) {
       <Text color="$green500" fontSize={20} fontWeight="600">
         Valor no Pix: {formatPrice(total)}
       </Text>
-      <Button>Comprar agora</Button>
+      <Button onPress={onGenerate}>Comprar agora</Button>
     </YStack>
   )
 }

@@ -1,13 +1,18 @@
 import { Controller } from 'react-hook-form'
 import { XStack, YStack } from 'tamagui'
 
+import { PaymentMethod } from '@/@types/paymentMethod'
 import { Button } from '@/components/Button'
 import { useCreditCardForm } from '@/components/Checkout/PaymentForm/CreditCardForm/useCreditCardForm'
 import { Input } from '@/components/Form/Input'
 
-export function CreditCardForm() {
+interface CreditCardFormProps {
+  onPay: (paymentMethod: PaymentMethod, cardToken: string) => Promise<void>
+}
+
+export function CreditCardForm({ onPay }: CreditCardFormProps) {
   const { control, errors, handleInputChange, handleSubmit } =
-    useCreditCardForm()
+    useCreditCardForm(onPay)
 
   return (
     <YStack gap={24}>

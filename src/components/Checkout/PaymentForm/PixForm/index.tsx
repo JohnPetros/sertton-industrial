@@ -5,9 +5,10 @@ import { formatPrice } from '@/utils/helpers/formatPrice'
 
 interface PixFormProps {
   total: number
+  onGenerate: () => void
 }
 
-export function PixForm({ total }: PixFormProps) {
+export function PixForm({ total, onGenerate }: PixFormProps) {
   if (total)
     return (
       <YStack mt={12} gap={16}>
@@ -18,7 +19,7 @@ export function PixForm({ total }: PixFormProps) {
         <Text color="$green500" fontSize={20} fontWeight="600">
           Valor no Pix: {formatPrice(total)}
         </Text>
-        <Button>Comprar agora</Button>
+        <Button onPress={onGenerate}>Comprar agora</Button>
       </YStack>
     )
 }

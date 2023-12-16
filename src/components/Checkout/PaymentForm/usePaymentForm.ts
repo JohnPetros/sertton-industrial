@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { WebViewNavigation } from 'react-native-webview'
 
 import { PaymentMethod } from '@/@types/paymentMethod'
@@ -6,6 +6,7 @@ import { useCustomerContext } from '@/contexts/CustomerContext'
 import { useCart } from '@/hooks/useCart'
 import { useCartSummary } from '@/hooks/useCartSummary'
 import { useApi } from '@/services/api'
+import { useCheckoutStore } from '@/stores/checkoutStore'
 import { getSearchParams } from '@/utils/helpers/getQueryParam'
 
 export function usePaymentForm() {
@@ -14,10 +15,59 @@ export function usePaymentForm() {
     useState<PaymentMethod | null>(null)
 
   const { customer } = useCustomerContext()
-  const { products } = useCart()
+  const { products, getSelectedSkus } = useCart()
   const { totalDiscount, totalToPay } = useCartSummary(products ?? [])
 
+  const address = useCheckoutStore((store) => store.state.address)
+
   const api = useApi()
+
+  async function createTransaction(
+    paymentMethod: PaymentMethod,
+    cardToken?: string
+  ) {
+    const products = getSelectedSkus()
+    if (!customer || !products) return
+
+    try {
+      const response = await api.createTransaction({
+        customer: {
+          id: customer.id.toString(),
+          type: customer.type === 'f' ? 'natural' : 'legal',
+          email: customer.email,
+          name: customer.name ?? '',
+          document: (customer.type === 'f' ? customer.cpf : customer.cpf) ?? '',
+          phone: customer.phone?.full_number ?? '',
+          address: {
+            number: Number(address.number),
+            street: address.street,
+            neighborhood: address.neighborhood,
+            zipCode: address.zip_code,
+            city: address.city,
+            state: address.uf,
+          },
+        },
+        products: products
+          .map((product) => ({
+            id: product.id.toString(),
+            name: product.name,
+            price: product.price_sale,
+            height: product.height,
+            length: product.length,
+            weight: product.weight,
+            width: product.width,
+            sku: product.sku,
+            quantity: product.quantity,
+          }))
+          .slice(0, 1),
+        paymentMethod,
+        cardToken,
+      })
+      console.log({ response })
+    } catch (error) {
+      api.handleError(error)
+    }
+  }
 
   async function saveOrder() {
     if (!customer?.addresses || !products) return
@@ -54,7 +104,7 @@ export function usePaymentForm() {
         address: selectedAddress,
       })
     } catch (error) {
-      // api.handleError(error)
+      api.handleError(error)
     }
   }
 
@@ -84,36 +134,6 @@ export function usePaymentForm() {
     // }
   }
 
-  async function checkout() {
-    if (!customer || !products) return
-
-    try {
-      const checkoutUrl = await api.checkout({
-        customer: {
-          id: customer.id.toString(),
-          email: customer.email,
-          name: customer.name ?? '',
-        },
-        products: products.map((product) => {
-          const price =
-            product.skus.data.find((sku) => sku.id === product.selectedSkuId)
-              ?.price_sale ?? 0
-
-          return {
-            id: product.id.toString(),
-            name: product.name,
-            price,
-            quantity: product.quantity,
-          }
-        }),
-      })
-
-      if (checkoutUrl) setCheckoutUrl(checkoutUrl)
-    } catch (error) {
-      // api.handleError(error)
-    }
-  }
-
   function handlePaymentMethodChange(paymentMethod: string) {
     setSelectedPaymentMethod(paymentMethod as PaymentMethod)
   }
@@ -121,9 +141,9 @@ export function usePaymentForm() {
   return {
     checkoutUrl,
     selectedPaymentMethod,
+    totalToPay: totalToPay - totalDiscount,
+    createTransaction,
     handlePaymentNavigation,
     handlePaymentMethodChange,
-    checkout,
-    totalToPay: totalToPay - totalDiscount,
   }
 }

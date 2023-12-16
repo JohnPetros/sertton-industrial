@@ -3,11 +3,16 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { CreditCard } from '@/@types/creditCard'
+import { PaymentMethod } from '@/@types/paymentMethod'
+import { useCustomerContext } from '@/contexts/CustomerContext'
+import { useCart } from '@/hooks/useCart'
 import { CreditCardFormFields, creditCardFormSchema } from '@/libs/zod'
 import { useApi } from '@/services/api'
 import { useCheckoutStore } from '@/stores/checkoutStore'
 
-export function useCreditCardForm() {
+export function useCreditCardForm(
+  onPay: (paymentMethod: PaymentMethod, cardToken: string) => Promise<void>
+) {
   const {
     control,
     setValue,
@@ -20,8 +25,13 @@ export function useCreditCardForm() {
   })
 
   const api = useApi()
+
   const creditCard = useCheckoutStore((store) => store.state.creditCard)
+  const address = useCheckoutStore((store) => store.state.address)
   const setCreditCard = useCheckoutStore((store) => store.actions.setCreditCard)
+
+  const { customer } = useCustomerContext()
+  const { getSelectedSkus } = useCart()
 
   function handleInputChange(fieldName: keyof CreditCard, value: string) {
     setCreditCard(fieldName, value)
@@ -58,14 +68,19 @@ export function useCreditCardForm() {
     securityCode,
   }: CreditCardFormFields) {
     try {
-      const creditCardToken = await api.tokenizeCreditCard({
+      const creditCardToken = await api.tokenizeCard({
         cpf,
         expirationDate,
         name,
         number,
         securityCode,
       })
+
+      if (!creditCardToken) return
+
       console.log({ creditCardToken })
+
+      onPay('credit-card', creditCardToken)
     } catch (error) {
       const responseError = api.handleError(error)
       handleApiError(JSON.stringify(responseError))

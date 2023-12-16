@@ -7,7 +7,7 @@ export function TicketLabel() {
       <XStack gap={8}>
         <Barcode color={getTokens().color.gray800.val} />
         <Text fontWeight="600" color="$gray900">
-          Ticket
+          Boleto
         </Text>
       </XStack>
     </YStack>
