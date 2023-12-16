@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useQuery } from 'react-query'
 
 import { useCustomerContext } from '@/contexts/CustomerContext'
@@ -10,7 +11,7 @@ export function useShipmentServiceForm() {
 
   const api = useApi()
 
-  const { products: cartProducts, getSelectedSkus } = useCart()
+  const { products, getSelectedSkus } = useCart()
 
   const setShipmentService = useCheckoutStore(
     (store) => store.actions.setShipmentService
@@ -20,9 +21,7 @@ export function useShipmentServiceForm() {
   )
 
   async function getShipmentServices() {
-    if (!customer?.selectedAddressZipcode || !cartProducts) return
-
-    console.log(customer.selectedAddressZipcode)
+    if (!customer?.selectedAddressZipcode) return
 
     const selectedSkus = getSelectedSkus()
 
@@ -38,8 +37,8 @@ export function useShipmentServiceForm() {
     }
   }
 
-  const { data: shipmentServices } = useQuery(
-    ['shipment-services', customer?.selectedAddressZipcode],
+  const { data: shipmentServices, refetch } = useQuery(
+    ['shipment-services', customer, products],
     getShipmentServices
   )
 
@@ -52,6 +51,10 @@ export function useShipmentServiceForm() {
 
     if (selectedShipmentService) setShipmentService(selectedShipmentService)
   }
+
+  useEffect(() => {
+    if (customer) refetch()
+  }, [customer])
 
   return {
     shipmentServices,

@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext } from 'react'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { Customer as CustomerData } from '@/@types/customer'
 import { useApi } from '@/services/api'
@@ -23,6 +23,7 @@ interface CustomerProviderProps {
 export const CustomerContext = createContext({} as CustomerContextValue)
 
 export function CustomerProvider({ children }: CustomerProviderProps) {
+  const queryClient = useQueryClient()
   const storage = useStorage()
 
   async function getCustomerByEmail(email: string) {
@@ -61,10 +62,24 @@ export function CustomerProvider({ children }: CustomerProviderProps) {
     }
   )
 
+  async function setCustomerZipcode(zipcode: string) {
+    await storage.setCustomerSelectedAddressZipcode(zipcode)
+
+    return {
+      customer: data,
+      selectedAddressZipcode: zipcode,
+    }
+  }
+
   const customerZipcodeMutation = useMutation(
-    (zipcode: string) => storage.setCustomerSelectedAddressZipcode(zipcode),
+    (zipcode: string) => setCustomerZipcode(zipcode),
     {
-      onSuccess: () => refetch(),
+      onSuccess: () => {
+        refetch()
+      },
+      onError: (error) => {
+        api.handleError(error)
+      },
     }
   )
 

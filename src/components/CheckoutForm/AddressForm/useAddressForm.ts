@@ -90,7 +90,7 @@ export function useAddressForm() {
   }
 
   const { data: addresses, refetch } = useQuery(
-    ['addresses', customer],
+    ['addresses'],
     getAddressesByCustomerId,
     {
       enabled: !!customer,

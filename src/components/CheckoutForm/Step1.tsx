@@ -5,11 +5,7 @@ import { Heading } from '@/components/CheckoutForm/Heading'
 import { LegalPersonForm } from '@/components/CheckoutForm/LegalPersonForm'
 import { NaturalPersonForm } from '@/components/CheckoutForm/NaturalPersonForm'
 import { PersonForm } from '@/components/CheckoutForm/PersonForm'
-import { KeyboardHandlerView } from '@/components/KeyboardHandlerView'
-import { Tabs } from '@/components/Tabs'
 import { LegalPersonFormFields, NaturalPersonFormFields } from '@/libs/zod'
-import { useApi } from '@/services/api'
-import { useCheckoutStore } from '@/stores/checkoutStore'
 import { SCREEN } from '@/utils/constants/screen'
 
 export type PersonFormData = {
