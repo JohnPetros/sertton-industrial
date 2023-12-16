@@ -6,7 +6,8 @@ import { useCreditCardForm } from '@/components/Checkout/PaymentForm/CreditCardF
 import { Input } from '@/components/Form/Input'
 
 export function CreditCardForm() {
-  const { control, errors, handleSubmit } = useCreditCardForm()
+  const { control, errors, handleInputChange, handleSubmit } =
+    useCreditCardForm()
 
   return (
     <YStack gap={24}>
@@ -21,7 +22,10 @@ export function CreditCardForm() {
             placeholder="1234 1234 1234 1234"
             max={16}
             value={value}
-            onChangeText={onChange}
+            onChangeText={(value) => {
+              onChange(value)
+              handleInputChange('number', value)
+            }}
             error={errors.number?.message}
           />
         )}
@@ -40,7 +44,10 @@ export function CreditCardForm() {
               mask="credit-card-expiration-date"
               value={value}
               max={4}
-              onChangeText={onChange}
+              onChangeText={(value) => {
+                onChange(value)
+                handleInputChange('expirationDate', value)
+              }}
               error={errors.expirationDate?.message}
             />
           )}
@@ -55,8 +62,11 @@ export function CreditCardForm() {
               keyboardType="numeric"
               value={value}
               max={4}
-              onChangeText={onChange}
-              error={errors.expirationDate?.message}
+              onChangeText={(value) => {
+                onChange(value)
+                handleInputChange('securityCode', value)
+              }}
+              error={errors.securityCode?.message}
             />
           )}
         />
@@ -70,7 +80,10 @@ export function CreditCardForm() {
             label="Nome e sobrenome do titular"
             placeholder="ex.: Maria Joaquina de Souza"
             value={value}
-            onChangeText={onChange}
+            onChangeText={(value) => {
+              onChange(value)
+              handleInputChange('name', value)
+            }}
             error={errors.name?.message}
           />
         )}
@@ -86,13 +99,16 @@ export function CreditCardForm() {
             mask="cpf"
             placeholder="000.000.000-00"
             value={value}
-            onChangeText={onChange}
+            onChangeText={(value) => {
+              onChange(value)
+              handleInputChange('cpf', value)
+            }}
             error={errors.cpf?.message}
           />
         )}
       />
 
-      <Button onPress={handleSubmit}>Comprar agora</Button>
+      <Button onPress={() => handleSubmit()}>Comprar agora</Button>
     </YStack>
   )
 }
