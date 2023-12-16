@@ -7,10 +7,6 @@ export const Button = styled(TamaguiButton, {
   borderRadius: 4,
   borderWidth: 1,
 
-  pressStyle: {
-    opacity: 0.7,
-  },
-
   variants: {
     background: {
       primary: {
