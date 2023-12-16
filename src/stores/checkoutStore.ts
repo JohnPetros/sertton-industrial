@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 
+import { CreditCard } from '@/@types/creditCard'
 import type { ShipmentService } from '@/@types/shipmentService'
 import { LegalPersonFormFields, NaturalPersonFormFields } from '@/libs/zod'
 
@@ -12,6 +13,7 @@ export type PersonFormData = {
 export type CheckoutStoreState = {
   step: number
   personFormData: PersonFormData
+  creditCard: CreditCard
   shipmentService: ShipmentService | null
 }
 
@@ -24,6 +26,7 @@ type CheckoutStoreActions = {
     value: string
   ) => void
   setStep(step: number): void
+  setCreditCard(creditCardField: string, value: string): void
   setShipmentService(shipmentService: ShipmentService): void
 }
 
@@ -33,7 +36,7 @@ type CheckoutStoreProps = {
 }
 
 const initialState: CheckoutStoreState = {
-  step: 1,
+  step: 3,
   personFormData: {
     naturalPerson: {
       name: '',
@@ -47,6 +50,13 @@ const initialState: CheckoutStoreState = {
       razaoSocial: '',
       cnpj: '',
     },
+  },
+  creditCard: {
+    cpf: '',
+    expirationDate: '',
+    name: '',
+    number: '',
+    securityCode: '',
   },
   shipmentService: null,
 }
@@ -79,6 +89,12 @@ export const useCheckoutStore = create<CheckoutStoreProps>()(
         setStep(step: number) {
           return set(({ state }) => {
             if (step <= 3) state.step = step
+          })
+        },
+
+        setCreditCard(creditCardField: string, value: string) {
+          return set(({ state }) => {
+            state.creditCard[creditCardField as keyof CreditCard] = value
           })
         },
 
