@@ -37,6 +37,12 @@ export const axiosApi: Api = {
     axiosClient.defaults.headers[key] = value
   },
 
+  setParams(key: string, value: string) {
+    axiosClient.defaults.params = {
+      [key]: value,
+    }
+  },
+
   setDefaultConfig() {
     if (!BASE_URL || !ALIAS || !TOKEN || !SECRET_KEY) {
       throw new Error('invalid API env vars')
@@ -49,12 +55,10 @@ export const axiosApi: Api = {
 
   handleError(error: unknown) {
     if (isAxiosError(error)) {
-      console.error(error.request)
+      console.error(error.response?.data)
 
-      return error.message
+      return error.response?.data
     }
-
-    console.error({ error })
 
     return 'Unknown Api Error'
   },

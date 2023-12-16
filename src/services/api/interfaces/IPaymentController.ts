@@ -1,3 +1,5 @@
+import type { CreditCard } from '@/@types/creditCard'
+
 export type CheckoutRequest = {
   customer: {
     id: string
@@ -14,4 +16,5 @@ export type CheckoutRequest = {
 
 export interface IPaymentController {
   checkout(request: CheckoutRequest): Promise<string>
+  tokenizeCreditCard(creditCard: CreditCard): Promise<string>
 }

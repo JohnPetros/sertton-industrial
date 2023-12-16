@@ -24,13 +24,13 @@ const cnpjSchema = z
   .string({
     required_error: 'Campo obrigatório',
   })
-  .max(14)
+  .length(14, 'CNPJ deve conter 14 números')
 
 const phoneSchema = z
   .string({
     required_error: 'Campo obrigatório',
   })
-  .max(11)
+  .length(11, 'CPF deve conter 11 números')
 
 const razaoSocialSchema = z.string({
   required_error: 'Campo obrigatório',
@@ -62,21 +62,24 @@ const creditCardNumberSchema = z
   .string({
     required_error: 'Campo obrigatório',
   })
-  .length(16, 'Número do cartão deve conter 16 caracteres')
+  .length(16, 'Número do cartão deve conter 16 números')
 
 const securyCodeSchema = z
   .string({
     required_error: 'Campo obrigatório',
   })
-  .max(4)
+  .min(3, 'Dever conter pelo menos 3 dígitos')
+  .max(4, 'Dever conter no máximo 4 dígitos')
 
 const number = z.string({
   required_error: 'Campo obrigatório',
 })
 
-const creditCardExpirationDateSchema = z.string({
-  required_error: 'Campo obrigatório',
-})
+const creditCardExpirationDateSchema = z
+  .string({
+    required_error: 'Campo obrigatório',
+  })
+  .length(4, 'Digite no formato dd/yy')
 
 const complementSchema = z.string().optional()
 
@@ -109,7 +112,7 @@ const creditCardFormSchema = z.object({
   number: creditCardNumberSchema,
   cpf: cpfSchema,
   name: nameSchema,
-  securityCode: creditCardNumberSchema,
+  securityCode: securyCodeSchema,
   expirationDate: creditCardExpirationDateSchema,
 })
 
