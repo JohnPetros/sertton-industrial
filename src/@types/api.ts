@@ -6,7 +6,7 @@ export type Api = {
   getBaseUrl(): string
   setBaseUrl(baseUrl: string): void
   setHeader(key: string, value: string): void
-  setHeader(key: string, value: string): void
+  setParams(key: string, value: string): void
   setDefaultConfig(): void
   handleError(error: unknown): string
 }
