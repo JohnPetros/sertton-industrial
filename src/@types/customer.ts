@@ -16,4 +16,5 @@ export type Customer = {
   phone?: {
     full_number: string
   }
+  selectedAddressZipcode?: string | null
 }
