@@ -1,16 +1,12 @@
 import { createContext, ReactNode, useContext } from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 
-import { Customer as CustomerData } from '@/@types/customer'
+import { Customer } from '@/@types/customer'
 import { useApi } from '@/services/api'
 import { useStorage } from '@/services/storage'
 
-type Customer =
-  | (CustomerData & { selectedAddressZipcode: string | null | undefined })
-  | null
-
 type CustomerContextValue = {
-  customer: Customer
+  customer: Customer | null
   fetchCustomerByEmail: (email: string) => void
   checkCustomerEmail: () => Promise<boolean>
   setSelectedAddressZipcode: (zipcode: string) => void
@@ -23,7 +19,6 @@ interface CustomerProviderProps {
 export const CustomerContext = createContext({} as CustomerContextValue)
 
 export function CustomerProvider({ children }: CustomerProviderProps) {
-  const queryClient = useQueryClient()
   const storage = useStorage()
 
   async function getCustomerByEmail(email: string) {

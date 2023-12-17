@@ -14,8 +14,9 @@ export function customersController(api: Api): ICustomersController {
         `/${Resources.CUSTOMERS}?q=${email}&includes=addresses`
       )
 
-      const customer = {
+      const customer: Customer = {
         ...response.data[0],
+        selectedAddressZipcode: null,
       }
 
       return customer
