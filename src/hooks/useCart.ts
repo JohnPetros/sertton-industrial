@@ -48,6 +48,7 @@ export function useCart() {
       if (selectedSku)
         selectedSkus.push({
           quantity: product.quantity,
+          name: product.name,
           ...selectedSku,
         })
     }

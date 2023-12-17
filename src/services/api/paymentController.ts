@@ -1,6 +1,7 @@
 import type { Api } from '@/@types/api'
 import type { CreditCard } from '@/@types/creditCard'
-import { CheckoutRequest } from '@/services/api/interfaces/IPaymentController'
+import { Transaction } from '@/@types/transaction'
+import { CreateTransactionRequest } from '@/services/api/interfaces/IPaymentController'
 import { IPaymentController } from '@/services/api/interfaces/IPaymentController'
 import { Resources } from '@/services/api/resources'
 import { removeAccents } from '@/utils/helpers/removeAccents'
@@ -16,19 +17,24 @@ export function paymentController(api: Api): IPaymentController {
     throw new Error('SHIPMENT SERVICE BASE URL must be provided')
 
   return {
-    async checkout({ customer, products }: CheckoutRequest) {
+    async createTransaction({
+      customer,
+      products,
+      paymentMethod,
+      cardToken,
+    }: CreateTransactionRequest) {
       api.setBaseUrl(SHIPMENT_SERVICE_BASE_URL)
 
-      const response = await api.post<{ checkoutUrl: string }>(
-        `/${Resources.PAYMENT}/checkout`,
-        { customer, products }
+      const response = await api.post<Transaction>(
+        `/${Resources.PAYMENT}/transaction/${paymentMethod}`,
+        { customer, products, cardToken }
       )
 
       api.setDefaultConfig()
 
-      return response.checkoutUrl
+      return response
     },
-    async tokenizeCreditCard(creditCard: CreditCard) {
+    async tokenizeCard(creditCard: CreditCard) {
       if (!PAGAR_ME_API_URL) throw new Error('PAGARME API URL must be provided')
       if (!PAGAR_ME_PUBLIC_KEY)
         throw new Error('PAGARME PUBLIC KEY must be provided')

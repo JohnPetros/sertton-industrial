@@ -37,8 +37,6 @@ export function useFiltersDialog(brands: Brand[]) {
   }
 
   async function handleFilterButton() {
-    console.log({ checkedBrandsIds })
-
     dialogRef.current?.close()
 
     await new Promise((resolve) => {

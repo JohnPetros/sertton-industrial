@@ -1,20 +1,40 @@
 import type { CreditCard } from '@/@types/creditCard'
+import type { PaymentMethod } from '@/@types/paymentMethod'
+import { Transaction } from '@/@types/transaction'
 
-export type CheckoutRequest = {
+export type CreateTransactionRequest = {
+  paymentMethod: PaymentMethod
   customer: {
     id: string
-    name: string
     email: string
+    name: string
+    phone: string
+    type: 'legal' | 'natural'
+    document: string
+    address: {
+      number: number
+      street: string
+      neighborhood: string
+      zipCode: string
+      city: string
+      state: string
+    }
   }
   products: {
     id: string
     name: string
-    price: number
+    sku: string
     quantity: number
+    price: number
+    length: number
+    width: number
+    height: number
+    weight: number
   }[]
+  cardToken?: string
 }
 
 export interface IPaymentController {
-  checkout(request: CheckoutRequest): Promise<string>
-  tokenizeCreditCard(creditCard: CreditCard): Promise<string>
+  createTransaction(request: CreateTransactionRequest): Promise<Transaction>
+  tokenizeCard(creditCard: CreditCard): Promise<string>
 }

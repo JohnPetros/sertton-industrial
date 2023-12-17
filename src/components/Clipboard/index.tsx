@@ -27,7 +27,7 @@ export function Clipboard({ text, label, message }: CopyBoardProps) {
         borderColor="$gray700"
         onPress={copy}
       >
-        <XStack justifyContent="space-between" alignItems="center">
+        <YStack justifyContent="space-between" alignItems="center">
           <Text
             textTransform="uppercase"
             color="$gray900"
@@ -44,7 +44,7 @@ export function Clipboard({ text, label, message }: CopyBoardProps) {
             />
             <Text color="$white">Copiar código</Text>
           </XStack>
-        </XStack>
+        </YStack>
       </Button>
     </YStack>
   )
