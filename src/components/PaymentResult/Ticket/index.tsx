@@ -2,22 +2,26 @@ import { Printer, WhatsappLogo } from 'phosphor-react-native'
 import { getTokens, H1, H2, Text, XStack, YStack } from 'tamagui'
 import { Image } from 'tamagui'
 
+import { useAppError } from '@/components/AppError/useAppError'
 import { Button } from '@/components/Button'
 import { Clipboard } from '@/components/Clipboard'
 import { List } from '@/components/List'
 import { useTicket } from '@/components/PaymentResult/Ticket/useTicket'
-import { SCREEN } from '@/utils/constants/screen'
+import { useCheckoutStore } from '@/stores/checkoutStore'
 
-interface TicketProps {
-  code: string
-  url: string
-}
+export function Ticket() {
+  const transaction = useCheckoutStore(({ state }) => state.transaction)
+  const { throwAppError } = useAppError()
 
-export function Ticket({ code, url }: TicketProps) {
-  const { downloadTicket } = useTicket(url)
+  if (!transaction?.pdf || !transaction?.code) {
+    throwAppError('Error ao gerar boleto', 500)
+    return
+  }
+
+  const { downloadTicket } = useTicket(transaction.pdf)
 
   return (
-    <YStack px={SCREEN.paddingX}>
+    <YStack>
       <YStack gap={20}>
         <H1 textAlign="center" color="$gray700" fontSize={24} lineHeight={32}>
           Seu pedido foi realizado.
@@ -68,6 +72,7 @@ export function Ticket({ code, url }: TicketProps) {
         </H2>
 
         <List
+          bgColor="$white"
           items={[
             'Imprima seu boleto e pague-o no banco',
             ' Você também pode pagar pela internet usando o código de barras:',
@@ -75,7 +80,7 @@ export function Ticket({ code, url }: TicketProps) {
         />
         <Clipboard
           label="Código de barras do boleto"
-          text={code}
+          text={transaction.code}
           message="Código do boleto copiado"
         />
         <XStack gap={12} mt={24}>

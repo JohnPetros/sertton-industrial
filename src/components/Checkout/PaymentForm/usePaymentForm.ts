@@ -1,12 +1,15 @@
 import { useState } from 'react'
 import { WebViewNavigation } from 'react-native-webview'
+import { useRouter } from 'expo-router/src/hooks'
 
 import { PaymentMethod } from '@/@types/paymentMethod'
+import { Transaction } from '@/@types/transaction'
 import { useCustomerContext } from '@/contexts/CustomerContext'
 import { useCart } from '@/hooks/useCart'
 import { useCartSummary } from '@/hooks/useCartSummary'
 import { useApi } from '@/services/api'
 import { useCheckoutStore } from '@/stores/checkoutStore'
+import { ROUTES } from '@/utils/constants/routes'
 import { getSearchParams } from '@/utils/helpers/getQueryParam'
 
 export function usePaymentForm() {
@@ -18,9 +21,56 @@ export function usePaymentForm() {
   const { products, getSelectedSkus } = useCart()
   const { totalDiscount, totalToPay } = useCartSummary(products ?? [])
 
-  const address = useCheckoutStore((store) => store.state.address)
-
+  const setTransaction = useCheckoutStore(
+    (store) => store.actions.setTransaction
+  )
+  const { address, shipmentService } = useCheckoutStore((store) => store.state)
   const api = useApi()
+  const router = useRouter()
+
+  async function saveOrder() {
+    if (!customer?.addresses || !products || !shipmentService) return
+
+    const selectedAddress =
+      customer.addresses.data.find(
+        (address) => address.zip_code === customer.selectedAddressZipcode
+      ) ?? customer.addresses.data[0]
+
+    if (!selectedAddress) return
+
+    try {
+      const response = await api.saveOrder({
+        customer_id: customer.id,
+        days_delivery: 3,
+        status: 'waiting_payment',
+        number: 111,
+        value_products: totalToPay,
+        value_discount: totalDiscount,
+        items: products.map((product) => {
+          const selectedSku = product.skus.data.find(
+            (sku) => sku.id === product.selectedSkuId
+          )
+
+          return {
+            product_id: product.id,
+            quantity: product.quantity,
+            price: selectedSku?.price_sale ?? 0,
+            sku_id: selectedSku?.id ?? 0,
+          }
+        }),
+        shipment_service: shipmentService.name,
+        value_shipment: shipmentService.price,
+        address: selectedAddress,
+      })
+
+      // if (response) {
+      // setTransaction(transaction)
+      // router.push(ROUTES.paymentResult + `?paymentMethod=${paymentMethod}`)
+      // }
+    } catch (error) {
+      api.handleError(error)
+    }
+  }
 
   async function createTransaction(
     paymentMethod: PaymentMethod,
@@ -30,7 +80,7 @@ export function usePaymentForm() {
     if (!customer || !products) return
 
     try {
-      const response = await api.createTransaction({
+      const transaction = await api.createTransaction({
         customer: {
           id: customer.id.toString(),
           type: customer.type === 'f' ? 'natural' : 'legal',
@@ -63,46 +113,13 @@ export function usePaymentForm() {
         paymentMethod,
         cardToken,
       })
-      console.log({ response })
-    } catch (error) {
-      api.handleError(error)
-    }
-  }
 
-  async function saveOrder() {
-    if (!customer?.addresses || !products) return
-
-    const selectedAddress =
-      customer.addresses.data.find(
-        (address) => address.zip_code === customer.selectedAddressZipcode
-      ) ?? customer.addresses.data[0]
-
-    if (!selectedAddress) return
-
-    try {
-      await api.saveOrder({
-        customer_id: customer.id,
-        days_delivery: 3,
-        status: 'waiting_payment',
-        number: 111,
-        value_products: totalToPay,
-        value_discount: totalDiscount,
-        items: products.map((product) => {
-          const selectedSku = product.skus.data.find(
-            (sku) => sku.id === product.selectedSkuId
-          )
-
-          return {
-            product_id: product.id,
-            quantity: product.quantity,
-            price: selectedSku?.price_sale ?? 0,
-            sku_id: selectedSku?.id ?? 0,
-          }
-        }),
-        shipment_service: 'Shipment service',
-        value_shipment: 14.5,
-        address: selectedAddress,
-      })
+      if (
+        transaction.status === 'approved' ||
+        transaction.status === 'pending'
+      ) {
+        await saveOrder()
+      }
     } catch (error) {
       api.handleError(error)
     }
