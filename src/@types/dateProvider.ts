@@ -5,4 +5,5 @@ export type DateProvider = {
     minutes: number
     seconds: number
   }
+  getDiffInSeconds: (currentDate: Date, futureDate: Date) => number
 }

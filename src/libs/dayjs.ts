@@ -27,4 +27,11 @@ export const dayjsProvider: DateProvider = {
   formatDate(date: string) {
     return dayjs(date).format('DD/MM/YYYY')
   },
+
+  getDiffInSeconds(currentDate: Date, futureDate: Date): number {
+    const date1 = dayjs(currentDate)
+    const date2 = dayjs(futureDate)
+
+    return date2.diff(date1, 'second')
+  },
 }

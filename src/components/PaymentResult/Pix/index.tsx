@@ -1,30 +1,44 @@
 import { H1, Separator, Text, XStack, YStack } from 'tamagui'
 import { Image } from 'tamagui'
 
+import { useAppError } from '@/components/AppError/useAppError'
 import { Clipboard } from '@/components/Clipboard'
 import { Strong } from '@/components/Strong'
 import { Timer } from '@/components/Timer'
 import { useCart } from '@/hooks/useCart'
 import { useCartSummary } from '@/hooks/useCartSummary'
-import { SCREEN } from '@/utils/constants/screen'
+import { useDate } from '@/services/date'
+import { useCheckoutStore } from '@/stores/checkoutStore'
 import { formatPrice } from '@/utils/helpers/formatPrice'
 
-interface PixProps {
-  code: string
-}
+export function Pix() {
+  const transaction = useCheckoutStore(({ state }) => state.transaction)
+  const { throwAppError } = useAppError()
 
-export function Pix({ code }: PixProps) {
+  if (!transaction?.expires_at || !transaction?.code) {
+    throwAppError('Error ao gerar código do pix', 500)
+    return
+  }
+
   const { products } = useCart()
   const { totalToPay, totalDiscount } = useCartSummary(products ?? [])
 
+  const date = useDate()
+
+  const expiresAt = date.getDiffInSeconds(
+    new Date(),
+    new Date(transaction?.expires_at)
+  )
+
+  const hours = Math.floor(expiresAt / 60 / 60)
+  const minutes = Math.floor(expiresAt / 60) % 60
+  const seconds = Math.floor(expiresAt) % 60
+  console.log({ hours })
+  console.log({ minutes })
+  console.log({ seconds })
+
   return (
-    <YStack
-      alignItems="center"
-      justifyContent="center"
-      w="100%"
-      px={SCREEN.paddingX}
-      gap={24}
-    >
+    <YStack alignItems="center" justifyContent="center" w="100%" gap={24}>
       <H1 fontSize={24} color="$gray800">
         Quase lá...
       </H1>
@@ -34,9 +48,9 @@ export function Pix({ code }: PixProps) {
             Pague seu Pix dentro de{' '}
           </Text>
           <Timer
-            initialHours={0}
-            initialMinutes={30}
-            initialSeconds={0}
+            initialHours={hours}
+            initialMinutes={minutes}
+            initialSeconds={seconds}
             fontSize={20}
           />
         </XStack>
@@ -63,7 +77,7 @@ export function Pix({ code }: PixProps) {
         </XStack>
         <Clipboard
           label="Copiar código do pix"
-          text={code}
+          text={transaction.code}
           message="Código do pix copiado"
         />
         <Text
