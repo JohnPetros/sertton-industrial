@@ -1,9 +1,11 @@
 import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 
-import { CreditCard } from '@/@types/creditCard'
+import type { Address } from '@/@types/address'
+import type { CreditCard } from '@/@types/creditCard'
 import type { ShipmentService } from '@/@types/shipmentService'
-import { LegalPersonFormFields, NaturalPersonFormFields } from '@/libs/zod'
+import type { Transaction } from '@/@types/transaction'
+import type { LegalPersonFormFields, NaturalPersonFormFields } from '@/libs/zod'
 
 export type PersonFormData = {
   naturalPerson: NaturalPersonFormFields
@@ -14,7 +16,9 @@ export type CheckoutStoreState = {
   step: number
   personFormData: PersonFormData
   creditCard: CreditCard
+  address: Omit<Address, 'id'>
   shipmentService: ShipmentService | null
+  transaction: Transaction | null
 }
 
 export type PersonType = 'natural' | 'legal'
@@ -27,7 +31,9 @@ type CheckoutStoreActions = {
   ) => void
   setStep(step: number): void
   setCreditCard(creditCardField: string, value: string): void
+  setAddress(address: Omit<Address, 'id'>): void
   setShipmentService(shipmentService: ShipmentService): void
+  setTransaction(transaction: Transaction): void
 }
 
 type CheckoutStoreProps = {
@@ -36,7 +42,7 @@ type CheckoutStoreProps = {
 }
 
 const initialState: CheckoutStoreState = {
-  step: 3,
+  step: 2,
   personFormData: {
     naturalPerson: {
       name: '',
@@ -58,7 +64,18 @@ const initialState: CheckoutStoreState = {
     number: '',
     securityCode: '',
   },
+  address: {
+    receiver: '',
+    zip_code: '',
+    street: '',
+    number: '',
+    neighborhood: '',
+    complement: '',
+    city: '',
+    uf: '',
+  },
   shipmentService: null,
+  transaction: null,
 }
 
 export const useCheckoutStore = create<CheckoutStoreProps>()(
@@ -98,9 +115,21 @@ export const useCheckoutStore = create<CheckoutStoreProps>()(
           })
         },
 
+        setAddress(address: Omit<Address, 'id'>) {
+          return set(({ state }) => {
+            state.address = address
+          })
+        },
+
         setShipmentService(shipmentService: ShipmentService) {
           return set(({ state }) => {
             state.shipmentService = shipmentService
+          })
+        },
+
+        setTransaction(transaction: Transaction) {
+          return set(({ state }) => {
+            state.transaction = transaction
           })
         },
       },

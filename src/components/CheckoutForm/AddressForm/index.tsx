@@ -39,8 +39,6 @@ export function AddressForm() {
     handleShowAddressesButton,
   } = useAddressForm()
 
-  console.log({ isAddressRadioGroupVisible })
-
   return (
     <YStack gap={24}>
       {isAddressRadioGroupVisible && (
