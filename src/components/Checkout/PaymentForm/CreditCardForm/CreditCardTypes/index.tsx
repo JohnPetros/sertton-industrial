@@ -1,4 +1,5 @@
-import { Image, XStack } from 'tamagui'
+import { SvgUri } from 'react-native-svg'
+import { XStack } from 'tamagui'
 
 import { useCreditCardTypes } from '@/components/Checkout/PaymentForm/CreditCardForm/CreditCardTypes/useCreditCardTypes'
 
@@ -9,13 +10,9 @@ export function CreditCardTypes() {
 
   if (creditCardTypes)
     return (
-      <XStack gap={8}>
+      <XStack gap={8} flexWrap="wrap" width="90%">
         {creditCardTypes.map((creditCardType) => (
-          <Image
-            key={creditCardType.name}
-            source={{ uri: creditCardType.image }}
-            alt={creditCardType.name}
-          />
+          <SvgUri key={creditCardType.name} uri={creditCardType.icon} />
         ))}
       </XStack>
     )

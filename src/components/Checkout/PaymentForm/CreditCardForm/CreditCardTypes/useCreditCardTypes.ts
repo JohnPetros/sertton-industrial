@@ -16,7 +16,7 @@ export function useCreditCardTypes() {
         )
         .map(({ icon_url, alias }) => ({
           name: alias,
-          image: icon_url,
+          icon: icon_url,
         }))
     } catch (error) {
       api.handleError(error)
