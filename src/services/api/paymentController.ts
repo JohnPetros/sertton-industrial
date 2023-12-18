@@ -1,5 +1,6 @@
 import type { Api } from '@/@types/api'
 import type { CreditCard } from '@/@types/creditCard'
+import { PaymentConfig } from '@/@types/paymentMethod'
 import { Transaction } from '@/@types/transaction'
 import { CreateTransactionRequest } from '@/services/api/interfaces/IPaymentController'
 import { IPaymentController } from '@/services/api/interfaces/IPaymentController'
@@ -34,6 +35,17 @@ export function paymentController(api: Api): IPaymentController {
 
       return response
     },
+
+    async getPaymentConfigs() {
+      api.setDefaultConfig()
+
+      const response = await api.get<{ data: PaymentConfig[] }>(
+        `/${Resources.CHECKOUT}/payments`
+      )
+
+      return response.data
+    },
+
     async tokenizeCard(creditCard: CreditCard) {
       if (!PAGAR_ME_API_URL) throw new Error('PAGARME API URL must be provided')
       if (!PAGAR_ME_PUBLIC_KEY)

@@ -2,14 +2,19 @@ import { useState } from 'react'
 import { WebViewNavigation } from 'react-native-webview'
 import { useRouter } from 'expo-router/src/hooks'
 
-import { PaymentMethod } from '@/@types/paymentMethod'
-import { Transaction } from '@/@types/transaction'
+import { OrderStatus } from '@/@types/order'
+import { PaymentConfig, PaymentMethod } from '@/@types/paymentMethod'
+import { Transaction, TransactionStatus } from '@/@types/transaction'
+import { useAppError } from '@/components/AppError/useAppError'
 import { useCustomerContext } from '@/contexts/CustomerContext'
 import { useCart } from '@/hooks/useCart'
 import { useCartSummary } from '@/hooks/useCartSummary'
 import { useApi } from '@/services/api'
+import { useDate } from '@/services/date'
 import { useCheckoutStore } from '@/stores/checkoutStore'
 import { ROUTES } from '@/utils/constants/routes'
+import { generateRandomNumber } from '@/utils/helpers/generateRandomNumber'
+import { getCreditCardType } from '@/utils/helpers/getCredtiCardType'
 import { getSearchParams } from '@/utils/helpers/getQueryParam'
 
 export function usePaymentForm() {
@@ -24,11 +29,49 @@ export function usePaymentForm() {
   const setTransaction = useCheckoutStore(
     (store) => store.actions.setTransaction
   )
-  const { address, shipmentService } = useCheckoutStore((store) => store.state)
+  const { address, shipmentService, creditCard } = useCheckoutStore(
+    (store) => store.state
+  )
   const api = useApi()
   const router = useRouter()
+  const date = useDate()
+  const { throwAppError } = useAppError()
 
-  async function saveOrder() {
+  async function getPaymentConfigId() {
+    const paymentConfigs = await api.getPaymentConfigs()
+
+    const creditCardType = getCreditCardType(creditCard.number)
+
+    let paymentConfigId: number | undefined
+
+    switch (selectedPaymentMethod) {
+      case 'pix':
+        paymentConfigId = paymentConfigs.find(
+          (paymentConfig) => paymentConfig.is_pix
+        )?.id
+        break
+      case 'ticket':
+        paymentConfigId = paymentConfigs.find(
+          (paymentConfig) => paymentConfig.is_billet
+        )?.id
+        break
+      case 'credit-card':
+        if (!creditCardType) {
+          throwAppError('Número de cartão de crédito inválido')
+          return
+        }
+        paymentConfigId = paymentConfigs.find(
+          (paymentConfig) => paymentConfig.alias === creditCardType
+        )?.id
+        break
+      default:
+        return 0
+    }
+
+    return paymentConfigId
+  }
+
+  async function saveOrder(transactionStatus: TransactionStatus) {
     if (!customer?.addresses || !products || !shipmentService) return
 
     const selectedAddress =
@@ -38,30 +81,102 @@ export function usePaymentForm() {
 
     if (!selectedAddress) return
 
+    console.log(
+      products.map((product) => {
+        const selectedSku = product.skus.data.find(
+          (sku) => sku.id === product.selectedSkuId
+        )
+
+        return {
+          product_id: product.id,
+          quantity: product.quantity,
+          price: selectedSku?.price_sale ?? 0,
+          sku_id: selectedSku?.id ?? 0,
+          sku: selectedSku?.sku,
+        }
+      })
+    )
+
+    const amount = totalToPay - totalDiscount + shipmentService.price
+    const paymentId = await getPaymentConfigId()
+
+    if (!paymentId) {
+      throwAppError('Método de pagamento inválido')
+      return
+    }
+
+    const orderStatus: Record<TransactionStatus, OrderStatus> = {
+      pending: 'waiting_payment',
+      cancelled: 'cancelled',
+      approved: 'authorized',
+      rejected: 'refused',
+    }
+
+    // console.log(
+    //   products
+    //     .map((product) => {
+    //       const selectedSku = product.skus.data.find(
+    //         (sku) => sku.id === product.selectedSkuId
+    //       )
+
+    //       return {
+    //         product_id: product.id,
+    //         quantity: product.quantity,
+    //         price: selectedSku?.price_sale ?? 0,
+    //         sku_id: selectedSku?.id ?? 0,
+    //         sku: selectedSku?.sku,
+    //       }
+    //     })
+    //     .slice(1)
+    // )
+
     try {
       const response = await api.saveOrder({
+        status: orderStatus[transactionStatus],
         customer_id: customer.id,
         days_delivery: 3,
-        status: 'waiting_payment',
-        number: 111,
+        number: generateRandomNumber(),
         value_products: totalToPay,
         value_discount: totalDiscount,
-        items: products.map((product) => {
-          const selectedSku = product.skus.data.find(
-            (sku) => sku.id === product.selectedSkuId
-          )
+        value_total: amount,
+        items: products
+          .map((product) => {
+            const selectedSku = product.skus.data.find(
+              (sku) => sku.id === product.selectedSkuId
+            )
 
-          return {
-            product_id: product.id,
-            quantity: product.quantity,
-            price: selectedSku?.price_sale ?? 0,
-            sku_id: selectedSku?.id ?? 0,
-          }
-        }),
+            return {
+              product_id: product.id,
+              quantity: product.quantity,
+              price: selectedSku?.price_sale ?? 0,
+              sku_id: selectedSku?.id ?? 0,
+              sku: selectedSku?.sku,
+            }
+          })
+          .slice(1),
         shipment_service: shipmentService.name,
         value_shipment: shipmentService.price,
-        address: selectedAddress,
+        address: [
+          {
+            ...selectedAddress,
+            zipcode: selectedAddress.zip_code,
+          },
+        ],
+        transactions: [
+          {
+            holder_name: customer.name ?? '',
+            holder_document:
+              (customer.type === 'f' ? customer.cpf : customer.cnpj) ?? '',
+            installments: 1,
+            customer_id: customer.id ?? 0,
+            status: orderStatus[transactionStatus],
+            amount: amount,
+            authorized_at: date.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+          },
+        ],
       })
+
+      console.log({ response })
 
       // if (response) {
       // setTransaction(transaction)
@@ -118,37 +233,11 @@ export function usePaymentForm() {
         transaction.status === 'approved' ||
         transaction.status === 'pending'
       ) {
-        await saveOrder()
+        await saveOrder(transaction.status)
       }
     } catch (error) {
       api.handleError(error)
     }
-  }
-
-  async function handlePaymentMethod(paymentMethod: PaymentMethod) {
-    switch (paymentMethod) {
-      case 'credit-card':
-        await saveOrder()
-        break
-      case 'ticket':
-        break
-    }
-  }
-
-  function handlePaymentNavigation({ canGoBack, url }: WebViewNavigation) {
-    const isCheckout = url.includes('mercadopago')
-
-    if (!canGoBack || isCheckout) return
-
-    setCheckoutUrl('')
-
-    if (url.includes('success')) {
-      const paymentMethod = getSearchParams(url, 'payment_type')
-      handlePaymentMethod(paymentMethod as PaymentMethod)
-    }
-
-    // if (url.includes('failure')) {
-    // }
   }
 
   function handlePaymentMethodChange(paymentMethod: string) {
@@ -158,9 +247,8 @@ export function usePaymentForm() {
   return {
     checkoutUrl,
     selectedPaymentMethod,
-    totalToPay: totalToPay - totalDiscount,
+    totalToPay: totalToPay - totalDiscount + (shipmentService?.price ?? 0),
     createTransaction,
-    handlePaymentNavigation,
     handlePaymentMethodChange,
   }
 }
