@@ -2,7 +2,7 @@ import 'dayjs/locale/pt-br'
 
 import dayjs from 'dayjs'
 
-import { DateProvider } from '@/@types/dateProvider'
+import { DateFormat, DateProvider } from '@/@types/dateProvider'
 
 dayjs.locale('pt-br')
 
@@ -24,8 +24,8 @@ export const dayjsProvider: DateProvider = {
     }
   },
 
-  formatDate(date: string) {
-    return dayjs(date).format('DD/MM/YYYY')
+  format(date: Date, format: DateFormat) {
+    return dayjs(date).format(format)
   },
 
   getDiffInSeconds(currentDate: Date, futureDate: Date): number {
