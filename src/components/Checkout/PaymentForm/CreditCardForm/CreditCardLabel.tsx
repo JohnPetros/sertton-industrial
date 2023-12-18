@@ -1,5 +1,7 @@
 import { CreditCard } from 'phosphor-react-native'
-import { getTokens, Image, Text, XStack, YStack } from 'tamagui'
+import { getTokens, Text, XStack, YStack } from 'tamagui'
+
+import { CreditCardTypes } from '@/components/Checkout/PaymentForm/CreditCardForm/CreditCardTypes'
 
 export function CreditCardLabel() {
   return (
@@ -10,11 +12,7 @@ export function CreditCardLabel() {
           Cartão de Crédito
         </Text>
       </XStack>
-      {/* <XStack gap={8}>
-        <Image source={require('@/assets/icons/visa.svg')} />
-        <Image source={require('@/assets/icons/visa.svg')} />
-        <Image source={require('@/assets/icons/visa.svg')} />
-      </XStack> */}
+      <CreditCardTypes />
     </YStack>
   )
 }
