@@ -2,6 +2,7 @@ import { Suspense, useEffect } from 'react'
 import { useColorScheme } from 'react-native'
 import { StatusBar } from 'react-native'
 import ErrorBoundary from 'react-native-error-boundary'
+import Toast from 'react-native-toast-message'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { PortalProvider } from '@gorhom/portal'
 import { useFonts } from 'expo-font'
@@ -47,31 +48,34 @@ export default function Layout() {
   if (!loaded) return null
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TamaguiProvider>
-        <ErrorBoundary onError={handleAppError} FallbackComponent={AppError}>
-          <PortalProvider>
-            <Suspense fallback={<Text>Loading...</Text>}>
-              <Theme name={colorScheme}>
-                <CustomerProvider>
-                  <StyledSafeAreaView>
-                    <StatusBar
-                      backgroundColor={'#f5f1f1'}
-                      translucent
-                      barStyle="dark-content"
-                    />
-                    <Stack
-                      screenOptions={{
-                        headerShown: false,
-                      }}
-                    />
-                  </StyledSafeAreaView>
-                </CustomerProvider>
-              </Theme>
-            </Suspense>
-          </PortalProvider>
-        </ErrorBoundary>
-      </TamaguiProvider>
-    </QueryClientProvider>
+    <>
+      <QueryClientProvider client={queryClient}>
+        <TamaguiProvider>
+          <ErrorBoundary onError={handleAppError} FallbackComponent={AppError}>
+            <PortalProvider>
+              <Suspense fallback={<Text>Loading...</Text>}>
+                <Theme name={colorScheme}>
+                  <CustomerProvider>
+                    <StyledSafeAreaView>
+                      <StatusBar
+                        backgroundColor={'#f5f1f1'}
+                        translucent
+                        barStyle="dark-content"
+                      />
+                      <Stack
+                        screenOptions={{
+                          headerShown: false,
+                        }}
+                      />
+                    </StyledSafeAreaView>
+                  </CustomerProvider>
+                </Theme>
+              </Suspense>
+            </PortalProvider>
+          </ErrorBoundary>
+        </TamaguiProvider>
+      </QueryClientProvider>
+      <Toast />
+    </>
   )
 }

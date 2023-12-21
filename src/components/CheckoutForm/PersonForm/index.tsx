@@ -7,17 +7,15 @@ import { NaturalPersonForm } from '@/components/CheckoutForm/NaturalPersonForm'
 import { usePersonForm } from '@/components/CheckoutForm/PersonForm/usePersonForm'
 import { Tabs } from '@/components/Tabs'
 
-export function PersonForm() {
-  const { handleSubmit } = usePersonForm()
+interface PersonFormProps {
+  onSuccess: () => void
+}
+
+export function PersonForm({ onSuccess }: PersonFormProps) {
+  const { handleSubmit } = usePersonForm(onSuccess)
 
   return (
     <YStack gap={24} pb={120}>
-      <Heading
-        step={1}
-        title="Identifique-se"
-        subtitle="Utilizaremos seu e-mail para identificar seu perfil."
-      />
-
       <Tabs
         label="Tipo de pessoa"
         tabs={[

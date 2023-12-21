@@ -8,7 +8,7 @@ interface ClipboardProps {
 }
 
 export function Clipboard({ children }: ClipboardProps) {
-  const { copy } = useClipboard(children, 'Copiado')
+  const { copy } = useClipboard(children, 'Copiado!')
 
   return (
     <Button unstyled onPress={copy}>
