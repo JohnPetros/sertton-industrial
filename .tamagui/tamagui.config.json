@@ -46910,10 +46910,80 @@
           "val": "#00150BFF",
           "variable": ""
         },
+        "yellow50": {
+          "isVar": true,
+          "key": "$yellow50",
+          "name": "color-233",
+          "val": "#fffbda",
+          "variable": ""
+        },
+        "yellow100": {
+          "isVar": true,
+          "key": "$yellow100",
+          "name": "color-234",
+          "val": "#fff4ad",
+          "variable": ""
+        },
+        "yellow200": {
+          "isVar": true,
+          "key": "$yellow200",
+          "name": "color-235",
+          "val": "#ffec7d",
+          "variable": ""
+        },
+        "yellow300": {
+          "isVar": true,
+          "key": "$yellow300",
+          "name": "color-236",
+          "val": "#ffe44b",
+          "variable": ""
+        },
+        "yellow400": {
+          "isVar": true,
+          "key": "$yellow400",
+          "name": "color-237",
+          "val": "#ffdd1a",
+          "variable": ""
+        },
+        "yellow500": {
+          "isVar": true,
+          "key": "$yellow500",
+          "name": "color-238",
+          "val": "#e6c300",
+          "variable": ""
+        },
+        "yellow600": {
+          "isVar": true,
+          "key": "$yellow600",
+          "name": "color-239",
+          "val": "#b39800",
+          "variable": ""
+        },
+        "yellow700": {
+          "isVar": true,
+          "key": "$yellow700",
+          "name": "color-240",
+          "val": "#806d00",
+          "variable": ""
+        },
+        "yellow800": {
+          "isVar": true,
+          "key": "$yellow800",
+          "name": "color-241",
+          "val": "#4d4100",
+          "variable": ""
+        },
+        "yellow900": {
+          "isVar": true,
+          "key": "$yellow900",
+          "name": "color-242",
+          "val": "#1c1600",
+          "variable": ""
+        },
         "white": {
           "isVar": true,
           "key": "$white",
-          "name": "color-233",
+          "name": "color-243",
           "val": "#FFF",
           "variable": ""
         }
@@ -49404,10 +49474,80 @@
         "val": "#00150BFF",
         "variable": ""
       },
+      "$color.yellow50": {
+        "isVar": true,
+        "key": "$yellow50",
+        "name": "color-233",
+        "val": "#fffbda",
+        "variable": ""
+      },
+      "$color.yellow100": {
+        "isVar": true,
+        "key": "$yellow100",
+        "name": "color-234",
+        "val": "#fff4ad",
+        "variable": ""
+      },
+      "$color.yellow200": {
+        "isVar": true,
+        "key": "$yellow200",
+        "name": "color-235",
+        "val": "#ffec7d",
+        "variable": ""
+      },
+      "$color.yellow300": {
+        "isVar": true,
+        "key": "$yellow300",
+        "name": "color-236",
+        "val": "#ffe44b",
+        "variable": ""
+      },
+      "$color.yellow400": {
+        "isVar": true,
+        "key": "$yellow400",
+        "name": "color-237",
+        "val": "#ffdd1a",
+        "variable": ""
+      },
+      "$color.yellow500": {
+        "isVar": true,
+        "key": "$yellow500",
+        "name": "color-238",
+        "val": "#e6c300",
+        "variable": ""
+      },
+      "$color.yellow600": {
+        "isVar": true,
+        "key": "$yellow600",
+        "name": "color-239",
+        "val": "#b39800",
+        "variable": ""
+      },
+      "$color.yellow700": {
+        "isVar": true,
+        "key": "$yellow700",
+        "name": "color-240",
+        "val": "#806d00",
+        "variable": ""
+      },
+      "$color.yellow800": {
+        "isVar": true,
+        "key": "$yellow800",
+        "name": "color-241",
+        "val": "#4d4100",
+        "variable": ""
+      },
+      "$color.yellow900": {
+        "isVar": true,
+        "key": "$yellow900",
+        "name": "color-242",
+        "val": "#1c1600",
+        "variable": ""
+      },
       "$color.white": {
         "isVar": true,
         "key": "$white",
-        "name": "color-233",
+        "name": "color-243",
         "val": "#FFF",
         "variable": ""
       },
