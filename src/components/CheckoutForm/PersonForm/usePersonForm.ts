@@ -4,8 +4,7 @@ import { useCustomerContext } from '@/contexts/CustomerContext'
 import { useApi } from '@/services/api'
 import { useCheckoutStore } from '@/stores/checkoutStore'
 
-export function usePersonForm() {
-  const setStep = useCheckoutStore((store) => store.actions.setStep)
+export function usePersonForm(onSuccess: () => void) {
   const personFormData = useCheckoutStore((store) => store.state.personFormData)
   const setPersonFormData = useCheckoutStore(
     (store) => store.actions.setPersonFormData
@@ -39,7 +38,7 @@ export function usePersonForm() {
           homephone: legalPerson.phone,
         })
       }
-      setStep(2)
+      onSuccess()
     } catch (error) {
       console.error({ error })
       api.handleError(error)
@@ -60,8 +59,6 @@ export function usePersonForm() {
       setPersonFormData('legal', 'cnpj', customer.cnpj ?? '')
       setPersonFormData('legal', 'phone', customer.phone?.full_number ?? '')
     }
-
-    setStep(2)
   }, [customer])
 
   return {
