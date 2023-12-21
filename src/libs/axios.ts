@@ -55,7 +55,7 @@ export const axiosApi: Api = {
 
   handleError(error: unknown) {
     if (isAxiosError(error)) {
-      console.error(error.response)
+      console.error(JSON.stringify(error.response, null, 2))
 
       return error.response?.data
     }

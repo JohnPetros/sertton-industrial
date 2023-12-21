@@ -38,22 +38,25 @@ export function useCreditCardForm(
   }
 
   function handleApiError(error: string) {
-    if (error.includes('holder_name')) {
+    if (error.includes('request.card.holder_name')) {
       setError('name', {
         message: 'Nome inválido',
       })
     }
-    if (error.includes('card.number')) {
+    if (error.includes('request.card.number')) {
       setError('number', {
         message: 'Número de cartão inválido',
       })
     }
-    if (error.includes('card.cvv')) {
+    if (error.includes('request.card.cvv')) {
       setError('securityCode', {
         message: 'Código de segurança inválido',
       })
     }
-    if (error.includes('card.exp_month') || error.includes('card.exp_year')) {
+    if (
+      error.includes('request.card.exp_month') ||
+      error.includes('request.card.exp_year')
+    ) {
       setError('expirationDate', {
         message: 'Validade cartão inválida',
       })

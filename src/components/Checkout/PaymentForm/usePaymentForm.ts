@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { WebViewNavigation } from 'react-native-webview'
 import { useRouter } from 'expo-router/src/hooks'
 
 import { OrderStatus } from '@/@types/order'
@@ -15,10 +14,8 @@ import { useCheckoutStore } from '@/stores/checkoutStore'
 import { ROUTES } from '@/utils/constants/routes'
 import { generateRandomNumber } from '@/utils/helpers/generateRandomNumber'
 import { getCreditCardType } from '@/utils/helpers/getCredtiCardType'
-import { getSearchParams } from '@/utils/helpers/getQueryParam'
 
 export function usePaymentForm() {
-  const [checkoutUrl, setCheckoutUrl] = useState('')
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<PaymentMethod | null>(null)
 
@@ -108,7 +105,7 @@ export function usePaymentForm() {
     const orderStatus: Record<TransactionStatus, OrderStatus> = {
       pending: 'waiting_payment',
       cancelled: 'cancelled',
-      approved: 'authorized',
+      approved: 'paid',
       rejected: 'refused',
     }
 
@@ -192,7 +189,7 @@ export function usePaymentForm() {
     cardToken?: string
   ) {
     const products = getSelectedSkus()
-    if (!customer || !products) return
+    if (!customer || !products || !shipmentService) return
 
     try {
       const transaction = await api.createTransaction({
@@ -212,20 +209,19 @@ export function usePaymentForm() {
             state: address.uf,
           },
         },
-        products: products
-          .map((product) => ({
-            id: product.id.toString(),
-            name: product.name,
-            price: product.price_sale,
-            height: product.height,
-            length: product.length,
-            weight: product.weight,
-            width: product.width,
-            sku: product.sku,
-            quantity: product.quantity,
-          }))
-          .slice(0, 1),
+        products: products.map((product) => ({
+          id: product.id.toString(),
+          name: product.name,
+          price: product.price_sale,
+          height: product.height,
+          length: product.length,
+          weight: product.weight,
+          width: product.width,
+          sku: product.sku,
+          quantity: product.quantity,
+        })),
         paymentMethod,
+        shipmentService,
         cardToken,
       })
 
@@ -245,7 +241,6 @@ export function usePaymentForm() {
   }
 
   return {
-    checkoutUrl,
     selectedPaymentMethod,
     totalToPay: totalToPay - totalDiscount + (shipmentService?.price ?? 0),
     createTransaction,
