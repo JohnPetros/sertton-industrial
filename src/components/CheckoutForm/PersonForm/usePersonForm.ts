@@ -11,13 +11,12 @@ export function usePersonForm(onSuccess: () => void) {
   )
   const api = useApi()
 
-  const { customer } = useCustomerContext()
+  const { customer, fetchCustomerByEmail } = useCustomerContext()
 
   async function handleSubmit(personType: 'legal' | 'natural') {
     try {
       if (personType === 'natural') {
         const { naturalPerson } = personFormData
-
         await api.createCustomer({
           type: 'f',
           active: true,
@@ -38,7 +37,13 @@ export function usePersonForm(onSuccess: () => void) {
           homephone: legalPerson.phone,
         })
       }
+
       onSuccess()
+      await fetchCustomerByEmail(
+        personFormData[
+          personType === 'natural' ? 'naturalPerson' : 'legalPerson'
+        ].email
+      )
     } catch (error) {
       console.error({ error })
       api.handleError(error)

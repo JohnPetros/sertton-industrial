@@ -34,7 +34,7 @@ export function useOrdersList(customer: Customer | null) {
   }
 
   useEffect(() => {
-    if (customer) {
+    if (!customer) {
       emailDialogRef.current?.open()
     } else {
       emailDialogRef.current?.close()

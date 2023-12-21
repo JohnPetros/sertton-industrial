@@ -1,7 +1,6 @@
 import { Buildings, User } from 'phosphor-react-native'
 import { YStack } from 'tamagui'
 
-import { Heading } from '@/components/CheckoutForm/Heading'
 import { LegalPersonForm } from '@/components/CheckoutForm/LegalPersonForm'
 import { NaturalPersonForm } from '@/components/CheckoutForm/NaturalPersonForm'
 import { usePersonForm } from '@/components/CheckoutForm/PersonForm/usePersonForm'

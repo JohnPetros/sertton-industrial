@@ -34,6 +34,7 @@ type CheckoutStoreActions = {
   setAddress(address: Omit<Address, 'id'>): void
   setShipmentService(shipmentService: ShipmentService): void
   setTransaction(transaction: Transaction): void
+  resetState(): void
 }
 
 export type CheckoutStoreProps = {
@@ -130,6 +131,11 @@ export const useCheckoutStore = create<CheckoutStoreProps>()(
         setTransaction(transaction: Transaction) {
           return set(({ state }) => {
             state.transaction = transaction
+          })
+        },
+        resetState() {
+          return set({
+            state: initialState,
           })
         },
       },

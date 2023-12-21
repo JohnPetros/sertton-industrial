@@ -20,8 +20,6 @@ export function NaturalPersonForm({ onSubmit }: NaturalPersonFormProps) {
   const { control, errors, isSubmitting, handleSubmit, handleInputChange } =
     useNaturalPesonForm(onSubmit)
 
-  console.log({ errors })
-
   return (
     <YStack gap={12} mt={12}>
       <Controller

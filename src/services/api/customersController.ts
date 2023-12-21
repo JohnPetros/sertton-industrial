@@ -27,5 +27,13 @@ export function customersController(api: Api): ICustomersController {
 
       return customer
     },
+
+    async checkCustomerDocument(document: string): Promise<boolean> {
+      const response = await api.get<{ data: Customer[] }>(
+        `/${Resources.CUSTOMERS}?q=${document}`
+      )
+
+      return !!response.data[0]
+    },
   }
 }

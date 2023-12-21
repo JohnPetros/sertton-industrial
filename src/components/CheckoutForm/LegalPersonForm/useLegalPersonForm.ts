@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { LegalPersonFormFields, legalPersonFormSchema } from '@/libs/zod'
+import { useApi } from '@/services/api'
 import { useCheckoutStore } from '@/stores/checkoutStore'
 
 type FieldName = keyof LegalPersonFormFields
@@ -14,18 +15,41 @@ export function useLegalPesonForm(
     control,
     handleSubmit,
     setValue,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<LegalPersonFormFields>({
     mode: 'onBlur',
     resolver: zodResolver(legalPersonFormSchema),
   })
+  const api = useApi()
 
   const personFormData = useCheckoutStore((store) => store.state.personFormData)
   const setPersonFormData = useCheckoutStore(
     (store) => store.actions.setPersonFormData
   )
 
-  function handleFormSubmit() {
+  async function handleFormSubmit() {
+    const customer = await api.getCustomerByEmail(
+      personFormData.naturalPerson.email
+    )
+
+    if (customer) {
+      setError('email', {
+        message: 'E-mail já cadastrado',
+      })
+      return
+    }
+
+    const hasCustomer = await api.checkCustomerDocument(
+      personFormData.legalPerson.cnpj
+    )
+
+    if (hasCustomer) {
+      setError('cnpj', {
+        message: 'CNPJ já cadastrado',
+      })
+      return
+    }
     onSubmit('legal')
   }
 
