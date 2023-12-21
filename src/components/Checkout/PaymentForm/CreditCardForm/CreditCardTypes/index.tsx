@@ -6,8 +6,6 @@ import { useCreditCardTypes } from '@/components/Checkout/PaymentForm/CreditCard
 export function CreditCardTypes() {
   const { creditCardTypes } = useCreditCardTypes()
 
-  console.log({ creditCardTypes })
-
   if (creditCardTypes)
     return (
       <XStack gap={8} flexWrap="wrap" width="90%">
