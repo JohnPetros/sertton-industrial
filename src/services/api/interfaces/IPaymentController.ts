@@ -1,5 +1,6 @@
 import type { CreditCard } from '@/@types/creditCard'
 import type { PaymentConfig, PaymentMethod } from '@/@types/paymentMethod'
+import type { ShipmentService } from '@/@types/shipmentService'
 import type { Transaction } from '@/@types/transaction'
 
 export type CreateTransactionRequest = {
@@ -31,6 +32,7 @@ export type CreateTransactionRequest = {
     height: number
     weight: number
   }[]
+  shipmentService: ShipmentService
   cardToken?: string
 }
 

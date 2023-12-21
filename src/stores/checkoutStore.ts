@@ -36,7 +36,7 @@ type CheckoutStoreActions = {
   setTransaction(transaction: Transaction): void
 }
 
-type CheckoutStoreProps = {
+export type CheckoutStoreProps = {
   state: CheckoutStoreState
   actions: CheckoutStoreActions
 }

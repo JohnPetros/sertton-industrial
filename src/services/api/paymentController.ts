@@ -23,12 +23,13 @@ export function paymentController(api: Api): IPaymentController {
       products,
       paymentMethod,
       cardToken,
+      shipmentService,
     }: CreateTransactionRequest) {
       api.setBaseUrl(SHIPMENT_SERVICE_BASE_URL)
 
       const response = await api.post<Transaction>(
         `/${Resources.PAYMENT}/transaction/${paymentMethod}`,
-        { customer, products, cardToken }
+        { customer, products, shipmentService, cardToken }
       )
 
       api.setDefaultConfig()
