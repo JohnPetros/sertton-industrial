@@ -1,13 +1,22 @@
+// jest.config.js
 /** @type {import('jest').Config} */
+
 const config = {
   preset: 'jest-expo',
   setupFilesAfterEnv: ['@testing-library/jest-native/extend-expect'],
-  testPathIgnorePatterns: ['/mocks', '/node_modules', '/android', '/ios'],
-  transformIgnorePatterns: [
-    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)',
-  ],
-  globalSetup: '@shopify/react-native-skia/globalJestSetup.js',
-  setupFiles: ['@shopify/react-native-skia/jestSetup.js'],
+  // modulePathIgnorePatterns: ['mocks'],
+  // transformIgnorePatterns: [
+  //   'node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)',
+  // ],
+  // moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  // testPathIgnorePatterns: [
+  //   '<rootDir>/node_modules/',
+  //   '<rootDir>/.maestro/',
+  //   '@react-native',
+  // ],
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1',
+  },
 }
 
 module.exports = config
