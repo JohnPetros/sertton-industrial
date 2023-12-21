@@ -1,4 +1,7 @@
-export type DateFormat = 'YYYY-MM-DD HH:mm:ss' | 'DD/MM/YYYY'
+export type DateFormat =
+  | 'YYYY-MM-DD HH:mm:ss'
+  | 'DD/MM/YYYY'
+  | 'DD/MM/YYYY HH:mm'
 
 export type DateProvider = {
   calculateTimeUtilTodayEnd: () => {
