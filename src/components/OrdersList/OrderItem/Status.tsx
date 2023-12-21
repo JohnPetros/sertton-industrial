@@ -17,6 +17,10 @@ export const Status = styled(Text, {
         bg: '$red100',
         color: '$red800',
       },
+      paid: {
+        bg: '$green500',
+        color: '$green800',
+      },
     },
   } as const,
 
