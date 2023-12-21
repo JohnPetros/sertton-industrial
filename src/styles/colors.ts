@@ -50,4 +50,17 @@ export const green = {
   green900: '#00150BFF',
 }
 
+export const yellow = {
+  yellow50: '#fffbda',
+  yellow100: '#fff4ad',
+  yellow200: '#ffec7d',
+  yellow300: '#ffe44b',
+  yellow400: '#ffdd1a',
+  yellow500: '#e6c300',
+  yellow600: '#b39800',
+  yellow700: '#806d00',
+  yellow800: '#4d4100',
+  yellow900: '#1c1600',
+}
+
 export const white = '#FFF'

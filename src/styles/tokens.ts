@@ -1,7 +1,7 @@
 import { tokens as defaultTokens } from '@tamagui/themes'
 import { createTokens } from 'tamagui'
 
-import { blue, gray, green, red, white } from './colors'
+import { blue, gray, green, red, white, yellow } from './colors'
 
 export const tokens = createTokens({
   ...defaultTokens,
@@ -11,6 +11,7 @@ export const tokens = createTokens({
     ...red,
     ...gray,
     ...green,
+    ...yellow,
     white,
   },
 })
