@@ -1,5 +1,5 @@
 import { ForwardedRef, forwardRef, ReactNode, useImperativeHandle } from 'react'
-import { Text, YStack } from 'tamagui'
+import { Paragraph, YStack } from 'tamagui'
 
 import { Button } from '@/components/Button'
 import { Dialog, DialogRef } from '@/components/Dialog'
@@ -8,10 +8,11 @@ import { Input } from '@/components/Form/Input'
 
 interface EmailDialogProps {
   fallback: ReactNode
+  label: string
 }
 
 export const EmailDialogComponent = (
-  { fallback }: EmailDialogProps,
+  { fallback, label }: EmailDialogProps,
   ref: ForwardedRef<DialogRef>
 ) => {
   const {
@@ -38,9 +39,7 @@ export const EmailDialogComponent = (
       width={320}
       content={
         <YStack gap={24}>
-          <Text>
-            Utlizaremos seu e-mail para usarmos seus dados de cadastro.
-          </Text>
+          <Paragraph>{label}</Paragraph>
           <Input
             label="E-mail"
             keyboardType="email-address"
@@ -50,7 +49,7 @@ export const EmailDialogComponent = (
             onChangeText={handleEmailChange}
             error={error}
           />
-          <Button onPress={handleSubmit}>Continuar</Button>
+          <Button onPress={handleSubmit}>Buscar dados de cadastro</Button>
           {fallback}
         </YStack>
       }

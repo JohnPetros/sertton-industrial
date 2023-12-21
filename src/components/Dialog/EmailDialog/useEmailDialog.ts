@@ -23,11 +23,13 @@ export function useEmailDialog() {
     setError('')
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     const emailValidation = emailSchema.safeParse(email)
 
     if (emailValidation.success) {
-      fetchCustomerByEmail(email)
+      const hasCustomer = await fetchCustomerByEmail(email)
+
+      if (!hasCustomer) setError('Cadastro não encontrado com esse e-mail')
     } else {
       setError(emailValidation.error.format()._errors[0])
     }

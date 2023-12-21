@@ -7,7 +7,7 @@ import { useStorage } from '@/services/storage'
 
 type CustomerContextValue = {
   customer: Customer | null
-  fetchCustomerByEmail: (email: string) => void
+  fetchCustomerByEmail: (email: string) => Promise<boolean>
   checkCustomerEmail: () => Promise<boolean>
   setSelectedAddressZipcode: (zipcode: string) => void
 }
@@ -23,6 +23,10 @@ export function CustomerProvider({ children }: CustomerProviderProps) {
 
   async function getCustomerByEmail(email: string) {
     const customer = await api.getCustomerByEmail(email)
+
+    if (!customer) {
+      throw new Error('Customer not found')
+    }
 
     if (customer) {
       await storage.setCustomerEmail(email)
@@ -51,9 +55,6 @@ export function CustomerProvider({ children }: CustomerProviderProps) {
     (email: string) => getCustomerByEmail(email),
     {
       onSuccess: () => refetch(),
-      onError: (error) => {
-        api.handleError(error)
-      },
     }
   )
 
@@ -79,7 +80,12 @@ export function CustomerProvider({ children }: CustomerProviderProps) {
   )
 
   async function fetchCustomerByEmail(email: string) {
-    customerEmailMutation.mutate(email)
+    try {
+      await customerEmailMutation.mutateAsync(email)
+      return true
+    } catch (error) {
+      return false
+    }
   }
 
   async function checkCustomerEmail() {
