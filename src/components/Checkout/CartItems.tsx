@@ -4,6 +4,7 @@ import { CaretDown } from 'phosphor-react-native'
 import { getTokens, H2, View, YStack } from 'tamagui'
 import { XStack } from 'tamagui'
 
+import { Accordion } from '@/components/Accordion'
 import { Button } from '@/components/Button'
 import { CartSummary } from '@/components/CartSummary'
 import { ProductCartItem } from '@/components/ProductCartItem'
@@ -24,17 +25,20 @@ export function CartItems() {
   }
 
   return (
-    <YStack p={PADDING} borderRadius={4} bg={isOpen ? '$white' : '$gray100'}>
-      <XStack justifyContent="space-between">
-        <H2 fontSize={14} color="$gray900" fontWeight="600">
-          Resumo da compra
-        </H2>
-        <Button
-          onPress={handleOpen}
-          background="transparent"
-          icon={<CaretDown color={getTokens().color.gray400.val} size={24} />}
-        />
-      </XStack>
+    <Accordion
+      label={
+        <XStack justifyContent="space-between">
+          <H2 fontSize={14} color="$gray900" fontWeight="600">
+            Resumo da compra
+          </H2>
+          <Button
+            onPress={handleOpen}
+            background="transparent"
+            icon={<CaretDown color={getTokens().color.gray400.val} size={24} />}
+          />
+        </XStack>
+      }
+    >
       {isOpen && (
         <YStack h={650}>
           {isLoading ? (
@@ -86,6 +90,6 @@ export function CartItems() {
           )}
         </YStack>
       )}
-    </YStack>
+    </Accordion>
   )
 }

@@ -17,7 +17,7 @@ import { SCREEN } from '@/utils/constants/screen'
 
 const PRODUCT_CART_ITEM_WIDTH = SCREEN.width - SCREEN.paddingX * 2
 
-export default function Cart() {
+export default function CartScreen() {
   const { products, isLoading, totalCartItems, handleRemoveAllItems } =
     useCart()
   const isCartEmpty = totalCartItems <= 0

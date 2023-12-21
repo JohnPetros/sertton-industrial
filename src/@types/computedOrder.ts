@@ -3,9 +3,7 @@ import { Address } from '@/@types/address'
 export type ComputedOrder = {
   delivered: boolean
   value_products: number
-  authorized: boolean
   number: number
-  status_id: number
   id: number
   pix: {
     data: unknown[] // Adicione o tipo adequado para o array, se aplicável
@@ -155,36 +153,6 @@ export type ComputedOrder = {
   }
   days_delivery: number
   value_shipment: number
-  spreadsheet: {
-    data: {
-      total_item: number
-      total_cost: number
-      shipping_state: string
-      customization: string
-      shipping_city: string
-      delivered: number
-      billet_barcode: string
-      customer_document: string
-      shipping_neighborhood: string
-      payment: string
-      shipping_address: string
-      sku: string
-      payment_date: string
-      shipping_street: string
-      product: string
-      quantity: number
-      customer_phone: string
-      shipping_number: string
-      gateway_transaction_id: string
-      credit_card: unknown // Adicione o tipo adequado se aplicável
-      cancelled_date: string
-      customer_email: string
-      shipping_complement: string
-      customer: string
-      status: string
-      shipping_zip_code: string
-    }[]
-  }
   shipping_address: {
     data: Address
   }
