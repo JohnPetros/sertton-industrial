@@ -9,13 +9,19 @@ export function customersController(api: Api): ICustomersController {
       await api.post(`/customers`, customer)
     },
 
-    async getCustomerByEmail(email: string): Promise<Customer> {
+    async getCustomerByEmail(email: string): Promise<Customer | null> {
       const response = await api.get<{ data: Customer[] }>(
         `/${Resources.CUSTOMERS}?q=${email}&includes=addresses`
       )
 
+      const customerData = response.data[0]
+
+      if (!customerData) {
+        return null
+      }
+
       const customer: Customer = {
-        ...response.data[0],
+        ...customerData,
         selectedAddressZipcode: null,
       }
 
