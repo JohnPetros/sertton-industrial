@@ -1,21 +1,36 @@
-import { ReactNode } from 'react'
+import { ForwardedRef, forwardRef, ReactNode, useImperativeHandle } from 'react'
 import { AlertDialog, XStack } from 'tamagui'
 
+import { useAlert } from '@/components/Alert/useAlert'
 import { Button } from '@/components/Button'
+
+export interface AlertRef {
+  close: () => void
+  open: () => void
+}
 
 interface AlertProps {
   title: string
   onConfirm: () => void
-  children: ReactNode
+  onClose?: () => void
+  children?: ReactNode
 }
 
-export function Alert({ onConfirm, title, children }: AlertProps) {
-  function handleConfirm() {
-    onConfirm()
-  }
+export const AlertComponent = (
+  { onConfirm, onClose, title, children: trigger }: AlertProps,
+  ref: ForwardedRef<AlertRef>
+) => {
+  const { open, close, handleOpenChange, isOpen } = useAlert(onClose)
+
+  useImperativeHandle(ref, () => {
+    return {
+      close,
+      open,
+    }
+  })
 
   return (
-    <AlertDialog>
+    <AlertDialog open={isOpen} onOpenChange={handleOpenChange}>
       <AlertDialog.Portal>
         <AlertDialog.Overlay
           key="overlay"
@@ -59,15 +74,16 @@ export function Alert({ onConfirm, title, children }: AlertProps) {
               <Button background="secondary">Cancelar</Button>
             </AlertDialog.Cancel>
             <AlertDialog.Action asChild>
-              <Button onPress={handleConfirm} w={120}>
+              <Button onPress={() => onConfirm()} w={120}>
                 Confirmar
               </Button>
             </AlertDialog.Action>
           </XStack>
         </AlertDialog.Content>
       </AlertDialog.Portal>
-
-      <AlertDialog.Trigger asChild>{children}</AlertDialog.Trigger>
+      <AlertDialog.Trigger asChild>{trigger}</AlertDialog.Trigger>
     </AlertDialog>
   )
 }
+
+export const Alert = forwardRef(AlertComponent)
