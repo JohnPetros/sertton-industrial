@@ -1,24 +1,10 @@
-import { ReactNode, useRef, useState } from 'react'
-import {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated'
-import Animated from 'react-native-reanimated'
+import { ReactNode, useState } from 'react'
 import { Icon } from 'phosphor-react-native'
-import { getTokens, Tabs as T, Text, View } from 'tamagui'
+import { getTokens, Tabs as T, Text } from 'tamagui'
 
-const AnimatedView = Animated.createAnimatedComponent(View)
-
-import { LayoutChangeEvent } from 'react-native'
-
-import { SCREEN } from '@/utils/constants/screen'
-
-const TAB_INDICATOR_HEIGHT = 36
-const TAB_INDICATOR_WIDTH = 150
 const TAB_LIST_GAP = 8
 
-type Tab = {
+export type Tab = {
   title: string
   value: string
   size: number
@@ -34,36 +20,14 @@ interface TabsProps {
 
 export function Tabs({ label, tabs, width }: TabsProps) {
   const [activeTab, setActiveTab] = useState(tabs[0].value)
-  const tabIndicatorPositionX = useSharedValue(-75)
-  const tabsPositionsX = useRef<number[]>([])
   const containerSize = tabs.find((tab) => activeTab === tab.value)?.size ?? 300
 
-  const tabIndicatorAnimatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateX: tabIndicatorPositionX.value }],
-    }
-  })
-
-  function handleTabPress(value: string, index: number) {
-    tabIndicatorPositionX.value = withTiming(
-      tabsPositionsX.current[index] -
-        TAB_INDICATOR_WIDTH / 2 -
-        TAB_LIST_GAP -
-        SCREEN.paddingX
-    )
-
+  function handleTabPress(value: string) {
     setActiveTab(value)
-  }
-
-  function handleTabLayout({ nativeEvent }: LayoutChangeEvent, index: number) {
-    const { x } = nativeEvent.layout
-
-    tabsPositionsX.current[index] = x
   }
 
   return (
     <T
-      // w={SCREEN.width - SCREEN.paddingX * 2}
       w={width}
       h={containerSize}
       defaultValue={tabs[0].value}
@@ -80,7 +44,7 @@ export function Tabs({ label, tabs, width }: TabsProps) {
         w="100%"
         position="relative"
       >
-        {tabs.map((tab, index) => {
+        {tabs.map((tab) => {
           const Icon = tab.icon
           return (
             <T.Tab
@@ -89,12 +53,12 @@ export function Tabs({ label, tabs, width }: TabsProps) {
               aria-label={label}
               value={tab.value}
               borderRadius={4}
-              w={TAB_INDICATOR_WIDTH}
-              h={TAB_INDICATOR_HEIGHT}
+              h={36}
+              w={120}
               gap={4}
               zIndex={50}
-              onPress={() => handleTabPress(tab.value, index)}
-              onLayout={(event) => handleTabLayout(event, index)}
+              onPress={() => handleTabPress(tab.value)}
+              bg={activeTab === tab.value ? '$blue500' : '$colorTransparent'}
             >
               <Icon
                 color={
@@ -114,17 +78,6 @@ export function Tabs({ label, tabs, width }: TabsProps) {
             </T.Tab>
           )
         })}
-
-        <View position="absolute">
-          <AnimatedView
-            style={tabIndicatorAnimatedStyle}
-            bg="$blue500"
-            w={TAB_INDICATOR_WIDTH}
-            h={TAB_INDICATOR_HEIGHT}
-            borderRadius={4}
-            zIndex={100}
-          />
-        </View>
       </T.List>
 
       {tabs.map((tab) => (
