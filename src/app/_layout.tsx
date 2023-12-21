@@ -6,9 +6,9 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { PortalProvider } from '@gorhom/portal'
 import { useFonts } from 'expo-font'
 import { SplashScreen, Stack } from 'expo-router'
-import { TamaguiProvider, Text, Theme } from 'tamagui'
+import { TamaguiProvider } from 'providers/TamaguiProvider'
+import { Text, Theme } from 'tamagui'
 
-import config from '../../tamagui.config'
 import { StyledSafeAreaView } from '../components/StyledSafeAreaView'
 
 import { AppError } from '@/components/AppError'
@@ -48,7 +48,7 @@ export default function Layout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <TamaguiProvider config={config}>
+      <TamaguiProvider>
         <ErrorBoundary onError={handleAppError} FallbackComponent={AppError}>
           <PortalProvider>
             <Suspense fallback={<Text>Loading...</Text>}>
