@@ -7,18 +7,12 @@ import { YStack } from 'tamagui'
 import type { ComputedOrder } from '@/@types/computedOrder'
 import { Button } from '@/components/Button'
 import { EmailDialog } from '@/components/Dialog/EmailDialog'
+import { SignUpDialog } from '@/components/Dialog/SignUpDialog'
 import { EmptyItemsMessage } from '@/components/EmptyItemsMessage'
 import { OrderItem } from '@/components/OrdersList/OrderItem'
 import { useOrdersList } from '@/components/OrdersList/useOrdersList'
 import { useCustomerContext } from '@/contexts/CustomerContext'
-
-const renderItem = ({ item }: { item: ComputedOrder }) => {
-  return (
-    <View mb={24}>
-      <OrderItem data={item} />
-    </View>
-  )
-}
+import { ordersMock } from '@/tests/mocks/ordersMock'
 
 export function OrdersList() {
   const { customer } = useCustomerContext()
@@ -33,12 +27,26 @@ export function OrdersList() {
         ref={emailDialogRef}
         fallback={
           <YStack gap={4} mt={12}>
-            <Button background="outline">Criar cadastro</Button>
+            <SignUpDialog>
+              <Button background="outline">Criar cadastro</Button>
+            </SignUpDialog>
             <Button background="transparent">Voltar</Button>
           </YStack>
         }
       />
-      {!orders ? (
+      {isLoading ? (
+        <FlatList
+          data={ordersMock}
+          renderItem={({ item }) => (
+            <View mb={24}>
+              <OrderItem data={item} isLoading={isLoading} />
+            </View>
+          )}
+          showsVerticalScrollIndicator={false}
+          disableIntervalMomentum={true}
+          scrollEnabled={!isLoading}
+        />
+      ) : !orders ? (
         <EmptyItemsMessage
           title="Nenhum pedido realizado"
           subtitle=""
@@ -52,7 +60,11 @@ export function OrdersList() {
       ) : (
         <FlatList
           data={orders}
-          renderItem={renderItem}
+          renderItem={({ item }) => (
+            <View mb={24}>
+              <OrderItem data={item} isLoading={isLoading} />
+            </View>
+          )}
           showsVerticalScrollIndicator={false}
           disableIntervalMomentum={true}
           scrollEnabled={!isLoading}
