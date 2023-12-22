@@ -5,6 +5,7 @@ export default function DrawerLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="splash" />
       <Stack.Screen name="checkout" />
+      <Stack.Screen name="profile" />
     </Stack>
   )
 }

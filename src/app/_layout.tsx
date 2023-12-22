@@ -50,17 +50,17 @@ export default function Layout() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <CustomerProvider>
-          <TamaguiProvider>
-            <ErrorBoundary
-              onError={handleAppError}
-              FallbackComponent={AppError}
-            >
-              <PortalProvider>
-                <Suspense fallback={<Text>Loading...</Text>}>
-                  <Theme name={colorScheme}>
-                    <StyledSafeAreaView>
-                      <ToastProvider>
+        <TamaguiProvider>
+          <ToastProvider>
+            <CustomerProvider>
+              <ErrorBoundary
+                onError={handleAppError}
+                FallbackComponent={AppError}
+              >
+                <PortalProvider>
+                  <Suspense fallback={<Text>Loading...</Text>}>
+                    <Theme name={colorScheme}>
+                      <StyledSafeAreaView>
                         <StatusBar
                           backgroundColor={'#f5f1f1'}
                           translucent
@@ -71,14 +71,14 @@ export default function Layout() {
                             headerShown: false,
                           }}
                         />
-                      </ToastProvider>
-                    </StyledSafeAreaView>
-                  </Theme>
-                </Suspense>
-              </PortalProvider>
-            </ErrorBoundary>
-          </TamaguiProvider>
-        </CustomerProvider>
+                      </StyledSafeAreaView>
+                    </Theme>
+                  </Suspense>
+                </PortalProvider>
+              </ErrorBoundary>
+            </CustomerProvider>
+          </ToastProvider>
+        </TamaguiProvider>
       </QueryClientProvider>
     </>
   )
