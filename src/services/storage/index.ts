@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import type { Storage } from '@/@types/storage'
 import { customerStorage } from '@/services/storage/customerStorage'
 
@@ -12,7 +14,10 @@ export function useStorage() {
     throw new Error('useStorage must be used with a storage')
   }
 
-  return {
-    ...customerStorage(storage),
-  }
+  return useMemo(
+    () => ({
+      ...customerStorage(storage),
+    }),
+    [storage]
+  )
 }
