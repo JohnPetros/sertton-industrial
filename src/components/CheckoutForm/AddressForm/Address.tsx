@@ -31,7 +31,7 @@ export function Address({
           {street}, {number} - {neighborhood}
         </Text>
         <Text color="$gray400" flexWrap="wrap" flexShrink={0}>
-          {city} - {uf} | {zipCode}
+          {zipCode} | {city} - {uf}
         </Text>
       </YStack>
       <XStack h="100%" alignItems="flex-start">

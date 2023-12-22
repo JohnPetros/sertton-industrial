@@ -10,7 +10,7 @@ export function useRadio() {
       setTimeout(() => {
         setIsLoading(false)
         resolve(true)
-      }, 2000)
+      }, 1500)
     })
 
     setIsLoading(false)
