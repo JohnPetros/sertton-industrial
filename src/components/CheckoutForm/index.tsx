@@ -14,6 +14,7 @@ export function CheckoutForm() {
   return (
     <>
       <EmailDialog
+        label="Identifique-se"
         ref={emailDialogRef}
         fallback={
           <Button unstyled color="$blue500" onPress={handleEmailDialogFallback}>

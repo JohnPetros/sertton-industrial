@@ -12,15 +12,15 @@ export interface AlertRef {
 interface AlertProps {
   title: string
   onConfirm: () => void
-  onClose?: () => void
+  onCancel?: () => void
   children?: ReactNode
 }
 
 export const AlertComponent = (
-  { onConfirm, onClose, title, children: trigger }: AlertProps,
+  { onConfirm, onCancel, title, children: trigger }: AlertProps,
   ref: ForwardedRef<AlertRef>
 ) => {
-  const { open, close, handleOpenChange, isOpen } = useAlert(onClose)
+  const { open, close, handleOpenChange, isOpen } = useAlert(onCancel)
 
   useImperativeHandle(ref, () => {
     return {
