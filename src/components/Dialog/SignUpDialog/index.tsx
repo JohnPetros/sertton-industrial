@@ -1,38 +1,46 @@
-import { ReactNode, useRef } from 'react'
-import { Alert } from 'react-native'
+import { ReactNode } from 'react'
 import { YStack } from 'tamagui'
 
+import { Alert } from '@/components/Alert'
 import { PersonForm } from '@/components/CheckoutForm/PersonForm'
-import { Dialog, DialogRef } from '@/components/Dialog'
+import { Dialog } from '@/components/Dialog'
+import { useSignUpDialog } from '@/components/Dialog/SignUpDialog/useSignUpDialog'
+import { SCREEN } from '@/utils/constants/screen'
 
 interface SignUpDialogProps {
   children: ReactNode
 }
 
 export function SignUpDialog({ children: trigger }: SignUpDialogProps) {
-  const dialogRef = useRef<DialogRef>(null)
+  const {
+    alertRef,
+    dialogRef,
+    handleAlertClose,
+    handleDialogClose,
+    handleSignUpSuccess,
+  } = useSignUpDialog()
 
   return (
-    <Dialog
-      ref={dialogRef}
-      title="Preencha seus dados"
-      width={320}
-      content={
-        <YStack gap={24} h={600}>
-          <PersonForm
-            onSuccess={() =>
-              Alert.alert('Mensagem', 'Cadastro feito com sucesso!', [
-                {
-                  text: 'Entendido',
-                  onPress: () => dialogRef.current?.close(),
-                },
-              ])
-            }
-          />
-        </YStack>
-      }
-    >
-      {trigger}
-    </Dialog>
+    <>
+      <Alert
+        ref={alertRef}
+        title="Cadastro realizado com sucesso!"
+        onCancel={handleAlertClose}
+        onConfirm={handleAlertClose}
+      />
+      <Dialog
+        ref={dialogRef}
+        title="Preencha seus dados"
+        width={SCREEN.width - SCREEN.paddingX * 2}
+        onOpenChange={handleDialogClose}
+        content={
+          <YStack gap={24} h={550}>
+            <PersonForm onSuccess={handleSignUpSuccess} />
+          </YStack>
+        }
+      >
+        {trigger}
+      </Dialog>
+    </>
   )
 }
