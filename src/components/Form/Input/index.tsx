@@ -32,6 +32,7 @@ export function Input({
   placeholder,
   w,
   autoCorrect,
+  autoFocus,
   value,
   disabled,
   keyboardType,
@@ -88,6 +89,7 @@ export function Input({
           disabled={disabled}
           autoCorrect={autoCorrect}
           autoCapitalize={autoCapitalize}
+          autoFocus={autoFocus}
           secureTextEntry={secureTextEntry}
         />
       </XStack>

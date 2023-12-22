@@ -4,7 +4,6 @@ import { Bag } from 'phosphor-react-native'
 import { View } from 'tamagui'
 import { YStack } from 'tamagui'
 
-import type { ComputedOrder } from '@/@types/computedOrder'
 import { Button } from '@/components/Button'
 import { EmailDialog } from '@/components/Dialog/EmailDialog'
 import { SignUpDialog } from '@/components/Dialog/SignUpDialog'
@@ -39,7 +38,7 @@ export function OrdersList() {
           data={ordersMock}
           renderItem={({ item }) => (
             <View mb={24}>
-              <OrderItem data={item} isLoading={isLoading} />
+              <OrderItem data={item} isLoading={true} />
             </View>
           )}
           showsVerticalScrollIndicator={false}
@@ -62,7 +61,7 @@ export function OrdersList() {
           data={orders}
           renderItem={({ item }) => (
             <View mb={24}>
-              <OrderItem data={item} isLoading={isLoading} />
+              <OrderItem data={item} isLoading={false} />
             </View>
           )}
           showsVerticalScrollIndicator={false}

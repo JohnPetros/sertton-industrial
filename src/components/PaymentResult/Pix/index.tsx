@@ -33,9 +33,6 @@ export function Pix() {
   const hours = Math.floor(expiresAt / 60 / 60)
   const minutes = Math.floor(expiresAt / 60) % 60
   const seconds = Math.floor(expiresAt) % 60
-  console.log({ hours })
-  console.log({ minutes })
-  console.log({ seconds })
 
   return (
     <YStack alignItems="center" justifyContent="center" w="100%" gap={24}>
