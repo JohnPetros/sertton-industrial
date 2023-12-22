@@ -30,7 +30,7 @@ const phoneSchema = z
   .string({
     required_error: 'Campo obrigatório',
   })
-  .length(11, 'CPF deve conter 11 números')
+  .length(11, 'Número de telefone deve conter 11 números')
 
 const razaoSocialSchema = z.string({
   required_error: 'Campo obrigatório',
