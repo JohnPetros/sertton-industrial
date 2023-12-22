@@ -1,6 +1,6 @@
 import type { Api } from '@/@types/api'
 import type { Customer } from '@/@types/customer'
-import { ICustomersController } from '@/services/api/interfaces/ICustomersService'
+import { ICustomersController } from '@/services/api/interfaces/ICustomersController'
 import { Resources } from '@/services/api/resources'
 
 export function customersController(api: Api): ICustomersController {
@@ -34,6 +34,10 @@ export function customersController(api: Api): ICustomersController {
       )
 
       return !!response.data[0]
+    },
+
+    async updateCustomerById(customerId: number, customerNewData: Customer) {
+      await api.put(`/${Resources.CUSTOMERS}/${customerId}`, customerNewData)
     },
   }
 }

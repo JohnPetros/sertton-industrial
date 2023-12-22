@@ -1,10 +1,10 @@
 import { useState } from 'react'
 
-export function useAlert(onClose: (() => void) | undefined) {
+export function useAlert(onCancel: (() => void) | undefined) {
   const [isOpen, setIsOpen] = useState(false)
 
   function handleOpenChange(isOpen: boolean) {
-    if (!isOpen && onClose) onClose()
+    if (!isOpen && onCancel) onCancel()
     setIsOpen(isOpen)
   }
 
