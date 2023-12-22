@@ -1,14 +1,15 @@
-import { createContext, ReactNode, useContext } from 'react'
-import { useMutation, useQuery } from 'react-query'
+import { createContext, ReactNode, useContext, useMemo } from 'react'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { Customer } from '@/@types/customer'
+import { useToast } from '@/components/Toast/useToast'
 import { useApi } from '@/services/api'
 import { useStorage } from '@/services/storage'
 
 type CustomerContextValue = {
   customer: Customer | null
   fetchCustomerByEmail: (email: string) => Promise<boolean>
-  checkCustomerEmail: () => Promise<boolean>
+  updateCustomer: (customer: Partial<Customer>) => void
   setSelectedAddressZipcode: (zipcode: string) => void
 }
 
@@ -20,8 +21,17 @@ export const CustomerContext = createContext({} as CustomerContextValue)
 
 export function CustomerProvider({ children }: CustomerProviderProps) {
   const storage = useStorage()
+  const queryClient = useQueryClient()
+  const toast = useToast()
 
-  async function getCustomerByEmail(email: string) {
+  function updateCustomerQuery(updatedCustomerData: Partial<Customer>) {
+    queryClient.setQueryData('customer', {
+      ...customer,
+      ...updatedCustomerData,
+    })
+  }
+
+  async function getCustomerByEmail(email: string): Promise<Customer | null> {
     const customer = await api.getCustomerByEmail(email)
 
     if (!customer) {
@@ -38,6 +48,8 @@ export function CustomerProvider({ children }: CustomerProviderProps) {
         selectedAddressZipcode: selectedAddressZipcode ?? null,
       }
     }
+
+    return null
   }
 
   async function fetchCustomer() {
@@ -49,32 +61,78 @@ export function CustomerProvider({ children }: CustomerProviderProps) {
 
   const api = useApi()
 
-  const { data, refetch } = useQuery('customer', () => fetchCustomer())
-
-  const customerEmailMutation = useMutation(
-    (email: string) => getCustomerByEmail(email),
-    {
-      onSuccess: () => refetch(),
-    }
+  const { data: customer, refetch } = useQuery('customer', () =>
+    fetchCustomer()
   )
 
   async function setCustomerZipcode(zipcode: string) {
     await storage.setCustomerSelectedAddressZipcode(zipcode)
 
     return {
-      customer: data,
       selectedAddressZipcode: zipcode,
     }
   }
 
+  async function mutateCustomerData(updatedCustomerData: Partial<Customer>) {
+    if (!customer) return null
+
+    try {
+      api.updateCustomerById(customer.id, {
+        ...customer,
+        ...updatedCustomerData,
+      })
+      return updatedCustomerData
+    } catch (error) {
+      api.handleError(error)
+      return null
+    }
+  }
+
+  const customerEmailMutation = useMutation(
+    (email: string) => getCustomerByEmail(email),
+    {
+      onSuccess: (customer: Customer | null) => {
+        if (customer) {
+          updateCustomerQuery(customer)
+        }
+      },
+      onError: (error) => {
+        api.handleError(error)
+        toast.show('Erro ao atualizar e-mail :(', 'error')
+      },
+    }
+  )
+
   const customerZipcodeMutation = useMutation(
     (zipcode: string) => setCustomerZipcode(zipcode),
     {
-      onSuccess: () => {
+      onSuccess: ({
+        selectedAddressZipcode,
+      }: {
+        selectedAddressZipcode: string
+      }) => {
         refetch()
       },
       onError: (error) => {
         api.handleError(error)
+        toast.show('Erro ao atualizar CEP de endereço :(', 'error')
+      },
+    }
+  )
+
+  const customerDataMutation = useMutation(
+    (updatedCustomerData: Partial<Customer>) =>
+      mutateCustomerData(updatedCustomerData),
+    {
+      onSuccess: (updatedCustomerData: Partial<Customer> | null) => {
+        if (updatedCustomerData) {
+          updateCustomerQuery(updatedCustomerData)
+          toast.show('Cadastro atualizado com sucesso!')
+        }
+      },
+      onError: (error) => {
+        api.handleError(error)
+        toast.show('Erro ao atualizar cadastro :(', 'error')
       },
     }
   )
@@ -88,25 +146,27 @@ export function CustomerProvider({ children }: CustomerProviderProps) {
     }
   }
 
-  async function checkCustomerEmail() {
-    const customerEmail = await storage.getCustomerEmail()
-
-    return !!customerEmail
+  function updateCustomer(updatedCustomer: Partial<Customer>) {
+    customerDataMutation.mutate(updatedCustomer)
   }
 
-  async function setSelectedAddressZipcode(zipcode: string) {
+  function setSelectedAddressZipcode(zipcode: string) {
+    console.log({ zipcode })
     customerZipcodeMutation.mutate(zipcode)
   }
 
+  const value = useMemo(
+    () => ({
+      customer: customer ?? null,
+      fetchCustomerByEmail,
+      updateCustomer,
+      setSelectedAddressZipcode,
+    }),
+    [customer]
+  )
+
   return (
-    <CustomerContext.Provider
-      value={{
-        customer: data ?? null,
-        fetchCustomerByEmail,
-        checkCustomerEmail,
-        setSelectedAddressZipcode,
-      }}
-    >
+    <CustomerContext.Provider value={value}>
       {children}
     </CustomerContext.Provider>
   )
