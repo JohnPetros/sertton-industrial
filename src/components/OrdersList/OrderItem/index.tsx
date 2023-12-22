@@ -1,4 +1,3 @@
-import { SvgUri } from 'react-native-svg'
 import { H3, XStack, YStack } from 'tamagui'
 import { Text } from 'tamagui'
 
@@ -6,12 +5,12 @@ import type { ComputedOrder } from '@/@types/computedOrder'
 import type { OrderStatus } from '@/@types/order'
 import { Accordion } from '@/components/Accordion'
 import { Address } from '@/components/OrdersList/OrderItem/Address'
-import { Heading } from '@/components/OrdersList/OrderItem/Heading'
 import { Info } from '@/components/OrdersList/OrderItem/Info'
-import { Link } from '@/components/OrdersList/OrderItem/Link'
 import { Payment } from '@/components/OrdersList/OrderItem/Payment'
 import { Products } from '@/components/OrdersList/OrderItem/Products'
 import { useOrderItem } from '@/components/OrdersList/OrderItem/useOrderItem'
+import { Skeleton } from '@/components/Skeleton'
+import { SCREEN } from '@/utils/constants/screen'
 
 interface OrderItemProps {
   data: ComputedOrder
@@ -35,66 +34,72 @@ export function OrderItem({ data, isLoading }: OrderItemProps) {
 
   return (
     <XStack>
-      <Accordion
-        label={
-          <YStack>
-            <H3 color="$gray800" fontSize={16}>
-              Número do pedido
-            </H3>
-            <Text color="$gray400" fontSize={14}>
-              #{number}
-            </Text>
-          </YStack>
-        }
+      <Skeleton
+        isVisible={isLoading}
+        width={SCREEN.width - SCREEN.paddingX * 2}
+        height={80}
       >
-        <YStack mt={24} gap={24}>
-          <Info
-            status={status.data.alias as OrderStatus}
-            statusName={status.data.name}
-            creationDate={new Date(created_at.date)}
-          />
+        <Accordion
+          label={
+            <YStack>
+              <H3 color="$gray800" fontSize={16}>
+                Número do pedido
+              </H3>
+              <Text color="$gray400" fontSize={14}>
+                #{number}
+              </Text>
+            </YStack>
+          }
+        >
+          <YStack mt={24} gap={24}>
+            <Info
+              status={status.data.alias as OrderStatus}
+              statusName={status.data.name}
+              creationDate={new Date(created_at.date)}
+            />
 
-          <Products
-            subtotal={subtotal}
-            discount={totalDiscount}
-            shipment={value_shipment}
-            total={subtotal - totalDiscount + value_shipment}
-            itemsAmount={skusAmount}
-            products={{ items }}
-          />
+            <Products
+              subtotal={subtotal}
+              discount={totalDiscount}
+              shipment={value_shipment}
+              total={subtotal - totalDiscount + value_shipment}
+              itemsAmount={skusAmount}
+              products={{ items }}
+            />
 
-          <Address
-            number={shipping_address.data.number}
-            deliveryDate={new Date(date_delivery.date)}
-            deliveryDays={days_delivery}
-            neighborhood={shipping_address.data.neighborhood}
-            shipmentServiceName={shipment_service}
-            receiver={shipping_address.data.receiver}
-            city={shipping_address.data.city}
-            state={shipping_address.data.uf}
-            street={shipping_address.data.street}
-            zipcode={shipping_address.data.zip_code}
-            complement={shipping_address.data.complement}
-          />
+            <Address
+              number={shipping_address.data.number}
+              deliveryDate={new Date(date_delivery.date)}
+              deliveryDays={days_delivery}
+              neighborhood={shipping_address.data.neighborhood}
+              shipmentServiceName={shipment_service}
+              receiver={shipping_address.data.receiver}
+              city={shipping_address.data.city}
+              state={shipping_address.data.uf}
+              street={shipping_address.data.street}
+              zipcode={shipping_address.data.zip_code}
+              complement={shipping_address.data.complement}
+            />
 
-          <Payment
-            name={transactions.data[0].payment.data.name}
-            icon={transactions.data[0].payment.data.icon_url}
-            pdf={
-              transactions.data[0].payment.data.is_billet
-                ? transactions.data[0].billet_url
-                : null
-            }
-            method={
-              transactions.data[0].payment.data.is_billet
-                ? 'ticket'
-                : transactions.data[0].payment.data.is_pix
-                ? 'pix'
-                : 'credit-card'
-            }
-          />
-        </YStack>
-      </Accordion>
+            <Payment
+              name={transactions.data[0].payment.data.name}
+              icon={transactions.data[0].payment.data.icon_url}
+              pdf={
+                transactions.data[0].payment.data.is_billet
+                  ? transactions.data[0].billet_url
+                  : null
+              }
+              method={
+                transactions.data[0].payment.data.is_billet
+                  ? 'ticket'
+                  : transactions.data[0].payment.data.is_pix
+                  ? 'pix'
+                  : 'credit-card'
+              }
+            />
+          </YStack>
+        </Accordion>
+      </Skeleton>
     </XStack>
   )
 }
