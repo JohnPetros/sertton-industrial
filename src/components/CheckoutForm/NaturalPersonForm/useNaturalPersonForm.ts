@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { usePathname } from 'expo-router/src/hooks'
 
 import { NaturalPersonFormFields, naturalPersonFormSchema } from '@/libs/zod'
 import { useApi } from '@/services/api'
@@ -9,7 +10,10 @@ import { useCheckoutStore } from '@/stores/checkoutStore'
 type FieldName = keyof NaturalPersonFormFields
 
 export function useNaturalPesonForm(
-  onSubmit: (personType: 'natural' | 'legal') => void
+  onSubmit: (
+    personType: 'natural' | 'legal',
+    setFormError: (fieldName: string, message: string) => void
+  ) => void
 ) {
   const {
     control,
@@ -22,18 +26,34 @@ export function useNaturalPesonForm(
     resolver: zodResolver(naturalPersonFormSchema),
   })
   const api = useApi()
+  const pathname = usePathname()
+  const isProfileScreen = pathname === '/profile'
 
   const personFormData = useCheckoutStore((store) => store.state.personFormData)
   const setPersonFormData = useCheckoutStore(
     (store) => store.actions.setPersonFormData
   )
 
+  function checkNaturalPersonFormField(
+    filedName: string
+  ): filedName is FieldName {
+    return !!personFormData.naturalPerson[filedName as FieldName]
+  }
+
+  function setNaturalPersonFormError(fieldName: string, message: string) {
+    if (checkNaturalPersonFormField(fieldName)) {
+      setError(fieldName, {
+        message,
+      })
+    }
+  }
+
   async function handleFormSubmit() {
     const customer = await api.getCustomerByEmail(
       personFormData.naturalPerson.email
     )
 
-    if (customer) {
+    if (customer && !isProfileScreen) {
       setError('email', {
         message: 'E-mail já cadastrado',
       })
@@ -44,13 +64,13 @@ export function useNaturalPesonForm(
       personFormData.naturalPerson.cpf
     )
 
-    if (hasCustomer) {
+    if (hasCustomer && !isProfileScreen) {
       setError('cpf', {
         message: 'CPF já cadastrado',
       })
       return
     }
-    onSubmit('natural')
+    onSubmit('natural', setNaturalPersonFormError)
   }
 
   function handleInputChange(
@@ -70,7 +90,7 @@ export function useNaturalPesonForm(
       const value = naturalPerson[fieldName as keyof NaturalPersonFormFields]
       if (value) setValue(fieldName as FieldName, value)
     }
-  }, [])
+  }, [personFormData])
 
   return {
     control,

@@ -3,18 +3,19 @@ import {
   ComputerTower,
   CreditCard,
   Envelope,
-  Lock,
   Phone,
 } from 'phosphor-react-native'
-import { Spinner, YStack } from 'tamagui'
+import { YStack } from 'tamagui'
 
-import { Button } from '@/components/Button'
 import { useLegalPesonForm } from '@/components/CheckoutForm/LegalPersonForm/useLegalPersonForm'
+import { SubmitButton } from '@/components/CheckoutForm/PersonForm/SubmitButton'
 import { Input } from '@/components/Form/Input'
-import { PasswordInput } from '@/components/Form/PasswordInput'
 
 interface LegalPersonFormProps {
-  onSubmit: (personType: 'natural' | 'legal') => void
+  onSubmit: (
+    personType: 'natural' | 'legal',
+    setFormError: (fieldName: string, message: string) => void
+  ) => void
 }
 
 export function LegalPersonForm({ onSubmit }: LegalPersonFormProps) {
@@ -88,9 +89,7 @@ export function LegalPersonForm({ onSubmit }: LegalPersonFormProps) {
         )}
       />
 
-      <Button mt={24} onPress={handleSubmit} disabled={isSubmitting}>
-        {isSubmitting ? <Spinner color="$white" /> : 'Continuar'}
-      </Button>
+      <SubmitButton handleSubmit={handleSubmit} isSubmitting={isSubmitting} />
     </YStack>
   )
 }

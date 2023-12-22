@@ -6,14 +6,16 @@ import {
   User,
 } from 'phosphor-react-native'
 import { YStack } from 'tamagui'
-import { Spinner } from 'tamagui'
 
-import { Button } from '@/components/Button'
 import { useNaturalPesonForm } from '@/components/CheckoutForm/NaturalPersonForm/useNaturalPersonForm'
+import { SubmitButton } from '@/components/CheckoutForm/PersonForm/SubmitButton'
 import { Input } from '@/components/Form/Input'
 
 interface NaturalPersonFormProps {
-  onSubmit: (personType: 'natural' | 'legal') => void
+  onSubmit: (
+    personType: 'natural' | 'legal',
+    setFormError: (fieldName: string, message: string) => void
+  ) => void
 }
 
 export function NaturalPersonForm({ onSubmit }: NaturalPersonFormProps) {
@@ -92,9 +94,7 @@ export function NaturalPersonForm({ onSubmit }: NaturalPersonFormProps) {
         )}
       />
 
-      <Button mt={24} onPress={handleSubmit} disabled={isSubmitting}>
-        {isSubmitting ? <Spinner color="$white" /> : 'Continuar'}
-      </Button>
+      <SubmitButton handleSubmit={handleSubmit} isSubmitting={isSubmitting} />
     </YStack>
   )
 }
