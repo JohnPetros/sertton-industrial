@@ -106,13 +106,7 @@ export function CustomerProvider({ children }: CustomerProviderProps) {
   const customerZipcodeMutation = useMutation(
     (zipcode: string) => setCustomerZipcode(zipcode),
     {
-      onSuccess: ({
-        selectedAddressZipcode,
-      }: {
-        selectedAddressZipcode: string
-      }) => {
-        refetch()
-      },
+      onSuccess: () => refetch(),
       onError: (error) => {
         api.handleError(error)
         toast.show('Erro ao atualizar CEP de endereço :(', 'error')

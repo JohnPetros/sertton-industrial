@@ -4,8 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { CreditCard } from '@/@types/creditCard'
 import { PaymentMethod } from '@/@types/paymentMethod'
-import { useCustomerContext } from '@/contexts/CustomerContext'
-import { useCart } from '@/hooks/useCart'
 import { CreditCardFormFields, creditCardFormSchema } from '@/libs/zod'
 import { useApi } from '@/services/api'
 import { useCheckoutStore } from '@/stores/checkoutStore'
@@ -27,11 +25,7 @@ export function useCreditCardForm(
   const api = useApi()
 
   const creditCard = useCheckoutStore((store) => store.state.creditCard)
-  const address = useCheckoutStore((store) => store.state.address)
   const setCreditCard = useCheckoutStore((store) => store.actions.setCreditCard)
-
-  const { customer } = useCustomerContext()
-  const { getSelectedSkus } = useCart()
 
   function handleInputChange(fieldName: keyof CreditCard, value: string) {
     setCreditCard(fieldName, value)
@@ -80,8 +74,6 @@ export function useCreditCardForm(
       })
 
       if (!creditCardToken) return
-
-      console.log({ creditCardToken })
 
       onPay('credit-card', creditCardToken)
     } catch (error) {
