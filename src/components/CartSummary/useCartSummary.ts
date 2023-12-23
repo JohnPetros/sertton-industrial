@@ -40,7 +40,10 @@ export function useCartSummary(products: Product[]) {
       )?.quantity
 
       if (selectedSku && quantity)
-        return total + selectedSku.price_discount * quantity
+        return (
+          total +
+          (selectedSku.price_sale - selectedSku.price_discount) * quantity
+        )
       else return total
     }, 0)
 

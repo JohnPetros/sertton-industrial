@@ -14,7 +14,7 @@ interface ProductItemProps {
 }
 
 const ProductItemComponent = ({
-  data: { skus, images, name, brand, slug, id },
+  data: { skus, images, name, brand, slug, id, sku },
   isLoading,
   isColumn = true,
   width = 150,
@@ -57,6 +57,11 @@ const ProductItemComponent = ({
           </Skeleton>
         </View>
         <YStack flexShrink={1} width={!isColumn ? width / 2 : width} gap={4}>
+          {sku && (
+            <Skeleton width={44} height={12} isVisible={isLoading}>
+              <Product.SkuCode>{String(sku)}</Product.SkuCode>
+            </Skeleton>
+          )}
           {brand?.data.name && (
             <Skeleton width={44} height={12} isVisible={isLoading}>
               <Product.Brand>{brand.data.name}</Product.Brand>
@@ -68,8 +73,8 @@ const ProductItemComponent = ({
           <XStack justifyContent="space-between">
             {!isLoading && (
               <>
-                <Product.SalePrice price={skus.data[0].price_sale} />
-                <Product.DiscountPrice price={skus.data[0].price_discount} />
+                <Product.SalePrice price={skus.data[0].price_discount} />
+                <Product.DiscountPrice price={skus.data[0].price_sale} />
               </>
             )}
           </XStack>

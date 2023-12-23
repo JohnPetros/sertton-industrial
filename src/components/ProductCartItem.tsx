@@ -104,8 +104,8 @@ export function ProductCartItem({
           >
             {selectedSku && (
               <YStack>
-                <Product.DiscountPrice price={selectedSku.price_discount} />
-                <Product.SalePrice price={selectedSku.price_sale} />
+                <Product.DiscountPrice price={selectedSku.price_sale} />
+                <Product.SalePrice price={selectedSku.price_discount} />
               </YStack>
             )}
             <Alert

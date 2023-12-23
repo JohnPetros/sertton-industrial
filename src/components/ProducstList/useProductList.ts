@@ -31,7 +31,6 @@ export function useProductsList({
   }
 
   function handleListEndReached() {
-    console.log('reached')
     if (!isFetching.current) {
       isFetching.current = true
       onEndReached()
@@ -43,6 +42,7 @@ export function useProductsList({
       totalProducts.current = products.length
       isFetching.current = false
     }
+    console.log({ totalProducts: totalProducts.current })
   }, [products])
 
   return {

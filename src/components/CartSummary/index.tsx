@@ -11,10 +11,10 @@ export function CartSummary({ items }: CartSummaryProps) {
 
   return (
     <Summary
-      subtotal={totalToPay + totalDiscount}
+      subtotal={totalToPay}
       itemsAmount={totalItems}
-      total={totalToPay}
       discount={totalDiscount}
+      total={totalToPay - totalDiscount}
     />
   )
 }

@@ -10,6 +10,7 @@ import { CartSummary } from '@/components/CartSummary'
 import { EmptyItemsMessage } from '@/components/EmptyItemsMessage'
 import { Header } from '@/components/Header'
 import { ProductCartItem } from '@/components/ProductCartItem'
+import { Skeleton } from '@/components/Skeleton'
 import { useCart } from '@/hooks/useCart'
 import { cartItemsMock } from '@/tests/mocks/cartItemsMock'
 import { ROUTES } from '@/utils/constants/routes'
@@ -23,7 +24,7 @@ export default function CartScreen() {
   const isCartEmpty = totalCartItems <= 0
 
   return (
-    <YStack px={24} flex={1}>
+    <YStack px={SCREEN.paddingX} flex={1}>
       <Header />
       <XStack mt={8} alignItems="center" justifyContent="space-between">
         <H1 fontSize={24}>Meu Carrinho</H1>
@@ -89,24 +90,33 @@ export default function CartScreen() {
               )}
               contentContainerStyle={{ paddingBottom: 180 }}
             />
-            {products && (
-              <YStack
-                zIndex={50}
-                position="absolute"
-                bottom={0}
-                py={12}
-                gap={8}
-                bg="$gray50"
-                w="100%"
+            <YStack
+              zIndex={50}
+              position="absolute"
+              bottom={0}
+              py={12}
+              bg="$gray50"
+              w="100%"
+            >
+              <Skeleton
+                width={SCREEN.width - SCREEN.paddingX * 2}
+                height={180}
+                isVisible={false}
               >
-                <CartSummary items={products} />
-                <Link href={ROUTES.checkout} style={{ width: '100%' }} asChild>
-                  <Button w={SCREEN.width - SCREEN.paddingX * 2}>
-                    Finalizar compra
-                  </Button>
-                </Link>
-              </YStack>
-            )}
+                <YStack gap={8}>
+                  {products && <CartSummary items={products} />}
+                  <Link
+                    href={ROUTES.checkout}
+                    style={{ width: '100%' }}
+                    asChild
+                  >
+                    <Button w={SCREEN.width - SCREEN.paddingX * 2}>
+                      Finalizar compra
+                    </Button>
+                  </Link>
+                </YStack>
+              </Skeleton>
+            </YStack>
           </>
         )}
       </View>
