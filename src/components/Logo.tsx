@@ -6,7 +6,7 @@ export function Logo() {
       source={require('@/assets/images/sertton-logo.png')}
       resizeMode="contain"
       w={96}
-      h={40}
+      h={48}
     />
   )
 }

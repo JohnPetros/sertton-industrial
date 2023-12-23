@@ -1,5 +1,4 @@
 import { DrawerActions, useNavigation } from '@react-navigation/native'
-import { Link } from 'expo-router'
 import { ListBullets } from 'phosphor-react-native'
 import { getTokens, XStack } from 'tamagui'
 
