@@ -1,7 +1,6 @@
 import { useRouter } from 'expo-router'
 import { ScrollView, YStack } from 'tamagui'
 
-import { Alert } from '@/components/Alert'
 import { Button } from '@/components/Button'
 import { AddressForm } from '@/components/CheckoutForm/AddressForm'
 import { LegalPersonForm } from '@/components/CheckoutForm/LegalPersonForm'

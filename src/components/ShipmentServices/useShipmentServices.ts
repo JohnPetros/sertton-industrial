@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 
-import type { ComputedSku } from '@/@types/ComputedSku'
+import type { ComputedSku } from '@/@types/computedSku'
 import { useAppError } from '@/components/AppError/useAppError'
 import { useApi } from '@/services/api'
 

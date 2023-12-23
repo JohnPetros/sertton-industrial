@@ -57,7 +57,7 @@ export function ProductsList({
 
   const renderItem = ({ item }: { item: Product; index: number }) => {
     return (
-      <View mb={32}>
+      <View mb={24}>
         <ProductItem
           data={item}
           isLoading={false}

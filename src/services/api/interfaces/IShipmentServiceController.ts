@@ -1,4 +1,4 @@
-import type { ComputedSku } from '@/@types/ComputedSku'
+import type { ComputedSku } from '@/@types/computedSku'
 import type { ShipmentService } from '@/@types/shipmentService'
 
 export interface IShipmentServiceController {

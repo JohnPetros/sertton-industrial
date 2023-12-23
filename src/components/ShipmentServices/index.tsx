@@ -1,7 +1,7 @@
 import { Truck } from 'phosphor-react-native'
 import { getTokens, XStack } from 'tamagui'
 
-import type { ComputedSku } from '@/@types/ComputedSku'
+import type { ComputedSku } from '@/@types/computedSku'
 import { Button } from '@/components/Button'
 import { ShipmentServicesDialog } from '@/components/Dialog/ShipmentServicesDialog'
 import { Input } from '@/components/Form/Input'

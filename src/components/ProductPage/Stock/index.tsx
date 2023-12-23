@@ -14,24 +14,24 @@ export function Stock({ sku }: StockProps) {
 
   return (
     <YStack gap={12}>
-      <XStack gap={4}>
-        <Text color="$gray800">Apenas</Text>
-        <View
-          borderRadius={12}
-          bg="$blue500"
-          alignItems="center"
-          justifyContent="center"
-          w={24}
-          h={24}
-        >
-          {sku.total_in_stock > 0 && (
+      {sku.total_in_stock > 0 && (
+        <XStack gap={4}>
+          <Text color="$gray800">Apenas</Text>
+          <View
+            borderRadius={12}
+            bg="$blue500"
+            alignItems="center"
+            justifyContent="center"
+            w={24}
+            h={24}
+          >
             <Text color="$white" fontWeight="600" fontSize={12}>
               {sku.total_in_stock}
             </Text>
-          )}
-        </View>
-        <Text color="$gray800">produtos em estoque</Text>
-      </XStack>
+          </View>
+          <Text color="$gray800">produtos em estoque</Text>
+        </XStack>
+      )}
       <XStack alignItems="center">
         <Text color="$gray600">A oferta acaba em </Text>
         <Timer
