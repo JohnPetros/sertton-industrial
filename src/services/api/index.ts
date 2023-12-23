@@ -7,6 +7,7 @@ import { categoriesController } from '@/services/api/categoriesController'
 import { collectionsController } from '@/services/api/collectionsController'
 import { commentsController } from '@/services/api/commentsController'
 import { customersController } from '@/services/api/customersController'
+import { leadsController } from '@/services/api/leadsController'
 import { logisticsController } from '@/services/api/logisticsController'
 import { ordersController } from '@/services/api/ordersController'
 import { paymentController } from '@/services/api/paymentController'
@@ -54,6 +55,7 @@ export function useApi() {
       ...ordersController(api),
       ...paymentController(api),
       ...shipmentServiceController(api),
+      ...leadsController(api),
       handleError: (error: unknown) => api.handleError(error),
     }),
     [api]
