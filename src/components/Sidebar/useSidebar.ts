@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Linking } from 'react-native'
 import { useDrawerStatus } from '@react-navigation/drawer'
 import { DrawerActions } from '@react-navigation/native'
 import { useRouter } from 'expo-router'
 
-import { Contact } from '@/@types/contact'
 import { useProductsFilterStore } from '@/stores/productsFilterStore'
 import { ROUTES } from '@/utils/constants/routes'
 
@@ -28,19 +26,6 @@ export function useSidebar() {
     router.push(ROUTES.products)
   }
 
-  function handleContact(contact: Contact) {
-    switch (contact.type) {
-      case 'whatsapp':
-        Linking.openURL(`whatsapp://send?phone=${contact.value}`)
-        break
-      case 'landline':
-        Linking.openURL(`tel:${contact.value}`)
-        break
-      default:
-        return
-    }
-  }
-
   function handleNavigation(route: string) {
     DrawerActions.closeDrawer()
     router.push(route)
@@ -55,7 +40,6 @@ export function useSidebar() {
     isLoading,
     handleCategory,
     handleShowAllCategories,
-    handleContact,
     handleNavigation,
   }
 }
