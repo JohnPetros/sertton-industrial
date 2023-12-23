@@ -1,23 +1,23 @@
-import { ReactNode } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {
   CaretDown,
   CaretUp,
-  Phone,
+  Lock,
+  Scroll,
+  Truck,
   User,
-  WhatsappLogo,
 } from 'phosphor-react-native'
-import { getTokens, Separator, Text, View, XStack, YStack } from 'tamagui'
+import { getTokens, Separator, Stack, Text, View, YStack } from 'tamagui'
 import { YGroup } from 'tamagui'
 import { ListItem } from 'tamagui'
 
-import { ContactType } from '@/@types/contact'
 import { Button } from '@/components/Button'
+import { Contacts } from '@/components/Contacts'
+import { RouteButton } from '@/components/Sidebar/RouteButton'
 import { useSidebar } from '@/components/Sidebar/useSidebar'
 import { Spinner } from '@/components/Spinner'
 import { useCategories } from '@/hooks/useCategories'
 import { useProductsFilterStore } from '@/stores/productsFilterStore'
-import { CONTACTS } from '@/utils/constants/contacts'
 import { ROUTES } from '@/utils/constants/routes'
 import { SCREEN } from '@/utils/constants/screen'
 
@@ -30,15 +30,9 @@ export function Sidebar() {
     canShowAllCategories,
     isLoading,
     handleCategory,
-    handleContact,
     handleShowAllCategories,
     handleNavigation,
   } = useSidebar()
-
-  const CONTACT_ICONS: Record<ContactType, ReactNode> = {
-    whatsapp: <WhatsappLogo color={getTokens().color.green600.val} />,
-    landline: <Phone color={getTokens().color.gray600.val} />,
-  }
 
   return (
     <SafeAreaView>
@@ -92,35 +86,32 @@ export function Sidebar() {
             ))}
         </YGroup>
         <YStack mt={12}>
-          {CONTACTS.map((contact) => (
-            <Button
-              key={contact.value}
-              background="transparent"
-              justifyContent="flex-start"
-              px={0}
-              onPress={() => handleContact(contact)}
-            >
-              <XStack gap={4}>
-                {CONTACT_ICONS[contact.type]}
-                <Text
-                  color={contact.type === 'whatsapp' ? '$green600' : '$gray600'}
-                  fontWeight="600"
-                  fontSize={14}
-                >
-                  {contact.value}
-                </Text>
-              </XStack>
-            </Button>
-          ))}
-          <Button
-            background="transparent"
-            justifyContent="flex-start"
-            px={0}
+          <Contacts />
+
+          <RouteButton
+            icon={User}
             onPress={() => handleNavigation(ROUTES.profile)}
           >
-            <User color={getTokens().color.gray600.val} />
             Meu cadastro
-          </Button>
+          </RouteButton>
+          <RouteButton
+            icon={Lock}
+            onPress={() => handleNavigation(ROUTES.privacyPolicy)}
+          >
+            Politicas de privacidade
+          </RouteButton>
+          <RouteButton
+            icon={Scroll}
+            onPress={() => handleNavigation(ROUTES.termsAndConditions)}
+          >
+            Termos e condições
+          </RouteButton>
+          <RouteButton
+            icon={Truck}
+            onPress={() => handleNavigation(ROUTES.about)}
+          >
+            Sobre a Sertton Industrial
+          </RouteButton>
         </YStack>
       </YStack>
     </SafeAreaView>

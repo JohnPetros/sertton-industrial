@@ -9,4 +9,8 @@ export const CONTACTS: Contact[] = [
     type: 'landline',
     value: '11 49682964',
   },
+  {
+    type: 'email',
+    value: 'falecom@sertton.ind.br',
+  },
 ]
