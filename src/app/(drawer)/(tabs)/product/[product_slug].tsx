@@ -49,6 +49,7 @@ export default function ProductPage() {
             paddingBottom: bottomTabBarHeight * 6,
           }}
           scrollEnabled={!isLoading}
+          showsVerticalScrollIndicator={false}
         >
           <Skeleton isVisible={isLoading} width={SCREEN.width} height={224}>
             {selectedSku && <Image data={selectedSku.images.data} />}

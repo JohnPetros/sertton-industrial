@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
-import { useFocusEffect, useRouter } from 'expo-router'
+import { useFocusEffect, useNavigation, useRouter } from 'expo-router'
 import { ScrollView } from 'tamagui'
 
 import type { Sku } from '@/@types/sku'
@@ -13,9 +13,11 @@ import { ROUTES } from '@/utils/constants/routes'
 export function useProductPage(slug: string) {
   const api = useApi()
 
-  const { data: product, refetch } = useQuery(['product', slug], () =>
-    api.getProductBySlug(slug)
-  )
+  const {
+    data: product,
+    isLoading: isProductLoading,
+    refetch,
+  } = useQuery(['product', slug], () => api.getProductBySlug(slug))
 
   const { data: similarProducts } = useQuery(
     ['similiar_products', product?.id],
@@ -29,13 +31,14 @@ export function useProductPage(slug: string) {
 
   const addItem = useCartStore((store) => store.actions.addItem)
 
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(isProductLoading)
   const [selectedSku, setSelectedSku] = useState<Sku | null>(null)
   const skuSelectsRef = useRef<SkuSelectsRef | null>(null)
   const scrollRef = useRef<ScrollView | null>(null)
   const quantity = useRef(1)
 
   const router = useRouter()
+  const navigation = useNavigation()
 
   const hasVariations = Boolean(
     skuSelectsRef.current?.selectedSku?.variations.length
@@ -71,6 +74,7 @@ export function useProductPage(slug: string) {
   useFocusEffect(
     useCallback(() => {
       return () => {
+        console.log('teste')
         setIsLoading(true)
         setSelectedSku(null)
         scrollRef.current?.scrollTo({ y: 0 })
@@ -85,7 +89,7 @@ export function useProductPage(slug: string) {
     scrollRef,
     skuSelectsRef,
     selectedSku,
-    isLoading,
+    isLoading: isLoading || isProductLoading,
     hasVariations,
     quantity: quantity.current,
     handleAddToCart,
