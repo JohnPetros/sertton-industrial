@@ -1,4 +1,4 @@
-export type ContactType = 'whatsapp' | 'landline'
+export type ContactType = 'whatsapp' | 'landline' | 'email'
 
 export type Contact = {
   type: ContactType
