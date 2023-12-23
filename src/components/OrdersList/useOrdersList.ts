@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import { useQuery } from 'react-query'
+import { useFocusEffect } from 'expo-router/src/useFocusEffect'
 
 import type { Customer } from '@/@types/customer'
 import { useAppError } from '@/components/AppError/useAppError'
@@ -33,13 +34,15 @@ export function useOrdersList(customer: Customer | null) {
     throwAppError('Erro ao tentar mostrar produtos')
   }
 
-  useEffect(() => {
-    if (!customer) {
-      emailDialogRef.current?.open()
-    } else {
-      emailDialogRef.current?.close()
-    }
-  }, [customer])
+  useFocusEffect(
+    useCallback(() => {
+      if (!customer) {
+        emailDialogRef.current?.open()
+      } else {
+        emailDialogRef.current?.close()
+      }
+    }, [customer])
+  )
 
   return {
     orders: data,

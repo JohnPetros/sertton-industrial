@@ -20,7 +20,7 @@ export function Skeleton({
   ...rest
 }: SkeletonProps) {
   return (
-    <YStack {...rest} width={width}>
+    <YStack {...rest}>
       <ShimmerPlaceholder width={width} height={height} visible={!isVisible}>
         {children}
       </ShimmerPlaceholder>

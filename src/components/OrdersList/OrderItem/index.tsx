@@ -38,6 +38,7 @@ export function OrderItem({ data, isLoading }: OrderItemProps) {
         isVisible={isLoading}
         width={SCREEN.width - SCREEN.paddingX * 2}
         height={80}
+        flex={1}
       >
         <Accordion
           label={
