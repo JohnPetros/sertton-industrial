@@ -6,7 +6,7 @@ import { ProductsList } from '@/components/ProducstList'
 import { useProducts } from '@/components/Products/useProducts'
 import { removeHTMLTags } from '@/utils/helpers/removeHTMLTags'
 
-export default function ProductsPage() {
+export default function ProductsScreen() {
   const {
     products,
     category,
