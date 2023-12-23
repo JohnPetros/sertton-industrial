@@ -9,5 +9,6 @@ export enum Endpoints {
   BRAND = 'brands',
   SIMILAR = 'similars',
   COMMENT = 'comments',
+  LEAD = 'leads',
   REVIEW = 'reviews',
 }
