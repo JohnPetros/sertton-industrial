@@ -1,15 +1,13 @@
-import { H1, Paragraph, ScrollView, Separator, XStack, YStack } from 'tamagui'
+import { H1, Paragraph, ScrollView, XStack, YStack } from 'tamagui'
 import { Text } from 'tamagui'
 
 import { BackButton } from '@/components/BackButton'
 import { Contacts } from '@/components/Contacts'
+import { Indentification } from '@/components/Indentification'
 import { Logo } from '@/components/Logo'
-import { useDate } from '@/services/date'
 import { SCREEN } from '@/utils/constants/screen'
 
 export default function AboutScreen() {
-  const date = useDate()
-
   return (
     <YStack px={SCREEN.paddingX}>
       <BackButton />
@@ -35,19 +33,7 @@ export default function AboutScreen() {
             <Contacts />
           </XStack>
 
-          <YStack gap={8} alignItems="center">
-            <Separator vertical={false} w="90%" bg="$gray800" />
-            <Text color="$gray600" fontSize={12}>
-              Rua Tomatssu Iawasse 233 - Vila Nova Bonsucesso
-            </Text>
-            <Text color="$gray600" fontSize={12}>
-              © {date.format(new Date(), 'YYYY')} Sertton Brasil Distribuidora
-              Ltda
-            </Text>
-            <Text color="$gray600" fontSize={12}>
-              CNPJ: 33.805.461/0001-90
-            </Text>
-          </YStack>
+          <Indentification />
         </YStack>
       </ScrollView>
     </YStack>
