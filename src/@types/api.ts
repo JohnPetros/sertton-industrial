@@ -8,5 +8,5 @@ export type Api = {
   setHeader(key: string, value: string): void
   setParams(key: string, value: string): void
   setDefaultConfig(): void
-  handleError(error: unknown): string
+  handleError<Error>(error: unknown): Error
 }
