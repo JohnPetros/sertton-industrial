@@ -53,11 +53,11 @@ export const axiosApi: Api = {
     this.setHeader('User-Secret-Key', SECRET_KEY)
   },
 
-  handleError(error: unknown) {
+  handleError<Error>(error: unknown) {
     if (isAxiosError(error)) {
       console.error(JSON.stringify(error.response, null, 2))
 
-      return error.response?.data
+      return error.response?.data as Error
     }
 
     return 'Unknown Api Error'

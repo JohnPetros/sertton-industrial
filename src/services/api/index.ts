@@ -2,11 +2,13 @@ import { useMemo } from 'react'
 
 import type { Api } from '@/@types/api'
 import { addressesController } from '@/services/api/addressesController'
+import { bannersController } from '@/services/api/bannersController'
 import { brandsController } from '@/services/api/brandsController'
 import { categoriesController } from '@/services/api/categoriesController'
 import { collectionsController } from '@/services/api/collectionsController'
 import { commentsController } from '@/services/api/commentsController'
 import { customersController } from '@/services/api/customersController'
+import { discountsController } from '@/services/api/discountsController'
 import { leadsController } from '@/services/api/leadsController'
 import { logisticsController } from '@/services/api/logisticsController'
 import { ordersController } from '@/services/api/ordersController'
@@ -56,7 +58,9 @@ export function useApi() {
       ...paymentController(api),
       ...shipmentServiceController(api),
       ...leadsController(api),
-      handleError: (error: unknown) => api.handleError(error),
+      ...bannersController(api),
+      ...discountsController(api),
+      handleError: <Error>(error: unknown) => api.handleError<Error>(error),
     }),
     [api]
   )
