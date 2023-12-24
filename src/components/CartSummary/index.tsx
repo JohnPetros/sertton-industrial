@@ -4,17 +4,20 @@ import { Summary } from '@/components/Summary'
 
 interface CartSummaryProps {
   items: ComputedProduct[]
+  shipment?: number
 }
 
-export function CartSummary({ items }: CartSummaryProps) {
-  const { totalDiscount, totalItems, totalToPay } = useCartSummary(items)
+export function CartSummary({ items, shipment = 0 }: CartSummaryProps) {
+  const { subtotal, totalDiscount, totalItems, totalToPay } =
+    useCartSummary(items)
 
   return (
     <Summary
-      subtotal={totalToPay}
+      subtotal={subtotal}
       itemsAmount={totalItems}
       discount={totalDiscount}
-      total={totalToPay - totalDiscount}
+      total={totalToPay}
+      shipment={shipment}
     />
   )
 }

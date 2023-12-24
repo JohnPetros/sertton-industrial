@@ -14,7 +14,7 @@ export function Summary({
   total,
   subtotal,
   discount,
-  shipment,
+  shipment = 0,
   itemsAmount,
 }: CartSummaryProps) {
   return (
@@ -35,7 +35,7 @@ export function Summary({
           - {formatPrice(discount)}
         </Text>
       </XStack>
-      {shipment && (
+      {shipment > 0 && (
         <XStack justifyContent="space-between" alignItems="center">
           <Text fontSize={16} color="$gray600">
             Frete
