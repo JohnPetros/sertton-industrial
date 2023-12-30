@@ -1,11 +1,5 @@
 import { Text } from 'react-native'
-import {
-  act,
-  fireEvent,
-  screen,
-  userEvent,
-  waitFor,
-} from '@testing-library/react-native'
+import { fireEvent, screen, waitFor } from '@testing-library/react-native'
 
 import { Tabs } from '@/components/Tabs'
 import { tabsMocks } from '@/tests/mocks/tabsMock'
