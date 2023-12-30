@@ -1,85 +1,86 @@
 import { z } from 'zod'
 
 import { REGEX } from '@/utils/constants/regex'
+import { VALIDATION_ERRORS } from '@/utils/constants/validationErrors'
 
 const nameSchema = z
   .string({
-    required_error: 'Campo obrigatório',
+    required_error: VALIDATION_ERRORS.required,
   })
-  .regex(REGEX.fullname, 'Digite seu nome completo e sem espaço no final')
+  .regex(REGEX.fullname, VALIDATION_ERRORS.fullname.regex)
 
 export const emailSchema = z
   .string({
-    required_error: 'Campo obrigatório',
+    required_error: VALIDATION_ERRORS.required,
   })
-  .regex(REGEX.email, 'E-mail inválido')
+  .regex(REGEX.email, VALIDATION_ERRORS.email.regex)
 
 const cpfSchema = z
   .string({
-    required_error: 'Campo obrigatório',
+    required_error: VALIDATION_ERRORS.required,
   })
-  .max(11)
+  .length(11, VALIDATION_ERRORS.cpf.length)
 
 const cnpjSchema = z
   .string({
-    required_error: 'Campo obrigatório',
+    required_error: VALIDATION_ERRORS.required,
   })
-  .length(14, 'CNPJ deve conter 14 números')
+  .length(14, VALIDATION_ERRORS.cnpj.length)
 
 const phoneSchema = z
   .string({
-    required_error: 'Campo obrigatório',
+    required_error: VALIDATION_ERRORS.required,
   })
-  .length(11, 'Número de telefone deve conter 11 números')
+  .length(11, VALIDATION_ERRORS.phone.length)
 
 const razaoSocialSchema = z.string({
-  required_error: 'Campo obrigatório',
+  required_error: VALIDATION_ERRORS.required,
 })
 
 export const zipcodeSchema = z
   .string({
-    required_error: 'Campo obrigatório',
+    required_error: VALIDATION_ERRORS.required,
   })
   .length(8)
 
 const citySchema = z.string({
-  required_error: 'Campo obrigatório',
+  required_error: VALIDATION_ERRORS.required,
 })
 
 const streetSchema = z.string({
-  required_error: 'Campo obrigatório',
+  required_error: VALIDATION_ERRORS.required,
 })
 
 const neighborhoodSchema = z.string({
-  required_error: 'Campo obrigatório',
+  required_error: VALIDATION_ERRORS.required,
 })
 
 const ufSchema = z.string({
-  required_error: 'Campo obrigatório',
+  required_error: VALIDATION_ERRORS.required,
 })
 
 const creditCardNumberSchema = z
   .string({
-    required_error: 'Campo obrigatório',
+    required_error: VALIDATION_ERRORS.required,
   })
-  .length(16, 'Número do cartão deve conter 16 números')
+  .length(16, VALIDATION_ERRORS.creditCardNumber.length)
 
 const securyCodeSchema = z
   .string({
-    required_error: 'Campo obrigatório',
+    required_error: VALIDATION_ERRORS.required,
   })
-  .min(3, 'Dever conter pelo menos 3 dígitos')
-  .max(4, 'Dever conter no máximo 4 dígitos')
+  .min(3, VALIDATION_ERRORS.creditCardSecurityCode.min)
+  .max(4, VALIDATION_ERRORS.creditCardSecurityCode.max)
 
 const number = z.string({
-  required_error: 'Campo obrigatório',
+  required_error: VALIDATION_ERRORS.required,
 })
 
 const creditCardExpirationDateSchema = z
   .string({
-    required_error: 'Campo obrigatório',
+    required_error: VALIDATION_ERRORS.required,
   })
-  .length(4, 'Digite no formato dd/yy')
+  .length(4, VALIDATION_ERRORS.creditCardExpirationDate.length)
 
 const complementSchema = z.string().optional()
 
