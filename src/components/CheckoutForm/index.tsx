@@ -1,17 +1,19 @@
+import { useRef } from 'react'
 import { Button, YStack } from 'tamagui'
 
 import { Step1 } from '@/components/CheckoutForm/Step1'
 import { Step2 } from '@/components/CheckoutForm/Step2'
 import { Step3 } from '@/components/CheckoutForm/Step3'
 import { useCheckoutForm } from '@/components/CheckoutForm/useCheckoutForm'
+import { DialogRef } from '@/components/Dialog'
 import { EmailDialog } from '@/components/Dialog/EmailDialog'
 import { useCheckoutStore } from '@/stores/checkoutStore'
 
 export function CheckoutForm() {
   const step = useCheckoutStore((store) => store.state.step)
-  const { emailDialogRef, handleEmailDialogFallback } = useCheckoutForm()
+  const emailDialogRef = useRef<DialogRef | null>(null)
 
-  console.log({ step })
+  useCheckoutForm(emailDialogRef.current?.open ?? null)
 
   return (
     <>
@@ -19,7 +21,11 @@ export function CheckoutForm() {
         label="Identifique-se"
         ref={emailDialogRef}
         fallback={
-          <Button unstyled color="$blue500" onPress={handleEmailDialogFallback}>
+          <Button
+            unstyled
+            color="$blue500"
+            onPress={() => emailDialogRef.current?.close()}
+          >
             Continuar sem usar dados de cadastro
           </Button>
         }
