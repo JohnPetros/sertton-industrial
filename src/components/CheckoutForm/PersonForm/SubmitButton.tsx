@@ -15,13 +15,18 @@ export function SubmitButton({
   const pathname = usePathname()
 
   return (
-    <Button mt={24} onPress={handleSubmit} disabled={isSubmitting}>
+    <Button
+      testID="submit-button"
+      mt={24}
+      onPress={handleSubmit}
+      disabled={isSubmitting}
+    >
       {isSubmitting ? (
-        <Spinner color="$white" />
+        <Spinner testID="spinner" color="$white" />
       ) : pathname === '/profile' ? (
         'Atualizar cadastro'
       ) : (
-        'Cadastrar'
+        'Continuar'
       )}
     </Button>
   )
