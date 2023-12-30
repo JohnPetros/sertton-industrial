@@ -19,43 +19,6 @@ export function useProfile() {
   const alertRef = useRef<AlertRef | null>(null)
   const api = useApi()
 
-  // type NaturalPersonFieldName = keyof typeof personFormData.naturalPerson
-  // type LegalPersonFieldName = keyof typeof personFormData.legalPerson
-
-  // function checkUnsavedCustomerData() {
-  //   if (!customer || !originalPersonData.current) return false
-
-  //   if (customer?.type === 'f') {
-  //     const { naturalPerson } = personFormData
-  //     const originalNaturalPersonData = originalPersonData.current.naturalPerson
-
-  //     for (const fieldName of Object.keys(naturalPerson)) {
-  //       if (
-  //         originalNaturalPersonData[fieldName as NaturalPersonFieldName] !==
-  //         naturalPerson[fieldName as NaturalPersonFieldName]
-  //       )
-  //         return true
-  //     }
-
-  //     return false
-  //   }
-
-  //   if (customer?.type === 'j') {
-  //     const { legalPerson } = personFormData
-  //     const originalLegalPersonData = originalPersonData.current.legalPerson
-
-  //     for (const fieldName of Object.keys(legalPerson)) {
-  //       if (
-  //         originalLegalPersonData[fieldName as LegalPersonFieldName] !==
-  //         legalPerson[fieldName as LegalPersonFieldName]
-  //       )
-  //         return true
-  //     }
-
-  //     return false
-  //   }
-  // }
-
   async function handleFormSubmit(_: string, setFormError: SetFormError) {
     if (!originalPersonData.current || !customer) return
 

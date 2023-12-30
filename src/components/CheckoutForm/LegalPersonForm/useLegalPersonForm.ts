@@ -1,10 +1,8 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { usePathname } from 'expo-router'
 
 import { LegalPersonFormFields, legalPersonFormSchema } from '@/libs/zod'
-import { useApi } from '@/services/api'
 import { useCheckoutStore } from '@/stores/checkoutStore'
 
 type FieldName = keyof LegalPersonFormFields
@@ -25,8 +23,6 @@ export function useLegalPesonForm(
     mode: 'onBlur',
     resolver: zodResolver(legalPersonFormSchema),
   })
-  const api = useApi()
-  const pathname = usePathname()
 
   const personFormData = useCheckoutStore((store) => store.state.personFormData)
   const setPersonFormData = useCheckoutStore(
@@ -48,31 +44,6 @@ export function useLegalPesonForm(
   }
 
   async function handleFormSubmit() {
-    if (pathname === '/profile') {
-      onSubmit('legal', setLegalPersonFormError)
-    }
-
-    const customer = await api.getCustomerByEmail(
-      personFormData.naturalPerson.email
-    )
-
-    if (customer) {
-      setError('email', {
-        message: 'E-mail já cadastrado',
-      })
-      return
-    }
-
-    const hasCustomer = await api.checkCustomerDocument(
-      personFormData.legalPerson.cnpj
-    )
-
-    if (hasCustomer) {
-      setError('cnpj', {
-        message: 'CNPJ já cadastrado',
-      })
-      return
-    }
     onSubmit('legal', setLegalPersonFormError)
   }
 

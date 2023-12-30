@@ -1,8 +1,11 @@
 import { useEffect } from 'react'
 
+import { Customer } from '@/@types/customer'
 import { useCustomerContext } from '@/contexts/CustomerContext'
 import { useApi } from '@/services/api'
 import { useCheckoutStore } from '@/stores/checkoutStore'
+
+type SetFormError = (fieldName: string, message: string) => void
 
 export function usePersonForm(onSuccess: () => void) {
   const personFormData = useCheckoutStore((store) => store.state.personFormData)
@@ -11,31 +14,94 @@ export function usePersonForm(onSuccess: () => void) {
   )
   const api = useApi()
 
-  const { customer, fetchCustomerByEmail } = useCustomerContext()
+  const { customer, updateCustomer, fetchCustomerByEmail } =
+    useCustomerContext()
 
-  async function handleSubmit(personType: 'legal' | 'natural') {
+  async function handleSubmit(
+    personType: 'legal' | 'natural',
+    setFormError: SetFormError
+  ) {
     try {
       if (personType === 'natural') {
         const { naturalPerson } = personFormData
-        await api.createCustomer({
+
+        console.log(customer?.email)
+
+        if (!customer || customer.email !== naturalPerson.email) {
+          const hasRepeatedEmail = await api.getCustomerByEmail(
+            naturalPerson.email
+          )
+          if (hasRepeatedEmail) {
+            setFormError('email', 'E-mail já utilizado por outro usuário')
+            return
+          }
+        }
+
+        if (!customer || customer.cpf !== naturalPerson.cpf) {
+          const hasRepeatedCpf = await api.checkCustomerDocument(
+            naturalPerson.cpf
+          )
+          if (hasRepeatedCpf) {
+            setFormError('cpf', 'CPF já utilizado por outro usuário')
+            return
+          }
+        }
+
+        const naturalPersonFormData: Omit<Customer, 'id'> = {
           type: 'f',
           active: true,
           name: naturalPerson.name,
           email: naturalPerson.email,
           cpf: naturalPerson.cpf,
           homephone: naturalPerson.phone,
-        })
+        }
+
+        if (customer) {
+          updateCustomer(naturalPersonFormData)
+          onSuccess()
+          return
+        }
+
+        await api.createCustomer(naturalPersonFormData)
       } else if (personType === 'legal') {
         const { legalPerson } = personFormData
 
-        await api.createCustomer({
+        if (!customer || customer.email !== legalPerson.email) {
+          const hasRepeatedEmail = await api.getCustomerByEmail(
+            personFormData.legalPerson.email
+          )
+          if (hasRepeatedEmail) {
+            setFormError('email', 'E-mail já utilizado por outro usuário')
+            return
+          }
+        }
+
+        if (!customer || customer.cnpj !== legalPerson.cnpj) {
+          const hasRepeatedCpf = await api.checkCustomerDocument(
+            legalPerson.cnpj
+          )
+          if (hasRepeatedCpf) {
+            setFormError('cnpj', 'CNPJ já utilizado por outro usuário')
+            return
+          }
+        }
+
+        const legalPersonFormData: Omit<Customer, 'id'> = {
           type: 'j',
           active: true,
           razao_social: legalPerson.razaoSocial,
           cnpj: legalPerson.cnpj,
           email: legalPerson.email,
           homephone: legalPerson.phone,
-        })
+        }
+
+        if (customer) {
+          updateCustomer(legalPersonFormData)
+          onSuccess()
+          return
+        }
+
+        await api.createCustomer(legalPersonFormData)
       }
 
       onSuccess()
