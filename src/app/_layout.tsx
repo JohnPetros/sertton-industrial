@@ -2,7 +2,6 @@ import { Suspense, useEffect } from 'react'
 import { useColorScheme } from 'react-native'
 import { StatusBar } from 'react-native'
 import ErrorBoundary from 'react-native-error-boundary'
-import { QueryClient, QueryClientProvider } from 'react-query'
 import { PortalProvider } from '@gorhom/portal'
 import { useFonts } from 'expo-font'
 import { SplashScreen, Stack } from 'expo-router'
@@ -17,6 +16,7 @@ import { CustomerProvider } from '@/contexts/CustomerContext'
 import { axiosApi } from '@/libs/axios'
 import { dayjsProvider } from '@/libs/dayjs'
 import { mmkvStorage } from '@/libs/mmkv'
+import { QueryClientProvider } from '@/providers/QueryClientProvider'
 import { ToastProvider } from '@/providers/ToastProvider'
 import { initializeApi } from '@/services/api'
 import { initializeDateProvider } from '@/services/date'
@@ -27,8 +27,6 @@ SplashScreen.preventAutoHideAsync()
 initializeStorage(mmkvStorage)
 initializeDateProvider(dayjsProvider)
 initializeApi(axiosApi)
-
-const queryClient = new QueryClient()
 
 export default function Layout() {
   const colorScheme = useColorScheme()
@@ -48,38 +46,36 @@ export default function Layout() {
   if (!loaded) return null
 
   return (
-    <>
-      <QueryClientProvider client={queryClient}>
-        <TamaguiProvider>
-          <ToastProvider>
-            <CustomerProvider>
-              <ErrorBoundary
-                onError={handleAppError}
-                FallbackComponent={AppError}
-              >
-                <PortalProvider>
-                  <Suspense fallback={<Text>Loading...</Text>}>
-                    <Theme name={colorScheme}>
-                      <StyledSafeAreaView>
-                        <StatusBar
-                          backgroundColor={'#f5f1f1'}
-                          translucent
-                          barStyle="dark-content"
-                        />
-                        <Stack
-                          screenOptions={{
-                            headerShown: false,
-                          }}
-                        />
-                      </StyledSafeAreaView>
-                    </Theme>
-                  </Suspense>
-                </PortalProvider>
-              </ErrorBoundary>
-            </CustomerProvider>
-          </ToastProvider>
-        </TamaguiProvider>
-      </QueryClientProvider>
-    </>
+    <QueryClientProvider>
+      <TamaguiProvider>
+        <ToastProvider>
+          <CustomerProvider>
+            <ErrorBoundary
+              onError={handleAppError}
+              FallbackComponent={AppError}
+            >
+              <PortalProvider>
+                <Suspense fallback={<Text>Loading...</Text>}>
+                  <Theme name={colorScheme}>
+                    <StyledSafeAreaView>
+                      <StatusBar
+                        backgroundColor={'#f5f1f1'}
+                        translucent
+                        barStyle="dark-content"
+                      />
+                      <Stack
+                        screenOptions={{
+                          headerShown: false,
+                        }}
+                      />
+                    </StyledSafeAreaView>
+                  </Theme>
+                </Suspense>
+              </PortalProvider>
+            </ErrorBoundary>
+          </CustomerProvider>
+        </ToastProvider>
+      </TamaguiProvider>
+    </QueryClientProvider>
   )
 }
