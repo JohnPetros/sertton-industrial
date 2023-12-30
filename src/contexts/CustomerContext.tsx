@@ -145,7 +145,6 @@ export function CustomerProvider({ children }: CustomerProviderProps) {
   }
 
   function setSelectedAddressZipcode(zipcode: string) {
-    console.log({ zipcode })
     customerZipcodeMutation.mutate(zipcode)
   }
 

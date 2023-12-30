@@ -12,4 +12,5 @@ export type DateProvider = {
   }
   getDiffInSeconds: (currentDate: Date, futureDate: Date) => number
   format(date: Date, format: DateFormat): string
+  localize(date: Date): Date
 }

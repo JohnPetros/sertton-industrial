@@ -18,9 +18,11 @@ export function useCheckoutForm() {
       emailDialogRef.current.open()
       return
     }
-
-    setStep(2)
   }, [customer, emailDialogRef.current])
+
+  useEffect(() => {
+    if (customer) setStep(2)
+  }, [])
 
   return {
     emailDialogRef,

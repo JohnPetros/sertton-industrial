@@ -29,6 +29,7 @@ export function LegalPersonForm({ onSubmit }: LegalPersonFormProps) {
         name="email"
         render={({ field: { onChange, value, name } }) => (
           <Input
+            testID={name}
             label="E-mail"
             icon={Envelope}
             placeholder="Exemplo: maria@gmail.com"
@@ -43,6 +44,7 @@ export function LegalPersonForm({ onSubmit }: LegalPersonFormProps) {
         name="razaoSocial"
         render={({ field: { onChange, value, name } }) => (
           <Input
+            testID={name}
             label="Razão social"
             icon={ComputerTower}
             placeholder="Exemplo: Maria de Almeira LTDA"
@@ -58,6 +60,7 @@ export function LegalPersonForm({ onSubmit }: LegalPersonFormProps) {
         name="cnpj"
         render={({ field: { onChange, value, name } }) => (
           <Input
+            testID={name}
             label="CNPJ"
             keyboardType="numeric"
             icon={CreditCard}
@@ -76,6 +79,7 @@ export function LegalPersonForm({ onSubmit }: LegalPersonFormProps) {
         name="phone"
         render={({ field: { onChange, value, name } }) => (
           <Input
+            testID={name}
             label="Celular / Whatsapp"
             keyboardType="numeric"
             placeholder="(12) 98881-5499"

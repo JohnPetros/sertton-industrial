@@ -15,6 +15,7 @@ export function useRefetchOnFocus({ refetch, canRefetch = true }: Params) {
 
   useEffect(() => {
     if (isScreenFocused && canRefetch) {
+      console.log('OIIIIIIIIIIIIIIIIIIIIIIIIIIIIII')
       refetch()
     }
   }, [canRefetch, isScreenFocused, refetch])

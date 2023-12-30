@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router/src/hooks'
-import { ArrowLeft, User } from 'phosphor-react-native'
-import { getTokens, H1, YStack } from 'tamagui'
+import { User } from 'phosphor-react-native'
+import { H1, YStack } from 'tamagui'
 
 import { BackButton } from '@/components/BackButton'
 import { Button } from '@/components/Button'

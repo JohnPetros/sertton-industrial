@@ -40,6 +40,7 @@ export function Input({
   secureTextEntry,
   max,
   mask,
+  testID,
   isLoading = false,
   subLabel,
   error,
@@ -91,6 +92,7 @@ export function Input({
           autoCapitalize={autoCapitalize}
           autoFocus={autoFocus}
           secureTextEntry={secureTextEntry}
+          testID={testID}
         />
       </XStack>
       {error && (

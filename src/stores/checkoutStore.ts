@@ -42,7 +42,7 @@ export type CheckoutStoreProps = {
   actions: CheckoutStoreActions
 }
 
-const initialState: CheckoutStoreState = {
+export const initialCheckoutStoreState: CheckoutStoreState = {
   step: 2,
   personFormData: {
     naturalPerson: {
@@ -82,7 +82,7 @@ const initialState: CheckoutStoreState = {
 export const useCheckoutStore = create<CheckoutStoreProps>()(
   immer((set) => {
     return {
-      state: initialState,
+      state: initialCheckoutStoreState,
       actions: {
         setPersonFormData(
           personType: PersonType,
@@ -133,9 +133,10 @@ export const useCheckoutStore = create<CheckoutStoreProps>()(
             state.transaction = transaction
           })
         },
+
         resetState() {
           return set({
-            state: initialState,
+            state: initialCheckoutStoreState,
           })
         },
       },

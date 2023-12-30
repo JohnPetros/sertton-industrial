@@ -1,4 +1,4 @@
-import { H2, YStack } from 'tamagui'
+import { H2, Spinner, YStack } from 'tamagui'
 
 import { Button } from '@/components/Button'
 import { Input } from '@/components/Form/Input'
@@ -6,7 +6,8 @@ import { useLeadsCapture } from '@/components/LeadCapture/useLeadsCapture'
 import { SCREEN } from '@/utils/constants/screen'
 
 export function LeadCapture() {
-  const { email, error, handleEmailChange, handleSubmit } = useLeadsCapture()
+  const { email, error, isLoading, handleEmailChange, handleSubmit } =
+    useLeadsCapture()
 
   return (
     <YStack gap={24} bg="$white" py={32} px={SCREEN.paddingX}>
@@ -19,7 +20,9 @@ export function LeadCapture() {
         error={error}
         placeholder="Digite seu e-mail"
       />
-      <Button onPress={handleSubmit}>Inscrever-se</Button>
+      <Button onPress={handleSubmit}>
+        {isLoading ? <Spinner color="$white" /> : 'Inscrever-se'}
+      </Button>
     </YStack>
   )
 }

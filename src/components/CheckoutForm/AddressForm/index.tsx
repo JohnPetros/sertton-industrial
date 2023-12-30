@@ -211,9 +211,9 @@ export function AddressForm() {
           </RadioGroup>
         )}
 
-        {selectedAddressZipcode &&
+        {/* {selectedAddressZipcode &&
           isAddressRadioGroupVisible &&
-          pathname !== '/profile' && <ShipmentServiceForm />}
+          pathname !== '/profile' && <ShipmentServiceForm />} */}
       </YStack>
     </KeyboardHandlerView>
   )

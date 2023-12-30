@@ -19,8 +19,13 @@ import { SCREEN } from '@/utils/constants/screen'
 const PRODUCT_CART_ITEM_WIDTH = SCREEN.width - SCREEN.paddingX * 2
 
 export default function CartScreen() {
-  const { products, isLoading, totalCartItems, handleRemoveAllItems } =
-    useCart()
+  const {
+    products,
+    isLoading,
+    totalCartItems,
+    isFetching,
+    handleRemoveAllItems,
+  } = useCart()
   const isCartEmpty = totalCartItems <= 0
 
   return (
@@ -52,7 +57,7 @@ export default function CartScreen() {
             icon={ShoppingCart}
             callback={<Button>Procurar produtos</Button>}
           />
-        ) : isLoading ? (
+        ) : isLoading || isFetching ? (
           <FlatList
             key="cart-items-loading"
             data={cartItemsMock.slice(0, totalCartItems)}
@@ -75,6 +80,7 @@ export default function CartScreen() {
             <FlashList
               key="cart-items"
               data={products}
+              extraData={isFetching}
               keyExtractor={(item) => String(item.id)}
               estimatedItemSize={200}
               renderItem={({ item }) => (

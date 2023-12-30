@@ -34,6 +34,10 @@ export function NumberInput({
     onChangeNumber(numberValue)
   }, [numberValue])
 
+  useEffect(() => {
+    onChangeNumber(number)
+  }, [number])
+
   return (
     <XStack gap={12} alignItems="center" justifyContent="center">
       <Button

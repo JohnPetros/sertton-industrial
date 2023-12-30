@@ -21,7 +21,7 @@ export function usePaymentForm() {
 
   const { customer } = useCustomerContext()
   const { products, getSelectedSkus } = useCart()
-  const { totalDiscount, totalToPay } = useCartSummary(products ?? [])
+  const { totalDiscount, totalToPay, subtotal } = useCartSummary(products ?? [])
 
   const setTransaction = useCheckoutStore(
     (store) => store.actions.setTransaction
@@ -94,7 +94,7 @@ export function usePaymentForm() {
       })
     )
 
-    const amount = totalToPay - totalDiscount + shipmentService.price
+    const amount = subtotal - totalDiscount + shipmentService.price
     const paymentId = await getPaymentConfigId()
 
     if (!paymentId) {
@@ -133,7 +133,9 @@ export function usePaymentForm() {
         customer_id: customer.id,
         days_delivery: 3,
         number: generateRandomNumber(),
-        value_products: totalToPay,
+        value_products: subtotal,
+        shipment_service: shipmentService.name,
+        value_shipment: shipmentService.price,
         value_discount: totalDiscount,
         value_total: amount,
         items: products
@@ -145,14 +147,12 @@ export function usePaymentForm() {
             return {
               product_id: product.id,
               quantity: product.quantity,
-              price: selectedSku?.price_sale ?? 0,
+              price: selectedSku?.price_discount ?? 0,
               sku_id: selectedSku?.id ?? 0,
               sku: selectedSku?.sku,
             }
           })
           .slice(1),
-        shipment_service: shipmentService.name,
-        value_shipment: shipmentService.price,
         address: [
           {
             ...selectedAddress,

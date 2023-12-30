@@ -7,6 +7,7 @@ import { Dialog } from '@/components/Dialog'
 import { useCartDialog } from '@/components/Dialog/CartDialog/useCartDialog'
 import { NumberInput } from '@/components/NumberInput'
 import { SkuSelects } from '@/components/SkuSelects'
+import { SCREEN } from '@/utils/constants/screen'
 
 interface CartDialogProps {
   children: ReactNode
@@ -31,6 +32,7 @@ export function CartDialog({ children, product }: CartDialogProps) {
     <Dialog
       ref={dialogRef}
       title="Adicionar ao carrinho"
+      width={SCREEN.width - SCREEN.paddingX * 2}
       content={
         <YStack mt={8}>
           <YStack

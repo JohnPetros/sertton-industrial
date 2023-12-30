@@ -1,6 +1,8 @@
+import { useEffect } from 'react'
 import { useQuery } from 'react-query'
 
 import type { ComputedProduct } from '@/@types/computedProduct'
+import { useRefetchOnFocus } from '@/hooks/useRefetchOnFocus'
 import { useApi } from '@/services/api'
 import { useCartStore } from '@/stores/cartStore'
 
@@ -26,10 +28,12 @@ export function useCart() {
     return products
   }
 
-  const { data, error, isLoading } = useQuery(
+  const { data, error, isLoading, isFetching, refetch } = useQuery(
     ['cart-products'],
     getCartProducts
   )
+
+  useRefetchOnFocus({ refetch })
 
   function handleRemoveAllItems() {
     removeAllItems()
@@ -59,6 +63,7 @@ export function useCart() {
   return {
     products: data,
     totalCartItems: items.length,
+    isFetching,
     error,
     isLoading,
     getSelectedSkus,

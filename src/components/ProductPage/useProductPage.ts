@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
-import { useFocusEffect, useNavigation, useRouter } from 'expo-router'
+import { useFocusEffect, useRouter } from 'expo-router'
 import { ScrollView } from 'tamagui'
 
 import type { Sku } from '@/@types/sku'
@@ -38,7 +38,6 @@ export function useProductPage(slug: string) {
   const quantity = useRef(1)
 
   const router = useRouter()
-  const navigation = useNavigation()
 
   const hasVariations = Boolean(
     skuSelectsRef.current?.selectedSku?.variations.length

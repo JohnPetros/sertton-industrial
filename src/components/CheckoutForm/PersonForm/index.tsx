@@ -20,14 +20,14 @@ export function PersonForm({ onSuccess }: PersonFormProps) {
         tabs={[
           {
             title: 'Pessoa física',
-            value: 'reviews',
+            value: 'natural-person',
             icon: User,
             size: 600,
             content: <NaturalPersonForm onSubmit={handleSubmit} />,
           },
           {
             title: 'Pessoa jurídica',
-            value: 'questions',
+            value: 'legal-person',
             icon: Buildings,
             size: 600,
             content: <LegalPersonForm onSubmit={handleSubmit} />,

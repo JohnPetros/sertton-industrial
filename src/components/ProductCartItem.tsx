@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { usePathname } from 'expo-router/src/hooks'
 import { Trash } from 'phosphor-react-native'
 import { getTokens, XStack, YStack } from 'tamagui'
 
@@ -35,6 +36,7 @@ export function ProductCartItem({
   const setItemQuantity = useCartStore((store) => store.actions.setItemQuantity)
 
   const isSKeletonVisible = isLoading || !selectedSku
+  const pathname = usePathname()
 
   const halfWidth = (width - GAP) / 2
   const hasVariations = Boolean(selectedSku?.variations.length)
@@ -81,6 +83,7 @@ export function ProductCartItem({
         <Skeleton isVisible={isSKeletonVisible} height={24} width={40}>
           {selectedSku && hasVariations && (
             <List
+              bgColor={pathname === '/checkout' ? '$white' : '$gray50'}
               items={selectedSku.variations.map(
                 (variation) => `${variation.name}: ${variation.value}`
               )}
@@ -90,6 +93,7 @@ export function ProductCartItem({
 
         <Skeleton height={40} isVisible={isSKeletonVisible}>
           <NumberInput
+            key={quantity}
             label="Quantidade do produto"
             number={quantity}
             onChangeNumber={handleQuantityChange}

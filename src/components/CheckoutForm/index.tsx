@@ -11,6 +11,8 @@ export function CheckoutForm() {
   const step = useCheckoutStore((store) => store.state.step)
   const { emailDialogRef, handleEmailDialogFallback } = useCheckoutForm()
 
+  console.log({ step })
+
   return (
     <>
       <EmailDialog
