@@ -19,11 +19,6 @@ import { shipmentServiceController } from '@/services/api/shipmentServiceControl
 import { skusController } from '@/services/api/skusController'
 import { variationsController } from '@/services/api/variationsController'
 
-const BASE_URL = process.env.YAMPI_BASE_URL
-const ALIAS = process.env.ALIAS
-const TOKEN = process.env.YAMPI_TOKEN
-const SECRET_KEY = process.env.YAMPI_SECRET_KEY
-
 let api: Api
 
 export function initializeApi(initialApi: Api) {
@@ -33,10 +28,6 @@ export function initializeApi(initialApi: Api) {
 export function useApi() {
   if (!api) {
     throw new Error('useApi must be used with a api instance')
-  }
-
-  if (!BASE_URL || !ALIAS || !TOKEN || !SECRET_KEY) {
-    throw new Error('invalid API env vars')
   }
 
   api.setDefaultConfig()

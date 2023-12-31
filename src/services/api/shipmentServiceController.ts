@@ -4,7 +4,10 @@ import type { Sku } from '@/@types/sku'
 import { IShipmentServiceController } from '@/services/api/interfaces/IShipmentServiceController'
 import { Resources } from '@/services/api/resources'
 
-const SHIPMENT_SERVICE_BASE_URL = process.env.SHIPMENT_SERVICE_BASE_URL
+const IS_TEST_ENV = process.env.NODE_ENV === 'test'
+const SHIPMENT_SERVICE_BASE_URL = !IS_TEST_ENV
+  ? process.env.SHIPMENT_SERVICE_BASE_URL
+  : 'msw'
 
 export function shipmentServiceController(
   api: Api

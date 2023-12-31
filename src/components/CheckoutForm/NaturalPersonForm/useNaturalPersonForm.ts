@@ -25,9 +25,6 @@ export function useNaturalPesonForm(
     mode: 'onBlur',
     resolver: zodResolver(naturalPersonFormSchema),
   })
-  const api = useApi()
-  const pathname = usePathname()
-  const isProfileScreen = pathname === '/profile'
 
   const personFormData = useCheckoutStore((store) => store.state.personFormData)
   const setPersonFormData = useCheckoutStore(
@@ -49,27 +46,6 @@ export function useNaturalPesonForm(
   }
 
   async function handleFormSubmit() {
-    const customer = await api.getCustomerByEmail(
-      personFormData.naturalPerson.email
-    )
-
-    if (customer && !isProfileScreen) {
-      setError('email', {
-        message: 'E-mail já cadastrado',
-      })
-      return
-    }
-
-    const hasCustomer = await api.checkCustomerDocument(
-      personFormData.naturalPerson.cpf
-    )
-
-    if (hasCustomer && !isProfileScreen) {
-      setError('cpf', {
-        message: 'CPF já cadastrado',
-      })
-      return
-    }
     onSubmit('natural', setNaturalPersonFormError)
   }
 

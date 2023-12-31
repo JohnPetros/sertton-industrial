@@ -2,10 +2,12 @@ import axios, { isAxiosError } from 'axios'
 
 import type { Api } from '@/@types/api'
 
-const BASE_URL = process.env.YAMPI_BASE_URL
-const ALIAS = process.env.ALIAS
-const TOKEN = process.env.YAMPI_TOKEN
-const SECRET_KEY = process.env.YAMPI_SECRET_KEY
+const IS_TEST_ENV = process.env.NODE_ENV === 'test'
+
+const BASE_URL = !IS_TEST_ENV ? process.env.YAMPI_BASE_URL : 'msw'
+const ALIAS = !IS_TEST_ENV ? process.env.ALIAS : 'alias'
+const TOKEN = !IS_TEST_ENV ? process.env.YAMPI_TOKEN : 'token'
+const SECRET_KEY = !IS_TEST_ENV ? process.env.YAMPI_SECRET_KEY : 'secret_token'
 
 const axiosClient = axios.create()
 

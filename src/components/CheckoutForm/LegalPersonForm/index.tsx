@@ -49,7 +49,9 @@ export function LegalPersonForm({ onSubmit }: LegalPersonFormProps) {
             icon={ComputerTower}
             placeholder="Exemplo: Maria de Almeira LTDA"
             value={value}
-            onChangeText={() => handleInputChange(onChange, value, name)}
+            onChangeText={(razaoSocial) =>
+              handleInputChange(onChange, razaoSocial, name)
+            }
             error={errors.razaoSocial?.message}
           />
         )}

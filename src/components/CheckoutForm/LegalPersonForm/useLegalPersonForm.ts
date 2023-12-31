@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -35,13 +35,16 @@ export function useLegalPesonForm(
     return !!personFormData.legalPerson[filedName as FieldName]
   }
 
-  function setLegalPersonFormError(fieldName: string, message: string) {
-    if (checkNaturalPersonFormField(fieldName)) {
-      setError(fieldName, {
-        message,
-      })
-    }
-  }
+  const setLegalPersonFormError = useCallback(
+    (fieldName: string, message: string) => {
+      if (checkNaturalPersonFormField(fieldName)) {
+        setError(fieldName, {
+          message,
+        })
+      }
+    },
+    []
+  )
 
   async function handleFormSubmit() {
     onSubmit('legal', setLegalPersonFormError)
@@ -70,6 +73,7 @@ export function useLegalPesonForm(
     control,
     errors,
     isSubmitting,
+    setLegalPersonFormError,
     handleInputChange,
     handleSubmit: handleSubmit(handleFormSubmit),
   }

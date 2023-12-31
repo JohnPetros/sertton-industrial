@@ -7,11 +7,19 @@ import { IPaymentController } from '@/services/api/interfaces/IPaymentController
 import { Resources } from '@/services/api/resources'
 import { removeAccents } from '@/utils/helpers/removeAccents'
 
-const SHIPMENT_SERVICE_BASE_URL = process.env.SHIPMENT_SERVICE_BASE_URL
-const PAGAR_ME_API_URL =
-  process.env.PAGAR_ME_API_URL ?? 'https://api.pagar.me/core/v5'
-const PAGAR_ME_PUBLIC_KEY =
-  process.env.PAGAR_ME_PUBLIC_KEY ?? 'pk_test_BZWPlABHzhPj0K74'
+const IS_TEST_ENV = process.env.NODE_ENV === 'test'
+
+const TEST_BASE_URL = 'msw'
+
+const SHIPMENT_SERVICE_BASE_URL = !IS_TEST_ENV
+  ? process.env.SHIPMENT_SERVICE_BASE_URL
+  : TEST_BASE_URL
+const PAGAR_ME_API_URL = !IS_TEST_ENV
+  ? process.env.PAGAR_ME_API_URL
+  : TEST_BASE_URL
+const PAGAR_ME_PUBLIC_KEY = !IS_TEST_ENV
+  ? process.env.PAGAR_ME_PUBLIC_KEY
+  : TEST_BASE_URL
 
 export function paymentController(api: Api): IPaymentController {
   if (!SHIPMENT_SERVICE_BASE_URL)

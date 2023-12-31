@@ -8,7 +8,7 @@ interface TitleProps {
 
 export function Heading({ step, title, subtitle }: TitleProps) {
   return (
-    <YStack gap={8}>
+    <YStack gap={8} testID={`step-${step}`}>
       <XStack gap={8} alignItems="center">
         <View
           w={32}

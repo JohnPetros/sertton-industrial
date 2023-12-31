@@ -25,8 +25,6 @@ export function usePersonForm(onSuccess: () => void) {
       if (personType === 'natural') {
         const { naturalPerson } = personFormData
 
-        console.log(customer?.email)
-
         if (!customer || customer.email !== naturalPerson.email) {
           const hasRepeatedEmail = await api.getCustomerByEmail(
             naturalPerson.email
