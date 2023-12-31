@@ -3,8 +3,9 @@
 
 const config = {
   preset: 'jest-expo',
+  coveragePathIgnorePatterns: ['node_modules'],
+  setupFiles: ['<rootDir>/src/tests/config/envVars.ts'],
   setupFilesAfterEnv: ['@testing-library/jest-native/extend-expect'],
-  // modulePathIgnorePatterns: ['mocks'],
   // transformIgnorePatterns: [
   //   'node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)',
   // ],
