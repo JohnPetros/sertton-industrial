@@ -29,6 +29,7 @@ export function NaturalPersonForm({ onSubmit }: NaturalPersonFormProps) {
         name="email"
         render={({ field: { onChange, value, name } }) => (
           <Input
+            testID={name}
             label="E-mail"
             keyboardType="email-address"
             icon={Envelope}
@@ -46,6 +47,7 @@ export function NaturalPersonForm({ onSubmit }: NaturalPersonFormProps) {
         name="name"
         render={({ field: { onChange, value, name } }) => (
           <Input
+            testID={name}
             label="Nome completo"
             placeholder="Maria Joaquina dos Santos"
             icon={User}
@@ -63,6 +65,7 @@ export function NaturalPersonForm({ onSubmit }: NaturalPersonFormProps) {
         name="cpf"
         render={({ field: { onChange, value, name } }) => (
           <Input
+            testID={name}
             label="CPF"
             keyboardType="numeric"
             placeholder="00.000.000-00"
@@ -81,6 +84,7 @@ export function NaturalPersonForm({ onSubmit }: NaturalPersonFormProps) {
         name="phone"
         render={({ field: { onChange, value, name } }) => (
           <Input
+            testID={name}
             keyboardType="numeric"
             label="Celular / Whatsapp"
             placeholder="(12) 98881-5499"
