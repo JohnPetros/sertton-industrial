@@ -6,7 +6,7 @@ import { useToast } from '@/components/Toast/useToast'
 import { useApi } from '@/services/api'
 import { useStorage } from '@/services/storage'
 
-type CustomerContextValue = {
+export type CustomerContextValue = {
   customer: Customer | null
   fetchCustomerByEmail: (email: string) => Promise<boolean>
   updateCustomer: (customer: Partial<Customer>) => void
