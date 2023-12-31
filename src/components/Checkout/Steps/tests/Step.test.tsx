@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react-native'
 
+import { render } from '@/__tests__/customs/customRender'
 import { Step } from '@/components/Checkout/Steps/Step'
-import { render } from '@/tests/render'
 
 describe('Step component', () => {
   it('should render properly', () => {

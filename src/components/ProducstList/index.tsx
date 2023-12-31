@@ -15,7 +15,7 @@ import { Tag } from '@/components/ProducstList/Tag'
 import { useProductsList } from '@/components/ProducstList/useProductList'
 import { useTags } from '@/components/ProducstList/useTags'
 import { ProductItem } from '@/components/ProductItem'
-import { productsMock } from '@/tests/mocks/productsMock'
+import { productsMock } from '@/__tests__/mocks/productsMock'
 import { SCREEN } from '@/utils/constants/screen'
 import { SORTERS } from '@/utils/constants/sorters'
 

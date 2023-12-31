@@ -1,6 +1,6 @@
 import { Product } from '@/@types/product'
-import { brandsMock } from '@/tests/mocks/brandsMock'
-import { skusMock } from '@/tests/mocks/skusMock'
+import { brandsMock } from '@/__tests__/mocks/brandsMock'
+import { skusMock } from '@/__tests__/mocks/skusMock'
 
 export const productsMock: Product[] = [
   {

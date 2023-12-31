@@ -1,8 +1,8 @@
 import { act, renderHook } from '@testing-library/react-native'
 
-import { legalPersonMock } from '@/__tests__/mocks/legalPersonMock'
-import { useLegalPesonForm } from '@/components/CheckoutForm/LegalPersonForm/useLegalPersonForm'
-import { LegalPersonFormFields } from '@/libs/zod'
+import { naturalPersonMock } from '@/__tests__/mocks/naturalPersonMock'
+import { useNaturalPesonForm } from '@/components/CheckoutForm/NaturalPersonForm/useNaturalPersonForm'
+import { NaturalPersonFormFields } from '@/libs/zod'
 import {
   CheckoutStoreProps,
   initialCheckoutStoreState,
@@ -14,28 +14,28 @@ const onSubmitMock = jest.fn()
 const changeHandlerMock = jest.fn()
 const setPersonFormDataMock = jest.fn()
 
-function mockUseCheckoutStore(legalPersonMock: LegalPersonFormFields) {
+function mockUseCheckoutStore(naturalPersonMock: NaturalPersonFormFields) {
   useCheckoutStore.setState({
     actions: { setStep: setStepMock, setPersonFormData: setPersonFormDataMock },
     state: {
       personFormData: {
-        legalPerson: legalPersonMock,
+        naturalPerson: naturalPersonMock,
       },
     },
   } as unknown as CheckoutStoreProps)
 }
 
-describe('useLegalPersonForm hook', () => {
+describe('useNaturalPersonForm hook', () => {
   beforeEach(() => {
     act(() => {
       useCheckoutStore.setState({ state: initialCheckoutStoreState })
     })
   })
 
-  it('should return legal person form handlers', () => {
-    mockUseCheckoutStore(legalPersonMock)
+  it('should return natural person form handlers', () => {
+    mockUseCheckoutStore(naturalPersonMock)
 
-    const { result } = renderHook(() => useLegalPesonForm(onSubmitMock))
+    const { result } = renderHook(() => useNaturalPesonForm(onSubmitMock))
 
     expect(result.current.handleInputChange).toBeInstanceOf(Function)
     expect(result.current.handleSubmit).toBeInstanceOf(Function)
@@ -43,12 +43,12 @@ describe('useLegalPersonForm hook', () => {
   })
 
   it('should change form fields', () => {
-    mockUseCheckoutStore(legalPersonMock)
+    mockUseCheckoutStore(naturalPersonMock)
 
-    const { result } = renderHook(() => useLegalPesonForm(onSubmitMock))
+    const { result } = renderHook(() => useNaturalPesonForm(onSubmitMock))
 
     const fieldValue = 'field value mock'
-    const fieldName = 'cnpj'
+    const fieldName = 'cpf'
 
     act(() => {
       result.current.handleInputChange(changeHandlerMock, fieldValue, fieldName)
@@ -56,7 +56,7 @@ describe('useLegalPersonForm hook', () => {
 
     expect(changeHandlerMock).toHaveBeenCalledWith(fieldValue)
     expect(setPersonFormDataMock).toHaveBeenCalledWith(
-      'legal',
+      'natural',
       fieldName,
       fieldValue
     )

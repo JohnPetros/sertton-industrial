@@ -6,14 +6,14 @@ import {
   waitFor,
 } from '@testing-library/react-native'
 
+import { render } from '@/__tests__/customs/customRender'
+import { legalPersonMock } from '@/__tests__/mocks/legalPersonMock'
 import { LegalPersonForm } from '@/components/CheckoutForm/LegalPersonForm'
 import { useMask } from '@/components/Form/Input/useMask'
 import {
   initialCheckoutStoreState,
   useCheckoutStore,
 } from '@/stores/checkoutStore'
-import { legalPersonMock } from '@/tests/mocks/legalPersonMock'
-import { render } from '@/tests/render'
 import { VALIDATION_ERRORS } from '@/utils/constants/validationErrors'
 
 jest.mock('expo-router')
@@ -21,6 +21,12 @@ jest.mock('expo-router')
 const onSubmitMock = jest.fn()
 
 describe('Legal Person Form Component', () => {
+  beforeEach(() => {
+    act(() => {
+      useCheckoutStore.setState({ state: initialCheckoutStoreState })
+    })
+  })
+
   it('should render legal person form fields', () => {
     render(<LegalPersonForm onSubmit={onSubmitMock} />)
 

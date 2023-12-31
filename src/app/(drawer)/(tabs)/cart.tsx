@@ -12,7 +12,7 @@ import { Header } from '@/components/Header'
 import { ProductCartItem } from '@/components/ProductCartItem'
 import { Skeleton } from '@/components/Skeleton'
 import { useCart } from '@/hooks/useCart'
-import { cartItemsMock } from '@/tests/mocks/cartItemsMock'
+import { cartItemsMock } from '@/__tests__/mocks/cartItemsMock'
 import { ROUTES } from '@/utils/constants/routes'
 import { SCREEN } from '@/utils/constants/screen'
 

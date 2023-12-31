@@ -1,6 +1,7 @@
 import { Text } from 'react-native'
 import { screen } from '@testing-library/react-native'
 
+import { render } from '@/__tests__/customs/customRender'
 import { CheckoutForm } from '@/components/CheckoutForm'
 import {
   CustomerContext,
@@ -11,7 +12,6 @@ import {
   initialCheckoutStoreState,
   useCheckoutStore,
 } from '@/stores/checkoutStore'
-import { render } from '@/tests/render'
 
 const Step1 = () => <Text>Step 1</Text>
 const Step2 = () => <Text>Step 2</Text>

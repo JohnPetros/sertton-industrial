@@ -6,7 +6,7 @@ import {
   useCustomerContext,
 } from '@/contexts/CustomerContext'
 import { CheckoutStoreProps, useCheckoutStore } from '@/stores/checkoutStore'
-import { customerMock } from '@/tests/mocks/customerMock'
+import { customerMock } from '@/__tests__/mocks/customerMock'
 
 jest.mock('../../../../contexts/CustomerContext.tsx')
 

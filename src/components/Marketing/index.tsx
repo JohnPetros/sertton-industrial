@@ -5,7 +5,7 @@ import { Collection } from '@/components/Marketing/Collection'
 import { useBanners } from '@/components/Marketing/useBanners'
 import { useCollections } from '@/components/Marketing/useCollections'
 import { useMarketing } from '@/components/Marketing/useMarketing'
-import { collectionsMock } from '@/tests/mocks/collectionsMock'
+import { collectionsMock } from '@/__tests__/mocks/collectionsMock'
 
 export function Marketing() {
   const { banners } = useBanners()

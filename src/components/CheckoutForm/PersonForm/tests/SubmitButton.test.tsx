@@ -1,8 +1,8 @@
 import { fireEvent, screen } from '@testing-library/react-native'
 import { usePathname } from 'expo-router'
 
+import { render } from '@/__tests__/customs/customRender'
 import { SubmitButton } from '@/components/CheckoutForm/PersonForm/SubmitButton'
-import { render } from '@/tests/render'
 
 jest.mock('expo-router')
 

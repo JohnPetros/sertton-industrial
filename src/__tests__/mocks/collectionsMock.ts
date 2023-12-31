@@ -1,5 +1,5 @@
 import { Collection } from '@/@types/collection'
-import { productsMock } from '@/tests/mocks/productsMock'
+import { productsMock } from '@/__tests__/mocks/productsMock'
 
 export const collectionsMock: Collection[] = [
   {

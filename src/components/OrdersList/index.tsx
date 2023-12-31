@@ -11,7 +11,7 @@ import { EmptyItemsMessage } from '@/components/EmptyItemsMessage'
 import { OrderItem } from '@/components/OrdersList/OrderItem'
 import { useOrdersList } from '@/components/OrdersList/useOrdersList'
 import { useCustomerContext } from '@/contexts/CustomerContext'
-import { ordersMock } from '@/tests/mocks/ordersMock'
+import { ordersMock } from '@/__tests__/mocks/ordersMock'
 
 export function OrdersList() {
   const { customer } = useCustomerContext()

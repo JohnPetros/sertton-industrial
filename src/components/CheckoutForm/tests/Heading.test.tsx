@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react-native'
 
+import { render } from '@/__tests__/customs/customRender'
 import { Heading } from '@/components/CheckoutForm/Heading'
-import { render } from '@/tests/render'
 
 describe('Heading component', () => {
   it('should step data', () => {

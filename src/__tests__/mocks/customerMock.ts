@@ -1,5 +1,5 @@
 import { Customer } from '@/@types/customer'
-import { addressesMock } from '@/tests/mocks/addressesMock'
+import { addressesMock } from '@/__tests__/mocks/addressesMock'
 
 export const customerMock: Customer = {
   id: 1,

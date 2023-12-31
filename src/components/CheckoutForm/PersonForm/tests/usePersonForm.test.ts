@@ -9,9 +9,9 @@ import { axiosApi } from '@/libs/axios'
 import { initializeApi } from '@/services/api'
 import { Resources } from '@/services/api/resources'
 import { CheckoutStoreProps, useCheckoutStore } from '@/stores/checkoutStore'
-import { customerMock } from '@/tests/mocks/customerMock'
-import { legalPersonMock } from '@/tests/mocks/legalPersonMock'
-import { naturalPersonMock } from '@/tests/mocks/naturalPersonMock'
+import { customerMock } from '@/__tests__/mocks/customerMock'
+import { legalPersonMock } from '@/__tests__/mocks/legalPersonMock'
+import { naturalPersonMock } from '@/__tests__/mocks/naturalPersonMock'
 
 jest.mock('../../../../contexts/CustomerContext')
 

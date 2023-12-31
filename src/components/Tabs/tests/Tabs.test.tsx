@@ -1,9 +1,9 @@
 import { Text } from 'react-native'
 import { fireEvent, screen, waitFor } from '@testing-library/react-native'
 
+import { render } from '@/__tests__/customs/customRender'
+import { tabsMocks } from '@/__tests__/mocks/tabsMock'
 import { Tabs } from '@/components/Tabs'
-import { tabsMocks } from '@/tests/mocks/tabsMock'
-import { render } from '@/tests/render'
 
 function renderComponent(width = 500) {
   return render(
