@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react-native'
 
-import { render } from '@/__tests__/customs/customRender'
+import { render } from '@/_tests_/customs/customRender'
 import { Step } from '@/components/Checkout/Steps/Step'
 
 describe('Step component', () => {

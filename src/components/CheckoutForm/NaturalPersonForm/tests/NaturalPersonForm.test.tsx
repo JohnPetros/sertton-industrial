@@ -6,8 +6,8 @@ import {
   waitFor,
 } from '@testing-library/react-native'
 
-import { render } from '@/__tests__/customs/customRender'
-import { naturalPersonMock } from '@/__tests__/mocks/naturalPersonMock'
+import { render } from '@/_tests_/customs/customRender'
+import { naturalPersonMock } from '@/_tests_/mocks/naturalPersonMock'
 import { NaturalPersonForm } from '@/components/CheckoutForm/NaturalPersonForm'
 import { useMask } from '@/components/Form/Input/useMask'
 import {

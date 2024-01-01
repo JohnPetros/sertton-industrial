@@ -16,7 +16,7 @@
       "@/styles/*": ["./styles/*"],
       "@/assets/*": ["./assets/*"],
       "@/libs/*": ["./libs/*"],
-      "@/__tests__/*": ["./__tests__/*"]
+      "@/_tests_/*": ["./_tests_/*"],
     }
   },
   "include" : ["**/*"],

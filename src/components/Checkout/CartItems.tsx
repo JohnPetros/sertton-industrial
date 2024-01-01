@@ -2,13 +2,13 @@ import { FlatList } from 'react-native'
 import { H2, View, YStack } from 'tamagui'
 import { XStack } from 'tamagui'
 
+import { cartItemsMock } from '@/_tests_/mocks/cartItemsMock'
 import { Accordion } from '@/components/Accordion'
 import { CartSummary } from '@/components/CartSummary'
 import { ProductCartItem } from '@/components/ProductCartItem'
 import { Skeleton } from '@/components/Skeleton'
 import { useCart } from '@/hooks/useCart'
 import { useCheckoutStore } from '@/stores/checkoutStore'
-import { cartItemsMock } from '@/__tests__/mocks/cartItemsMock'
 import { SCREEN } from '@/utils/constants/screen'
 
 const PADDING = 12

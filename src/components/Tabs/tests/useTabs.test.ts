@@ -1,7 +1,7 @@
 import { act, renderHook, waitFor } from '@testing-library/react-native'
 
+import { tabsMocks } from '@/_tests_/mocks/tabsMock'
 import { useTabs } from '@/components/Tabs/useTabs'
-import { tabsMocks } from '@/__tests__/mocks/tabsMock'
 
 describe('useTabs hook', () => {
   it('should active first tab', () => {

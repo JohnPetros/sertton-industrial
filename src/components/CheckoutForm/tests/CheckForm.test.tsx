@@ -1,7 +1,7 @@
 import { Text } from 'react-native'
 import { screen } from '@testing-library/react-native'
 
-import { render } from '@/__tests__/customs/customRender'
+import { render } from '@/_tests_/customs/customRender'
 import { CheckoutForm } from '@/components/CheckoutForm'
 import {
   CustomerContext,

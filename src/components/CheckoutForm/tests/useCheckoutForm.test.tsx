@@ -1,12 +1,12 @@
 import { renderHook } from '@testing-library/react-native'
 
+import { customerMock } from '@/_tests_/mocks/customerMock'
 import { useCheckoutForm } from '@/components/CheckoutForm/useCheckoutForm'
 import {
   CustomerContextValue,
   useCustomerContext,
 } from '@/contexts/CustomerContext'
 import { CheckoutStoreProps, useCheckoutStore } from '@/stores/checkoutStore'
-import { customerMock } from '@/__tests__/mocks/customerMock'
 
 jest.mock('../../../contexts/CustomerContext')
 

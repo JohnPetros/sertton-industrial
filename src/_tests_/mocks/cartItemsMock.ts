@@ -1,5 +1,5 @@
+import { productsMock } from '@/_tests_/mocks/productsMock'
 import { Product } from '@/@types/product'
-import { productsMock } from '@/__tests__/mocks/productsMock'
 
 type CartItem = Product & { quantity: number; selectedSkuId: number }
 

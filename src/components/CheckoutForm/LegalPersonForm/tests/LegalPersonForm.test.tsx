@@ -6,8 +6,8 @@ import {
   waitFor,
 } from '@testing-library/react-native'
 
-import { render } from '@/__tests__/customs/customRender'
-import { legalPersonMock } from '@/__tests__/mocks/legalPersonMock'
+import { render } from '@/_tests_/customs/customRender'
+import { legalPersonMock } from '@/_tests_/mocks/legalPersonMock'
 import { LegalPersonForm } from '@/components/CheckoutForm/LegalPersonForm'
 import { useMask } from '@/components/Form/Input/useMask'
 import {

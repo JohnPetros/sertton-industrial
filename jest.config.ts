@@ -4,16 +4,21 @@
 const config = {
   preset: 'jest-expo',
   coveragePathIgnorePatterns: ['node_modules'],
-  setupFiles: ['<rootDir>/src/__tests__/configs/envVarsConfig.ts'],
+  setupFiles: [
+    'dotenv/config',
+    '<rootDir>/src/_tests_/configs/envVarsConfig.ts',
+  ],
   setupFilesAfterEnv: ['@testing-library/jest-native/extend-expect'],
   testPathIgnorePatterns: [
-    '<rootDir>/src/__tests__/mocks/',
-    '<rootDir>/src/__tests__/customs/',
-    '<rootDir>/src/__tests__/config/',
+    '<rootDir>/src/_tests_/mocks/',
+    '<rootDir>/src/_tests_/customs/',
+    '<rootDir>/src/_tests_/config/',
+    '<rootDir>/src/_tests_/coverage/',
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
+  moduleDirectories: ['node_modules', 'src'],
 }
 
 module.exports = config

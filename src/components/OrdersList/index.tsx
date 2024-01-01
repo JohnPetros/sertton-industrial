@@ -4,6 +4,7 @@ import { Bag } from 'phosphor-react-native'
 import { View } from 'tamagui'
 import { YStack } from 'tamagui'
 
+import { ordersMock } from '@/_tests_/mocks/ordersMock'
 import { Button } from '@/components/Button'
 import { EmailDialog } from '@/components/Dialog/EmailDialog'
 import { SignUpDialog } from '@/components/Dialog/SignUpDialog'
@@ -11,7 +12,6 @@ import { EmptyItemsMessage } from '@/components/EmptyItemsMessage'
 import { OrderItem } from '@/components/OrdersList/OrderItem'
 import { useOrdersList } from '@/components/OrdersList/useOrdersList'
 import { useCustomerContext } from '@/contexts/CustomerContext'
-import { ordersMock } from '@/__tests__/mocks/ordersMock'
 
 export function OrdersList() {
   const { customer } = useCustomerContext()

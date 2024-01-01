@@ -1,4 +1,5 @@
 import { FlatList } from 'react-native'
+import { cartItemsMock } from '_tests_/mocks/cartItemsMock'
 import { FlashList } from '@shopify/flash-list'
 import { Link } from 'expo-router'
 import { ShoppingCart, TrashSimple } from 'phosphor-react-native'
@@ -12,7 +13,6 @@ import { Header } from '@/components/Header'
 import { ProductCartItem } from '@/components/ProductCartItem'
 import { Skeleton } from '@/components/Skeleton'
 import { useCart } from '@/hooks/useCart'
-import { cartItemsMock } from '@/__tests__/mocks/cartItemsMock'
 import { ROUTES } from '@/utils/constants/routes'
 import { SCREEN } from '@/utils/constants/screen'
 

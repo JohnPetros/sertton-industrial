@@ -1,5 +1,4 @@
 process.env.YAMPI_BASE_URL = 'msw'
-process.env.MSW = 'msw'
 process.env.ALIAS = 'alias'
 process.env.YAMPI_TOKEN = 'token'
 process.env.YAMPI_SECRET_KEY = 'secret_token'

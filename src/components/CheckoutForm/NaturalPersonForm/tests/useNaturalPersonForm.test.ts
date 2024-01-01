@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react-native'
 
-import { naturalPersonMock } from '@/__tests__/mocks/naturalPersonMock'
+import { naturalPersonMock } from '@/_tests_/mocks/naturalPersonMock'
 import { useNaturalPesonForm } from '@/components/CheckoutForm/NaturalPersonForm/useNaturalPersonForm'
 import { NaturalPersonFormFields } from '@/libs/zod'
 import {

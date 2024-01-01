@@ -4,6 +4,7 @@ import { Customer } from '@/@types/customer'
 import { useCustomerContext } from '@/contexts/CustomerContext'
 import { useApi } from '@/services/api'
 import { useCheckoutStore } from '@/stores/checkoutStore'
+import { VALIDATION_ERRORS } from '@/utils/constants/validationErrors'
 
 type SetFormError = (fieldName: string, message: string) => void
 
@@ -26,11 +27,13 @@ export function usePersonForm(onSuccess: () => void) {
         const { naturalPerson } = personFormData
 
         if (!customer || customer.email !== naturalPerson.email) {
-          const hasRepeatedEmail = await api.getCustomerByEmail(
-            naturalPerson.email
+          const hasRepeatedEmail = Boolean(
+            await api.getCustomerByEmail(naturalPerson.email)
           )
+
           if (hasRepeatedEmail) {
-            setFormError('email', 'E-mail já utilizado por outro usuário')
+            console.log(setFormError)
+            setFormError('email', VALIDATION_ERRORS.email.inUse)
             return
           }
         }
@@ -39,8 +42,9 @@ export function usePersonForm(onSuccess: () => void) {
           const hasRepeatedCpf = await api.checkCustomerDocument(
             naturalPerson.cpf
           )
+
           if (hasRepeatedCpf) {
-            setFormError('cpf', 'CPF já utilizado por outro usuário')
+            setFormError('cpf', VALIDATION_ERRORS.cpf.inUse)
             return
           }
         }
@@ -65,21 +69,21 @@ export function usePersonForm(onSuccess: () => void) {
         const { legalPerson } = personFormData
 
         if (!customer || customer.email !== legalPerson.email) {
-          const hasRepeatedEmail = await api.getCustomerByEmail(
-            personFormData.legalPerson.email
+          const hasRepeatedEmail = Boolean(
+            await api.getCustomerByEmail(personFormData.legalPerson.email)
           )
           if (hasRepeatedEmail) {
-            setFormError('email', 'E-mail já utilizado por outro usuário')
+            setFormError('email', VALIDATION_ERRORS.email.inUse)
             return
           }
         }
 
         if (!customer || customer.cnpj !== legalPerson.cnpj) {
-          const hasRepeatedCpf = await api.checkCustomerDocument(
-            legalPerson.cnpj
+          const hasRepeatedCpf = Boolean(
+            await api.checkCustomerDocument(legalPerson.cnpj)
           )
           if (hasRepeatedCpf) {
-            setFormError('cnpj', 'CNPJ já utilizado por outro usuário')
+            setFormError('cnpj', VALIDATION_ERRORS.cnpj.inUse)
             return
           }
         }
@@ -124,7 +128,7 @@ export function usePersonForm(onSuccess: () => void) {
       setPersonFormData('natural', 'phone', customer.phone?.full_number ?? '')
     } else if (customer?.type === 'j') {
       setPersonFormData('legal', 'email', customer.email)
-      setPersonFormData('natural', 'name', customer.name ?? '')
+      setPersonFormData('legal', 'razaoSocial', customer.razao_social ?? '')
       setPersonFormData('legal', 'cnpj', customer.cnpj ?? '')
       setPersonFormData('legal', 'phone', customer.phone?.full_number ?? '')
     }

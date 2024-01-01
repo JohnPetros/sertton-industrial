@@ -1,11 +1,11 @@
 import { YStack } from 'tamagui'
 
+import { collectionsMock } from '@/_tests_/mocks/collectionsMock'
 import { Banner } from '@/components/Marketing/Banner'
 import { Collection } from '@/components/Marketing/Collection'
 import { useBanners } from '@/components/Marketing/useBanners'
 import { useCollections } from '@/components/Marketing/useCollections'
 import { useMarketing } from '@/components/Marketing/useMarketing'
-import { collectionsMock } from '@/__tests__/mocks/collectionsMock'
 
 export function Marketing() {
   const { banners } = useBanners()

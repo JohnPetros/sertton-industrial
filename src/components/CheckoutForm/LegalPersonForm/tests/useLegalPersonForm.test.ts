@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react-native'
 
-import { legalPersonMock } from '@/__tests__/mocks/legalPersonMock'
+import { legalPersonMock } from '@/_tests_/mocks/legalPersonMock'
 import { useLegalPesonForm } from '@/components/CheckoutForm/LegalPersonForm/useLegalPersonForm'
 import { LegalPersonFormFields } from '@/libs/zod'
 import {
