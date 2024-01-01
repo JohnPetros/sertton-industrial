@@ -18,6 +18,12 @@ export const VALIDATION_ERRORS = {
   phone: {
     length: 'Deve conter 11 números',
   },
+  zipcode: {
+    length: 'Deve conter 8 números',
+  },
+  addressNumber: {
+    min: 'Deve conter pelo menos um número',
+  },
   creditCardNumber: {
     length: 'Deve conter 11 números',
   },

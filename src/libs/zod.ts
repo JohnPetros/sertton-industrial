@@ -41,7 +41,7 @@ export const zipcodeSchema = z
   .string({
     required_error: VALIDATION_ERRORS.required,
   })
-  .length(8)
+  .length(8, VALIDATION_ERRORS.zipcode.length)
 
 const citySchema = z.string({
   required_error: VALIDATION_ERRORS.required,
@@ -72,9 +72,11 @@ const securyCodeSchema = z
   .min(3, VALIDATION_ERRORS.creditCardSecurityCode.min)
   .max(4, VALIDATION_ERRORS.creditCardSecurityCode.max)
 
-const number = z.string({
-  required_error: VALIDATION_ERRORS.required,
-})
+const addressNumber = z
+  .string({
+    required_error: VALIDATION_ERRORS.required,
+  })
+  .min(1, VALIDATION_ERRORS.addressNumber.min)
 
 const creditCardExpirationDateSchema = z
   .string({
@@ -99,7 +101,7 @@ const legalPersonFormSchema = z.object({
 })
 
 const addressFormSchema = z.object({
-  number: number,
+  number: addressNumber,
   zipcode: zipcodeSchema,
   city: citySchema,
   street: streetSchema,
