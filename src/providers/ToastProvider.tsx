@@ -17,7 +17,7 @@ export function ToastProvider({ children }: ToastProviderProps) {
       dangerColor={getTokens().color.red500.val}
       warningColor={getTokens().color.yellow500.val}
       icon={<Truck color={getTokens().color.white.val} />}
-      textStyle={{ fontSize: 16 }}
+      textStyle={{ fontSize: 16, paddingHorizontal: 12 }}
       offsetBottom={80}
       swipeEnabled={true}
     >
