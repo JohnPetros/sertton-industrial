@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import { ShipmentService } from '@/@types/shipmentService'
+import { useAppError } from '@/components/AppError/useAppError'
 import { useCustomerContext } from '@/contexts/CustomerContext'
 import { useCart } from '@/hooks/useCart'
 import { useApi } from '@/services/api'
 import { useCheckoutStore } from '@/stores/checkoutStore'
+import { waitFor } from '@/utils/helpers/wait'
 
 export function useShipmentServiceForm() {
   const { customer } = useCustomerContext()
@@ -14,6 +16,8 @@ export function useShipmentServiceForm() {
 
   const { products, getSelectedSkus } = useCart()
 
+  const { throwAppError } = useAppError()
+
   const storedShipmentService = useCheckoutStore(
     (store) => store.state.shipmentService
   )
@@ -21,8 +25,6 @@ export function useShipmentServiceForm() {
     (store) => store.actions
   )
 
-  const [selectedShipmentService, setSelectedShipmentService] =
-    useState<ShipmentService | null>(storedShipmentService)
   const [isLoading, setIsLoading] = useState(false)
 
   async function getShipmentServices() {
@@ -32,18 +34,23 @@ export function useShipmentServiceForm() {
 
     if (selectedSkus) {
       try {
-        return await api.getShipmentServices(
+        const shipmentServices = await api.getShipmentServices(
           customer.selectedAddressZipcode,
           selectedSkus
         )
+
+        if (!storedShipmentService) setShipmentService(shipmentServices[0])
+
+        return shipmentServices
       } catch (error) {
         api.handleError(error)
+        throwAppError('Erro ao calcular fretes')
       }
     }
   }
 
   const { data: shipmentServices, refetch } = useQuery(
-    ['shipment-services', customer, products],
+    ['shipment-services', customer?.selectedAddressZipcode, products],
     getShipmentServices
   )
 
@@ -54,21 +61,15 @@ export function useShipmentServiceForm() {
       (shipmentService) => shipmentService.name === shipmentServiceName
     )
 
-    if (selectedShipmentService)
-      setSelectedShipmentService(selectedShipmentService)
+    if (selectedShipmentService) setShipmentService(selectedShipmentService)
   }
 
   async function handleContinueCheckout() {
-    if (selectedShipmentService) {
+    if (storedShipmentService) {
       setIsLoading(true)
 
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(true)
-        }, 1000)
-      })
+      await waitFor(1000)
 
-      setShipmentService(selectedShipmentService)
       setStep(3)
 
       setIsLoading(false)
@@ -81,7 +82,7 @@ export function useShipmentServiceForm() {
 
   return {
     shipmentServices,
-    selectedShipmentService,
+    selectedShipmentService: storedShipmentService,
     isLoading,
     handleShipmentServiceChange,
     handleContinueCheckout,

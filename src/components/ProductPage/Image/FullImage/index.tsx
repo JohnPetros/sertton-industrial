@@ -68,7 +68,7 @@ const FullImageComponent = (
               data={data}
               size="xLarge"
               width={SCREEN.width}
-              height={300}
+              height={400}
             />
           </View>
         </YStack>

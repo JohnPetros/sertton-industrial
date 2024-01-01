@@ -17,7 +17,6 @@ export function useShipmentServices(product: ComputedSku) {
     try {
       return await api.getShipmentServices(zipcode, [product])
     } catch (error) {
-      console.log({ error })
       throwAppError('Não foi possível calcular frete para esse CEP ' + zipcode)
     }
   }
@@ -39,7 +38,6 @@ export function useShipmentServices(product: ComputedSku) {
   }
 
   function handleShipmentServicesDialogOpenChange(isOpen: boolean) {
-    console.log({ isOpen })
     setShouldCalculate(isOpen)
   }
 

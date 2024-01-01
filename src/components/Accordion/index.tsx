@@ -5,7 +5,6 @@ import { CaretDown } from 'phosphor-react-native'
 import { getTokens, Text, XStack, YStack } from 'tamagui'
 
 import { useAccordion } from '@/components/Accordion/useAccordion'
-import { Button } from '@/components/Button'
 
 const AnimatedYStack = Animated.createAnimatedComponent(YStack)
 

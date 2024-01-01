@@ -1,4 +1,4 @@
-import { FlatList } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
 import { Spinner, Text, XStack, YStack } from 'tamagui'
 import { View } from 'tamagui'
 

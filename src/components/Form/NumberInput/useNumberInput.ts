@@ -22,10 +22,7 @@ export function useNumberInput({
   function handleIncreaseValue() {
     const updatedNumber = numberValue + 1
 
-    console.log({ max })
-
     if (max && updatedNumber > max) {
-      console.log('oi')
       if (onReachMax) onReachMax()
       return
     }

@@ -1,6 +1,7 @@
 import { Pencil, Trash } from 'phosphor-react-native'
 import { getTokens, Text, XStack, YStack } from 'tamagui'
 
+import { Alert } from '@/components/Alert'
 import { Button } from '@/components/Button'
 
 interface AddressProps {
@@ -43,14 +44,19 @@ export function Address({
             </Text>
           </YStack>
         </Button>
-        <Button background="transparent" onPress={() => onDelete(zipCode)}>
-          <YStack alignItems="center">
-            <Trash color={getTokens().color.gray400.val} />
-            <Text fontSize={12} color="$gray400" fontWeight="600">
-              Excluir
-            </Text>
-          </YStack>
-        </Button>
+        <Alert
+          title="Tem certeza que deseja excluir esse endereço?"
+          onConfirm={() => onDelete(zipCode)}
+        >
+          <Button background="transparent">
+            <YStack alignItems="center">
+              <Trash color={getTokens().color.gray400.val} />
+              <Text fontSize={12} color="$gray400" fontWeight="600">
+                Excluir
+              </Text>
+            </YStack>
+          </Button>
+        </Alert>
       </XStack>
     </XStack>
   )

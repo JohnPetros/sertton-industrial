@@ -1,4 +1,5 @@
 import { Button, Text, View, XStack, YStack } from 'tamagui'
+import { Spinner } from 'tamagui'
 
 import { useStep } from '@/components/Checkout/Steps/useStep'
 
@@ -12,7 +13,7 @@ interface StepProps {
 const GAP = 8
 
 export function Step({ number, label, width, isActive }: StepProps) {
-  const { handleStep, color } = useStep(isActive)
+  const { handleStep, isLoading, color } = useStep(isActive)
 
   return (
     <Button
@@ -33,9 +34,13 @@ export function Step({ number, label, width, isActive }: StepProps) {
             bg={color}
             testID="step-circle"
           >
-            <Text color="$white" fontWeight="600">
-              {number}
-            </Text>
+            {isLoading ? (
+              <Spinner color="$white" />
+            ) : (
+              <Text color="$white" fontWeight="600">
+                {number}
+              </Text>
+            )}
           </View>
           <View bg={color} h={12} flex={1} borderRadius={8} />
         </XStack>

@@ -32,7 +32,6 @@ export function usePersonForm(onSuccess: () => void) {
           )
 
           if (hasRepeatedEmail) {
-            console.log(setFormError)
             setFormError('email', VALIDATION_ERRORS.email.inUse)
             return
           }
@@ -49,7 +48,7 @@ export function usePersonForm(onSuccess: () => void) {
           }
         }
 
-        const naturalPersonFormData: Omit<Customer, 'id'> = {
+        const naturalPersonFormData: Omit<Customer, 'id' | 'addresses'> = {
           type: 'f',
           active: true,
           name: naturalPerson.name,
@@ -88,7 +87,7 @@ export function usePersonForm(onSuccess: () => void) {
           }
         }
 
-        const legalPersonFormData: Omit<Customer, 'id'> = {
+        const legalPersonFormData: Omit<Customer, 'id' | 'addresses'> = {
           type: 'j',
           active: true,
           razao_social: legalPerson.razaoSocial,

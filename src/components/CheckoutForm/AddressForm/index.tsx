@@ -7,10 +7,9 @@ import {
   HouseLine,
   NotePencil,
   Signpost,
-  Smiley,
   User,
 } from 'phosphor-react-native'
-import { YStack } from 'tamagui'
+import { Spinner, YStack } from 'tamagui'
 import { Text } from 'tamagui'
 
 import { Button } from '@/components/Button'
@@ -21,7 +20,6 @@ import { EmptyItemsMessage } from '@/components/EmptyItemsMessage'
 import { Input } from '@/components/Form/Input'
 import { RadioGroup } from '@/components/Form/RadioGroup'
 import { Radio } from '@/components/Form/RadioGroup/Radio'
-import { KeyboardHandlerView } from '@/components/KeyboardHandlerView'
 import { Loading } from '@/components/Loading'
 import { SCREEN } from '@/utils/constants/screen'
 
@@ -34,6 +32,8 @@ export function AddressForm() {
     isAddressRadioGroupVisible,
     isZipcodeValid,
     isLoading,
+    isZipcodeLoading,
+    isSubmitting,
     errors,
     handleSubmit,
     handleZipcodeChange,
@@ -45,7 +45,7 @@ export function AddressForm() {
   } = useAddressForm()
   const pathname = usePathname()
 
-  if (isLoading)
+  if (isLoading && isAddressRadioGroupVisible)
     return (
       <YStack mt={-48}>
         <Loading message="carregando endereços cadastrados..." size={150} />
@@ -53,7 +53,7 @@ export function AddressForm() {
     )
 
   return (
-    <KeyboardHandlerView>
+    <>
       <YStack gap={24}>
         {isAddressRadioGroupVisible && (
           <Button
@@ -103,7 +103,8 @@ export function AddressForm() {
                     value={value}
                     max={11}
                     icon={Globe}
-                    isLoading={isLoading}
+                    isLoading={isZipcodeLoading}
+                    autoFocus={!isZipcodeValid}
                     onChangeText={(value) => {
                       onChange(value)
                       handleZipcodeChange(value)
@@ -196,7 +197,12 @@ export function AddressForm() {
                   )}
                 />
 
-                <Button onPress={handleSubmit}>Salvar</Button>
+                <Button
+                  key={isSubmitting ? 'submitting' : 'default'}
+                  onPress={handleSubmit}
+                >
+                  {isSubmitting ? <Spinner color="$white" /> : 'Salvar'}
+                </Button>
               </>
             )}
           </>
@@ -235,6 +241,6 @@ export function AddressForm() {
           isAddressRadioGroupVisible &&
           pathname !== '/profile' && <ShipmentServiceForm />}
       </YStack>
-    </KeyboardHandlerView>
+    </>
   )
 }

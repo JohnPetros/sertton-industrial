@@ -8,7 +8,6 @@ export function useRadio() {
 
     await new Promise((resolve) => {
       setTimeout(() => {
-        setIsLoading(false)
         resolve(true)
       }, 1500)
     })

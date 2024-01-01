@@ -67,8 +67,6 @@ export function useCartSummary(products: Product[]) {
 
     const totalToPay = totalProductsToPay - totalProductsDiscount
 
-    console.log({ totalProductsToPay })
-
     let totalDiscount = totalProductsDiscount
 
     if (discounts) {

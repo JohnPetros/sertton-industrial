@@ -54,7 +54,6 @@ export function useProducts() {
   )
 
   function handleProductsListEndReached() {
-    console.log('fetchNextPage')
     fetchNextPage()
   }
 
@@ -67,8 +66,6 @@ export function useProducts() {
       return [...products, ...currentPage.products]
     }, [] as Product[])
   }, [data])
-
-  console.log(products.length)
 
   return {
     products,

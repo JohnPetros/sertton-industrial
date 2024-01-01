@@ -41,7 +41,7 @@ export function Summary({
             Frete
           </Text>
           <Text fontSize={16} color="$gray600" fontWeight="600">
-            {formatPrice(shipment)}
+            + {formatPrice(shipment)}
           </Text>
         </XStack>
       )}

@@ -102,7 +102,7 @@ export function Input({
       )}
 
       {isLoading && (
-        <Spinner top="50%" right={12} position="absolute" color="$blue500" />
+        <Spinner top={40} right={12} position="absolute" color="$blue500" />
       )}
     </YStack>
   )

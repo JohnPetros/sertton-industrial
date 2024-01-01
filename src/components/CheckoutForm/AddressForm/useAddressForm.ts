@@ -11,6 +11,7 @@ import { AddressFormFields, addressFormSchema, zipcodeSchema } from '@/libs/zod'
 import { useApi } from '@/services/api'
 import { useStorage } from '@/services/storage'
 import { useCheckoutStore } from '@/stores/checkoutStore'
+import { waitFor } from '@/utils/helpers/wait'
 
 type MutationCustomerAdressAddingParams = {
   address: Omit<Address, 'id'>
@@ -47,16 +48,18 @@ export function useAddressForm() {
     clearErrors,
     formState: { errors },
   } = useForm<AddressFormFields>({
-    mode: 'onBlur',
+    mode: 'onSubmit',
     resolver: zodResolver(addressFormSchema),
   })
 
   const [isZipcodeValid, setIsZipcodeValid] = useState(false)
+  const [isZipcodeLoading, setIsZipcodeLoading] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   const [isAddressRadioGroupVisible, setIsAddressRadioGroupVisible] =
     useState(true)
   const [addressFormData, setAddressFormData] =
     useState<AddressFormFields | null>(null)
-  const { throwAppError } = useAppError()
 
   async function getAddressesByCustomerId() {
     if (customer) {
@@ -117,7 +120,6 @@ export function useAddressForm() {
       onSuccess: () => refetch(),
       onError: (error) => {
         api.handleError(error)
-        throwAppError('Erro ao cadastrar endereço')
       },
     }
   )
@@ -129,7 +131,6 @@ export function useAddressForm() {
       onSuccess: () => refetch(),
       onError: (error) => {
         api.handleError(error)
-        throwAppError('Erro ao atulizar endereço')
       },
     }
   )
@@ -141,7 +142,6 @@ export function useAddressForm() {
       onSuccess: () => refetch(),
       onError: (error) => {
         api.handleError(error)
-        throwAppError('Erro ao deletar endereço')
       },
     }
   )
@@ -177,6 +177,7 @@ export function useAddressForm() {
     }
 
     try {
+      setIsZipcodeLoading(true)
       const address = await getAddressByZipcode(zipcode)
 
       if (address) {
@@ -203,6 +204,8 @@ export function useAddressForm() {
     } catch (error) {
       console.error(error)
       setIsZipcodeValid(false)
+    } finally {
+      setIsZipcodeLoading(false)
     }
   }
 
@@ -252,6 +255,9 @@ export function useAddressForm() {
 
   async function handleFormSubmit(fields: AddressFormFields) {
     if (!customer) return
+    setIsSubmitting(true)
+
+    await waitFor(1000)
 
     const submitedAddress: Omit<Address, 'id'> = {
       city: fields.city,
@@ -274,6 +280,7 @@ export function useAddressForm() {
       }
 
       addressUpdatingMutation.mutate({ address, customerId: customer.id })
+      setIsSubmitting(false)
       setCustomerSelectedAddressZipcode(address.zip_code)
       setCheckoutAddress(address)
       setIsAddressRadioGroupVisible(true)
@@ -284,11 +291,15 @@ export function useAddressForm() {
       address: submitedAddress,
       customerId: customer.id,
     })
+    setIsSubmitting(false)
+    setCustomerSelectedAddressZipcode(submitedAddress.zip_code)
     setIsAddressRadioGroupVisible(true)
   }
 
   useEffect(() => {
     if (!addressFormData) return
+
+    setValue('number', '')
 
     for (const fieldName of Object.keys(addressFormData)) {
       const value = addressFormData[fieldName as keyof typeof addressFormData]
@@ -307,6 +318,8 @@ export function useAddressForm() {
     addressFormData,
     isZipcodeValid,
     isLoading: isLoading || isFetching,
+    isZipcodeLoading,
+    isSubmitting,
     handleZipcodeChange,
     handleEditAddress,
     handleDeleteAddress,

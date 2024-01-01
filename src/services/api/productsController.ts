@@ -24,6 +24,7 @@ export function productsController(api: Api): IProductsController {
         `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand${searchParam}${sorterParam}${categoryParam}${brandsIdsParam}&page=${page}&limit=20`
       )
       const { data, meta } = response
+
       return {
         products: data,
         totalPages: meta.pagination.total_pages,
