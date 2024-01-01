@@ -2,17 +2,18 @@ import { FlatList } from 'react-native'
 import { H2, View, YStack } from 'tamagui'
 import { XStack } from 'tamagui'
 
+import { CartItem } from './CartItem'
+
 import { cartItemsMock } from '@/_tests_/mocks/cartItemsMock'
 import { Accordion } from '@/components/Accordion'
 import { CartSummary } from '@/components/CartSummary'
-import { ProductCartItem } from '@/components/ProductCartItem'
 import { Skeleton } from '@/components/Skeleton'
 import { useCart } from '@/hooks/useCart'
 import { useCheckoutStore } from '@/stores/checkoutStore'
 import { SCREEN } from '@/utils/constants/screen'
 
 const PADDING = 12
-const PRODUCT_CART_ITEM_WIDTH = SCREEN.width - SCREEN.paddingX * 2 - PADDING * 2
+const CART_ITEM_WIDTH = SCREEN.width - SCREEN.paddingX * 2 - PADDING * 2
 
 export function CartItems() {
   const { products, isLoading, isFetching, totalCartItems } = useCart()
@@ -38,11 +39,11 @@ export function CartItems() {
             keyExtractor={(item) => String(item.id)}
             renderItem={({ item }) => (
               <View mb={32}>
-                <ProductCartItem
+                <CartItem
                   data={item}
                   quantity={item.quantity}
                   selectedSkuId={item.selectedSkuId}
-                  width={PRODUCT_CART_ITEM_WIDTH}
+                  width={CART_ITEM_WIDTH}
                   isLoading={true}
                 />
               </View>
@@ -55,11 +56,11 @@ export function CartItems() {
             keyExtractor={(item) => String(item.id)}
             renderItem={({ item }) => (
               <View mb={32}>
-                <ProductCartItem
+                <CartItem
                   data={item}
                   quantity={item.quantity}
                   selectedSkuId={item.selectedSkuId}
-                  width={PRODUCT_CART_ITEM_WIDTH}
+                  width={CART_ITEM_WIDTH}
                   isLoading={false}
                 />
               </View>
@@ -71,7 +72,7 @@ export function CartItems() {
           <Skeleton
             isVisible={isLoading}
             height={120}
-            width={PRODUCT_CART_ITEM_WIDTH - PADDING * 2}
+            width={CART_ITEM_WIDTH - PADDING * 2}
           >
             <CartSummary items={products ?? []} shipment={shipmentPrice ?? 0} />
           </Skeleton>

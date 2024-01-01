@@ -1,22 +1,20 @@
-import { useEffect, useState } from 'react'
 import { usePathname } from 'expo-router/src/hooks'
 import { Trash } from 'phosphor-react-native'
 import { getTokens, XStack, YStack } from 'tamagui'
-import { useDebouncedCallback } from 'use-debounce'
+
+import { useCartItem } from './useCartItem'
 
 import type { Product as ProductData } from '@/@types/product'
-import type { Sku } from '@/@types/sku'
 import { Alert } from '@/components/Alert'
 import { Button } from '@/components/Button'
+import { NumberInput } from '@/components/Form/NumberInput'
 import { List } from '@/components/List'
-import { NumberInput } from '@/components/NumberInput'
 import * as Product from '@/components/Product'
 import { Skeleton } from '@/components/Skeleton'
-import { useCartStore } from '@/stores/cartStore'
 
 const GAP = 12
 
-interface ProductCartItemProps {
+interface CartItemProps {
   data: ProductData
   quantity: number
   selectedSkuId: number
@@ -24,45 +22,25 @@ interface ProductCartItemProps {
   isLoading: boolean
 }
 
-export function ProductCartItem({
+export function CartItem({
   data: { name, images, skus },
   quantity,
   selectedSkuId,
   width,
   isLoading,
-}: ProductCartItemProps) {
-  const [selectedSku, setSelectedSku] = useState<Sku | null>(null)
-
-  const removeItem = useCartStore((store) => store.actions.removeItem)
-  const setItemQuantity = useCartStore((store) => store.actions.setItemQuantity)
-
-  const setQuantityDebounce = useDebouncedCallback((newQuantity) => {
-    if (selectedSku) setItemQuantity(selectedSku.id, newQuantity)
-  }, 700)
+}: CartItemProps) {
+  const {
+    selectedSku,
+    handleQuantityChange,
+    handleRemoveItem,
+    handleReachMaxInStock,
+  } = useCartItem(skus.data, selectedSkuId)
+  const pathname = usePathname()
 
   const isSKeletonVisible = isLoading || !selectedSku
-  const pathname = usePathname()
 
   const halfWidth = (width - GAP) / 2
   const hasVariations = Boolean(selectedSku?.variations.length)
-
-  function handleQuantityChange(newQuantity: number) {
-    setQuantityDebounce(newQuantity)
-  }
-
-  function handleRemoveItem() {
-    if (selectedSku) removeItem(selectedSku.id)
-  }
-
-  function selectSku() {
-    const selectedSku = skus.data.find((sku) => sku.id === selectedSkuId)
-
-    if (selectedSku) setSelectedSku(selectedSku)
-  }
-
-  useEffect(() => {
-    selectSku()
-  }, [])
 
   return (
     <XStack alignItems="center" justifyContent="center" gap={12}>
@@ -98,9 +76,11 @@ export function ProductCartItem({
 
         <Skeleton height={40} isVisible={isSKeletonVisible}>
           <NumberInput
-            label="Quantidade do produto"
+            label={`Quantidade do produto ${name}`}
             number={quantity}
+            max={selectedSku?.total_in_stock}
             onChangeNumber={handleQuantityChange}
+            onReachMax={handleReachMaxInStock}
           />
         </Skeleton>
 
