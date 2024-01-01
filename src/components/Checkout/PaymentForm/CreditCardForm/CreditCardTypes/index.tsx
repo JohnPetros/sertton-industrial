@@ -4,9 +4,8 @@ import { useCreditCardTypes } from '@/components/Checkout/PaymentForm/CreditCard
 
 export function CreditCardTypes() {
   const { creditCardTypes } = useCreditCardTypes()
-
   if (creditCardTypes)
-    return creditCardTypes.map((creditCardType) => (
-      <SvgUri key={creditCardType.name} uri={creditCardType.icon} />
-    ))
+    return creditCardTypes.map((creditCardType) => {
+      return <SvgUri key={creditCardType.name} uri={creditCardType.icon} />
+    })
 }
