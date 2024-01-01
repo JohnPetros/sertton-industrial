@@ -20,7 +20,7 @@ export function shipmentServiceController(
       zipcode: string,
       products: (Sku & { quantity: number })[]
     ) {
-      api.setBaseUrl(SHIPMENT_SERVICE_BASE_URL)
+      api.setBaseUrl('https://sertton-industrial.com')
 
       return await api.post<ShipmentService[]>(
         `/${Resources.SHIPMENT}/calculate`,

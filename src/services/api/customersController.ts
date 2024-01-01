@@ -1,11 +1,14 @@
 import type { Api } from '@/@types/api'
 import type { Customer } from '@/@types/customer'
-import { ICustomersController } from '@/services/api/interfaces/ICustomersController'
+import {
+  CreateCustomerRequest,
+  ICustomersController,
+} from '@/services/api/interfaces/ICustomersController'
 import { Resources } from '@/services/api/resources'
 
 export function customersController(api: Api): ICustomersController {
   return {
-    async createCustomer(customer: Customer) {
+    async createCustomer(customer: CreateCustomerRequest) {
       await api.post(`/${Resources.CUSTOMERS}`, customer)
     },
 

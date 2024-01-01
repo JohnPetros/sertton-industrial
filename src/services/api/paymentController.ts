@@ -1,3 +1,4 @@
+import { envVarsConfig } from '@/_tests_/configs/envVarsConfig'
 import type { Api } from '@/@types/api'
 import type { CreditCard } from '@/@types/creditCard'
 import { PaymentConfig } from '@/@types/paymentMethod'
@@ -9,17 +10,17 @@ import { removeAccents } from '@/utils/helpers/removeAccents'
 
 const IS_TEST_ENV = process.env.NODE_ENV === 'test'
 
-const TEST_BASE_URL = 'msw'
-
 const SHIPMENT_SERVICE_BASE_URL = !IS_TEST_ENV
   ? process.env.SHIPMENT_SERVICE_BASE_URL
-  : TEST_BASE_URL
+  : envVarsConfig.API_BASE_URL
+
 const PAGAR_ME_API_URL = !IS_TEST_ENV
   ? process.env.PAGAR_ME_API_URL
-  : TEST_BASE_URL
+  : envVarsConfig.API_BASE_URL
+
 const PAGAR_ME_PUBLIC_KEY = !IS_TEST_ENV
   ? process.env.PAGAR_ME_PUBLIC_KEY
-  : TEST_BASE_URL
+  : envVarsConfig.API_BASE_URL
 
 export function paymentController(api: Api): IPaymentController {
   if (!SHIPMENT_SERVICE_BASE_URL)

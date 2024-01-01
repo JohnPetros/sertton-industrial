@@ -1,6 +1,8 @@
 import type { Customer } from '@/@types/customer'
 
-export type CreateCustomerRequest = Omit<Customer, 'id'> & { active: boolean }
+export type CreateCustomerRequest = Omit<Customer, 'id' | 'addresses'> & {
+  active: boolean
+}
 export interface ICustomersController {
   createCustomer(request: CreateCustomerRequest): Promise<void>
   updateCustomerById(

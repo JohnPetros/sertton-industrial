@@ -1,3 +1,4 @@
+import { envVarsConfig } from '@/_tests_/configs/envVarsConfig'
 import type { Address } from '@/@types/address'
 import type { Api } from '@/@types/api'
 import {
@@ -7,7 +8,11 @@ import {
 import { Resources } from '@/services/api/resources'
 import { getOnlyNumbers } from '@/utils/helpers/getOnlyNumbers'
 
-const BASE_URL = process.env.VIA_CEP_BASE_URL
+const IS_TEST_ENV = process.env.NODE_ENV === 'test'
+
+const BASE_URL = !IS_TEST_ENV
+  ? process.env.VIA_CEP_BASE_URL
+  : envVarsConfig.API_BASE_URL
 
 export function addressesController(api: Api): IAdressesController {
   return {
