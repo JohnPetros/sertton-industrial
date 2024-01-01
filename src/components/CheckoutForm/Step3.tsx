@@ -11,7 +11,7 @@ export function Step3() {
         <Heading
           step={3}
           title="Pagamento"
-          subtitle="Escolha uma forma de pagamento"
+          subtitle="Escolha uma forma de pagamento."
         />
         <View mt={24}>
           <PaymentForm />

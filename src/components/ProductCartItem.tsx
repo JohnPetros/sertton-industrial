@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { usePathname } from 'expo-router/src/hooks'
 import { Trash } from 'phosphor-react-native'
 import { getTokens, XStack, YStack } from 'tamagui'
+import { useDebouncedCallback } from 'use-debounce'
 
 import type { Product as ProductData } from '@/@types/product'
 import type { Sku } from '@/@types/sku'
@@ -35,6 +36,10 @@ export function ProductCartItem({
   const removeItem = useCartStore((store) => store.actions.removeItem)
   const setItemQuantity = useCartStore((store) => store.actions.setItemQuantity)
 
+  const setQuantityDebounce = useDebouncedCallback((newQuantity) => {
+    if (selectedSku) setItemQuantity(selectedSku.id, newQuantity)
+  }, 700)
+
   const isSKeletonVisible = isLoading || !selectedSku
   const pathname = usePathname()
 
@@ -42,7 +47,7 @@ export function ProductCartItem({
   const hasVariations = Boolean(selectedSku?.variations.length)
 
   function handleQuantityChange(newQuantity: number) {
-    if (selectedSku) setItemQuantity(selectedSku.id, newQuantity)
+    setQuantityDebounce(newQuantity)
   }
 
   function handleRemoveItem() {
@@ -93,7 +98,6 @@ export function ProductCartItem({
 
         <Skeleton height={40} isVisible={isSKeletonVisible}>
           <NumberInput
-            key={quantity}
             label="Quantidade do produto"
             number={quantity}
             onChangeNumber={handleQuantityChange}

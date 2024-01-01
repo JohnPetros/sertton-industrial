@@ -15,7 +15,7 @@ const PADDING = 12
 const PRODUCT_CART_ITEM_WIDTH = SCREEN.width - SCREEN.paddingX * 2 - PADDING * 2
 
 export function CartItems() {
-  const { products, isLoading, totalCartItems } = useCart()
+  const { products, isLoading, isFetching, totalCartItems } = useCart()
   const shipmentPrice = useCheckoutStore(
     ({ state }) => state.shipmentService?.price
   )
@@ -31,7 +31,7 @@ export function CartItems() {
       }
     >
       <YStack>
-        {isLoading ? (
+        {isLoading || isFetching ? (
           <FlatList
             key="cart-items-loading"
             data={cartItemsMock.slice(0, totalCartItems)}
@@ -67,17 +67,15 @@ export function CartItems() {
           />
         )}
 
-        {products && (
-          <YStack p={12} borderRadius={4} gap={12} bg="$gray50" mt={12}>
-            <Skeleton
-              isVisible={isLoading}
-              height={120}
-              width={PRODUCT_CART_ITEM_WIDTH - PADDING * 2}
-            >
-              <CartSummary items={products} shipment={shipmentPrice ?? 0} />
-            </Skeleton>
-          </YStack>
-        )}
+        <YStack p={12} borderRadius={4} gap={12} bg="$gray50" mt={12}>
+          <Skeleton
+            isVisible={isLoading}
+            height={120}
+            width={PRODUCT_CART_ITEM_WIDTH - PADDING * 2}
+          >
+            <CartSummary items={products ?? []} shipment={shipmentPrice ?? 0} />
+          </Skeleton>
+        </YStack>
       </YStack>
     </Accordion>
   )

@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useQuery } from 'react-query'
 
 import type { ComputedProduct } from '@/@types/computedProduct'
@@ -28,8 +27,8 @@ export function useCart() {
     return products
   }
 
-  const { data, error, isLoading, isFetching, refetch } = useQuery(
-    ['cart-products'],
+  const { data, error, isFetching, isLoading, refetch } = useQuery(
+    ['cart-products', items],
     getCartProducts
   )
 
