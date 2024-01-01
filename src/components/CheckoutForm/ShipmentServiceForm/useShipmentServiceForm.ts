@@ -1,6 +1,7 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 
+import { ShipmentService } from '@/@types/shipmentService'
 import { useCustomerContext } from '@/contexts/CustomerContext'
 import { useCart } from '@/hooks/useCart'
 import { useApi } from '@/services/api'
@@ -13,12 +14,16 @@ export function useShipmentServiceForm() {
 
   const { products, getSelectedSkus } = useCart()
 
-  const setShipmentService = useCheckoutStore(
-    (store) => store.actions.setShipmentService
-  )
   const storedShipmentService = useCheckoutStore(
     (store) => store.state.shipmentService
   )
+  const { setShipmentService, setStep } = useCheckoutStore(
+    (store) => store.actions
+  )
+
+  const [selectedShipmentService, setSelectedShipmentService] =
+    useState<ShipmentService | null>(storedShipmentService)
+  const [isLoading, setIsLoading] = useState(false)
 
   async function getShipmentServices() {
     if (!customer?.selectedAddressZipcode) return
@@ -49,7 +54,25 @@ export function useShipmentServiceForm() {
       (shipmentService) => shipmentService.name === shipmentServiceName
     )
 
-    if (selectedShipmentService) setShipmentService(selectedShipmentService)
+    if (selectedShipmentService)
+      setSelectedShipmentService(selectedShipmentService)
+  }
+
+  async function handleContinueCheckout() {
+    if (selectedShipmentService) {
+      setIsLoading(true)
+
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(true)
+        }, 1000)
+      })
+
+      setShipmentService(selectedShipmentService)
+      setStep(3)
+
+      setIsLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -58,7 +81,9 @@ export function useShipmentServiceForm() {
 
   return {
     shipmentServices,
-    selectedShipmentService: storedShipmentService,
+    selectedShipmentService,
+    isLoading,
     handleShipmentServiceChange,
+    handleContinueCheckout,
   }
 }
