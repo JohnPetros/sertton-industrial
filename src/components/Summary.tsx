@@ -21,7 +21,7 @@ export function Summary({
     <YStack separator={<Separator bg="$gray400" />} gap={8}>
       <XStack justifyContent="space-between" alignItems="center">
         <Text fontSize={16} color="$gray600">
-          Subtotal ({itemsAmount} {itemsAmount > 1 ? 'items' : 'item'})
+          Produtos ({itemsAmount} {itemsAmount > 1 ? 'items' : 'item'})
         </Text>
         <Text fontSize={16} color="$gray600" fontWeight="600">
           {formatPrice(subtotal)}

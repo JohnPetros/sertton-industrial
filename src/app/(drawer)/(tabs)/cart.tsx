@@ -8,9 +8,9 @@ import { getTokens, H1, View, XStack, YStack } from 'tamagui'
 import { Alert } from '@/components/Alert'
 import { Button } from '@/components/Button'
 import { CartSummary } from '@/components/CartSummary'
+import { CartItem } from '@/components/Checkout/CartItems/CartItem'
 import { EmptyItemsMessage } from '@/components/EmptyItemsMessage'
 import { Header } from '@/components/Header'
-import { ProductCartItem } from '@/components/ProductCartItem'
 import { Skeleton } from '@/components/Skeleton'
 import { useCart } from '@/hooks/useCart'
 import { ROUTES } from '@/utils/constants/routes'
@@ -64,7 +64,7 @@ export default function CartScreen() {
             keyExtractor={(item) => String(item.id)}
             renderItem={({ item }) => (
               <View mb={32}>
-                <ProductCartItem
+                <CartItem
                   data={item}
                   quantity={item.quantity}
                   selectedSkuId={item.selectedSkuId}
@@ -85,7 +85,7 @@ export default function CartScreen() {
               estimatedItemSize={200}
               renderItem={({ item }) => (
                 <View mb={32}>
-                  <ProductCartItem
+                  <CartItem
                     data={item}
                     quantity={item.quantity}
                     selectedSkuId={item.selectedSkuId}
