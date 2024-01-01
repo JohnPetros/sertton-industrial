@@ -10,7 +10,7 @@ export type Customer = {
   razao_social?: string
   active: boolean
   homephone: string
-  addresses?: {
+  addresses: {
     data: Address[]
   }
   phone?: {
