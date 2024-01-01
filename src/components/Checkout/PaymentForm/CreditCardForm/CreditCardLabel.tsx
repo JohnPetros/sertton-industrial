@@ -12,7 +12,9 @@ export function CreditCardLabel() {
           Cartão de Crédito
         </Text>
       </XStack>
-      <CreditCardTypes />
+      <XStack gap={8} flexWrap="wrap" w="90%">
+        <CreditCardTypes />
+      </XStack>
     </YStack>
   )
 }
