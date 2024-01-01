@@ -5,7 +5,7 @@ import type { Sku } from '@/@types/sku'
 import { Button } from '@/components/Button'
 import { Dialog } from '@/components/Dialog'
 import { useCartDialog } from '@/components/Dialog/CartDialog/useCartDialog'
-import { NumberInput } from '@/components/NumberInput'
+import { NumberInput } from '@/components/Form/NumberInput'
 import { SkuSelects } from '@/components/SkuSelects'
 import { SCREEN } from '@/utils/constants/screen'
 
@@ -56,7 +56,7 @@ export function CartDialog({ children, product }: CartDialogProps) {
 
             <View mt={24}>
               <NumberInput
-                label="Quantidade do produto"
+                label={`Quantidade do produto ${product.name}`}
                 number={quantity}
                 onChangeNumber={handleQuantityChange}
               />
