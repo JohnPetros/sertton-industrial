@@ -6,17 +6,15 @@ import { SCREEN } from '@/utils/constants/screen'
 
 export function Step3() {
   return (
-    <YStack>
-      <YStack mx={SCREEN.paddingX}>
-        <Heading
-          step={3}
-          title="Pagamento"
-          subtitle="Escolha uma forma de pagamento."
-        />
-        <View mt={24}>
-          <PaymentForm />
-        </View>
-      </YStack>
+    <YStack mx={SCREEN.paddingX} flex={1}>
+      <Heading
+        step={3}
+        title="Pagamento"
+        subtitle="Escolha uma forma de pagamento."
+      />
+      <View mt={24} flex={1}>
+        <PaymentForm />
+      </View>
     </YStack>
   )
 }

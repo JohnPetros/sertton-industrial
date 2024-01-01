@@ -24,10 +24,24 @@ describe('useStep hook', () => {
     expect(result.current.color).toBe('$green500')
   })
 
-  it('should set step', () => {
+  it('should set step when is active', () => {
     const { result } = renderHook(() => useStep(true))
 
     result.current.handleStep(1)
     expect(setStepMock).toHaveBeenCalledWith(1)
+  })
+
+  it('should not set step to a number that is lower than the current step', () => {
+    const currentStep = 1
+
+    useCheckoutStore.setState({
+      actions: { setStep: setStepMock },
+      state: { step: currentStep },
+    } as unknown as CheckoutStoreProps)
+
+    const { result } = renderHook(() => useStep(false))
+
+    result.current.handleStep(currentStep + 1)
+    expect(setStepMock).not.toHaveBeenCalledWith(currentStep + 1)
   })
 })

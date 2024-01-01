@@ -15,7 +15,12 @@ export function Step({ number, label, width, isActive }: StepProps) {
   const { handleStep, color } = useStep(isActive)
 
   return (
-    <Button testID="step-button" unstyled onPress={() => handleStep(number)}>
+    <Button
+      testID="step-button"
+      unstyled
+      disabled={!isActive}
+      onPress={() => handleStep(number)}
+    >
       <YStack gap={2} w={width + GAP} alignItems="center">
         <XStack gap={GAP} justifyContent="center" alignItems="center">
           <View bg={color} h={12} flex={1} borderRadius={8} />

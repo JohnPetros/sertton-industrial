@@ -1,7 +1,8 @@
-import { screen } from '@testing-library/react-native'
+import { fireEvent, screen } from '@testing-library/react-native'
 
 import { render } from '@/_tests_/customs/customRender'
 import { Step } from '@/components/Checkout/Steps/Step'
+import { green } from '@/styles/colors'
 
 describe('Step component', () => {
   it('should render properly', () => {
@@ -29,6 +30,23 @@ describe('Step component', () => {
 
     const step = screen.getByTestId('step-circle')
 
-    expect(step.props.style.backgroundColor).toBe('color mock')
+    expect(step.props.style.backgroundColor).toBe(green.green500)
   })
+
+  // it('should be disabled when is not active', () => {
+  //   const labelMock = 'label mock'
+  //   const numberMock = 1
+
+  //   render(
+  //     <Step
+  //       isActive={false}
+  //       label={labelMock}
+  //       number={numberMock}
+  //       width={240}
+  //     />
+  //   )
+
+  //   const step = screen.getByTestId('step-circle').
+
+  // })
 })
