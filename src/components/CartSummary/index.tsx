@@ -16,7 +16,7 @@ export function CartSummary({ items, shipment = 0 }: CartSummaryProps) {
       subtotal={subtotal}
       itemsAmount={totalItems}
       discount={totalDiscount}
-      total={totalToPay}
+      total={totalToPay + shipment}
       shipment={shipment}
     />
   )
