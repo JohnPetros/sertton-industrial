@@ -35,8 +35,6 @@ export function useAddressForm() {
   const setCheckoutAddress = useCheckoutStore(
     (store) => store.actions.setAddress
   )
-  const checkoutAddress = useCheckoutStore((store) => store.state.address)
-  console.log({ checkoutAddress })
 
   const api = useApi()
   const storage = useStorage()
@@ -54,7 +52,6 @@ export function useAddressForm() {
   })
 
   const [isZipcodeValid, setIsZipcodeValid] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
   const [isAddressRadioGroupVisible, setIsAddressRadioGroupVisible] =
     useState(true)
   const [addressFormData, setAddressFormData] =
@@ -96,7 +93,6 @@ export function useAddressForm() {
 
           setCheckoutAddress({ ...addressData, zip_code: addressData.zipcode })
 
-          setCustomerSelectedAddressZipcode(selectedAddress.zip_code)
           setIsAddressRadioGroupVisible(true)
         }
       }
@@ -107,7 +103,8 @@ export function useAddressForm() {
 
   const {
     data: addresses,
-    isLoading: isAddressesLoading,
+    isLoading,
+    isFetching,
     refetch,
   } = useQuery(['addresses'], getAddressesByCustomerId, {
     enabled: !!customer,
@@ -171,12 +168,7 @@ export function useAddressForm() {
     }
   }
 
-  async function handleZipcodeChange(
-    zipcode: string,
-    zipcodeChangeHandler: (zipcode: string) => void
-  ) {
-    zipcodeChangeHandler(zipcode)
-
+  async function handleZipcodeChange(zipcode: string) {
     const { success: isValid } = zipcodeSchema.safeParse(zipcode)
 
     if (!isValid) {
@@ -185,7 +177,6 @@ export function useAddressForm() {
     }
 
     try {
-      setIsLoading(true)
       const address = await getAddressByZipcode(zipcode)
 
       if (address) {
@@ -212,8 +203,6 @@ export function useAddressForm() {
     } catch (error) {
       console.error(error)
       setIsZipcodeValid(false)
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -317,8 +306,7 @@ export function useAddressForm() {
     isAddressRadioGroupVisible,
     addressFormData,
     isZipcodeValid,
-    isLoading,
-    isAddressesLoading,
+    isLoading: isLoading || isFetching,
     handleZipcodeChange,
     handleEditAddress,
     handleDeleteAddress,

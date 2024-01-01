@@ -4,8 +4,10 @@ import {
   Globe,
   Hash,
   House,
+  HouseLine,
   NotePencil,
   Signpost,
+  Smiley,
   User,
 } from 'phosphor-react-native'
 import { YStack } from 'tamagui'
@@ -15,10 +17,12 @@ import { Button } from '@/components/Button'
 import { Address } from '@/components/CheckoutForm/AddressForm/Address'
 import { useAddressForm } from '@/components/CheckoutForm/AddressForm/useAddressForm'
 import { ShipmentServiceForm } from '@/components/CheckoutForm/ShipmentServiceForm'
+import { EmptyItemsMessage } from '@/components/EmptyItemsMessage'
 import { Input } from '@/components/Form/Input'
 import { RadioGroup } from '@/components/Form/RadioGroup'
 import { Radio } from '@/components/Form/RadioGroup/Radio'
 import { KeyboardHandlerView } from '@/components/KeyboardHandlerView'
+import { Loading } from '@/components/Loading'
 import { SCREEN } from '@/utils/constants/screen'
 
 export function AddressForm() {
@@ -41,6 +45,13 @@ export function AddressForm() {
   } = useAddressForm()
   const pathname = usePathname()
 
+  if (isLoading)
+    return (
+      <YStack mt={-48}>
+        <Loading message="carregando endereços cadastrados..." size={150} />
+      </YStack>
+    )
+
   return (
     <KeyboardHandlerView>
       <YStack gap={24}>
@@ -55,6 +66,14 @@ export function AddressForm() {
           >
             Cadastrar novo endereço
           </Button>
+        )}
+
+        {isLoading && addresses?.length === 0 && (
+          <EmptyItemsMessage
+            title="Nenhum endereço cadastrado."
+            icon={HouseLine}
+            subtitle="Pressione o botão acima cima para cadastrar um novo endereço."
+          />
         )}
 
         {!isAddressRadioGroupVisible && (
@@ -85,9 +104,10 @@ export function AddressForm() {
                     max={11}
                     icon={Globe}
                     isLoading={isLoading}
-                    onChangeText={(value) =>
-                      handleZipcodeChange(value, onChange)
-                    }
+                    onChangeText={(value) => {
+                      onChange(value)
+                      handleZipcodeChange(value)
+                    }}
                     error={errors.zipcode?.message}
                   />
                 )}
@@ -211,9 +231,9 @@ export function AddressForm() {
           </RadioGroup>
         )}
 
-        {/* {selectedAddressZipcode &&
+        {selectedAddressZipcode &&
           isAddressRadioGroupVisible &&
-          pathname !== '/profile' && <ShipmentServiceForm />} */}
+          pathname !== '/profile' && <ShipmentServiceForm />}
       </YStack>
     </KeyboardHandlerView>
   )
