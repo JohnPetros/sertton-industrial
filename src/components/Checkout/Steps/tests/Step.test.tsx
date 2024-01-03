@@ -1,4 +1,4 @@
-import { fireEvent, screen } from '@testing-library/react-native'
+import { fireEvent, screen, waitFor } from '@testing-library/react-native'
 
 import { render } from '@/_tests_/customs/customRender'
 import { Step } from '@/components/Checkout/Steps/Step'
@@ -33,20 +33,27 @@ describe('Step component', () => {
     expect(step.props.style.backgroundColor).toBe(green.green500)
   })
 
-  // it('should be disabled when is not active', () => {
-  //   const labelMock = 'label mock'
-  //   const numberMock = 1
+  it('should render spinner on press', async () => {
+    const labelMock = 'label mock'
+    const numberMock = 1
 
-  //   render(
-  //     <Step
-  //       isActive={false}
-  //       label={labelMock}
-  //       number={numberMock}
-  //       width={240}
-  //     />
-  //   )
+    render(
+      <Step
+        isActive={false}
+        label={labelMock}
+        number={numberMock}
+        width={240}
+      />
+    )
 
-  //   const step = screen.getByTestId('step-circle').
+    const step = screen.getByTestId('step-circle')
 
-  // })
+    fireEvent.press(step)
+
+    const spinner = await screen.findByTestId('step-circle')
+
+    await waitFor(() => {
+      expect(spinner).toBeTruthy()
+    })
+  })
 })

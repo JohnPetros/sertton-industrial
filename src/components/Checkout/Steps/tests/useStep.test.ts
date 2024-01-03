@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-native'
+import { renderHook, waitFor } from '@testing-library/react-native'
 
 import { useStep } from '@/components/Checkout/Steps/useStep'
 import { CheckoutStoreProps, useCheckoutStore } from '@/stores/checkoutStore'
@@ -24,14 +24,16 @@ describe('useStep hook', () => {
     expect(result.current.color).toBe('$green500')
   })
 
-  it('should set step when is active', () => {
+  it('should set step when is active', async () => {
     const { result } = renderHook(() => useStep(true))
 
-    result.current.handleStep(1)
+    await waitFor(async () => {
+      await result.current.handleStep(1)
+    })
     expect(setStepMock).toHaveBeenCalledWith(1)
   })
 
-  it('should not set step to a number that is lower than the current step', () => {
+  it('should not set step to a number that is lower than the current step', async () => {
     const currentStep = 1
 
     useCheckoutStore.setState({
@@ -41,7 +43,9 @@ describe('useStep hook', () => {
 
     const { result } = renderHook(() => useStep(false))
 
-    result.current.handleStep(currentStep + 1)
+    await waitFor(async () => {
+      await result.current.handleStep(currentStep + 1)
+    })
     expect(setStepMock).not.toHaveBeenCalledWith(currentStep + 1)
   })
 })

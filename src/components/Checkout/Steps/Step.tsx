@@ -35,7 +35,7 @@ export function Step({ number, label, width, isActive }: StepProps) {
             testID="step-circle"
           >
             {isLoading ? (
-              <Spinner color="$white" />
+              <Spinner testID="spinner" color="$white" />
             ) : (
               <Text color="$white" fontWeight="600">
                 {number}
