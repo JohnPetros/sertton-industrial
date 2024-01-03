@@ -15,7 +15,7 @@
     },
     "apk": {
       "android": {
-        "buildType": "apk",
+        "distribution": "internal",
         "env": {
           "ALIAS": "sertton-industrial",
           "YAMPI_BASE_URL": "https://api.dooki.com.br/v2",
@@ -29,7 +29,19 @@
         }
       }
     },
-    "production": {}
+    "production": {
+      "env": {
+        "ALIAS": "sertton-industrial",
+        "YAMPI_BASE_URL": "https://api.dooki.com.br/v2",
+        "YAMPI_TOKEN": "F0BhKtPQbrVwlRe4inya42VwOkxrC3ZnvMkJp1f8",
+        "YAMPI_SECRET_KEY": "sk_M4JNWB2cv4AIcc5HW2Oe6QIWJESpkEdXRJ5wz",
+        "SHIPMENT_SERVICE_BASE_URL": "https://sdl5yh-3333.csb.app",
+        "VIA_CEP_BASE_URL": "https://viacep.com.br/ws",
+        "PAGAR_ME_API_URL": "https://api.pagar.me/core/v5",
+        "PAGAR_ME_PUBLIC_KEY": "pk_Qlqp9d1HXCrJ7BAx",
+        "PAGAR_ME_SECRET_KEY": "sk_test_18b2a5468876488387eec0e390708a50"
+      }
+    }
   },
   "submit": {
     "production": {}
