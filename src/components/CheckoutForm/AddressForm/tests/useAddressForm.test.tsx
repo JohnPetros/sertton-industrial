@@ -8,10 +8,7 @@ import { apiConfig } from '@/_tests_/configs/apiConfig'
 import { addressesMock } from '@/_tests_/mocks/addressesMock'
 import { customerMock } from '@/_tests_/mocks/customerMock'
 import { Address } from '@/@types/address'
-import {
-  CustomerContext,
-  CustomerContextValue,
-} from '@/contexts/CustomerContext'
+import { CustomerContext } from '@/contexts/CustomerContext'
 import { axiosApi } from '@/libs/axios'
 import { mmkvStorage } from '@/libs/mmkv'
 import { QueryClientProvider } from '@/providers/QueryClientProvider'
@@ -180,10 +177,38 @@ describe('useAddressForm hook', () => {
     const getAddressByZipcodeSpy = mockGetAddressByZipcode(invalidZipcode)
     mockGetAddressesByCustomerId([])
 
-    const { handleZipcodeChange } = await renderUseAddressFormHook()
+    const { handleZipcodeChange, isZipcodeValid } =
+      await renderUseAddressFormHook()
 
     handleZipcodeChange(invalidZipcode)
 
     expect(getAddressByZipcodeSpy).not.toHaveBeenCalled()
+    expect(isZipcodeValid).toBe(false)
+  })
+
+  it('should fetch address by zipcode when zipcode is valid', async () => {
+    const zipcode = '12231440'
+
+    const getAddressByZipcodeSpy = mockGetAddressByZipcode(zipcode)
+    mockGetAddressesByCustomerId([])
+
+    const { handleZipcodeChange, addressFormData, isZipcodeValid } =
+      await renderUseAddressFormHook()
+
+    handleZipcodeChange(zipcode)
+
+    const selectedAddress = {
+      city: apiAddressMockResponse.city,
+      street: apiAddressMockResponse.street,
+      zipcode: apiAddressMockResponse.zip_code,
+      uf: apiAddressMockResponse.uf,
+      neighborhood: apiAddressMockResponse.neighborhood,
+      number: '',
+      receiver: customerMock.name,
+    }
+
+    expect(getAddressByZipcodeSpy).toHaveBeenCalled()
+    expect(addressFormData).toEqual(expect.objectContaining(selectedAddress))
+    expect(isZipcodeValid).toBe(true)
   })
 })
