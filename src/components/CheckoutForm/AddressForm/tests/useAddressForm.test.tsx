@@ -61,6 +61,8 @@ function mockGetAddressByZipcode(zipcode: string) {
 
   const getAddressByZipcodeSpy = jest.fn()
 
+  console.log({ url })
+
   server.use(
     http.get(url, () => {
       getAddressByZipcodeSpy()
@@ -176,11 +178,15 @@ describe('useAddressForm hook', () => {
 
     const getAddressByZipcodeSpy = mockGetAddressByZipcode(invalidZipcode)
     mockGetAddressesByCustomerId([])
+    mockUpdateAddress(customerMock.addresses.data[0].id)
+    mockDeleteAddress(customerMock.addresses.data[0].id)
 
     const { handleZipcodeChange, isZipcodeValid } =
       await renderUseAddressFormHook()
 
-    handleZipcodeChange(invalidZipcode)
+    await waitFor(async () => {
+      act(async () => await handleZipcodeChange(invalidZipcode))
+    })
 
     expect(getAddressByZipcodeSpy).not.toHaveBeenCalled()
     expect(isZipcodeValid).toBe(false)
@@ -189,13 +195,15 @@ describe('useAddressForm hook', () => {
   it('should fetch address by zipcode when zipcode is valid', async () => {
     const zipcode = '12231440'
 
-    const getAddressByZipcodeSpy = mockGetAddressByZipcode(zipcode)
     mockGetAddressesByCustomerId([])
+    const getAddressByZipcodeSpy = mockGetAddressByZipcode(zipcode)
 
     const { handleZipcodeChange, addressFormData, isZipcodeValid } =
       await renderUseAddressFormHook()
 
-    handleZipcodeChange(zipcode)
+    await waitFor(async () => {
+      act(() => handleZipcodeChange(zipcode))
+    })
 
     const selectedAddress = {
       city: apiAddressMockResponse.city,

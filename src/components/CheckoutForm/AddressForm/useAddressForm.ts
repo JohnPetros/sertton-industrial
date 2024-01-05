@@ -171,6 +171,8 @@ export function useAddressForm() {
   async function handleZipcodeChange(zipcode: string) {
     const { success: isValid } = zipcodeSchema.safeParse(zipcode)
 
+    console.log({ isValid })
+
     if (!isValid) {
       setIsZipcodeValid(false)
       return
