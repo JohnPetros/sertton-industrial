@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import type { Api } from '@/@types/api'
+import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
 import { addressesController } from '@/services/api/addressesController'
 import { bannersController } from '@/services/api/bannersController'
 import { brandsController } from '@/services/api/brandsController'
@@ -10,7 +10,6 @@ import { commentsController } from '@/services/api/commentsController'
 import { customersController } from '@/services/api/customersController'
 import { discountsController } from '@/services/api/discountsController'
 import { leadsController } from '@/services/api/leadsController'
-import { logisticsController } from '@/services/api/logisticsController'
 import { ordersController } from '@/services/api/ordersController'
 import { paymentController } from '@/services/api/paymentController'
 import { productsController } from '@/services/api/productsController'
@@ -19,15 +18,15 @@ import { shipmentServiceController } from '@/services/api/shipmentServiceControl
 import { skusController } from '@/services/api/skusController'
 import { variationsController } from '@/services/api/variationsController'
 
-let api: Api
+let api: IApiProvider
 
-export function initializeApi(initialApi: Api) {
-  api = initialApi
+export function initializeApiProvider(apiProvider: IApiProvider) {
+  api = apiProvider
 }
 
 export function useApi() {
   if (!api) {
-    throw new Error('useApi must be used with a api instance')
+    throw new Error('useApi must be used with a api provider')
   }
 
   api.setDefaultConfig()
@@ -38,7 +37,6 @@ export function useApi() {
       ...categoriesController(api),
       ...customersController(api),
       ...collectionsController(api),
-      ...logisticsController(api),
       ...productsController(api),
       ...variationsController(api),
       ...skusController(api),

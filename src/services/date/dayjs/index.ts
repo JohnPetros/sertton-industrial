@@ -1,14 +1,12 @@
 import 'dayjs/locale/pt-br'
 
 import dayjs from 'dayjs'
-import timezone from 'dayjs/plugin/timezone'
-import utc from 'dayjs/plugin/utc'
 
-import { DateFormat, DateProvider } from '@/@types/dateProvider'
+import { DateFormat, IDateProvider } from '@/providers/interfaces/IDateProvider'
 
 dayjs.locale('pt-br')
 
-export const dayjsProvider: DateProvider = {
+export const dayjsProvider: IDateProvider = {
   calculateTimeUtilTodayEnd() {
     const currentDate = dayjs()
     const todayEnd = currentDate.endOf('day')
@@ -26,18 +24,11 @@ export const dayjsProvider: DateProvider = {
     }
   },
 
-  localize(date: Date) {
-    return dayjs(date).tz('Africa/Lagos').toDate()
-  },
-
   format(date: Date, format: DateFormat) {
     return dayjs(date).format(format)
   },
 
   getDiffInSeconds(currentDate: Date, futureDate: Date): number {
-    const date1 = this.localize(currentDate)
-    const date2 = this.localize(futureDate)
-
-    return dayjs(date2).diff(date1, 'second')
+    return dayjs(currentDate).diff(futureDate, 'second')
   },
 }

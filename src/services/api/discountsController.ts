@@ -1,10 +1,10 @@
-import { Api } from '@/@types/api'
 import { Discount } from '@/@types/discount'
-import { Endpoints } from '@/services/api/endpoints'
+import { IApiProvider } from '@/providers/interfaces/IApiProvider'
+import { Endpoints } from '@/services/api/config/endpoints'
+import { Resources } from '@/services/api/config/resources'
 import { IDiscountsController } from '@/services/api/interfaces/IDiscountsController'
-import { Resources } from '@/services/api/resources'
 
-export function discountsController(api: Api): IDiscountsController {
+export function discountsController(api: IApiProvider): IDiscountsController {
   return {
     async getDiscounts() {
       const response = await api.get<{ data: Discount[] }>(

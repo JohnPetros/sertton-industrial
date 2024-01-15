@@ -4,18 +4,19 @@ import { setupServer } from 'msw/node'
 
 import { useAddressForm } from '../useAddressForm'
 
-import { apiConfig } from '@/_tests_/configs/apiConfig'
-import { addressesMock } from '@/_tests_/mocks/addressesMock'
+import { testApi } from '@/_tests_/configs/testApi'
 import { customerMock } from '@/_tests_/mocks/customerMock'
+import { storageMock } from '@/_tests_/mocks/storageMock'
 import { Address } from '@/@types/address'
 import { CustomerContext } from '@/contexts/CustomerContext'
-import { axiosApi } from '@/libs/axios'
-import { mmkvStorage } from '@/libs/mmkv'
-import { QueryClientProvider } from '@/providers/QueryClientProvider'
-import { initializeApi } from '@/services/api'
-import { Resources } from '@/services/api/resources'
-import { initializeStorage } from '@/services/storage'
-import { CUSTOMER_KEY } from '@/services/storage/keys'
+import { QueryClientProvider } from '@/providers/components/QueryClientProvider'
+import { initializeApiProvider } from '@/services/api'
+import { axiosProvider } from '@/services/api/axios'
+import { Resources } from '@/services/api/config/resources'
+import { initializeStorageProvider } from '@/services/storage'
+import { CUSTOMER_KEY } from '@/services/storage/config/keys'
+import { initializeValidation } from '@/services/validation'
+import { zodProvider } from '@/services/validation/zod/index.ts'
 import { CheckoutStoreProps, useCheckoutStore } from '@/stores/checkoutStore'
 
 const setCheckoutAddressMock = jest.fn()
@@ -23,7 +24,7 @@ const updateCustomerMock = jest.fn()
 const fetchCustomerByEmailMock = jest.fn()
 const setSelectedAddressZipcodeMock = jest.fn()
 
-const server = setupServer(...apiConfig.DEFAULT_HANDLERS)
+const server = setupServer(...testApi.DEFAULT_HANDLERS)
 
 const apiAddressMockResponse = {
   uf: 'PT',
@@ -57,7 +58,7 @@ async function renderUseAddressFormHook() {
 }
 
 function mockGetAddressByZipcode(zipcode: string) {
-  const url = `${apiConfig.BASE_URL}/${zipcode}/json/`
+  const url = `${testApi.BASE_URL}/${zipcode}/json/`
 
   const getAddressByZipcodeSpy = jest.fn()
 
@@ -74,7 +75,7 @@ function mockGetAddressByZipcode(zipcode: string) {
 }
 
 function mockGetAddressesByCustomerId(addresses: Address[]) {
-  const url = `${apiConfig.BASE_URL}/${Resources.CUSTOMERS}/${customerMock.id}/${Resources.ADDRESSES}`
+  const url = `${testApi.BASE_URL}/${Resources.CUSTOMERS}/${customerMock.id}/${Resources.ADDRESSES}`
 
   const getGetAddressesByCustomerIdSpy = jest.fn()
 
@@ -89,7 +90,7 @@ function mockGetAddressesByCustomerId(addresses: Address[]) {
 }
 
 function mockUpdateAddress(addressId: number) {
-  const url = `${apiConfig.BASE_URL}/${Resources.CUSTOMERS}/${customerMock.id}/${Resources.ADDRESSES}/${addressId}`
+  const url = `${testApi.BASE_URL}/${Resources.CUSTOMERS}/${customerMock.id}/${Resources.ADDRESSES}/${addressId}`
 
   const updateAddressSpy = jest.fn()
 
@@ -104,7 +105,7 @@ function mockUpdateAddress(addressId: number) {
 }
 
 function mockDeleteAddress(addressId: number) {
-  const url = `${apiConfig.BASE_URL}/${Resources.CUSTOMERS}/${customerMock.id}/${Resources.ADDRESSES}/${addressId}`
+  const url = `${testApi.BASE_URL}/${Resources.CUSTOMERS}/${customerMock.id}/${Resources.ADDRESSES}/${addressId}`
 
   const deleteAddressSpy = jest.fn()
 
@@ -120,8 +121,9 @@ function mockDeleteAddress(addressId: number) {
 
 describe('useAddressForm hook', () => {
   beforeAll(() => {
-    initializeApi(axiosApi)
-    initializeStorage(mmkvStorage)
+    initializeApiProvider(axiosProvider)
+    initializeValidation(zodProvider)
+    initializeStorageProvider(storageMock)
   })
 
   beforeEach(() => {
@@ -134,6 +136,8 @@ describe('useAddressForm hook', () => {
         actions: { setCheckoutAddress: setCheckoutAddressMock },
       } as unknown as CheckoutStoreProps)
     })
+
+    storageMock.set(CUSTOMER_KEY.selectedAddressZipcode, '')
   })
 
   afterEach(() => server.resetHandlers())
@@ -148,8 +152,9 @@ describe('useAddressForm hook', () => {
   })
 
   it('should set address form using selected customer address', async () => {
-    mockGetAddressesByCustomerId(customerMock.addresses.data)
-    mmkvStorage.set(CUSTOMER_KEY.selectedAddressZipcode, '')
+    const getGetAddressesByCustomerIdSpy = mockGetAddressesByCustomerId(
+      customerMock.addresses.data
+    )
 
     const { addressFormData } = await renderUseAddressFormHook()
 
@@ -164,6 +169,7 @@ describe('useAddressForm hook', () => {
       receiver: customerMock.name,
     }
 
+    expect(getGetAddressesByCustomerIdSpy).toHaveBeenCalledWith(customerMock.id)
     expect(addressFormData).toEqual(expect.objectContaining(selectedAddress))
     expect(setCheckoutAddressMock).toHaveBeenCalledWith(
       expect.objectContaining({

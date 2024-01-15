@@ -1,10 +1,10 @@
-import type { Api } from '@/@types/api'
 import type { Variation } from '@/@types/variation'
-import { Endpoints } from '@/services/api/endpoints'
+import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
+import { Endpoints } from '@/services/api/config/endpoints'
+import { Resources } from '@/services/api/config/resources'
 import { IVariationsController } from '@/services/api/interfaces/IVariationsService'
-import { Resources } from '@/services/api/resources'
 
-export function variationsController(api: Api): IVariationsController {
+export function variationsController(api: IApiProvider): IVariationsController {
   return {
     async getVariations() {
       const response = await api.get<{ data: Variation[] }>(

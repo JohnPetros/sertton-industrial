@@ -1,25 +1,27 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 
 import { CreditCard } from '@/@types/creditCard'
 import { PaymentMethod } from '@/@types/paymentMethod'
-import { CreditCardFormFields, creditCardFormSchema } from '@/libs/zod'
 import { useApi } from '@/services/api'
+import { useValidation } from '@/services/validation'
+import { CreditCardForm } from '@/services/validation/types/CreditCardForm'
 import { useCheckoutStore } from '@/stores/checkoutStore'
 
 export function useCreditCardForm(
   onPay: (paymentMethod: PaymentMethod, cardToken: string) => Promise<void>
 ) {
+  const validation = useValidation()
+
   const {
     control,
     setValue,
     setError,
     formState: { errors },
     handleSubmit,
-  } = useForm<CreditCardFormFields>({
+  } = useForm<CreditCardForm>({
     mode: 'onBlur',
-    resolver: zodResolver(creditCardFormSchema),
+    resolver: validation.resolveCreditCardform(),
   })
 
   const api = useApi()
@@ -63,7 +65,7 @@ export function useCreditCardForm(
     name,
     number,
     securityCode,
-  }: CreditCardFormFields) {
+  }: CreditCardForm) {
     try {
       const creditCardToken = await api.tokenizeCard({
         cpf,

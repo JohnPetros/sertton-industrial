@@ -1,20 +1,20 @@
-import { envVarsConfig } from '@/_tests_/configs/envVarsConfig'
+import { testEnvVars } from '@/_tests_/configs/testEnvVars'
 import type { Address } from '@/@types/address'
-import type { Api } from '@/@types/api'
+import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
+import { Resources } from '@/services/api/config/resources'
 import {
   GetAddressByZipcodeResponse,
   IAdressesController,
 } from '@/services/api/interfaces/IAddressesService'
-import { Resources } from '@/services/api/resources'
 import { getOnlyNumbers } from '@/utils/helpers/getOnlyNumbers'
 
 const IS_TEST_ENV = process.env.NODE_ENV === 'test'
 
 const BASE_URL = !IS_TEST_ENV
   ? process.env.VIA_CEP_BASE_URL
-  : envVarsConfig.API_BASE_URL
+  : testEnvVars.API_BASE_URL
 
-export function addressesController(api: Api): IAdressesController {
+export function addressesController(api: IApiProvider): IAdressesController {
   return {
     async getAddressByZipcode(
       zipcode: string

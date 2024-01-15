@@ -4,7 +4,7 @@ export type DateFormat =
   | 'DD/MM/YYYY HH:mm'
   | 'YYYY'
 
-export type DateProvider = {
+export interface IDateProvider {
   calculateTimeUtilTodayEnd: () => {
     hours: number
     minutes: number
@@ -12,5 +12,4 @@ export type DateProvider = {
   }
   getDiffInSeconds: (currentDate: Date, futureDate: Date) => number
   format(date: Date, format: DateFormat): string
-  localize(date: Date): Date
 }

@@ -1,3 +1,5 @@
+import '../providers'
+
 import { Suspense, useEffect } from 'react'
 import { useColorScheme } from 'react-native'
 import { StatusBar } from 'react-native'
@@ -5,7 +7,6 @@ import ErrorBoundary from 'react-native-error-boundary'
 import { PortalProvider } from '@gorhom/portal'
 import { useFonts } from 'expo-font'
 import { SplashScreen, Stack } from 'expo-router'
-import { TamaguiProvider } from 'providers/TamaguiProvider'
 import { Text, Theme } from 'tamagui'
 
 import { StyledSafeAreaView } from '../components/StyledSafeAreaView'
@@ -13,20 +14,11 @@ import { StyledSafeAreaView } from '../components/StyledSafeAreaView'
 import { AppError } from '@/components/AppError'
 import { useAppError } from '@/components/AppError/useAppError'
 import { CustomerProvider } from '@/contexts/CustomerContext'
-import { axiosApi } from '@/libs/axios'
-import { dayjsProvider } from '@/libs/dayjs'
-import { mmkvStorage } from '@/libs/mmkv'
-import { QueryClientProvider } from '@/providers/QueryClientProvider'
-import { ToastProvider } from '@/providers/ToastProvider'
-import { initializeApi } from '@/services/api'
-import { initializeDateProvider } from '@/services/date'
-import { initializeStorage } from '@/services/storage'
+import { QueryClientProvider } from '@/providers/components/QueryClientProvider'
+import { TamaguiProvider } from '@/providers/components/TamaguiProvider'
+import { ToastProvider } from '@/providers/components/ToastProvider'
 
 SplashScreen.preventAutoHideAsync()
-
-initializeStorage(mmkvStorage)
-initializeDateProvider(dayjsProvider)
-initializeApi(axiosApi)
 
 export default function Layout() {
   const colorScheme = useColorScheme()

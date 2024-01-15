@@ -1,10 +1,10 @@
-import type { Api } from '@/@types/api'
 import type { Review } from '@/@types/review'
-import { Endpoints } from '@/services/api/endpoints'
+import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
+import { Endpoints } from '@/services/api/config/endpoints'
+import { Resources } from '@/services/api/config/resources'
 import { IReviewsController } from '@/services/api/interfaces/IReviewsService'
-import { Resources } from '@/services/api/resources'
 
-export function reviewsController(api: Api): IReviewsController {
+export function reviewsController(api: IApiProvider): IReviewsController {
   return {
     async getProductReviews(productId: number) {
       const response = await api.get<{ data: Review[] }>(

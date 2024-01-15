@@ -2,13 +2,14 @@ import { useRef, useState } from 'react'
 
 import { DialogRef } from '@/components/Dialog'
 import { useCustomerContext } from '@/contexts/CustomerContext'
-import { emailSchema } from '@/libs/zod'
+import { useValidation } from '@/services/validation'
 
 export function useEmailDialog() {
   const [email, setEmail] = useState('')
   const [error, setError] = useState('')
   const { fetchCustomerByEmail } = useCustomerContext()
   const dialogRef = useRef<DialogRef | null>(null)
+  const validation = useValidation()
 
   function open() {
     dialogRef.current?.open()
@@ -24,14 +25,14 @@ export function useEmailDialog() {
   }
 
   async function handleSubmit() {
-    const emailValidation = emailSchema.safeParse(email)
+    const emailValidation = validation.validateEmail(email)
 
-    if (emailValidation.success) {
+    if (emailValidation.isValid) {
       const hasCustomer = await fetchCustomerByEmail(email)
 
       if (!hasCustomer) setError('Cadastro não encontrado com esse e-mail')
     } else {
-      setError(emailValidation.error.format()._errors[0])
+      setError(emailValidation.errors[0])
     }
   }
 

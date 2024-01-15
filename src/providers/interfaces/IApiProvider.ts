@@ -1,4 +1,4 @@
-export type Api = {
+export type IApiProvider = {
   get: <Response>(url: string) => Promise<Response>
   post: <Response>(url: string, request: unknown) => Promise<Response>
   put: <Response>(url: string, request: unknown) => Promise<Response>
@@ -8,5 +8,5 @@ export type Api = {
   setHeader(key: string, value: string): void
   setParams(key: string, value: string): void
   setDefaultConfig(): void
-  handleError<Error>(error: unknown): Error | 'Unknown Api Error'
+  handleError<Error>(error: unknown): Error
 }

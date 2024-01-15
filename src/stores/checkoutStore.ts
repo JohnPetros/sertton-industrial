@@ -5,11 +5,12 @@ import type { Address } from '@/@types/address'
 import type { CreditCard } from '@/@types/creditCard'
 import type { ShipmentService } from '@/@types/shipmentService'
 import type { Transaction } from '@/@types/transaction'
-import type { LegalPersonFormFields, NaturalPersonFormFields } from '@/libs/zod'
+import { LegalPersonForm } from '@/services/validation/types/LegalPersonForm'
+import { NaturalPersonForm } from '@/services/validation/types/NaturalPersonForm'
 
 export type PersonFormData = {
-  naturalPerson: NaturalPersonFormFields
-  legalPerson: LegalPersonFormFields
+  naturalPerson: NaturalPersonForm
+  legalPerson: LegalPersonForm
 }
 
 export type CheckoutStoreState = {
@@ -92,13 +93,13 @@ export const useCheckoutStore = create<CheckoutStoreProps>()(
           return set(({ state }) => {
             if (personType === 'natural') {
               state.personFormData.naturalPerson[
-                fieldName as keyof NaturalPersonFormFields
+                fieldName as keyof NaturalPersonForm
               ] = value
             }
 
             if (personType === 'legal') {
               state.personFormData.legalPerson[
-                fieldName as keyof LegalPersonFormFields
+                fieldName as keyof LegalPersonForm
               ] = value
             }
           })

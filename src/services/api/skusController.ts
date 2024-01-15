@@ -1,10 +1,10 @@
-import type { Api } from '@/@types/api'
 import type { Sku } from '@/@types/sku'
-import { Endpoints } from '@/services/api/endpoints'
+import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
+import { Endpoints } from '@/services/api/config/endpoints'
+import { Resources } from '@/services/api/config/resources'
 import { ISkusController } from '@/services/api/interfaces/ISkusService'
-import { Resources } from '@/services/api/resources'
 
-export function skusController(api: Api): ISkusController {
+export function skusController(api: IApiProvider): ISkusController {
   return {
     async getSkusByProductId(productId: number) {
       const response = await api.get<{ data: Sku[] }>(

@@ -1,8 +1,8 @@
-import type { Api } from '@/@types/api'
 import type { ShipmentService } from '@/@types/shipmentService'
 import type { Sku } from '@/@types/sku'
+import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
+import { Resources } from '@/services/api/config/resources'
 import { IShipmentServiceController } from '@/services/api/interfaces/IShipmentServiceController'
-import { Resources } from '@/services/api/resources'
 
 const IS_TEST_ENV = process.env.NODE_ENV === 'test'
 const SHIPMENT_SERVICE_BASE_URL = !IS_TEST_ENV
@@ -10,7 +10,7 @@ const SHIPMENT_SERVICE_BASE_URL = !IS_TEST_ENV
   : 'msw'
 
 export function shipmentServiceController(
-  api: Api
+  api: IApiProvider
 ): IShipmentServiceController {
   if (!SHIPMENT_SERVICE_BASE_URL)
     throw new Error('SHIPMENT SERVICE BASE URL must be provided')

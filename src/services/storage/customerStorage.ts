@@ -1,8 +1,8 @@
-import type { Storage } from '@/@types/storage'
+import type { IStorageProvider } from '@/providers/interfaces/IStorageProvider'
+import { CUSTOMER_KEY } from '@/services/storage/config/keys'
 import { ICustomerStorage } from '@/services/storage/interfaces/ICustomerStorage'
-import { CUSTOMER_KEY } from '@/services/storage/keys'
 
-export function customerStorage(storage: Storage): ICustomerStorage {
+export function customerStorage(storage: IStorageProvider): ICustomerStorage {
   return {
     async getCustomerEmail() {
       const email = await storage.get(CUSTOMER_KEY.email)

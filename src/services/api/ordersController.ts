@@ -1,10 +1,10 @@
-import type { Api } from '@/@types/api'
 import { ComputedOrder } from '@/@types/computedOrder'
 import type { Order } from '@/@types/order'
+import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
+import { Resources } from '@/services/api/config/resources'
 import { IOrdersController } from '@/services/api/interfaces/IOrdersController'
-import { Resources } from '@/services/api/resources'
 
-export function ordersController(api: Api): IOrdersController {
+export function ordersController(api: IApiProvider): IOrdersController {
   return {
     async saveOrder(order: Order) {
       await api.post(`/${Resources.ORDERS}`, order)

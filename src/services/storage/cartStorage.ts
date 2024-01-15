@@ -1,7 +1,7 @@
-import type { Storage } from '@/@types/storage'
+import type { IStorageProvider } from '@/providers/interfaces/IStorageProvider'
 import { ICartStorage } from '@/services/storage/interfaces/ICartStorage'
 
-export function cartStorage(storage: Storage): ICartStorage {
+export function cartStorage(storage: IStorageProvider): ICartStorage {
   return {
     async getItem(name) {
       const item = await storage.get(name)

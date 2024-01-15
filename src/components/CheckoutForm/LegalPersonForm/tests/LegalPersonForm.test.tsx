@@ -10,11 +10,11 @@ import { render } from '@/_tests_/customs/customRender'
 import { legalPersonMock } from '@/_tests_/mocks/legalPersonMock'
 import { LegalPersonForm } from '@/components/CheckoutForm/LegalPersonForm'
 import { useMask } from '@/components/Form/Input/useMask'
+import { VALIDATION_ERRORS } from '@/services/validation/config/validationErrors'
 import {
   initialCheckoutStoreState,
   useCheckoutStore,
 } from '@/stores/checkoutStore'
-import { VALIDATION_ERRORS } from '@/utils/constants/validationErrors'
 
 jest.mock('expo-router')
 

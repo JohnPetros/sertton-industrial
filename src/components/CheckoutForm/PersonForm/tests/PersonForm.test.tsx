@@ -3,8 +3,8 @@ import { screen } from '@testing-library/react-native'
 import { PersonForm } from '..'
 
 import { render } from '@/_tests_/customs/customRender'
-import { axiosApi } from '@/libs/axios'
 import { initializeApi } from '@/services/api'
+import { axiosApi } from '@/services/api/axios'
 
 jest.mock('expo-router')
 

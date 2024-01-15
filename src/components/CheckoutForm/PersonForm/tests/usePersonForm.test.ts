@@ -2,18 +2,18 @@ import { act, renderHook, waitFor } from '@testing-library/react-native'
 import { http, HttpResponse } from 'msw'
 import { setupServer } from 'msw/node'
 
-import { apiConfig } from '@/_tests_/configs/apiConfig'
+import { testApi } from '@/_tests_/configs/testApi'
 import { customerMock } from '@/_tests_/mocks/customerMock'
 import { legalPersonMock } from '@/_tests_/mocks/legalPersonMock'
 import { naturalPersonMock } from '@/_tests_/mocks/naturalPersonMock'
 import { Customer } from '@/@types/customer'
 import { usePersonForm } from '@/components/CheckoutForm/PersonForm/usePersonForm'
 import { useCustomerContext } from '@/contexts/CustomerContext'
-import { axiosApi } from '@/libs/axios'
-import { initializeApi } from '@/services/api'
-import { Resources } from '@/services/api/resources'
+import { initializeApiProvider } from '@/services/api'
+import { axiosProvider } from '@/services/api/axios'
+import { Resources } from '@/services/api/config/resources'
+import { VALIDATION_ERRORS } from '@/services/validation/config/validationErrors'
 import { CheckoutStoreProps, useCheckoutStore } from '@/stores/checkoutStore'
-import { VALIDATION_ERRORS } from '@/utils/constants/validationErrors'
 
 jest.mock('../../../../contexts/CustomerContext')
 
@@ -26,8 +26,8 @@ const setFormErrorMock = jest.fn()
 const emailMock = 'existingCustomer@email.com'
 const documentMock = 'document-mock'
 
-const server = setupServer(...apiConfig.DEFAULT_HANDLERS)
-const url = `${apiConfig.BASE_URL}/${Resources.CUSTOMERS}`
+const server = setupServer(...testApi.DEFAULT_HANDLERS)
+const url = `${testApi.BASE_URL}/${Resources.CUSTOMERS}`
 
 function mockUseCustomerContext(customer: Customer | null) {
   jest.mocked(useCustomerContext).mockReturnValueOnce({
@@ -88,7 +88,7 @@ async function expectCustomer(customer: Customer | null) {
 }
 
 describe('usePersonForm hook', () => {
-  beforeAll(() => initializeApi(axiosApi))
+  beforeAll(() => initializeApiProvider(axiosProvider))
 
   beforeEach(() => {
     server.listen({

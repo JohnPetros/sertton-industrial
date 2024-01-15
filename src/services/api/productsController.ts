@@ -1,11 +1,11 @@
-import type { Api } from '@/@types/api'
 import type { Meta } from '@/@types/meta'
 import type { Product } from '@/@types/product'
-import { Endpoints } from '@/services/api/endpoints'
+import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
+import { Endpoints } from '@/services/api/config/endpoints'
+import { Resources } from '@/services/api/config/resources'
 import { IProductsController } from '@/services/api/interfaces/IProductsService'
-import { Resources } from '@/services/api/resources'
 
-export function productsController(api: Api): IProductsController {
+export function productsController(api: IApiProvider): IProductsController {
   return {
     async getProducts({ page, search, sorter, categoryId, brandsIds }) {
       const sorterParam = sorter

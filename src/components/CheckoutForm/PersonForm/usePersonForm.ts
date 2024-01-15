@@ -3,8 +3,8 @@ import { useEffect } from 'react'
 import { Customer } from '@/@types/customer'
 import { useCustomerContext } from '@/contexts/CustomerContext'
 import { useApi } from '@/services/api'
+import { VALIDATION_ERRORS } from '@/services/validation/config/validationErrors'
 import { useCheckoutStore } from '@/stores/checkoutStore'
-import { VALIDATION_ERRORS } from '@/utils/constants/validationErrors'
 
 type SetFormError = (fieldName: string, message: string) => void
 

@@ -2,14 +2,13 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Keyboard } from 'react-native'
 import { useMutation, useQuery } from 'react-query'
-import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Address } from '@/@types/address'
-import { useAppError } from '@/components/AppError/useAppError'
 import { useCustomerContext } from '@/contexts/CustomerContext'
-import { AddressFormFields, addressFormSchema, zipcodeSchema } from '@/libs/zod'
 import { useApi } from '@/services/api'
 import { useStorage } from '@/services/storage'
+import { useValidation } from '@/services/validation'
+import { AddressForm } from '@/services/validation/types/AddressForm'
 import { useCheckoutStore } from '@/stores/checkoutStore'
 import { waitFor } from '@/utils/helpers/wait'
 
@@ -39,6 +38,7 @@ export function useAddressForm() {
 
   const api = useApi()
   const storage = useStorage()
+  const validation = useValidation()
 
   const {
     control,
@@ -47,9 +47,9 @@ export function useAddressForm() {
     setError,
     clearErrors,
     formState: { errors },
-  } = useForm<AddressFormFields>({
+  } = useForm<AddressForm>({
     mode: 'onSubmit',
-    resolver: zodResolver(addressFormSchema),
+    resolver: validation.resolveAddressForm(),
   })
 
   const [isZipcodeValid, setIsZipcodeValid] = useState(false)
@@ -58,12 +58,14 @@ export function useAddressForm() {
 
   const [isAddressRadioGroupVisible, setIsAddressRadioGroupVisible] =
     useState(true)
-  const [addressFormData, setAddressFormData] =
-    useState<AddressFormFields | null>(null)
+  const [addressFormData, setAddressFormData] = useState<AddressForm | null>(
+    null
+  )
 
   async function getAddressesByCustomerId() {
     if (customer) {
       const addresses = await api.getAddressesByCustomerId(customer.id)
+      console.log({ addresses })
 
       if (!addresses) return
 
@@ -169,7 +171,7 @@ export function useAddressForm() {
   }
 
   async function handleZipcodeChange(zipcode: string) {
-    const { success: isValid } = zipcodeSchema.safeParse(zipcode)
+    const { isValid } = validation.validateZipcode(zipcode)
 
     console.log({ isValid })
 
@@ -255,7 +257,7 @@ export function useAddressForm() {
     }
   }
 
-  async function handleFormSubmit(fields: AddressFormFields) {
+  async function handleFormSubmit(fields: AddressForm) {
     if (!customer) return
     setIsSubmitting(true)
 
@@ -306,7 +308,7 @@ export function useAddressForm() {
     for (const fieldName of Object.keys(addressFormData)) {
       const value = addressFormData[fieldName as keyof typeof addressFormData]
 
-      if (value) setValue(fieldName as keyof AddressFormFields, value)
+      if (value) setValue(fieldName as keyof AddressForm, value)
     }
   }, [addressFormData])
 

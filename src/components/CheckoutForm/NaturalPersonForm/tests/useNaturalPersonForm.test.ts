@@ -2,7 +2,7 @@ import { act, renderHook } from '@testing-library/react-native'
 
 import { naturalPersonMock } from '@/_tests_/mocks/naturalPersonMock'
 import { useNaturalPesonForm } from '@/components/CheckoutForm/NaturalPersonForm/useNaturalPersonForm'
-import { NaturalPersonFormFields } from '@/libs/zod'
+import { NaturalPersonForm } from '@/services/validation/types/NaturalPersonForm'
 import {
   CheckoutStoreProps,
   initialCheckoutStoreState,
@@ -14,7 +14,7 @@ const onSubmitMock = jest.fn()
 const changeHandlerMock = jest.fn()
 const setPersonFormDataMock = jest.fn()
 
-function mockUseCheckoutStore(naturalPersonMock: NaturalPersonFormFields) {
+function mockUseCheckoutStore(naturalPersonMock: NaturalPersonForm) {
   useCheckoutStore.setState({
     actions: { setStep: setStepMock, setPersonFormData: setPersonFormDataMock },
     state: {

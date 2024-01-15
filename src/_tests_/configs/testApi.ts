@@ -1,9 +1,9 @@
 import { http, HttpResponse } from 'msw'
 
-import { envVarsConfig } from './envVarsConfig'
+import { testEnvVars } from './testEnvVars'
 
-export const apiConfig = {
-  BASE_URL: `http://localhost/${envVarsConfig.API_BASE_URL}/${envVarsConfig.ALIAS}`,
+export const testApi = {
+  BASE_URL: `http://localhost/${testEnvVars.API_BASE_URL}/${testEnvVars.ALIAS}`,
   DEFAULT_HANDLERS: [
     http.get('http://127.0.0.1:50518/', () => {
       return HttpResponse.json(false)

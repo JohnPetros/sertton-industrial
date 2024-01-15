@@ -1,11 +1,11 @@
 import { useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 
-import { LegalPersonFormFields, legalPersonFormSchema } from '@/libs/zod'
+import { useValidation } from '@/services/validation'
+import { LegalPersonForm } from '@/services/validation/types/LegalPersonForm'
 import { useCheckoutStore } from '@/stores/checkoutStore'
 
-type FieldName = keyof LegalPersonFormFields
+type FieldName = keyof LegalPersonForm
 
 export function useLegalPesonForm(
   onSubmit: (
@@ -13,15 +13,17 @@ export function useLegalPesonForm(
     setFormError: (fieldName: string, message: string) => void
   ) => void
 ) {
+  const { resolveLegalPersonForm } = useValidation()
+
   const {
     control,
     handleSubmit,
     setValue,
     setError,
     formState: { errors, isSubmitting },
-  } = useForm<LegalPersonFormFields>({
+  } = useForm<LegalPersonForm>({
     mode: 'onBlur',
-    resolver: zodResolver(legalPersonFormSchema),
+    resolver: resolveLegalPersonForm(),
   })
 
   const personFormData = useCheckoutStore((store) => store.state.personFormData)
@@ -53,7 +55,7 @@ export function useLegalPesonForm(
   function handleInputChange(
     changeHandler: (value: string) => void,
     value: string,
-    fieldName: keyof LegalPersonFormFields
+    fieldName: keyof LegalPersonForm
   ) {
     changeHandler(value)
 
@@ -64,7 +66,7 @@ export function useLegalPesonForm(
     const { legalPerson } = personFormData
 
     for (const fieldName of Object.keys(legalPerson)) {
-      const value = legalPerson[fieldName as keyof LegalPersonFormFields]
+      const value = legalPerson[fieldName as keyof LegalPersonForm]
       if (value) setValue(fieldName as FieldName, value)
     }
   }, [])

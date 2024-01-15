@@ -1,12 +1,12 @@
 import { useMemo } from 'react'
 
-import type { Storage } from '@/@types/storage'
+import type { IStorageProvider } from '@/providers/interfaces/IStorageProvider'
 import { customerStorage } from '@/services/storage/customerStorage'
 
-let storage: Storage
+let storage: IStorageProvider
 
-export function initializeStorage(initialStorage: Storage) {
-  storage = initialStorage
+export function initializeStorageProvider(storageProvider: IStorageProvider) {
+  storage = storageProvider
 }
 
 export function useStorage() {

@@ -2,7 +2,7 @@ import { act, renderHook } from '@testing-library/react-native'
 
 import { legalPersonMock } from '@/_tests_/mocks/legalPersonMock'
 import { useLegalPesonForm } from '@/components/CheckoutForm/LegalPersonForm/useLegalPersonForm'
-import { LegalPersonFormFields } from '@/libs/zod'
+import { LegalPersonForm } from '@/services/validation/types/LegalPersonForm'
 import {
   CheckoutStoreProps,
   initialCheckoutStoreState,
@@ -14,7 +14,7 @@ const onSubmitMock = jest.fn()
 const changeHandlerMock = jest.fn()
 const setPersonFormDataMock = jest.fn()
 
-function mockUseCheckoutStore(legalPersonMock: LegalPersonFormFields) {
+function mockUseCheckoutStore(legalPersonMock: LegalPersonForm) {
   useCheckoutStore.setState({
     actions: { setStep: setStepMock, setPersonFormData: setPersonFormDataMock },
     state: {

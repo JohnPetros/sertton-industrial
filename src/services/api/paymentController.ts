@@ -1,11 +1,11 @@
-import { envVarsConfig } from '@/_tests_/configs/envVarsConfig'
-import type { Api } from '@/@types/api'
+import { envVarsConfig } from '@/_tests_/configs/testEnvVars'
 import type { CreditCard } from '@/@types/creditCard'
-import { PaymentConfig } from '@/@types/paymentMethod'
-import { Transaction } from '@/@types/transaction'
+import type { PaymentConfig } from '@/@types/paymentMethod'
+import type { Transaction } from '@/@types/transaction'
+import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
+import { Resources } from '@/services/api/config/resources'
 import { CreateTransactionRequest } from '@/services/api/interfaces/IPaymentController'
 import { IPaymentController } from '@/services/api/interfaces/IPaymentController'
-import { Resources } from '@/services/api/resources'
 import { removeAccents } from '@/utils/helpers/removeAccents'
 
 const IS_TEST_ENV = process.env.NODE_ENV === 'test'
@@ -22,7 +22,7 @@ const PAGAR_ME_PUBLIC_KEY = !IS_TEST_ENV
   ? process.env.PAGAR_ME_PUBLIC_KEY
   : envVarsConfig.API_BASE_URL
 
-export function paymentController(api: Api): IPaymentController {
+export function paymentController(api: IApiProvider): IPaymentController {
   if (!SHIPMENT_SERVICE_BASE_URL)
     throw new Error('SHIPMENT SERVICE BASE URL must be provided')
 

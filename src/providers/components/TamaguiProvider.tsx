@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { TamaguiProvider as Tamagui } from 'tamagui'
 
-import config from '../../tamagui.config'
+import config from '../../../tamagui.config'
 
 interface TamaguiProviderProps {
   children: ReactNode

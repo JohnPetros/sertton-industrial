@@ -1,12 +1,12 @@
-import type { DateProvider } from '@/@types/dateProvider'
+import type { IDateProvider } from '@/providers/interfaces/IDateProvider'
 
-let dateProvider: DateProvider
+let dateProvider: IDateProvider
 
-export function initializeDateProvider(initialDateProvider: DateProvider) {
-  dateProvider = initialDateProvider
+export function initializeDateProvider(dateProviderInstance: IDateProvider) {
+  dateProvider = dateProviderInstance
 }
 
-export function useDate(): DateProvider {
+export function useDate(): IDateProvider {
   if (!dateProvider) {
     throw new Error('useDate Must be used with a DateProvider')
   }

@@ -1,25 +1,25 @@
 import axios, { isAxiosError } from 'axios'
 
-import { envVarsConfig } from '@/_tests_/configs/envVarsConfig'
-import type { Api } from '@/@types/api'
+import { testEnvVars } from '@/_tests_/configs/testEnvVars'
+import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
 
 const IS_TEST_ENV = process.env.NODE_ENV === 'test'
 
 const BASE_URL = !IS_TEST_ENV
   ? process.env.YAMPI_BASE_URL
-  : envVarsConfig.API_BASE_URL
+  : testEnvVars.API_BASE_URL
 
-const ALIAS = !IS_TEST_ENV ? process.env.ALIAS : envVarsConfig.ALIAS
+const ALIAS = !IS_TEST_ENV ? process.env.ALIAS : testEnvVars.ALIAS
 
-const TOKEN = !IS_TEST_ENV ? process.env.YAMPI_TOKEN : envVarsConfig.YAMPI_TOKEN
+const TOKEN = !IS_TEST_ENV ? process.env.YAMPI_TOKEN : testEnvVars.YAMPI_TOKEN
 
 const SECRET_KEY = !IS_TEST_ENV
   ? process.env.YAMPI_SECRET_KEY
-  : envVarsConfig.YAMPI_SECRET_KEY
+  : testEnvVars.YAMPI_SECRET_KEY
 
 const axiosClient = axios.create()
 
-export const axiosApi: Api = {
+export const axiosProvider: IApiProvider = {
   async get<Response>(url: string) {
     const { data } = await axiosClient.get(url)
     return data as Response
@@ -70,6 +70,6 @@ export const axiosApi: Api = {
       return error.response?.data as Error
     }
 
-    return 'Unknown Api Error'
+    return error as Error
   },
 }

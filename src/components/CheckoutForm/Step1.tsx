@@ -2,13 +2,14 @@ import { YStack } from 'tamagui'
 
 import { Heading } from '@/components/CheckoutForm/Heading'
 import { PersonForm } from '@/components/CheckoutForm/PersonForm'
-import { LegalPersonFormFields, NaturalPersonFormFields } from '@/libs/zod'
+import { LegalPersonForm } from '@/services/validation/types/LegalPersonForm'
+import { NaturalPersonForm } from '@/services/validation/types/NaturalPersonForm'
 import { useCheckoutStore } from '@/stores/checkoutStore'
 import { SCREEN } from '@/utils/constants/screen'
 
 export type PersonFormData = {
-  naturalPerson: NaturalPersonFormFields
-  legalPerson: LegalPersonFormFields
+  naturalPerson: NaturalPersonForm
+  legalPerson: LegalPersonForm
 }
 
 export function Step1() {

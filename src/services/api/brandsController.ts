@@ -1,10 +1,10 @@
-import type { Api } from '@/@types/api'
 import type { Brand } from '@/@types/brand'
-import { Endpoints } from '@/services/api/endpoints'
+import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
+import { Endpoints } from '@/services/api/config/endpoints'
+import { Resources } from '@/services/api/config/resources'
 import { IBrandsController } from '@/services/api/interfaces/IBrandsService'
-import { Resources } from '@/services/api/resources'
 
-export function brandsController(api: Api): IBrandsController {
+export function brandsController(api: IApiProvider): IBrandsController {
   return {
     async getBrands() {
       const response = await api.get<{ data: Brand[] }>(

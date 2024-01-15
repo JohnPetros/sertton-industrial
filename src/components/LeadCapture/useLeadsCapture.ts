@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
 import { useToast } from '@/components/Toast/useToast'
-import { emailSchema } from '@/libs/zod'
 import { useApi } from '@/services/api'
+import { useValidation } from '@/services/validation'
 
 export function useLeadsCapture() {
   const [email, setEmail] = useState('')
@@ -10,11 +10,12 @@ export function useLeadsCapture() {
   const [isLoading, setIsLoading] = useState(false)
   const api = useApi()
   const toast = useToast()
+  const validation = useValidation()
 
   async function handleSubmit() {
-    const emailValidation = emailSchema.safeParse(email)
+    const emailValidation = validation.validateEmail(email)
 
-    if (emailValidation.success) {
+    if (emailValidation.isValid) {
       try {
         await api.saveLead(email)
         setIsLoading(true)
@@ -23,6 +24,7 @@ export function useLeadsCapture() {
         const { errors } = api.handleError<{
           errors: { email: string[] }
         }>(error)
+
         toast.show(errors.email[0], 'error')
       } finally {
         setIsLoading(false)

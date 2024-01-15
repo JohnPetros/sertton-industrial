@@ -1,13 +1,11 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { usePathname } from 'expo-router/src/hooks'
 
-import { NaturalPersonFormFields, naturalPersonFormSchema } from '@/libs/zod'
-import { useApi } from '@/services/api'
+import { useValidation } from '@/services/validation'
+import { NaturalPersonForm } from '@/services/validation/types/NaturalPersonForm'
 import { useCheckoutStore } from '@/stores/checkoutStore'
 
-type FieldName = keyof NaturalPersonFormFields
+type FieldName = keyof NaturalPersonForm
 
 export function useNaturalPesonForm(
   onSubmit: (
@@ -15,15 +13,17 @@ export function useNaturalPesonForm(
     setFormError: (fieldName: string, message: string) => void
   ) => void
 ) {
+  const { resolveNaturalPersonForm } = useValidation()
+
   const {
     control,
     handleSubmit,
     setValue,
     setError,
     formState: { errors, isSubmitting },
-  } = useForm<NaturalPersonFormFields>({
+  } = useForm<NaturalPersonForm>({
     mode: 'onBlur',
-    resolver: zodResolver(naturalPersonFormSchema),
+    resolver: resolveNaturalPersonForm(),
   })
 
   const personFormData = useCheckoutStore((store) => store.state.personFormData)
@@ -52,7 +52,7 @@ export function useNaturalPesonForm(
   function handleInputChange(
     changeHandler: (value: string) => void,
     value: string,
-    fieldName: keyof NaturalPersonFormFields
+    fieldName: keyof NaturalPersonForm
   ) {
     changeHandler(value)
 
@@ -63,7 +63,7 @@ export function useNaturalPesonForm(
     const { naturalPerson } = personFormData
 
     for (const fieldName of Object.keys(naturalPerson)) {
-      const value = naturalPerson[fieldName as keyof NaturalPersonFormFields]
+      const value = naturalPerson[fieldName as keyof NaturalPersonForm]
       if (value) setValue(fieldName as FieldName, value)
     }
   }, [personFormData])
