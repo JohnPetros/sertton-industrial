@@ -63,7 +63,12 @@ export function ShipmentServiceForm() {
           />
         </RadioGroup>
         {selectedShipmentService && (
-          <Button disabled={isLoading} mt={36} onPress={handleContinueCheckout}>
+          <Button
+            testID="continue-checkout-button"
+            disabled={isLoading}
+            mt={36}
+            onPress={handleContinueCheckout}
+          >
             {isLoading ? <Spinner color="$white" /> : 'Continuar'}
           </Button>
         )}

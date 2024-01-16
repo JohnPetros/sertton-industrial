@@ -23,12 +23,13 @@ export function Radio({
   return (
     <RadioGroup.Item
       unstyled
+      testID={`radio-${value}`}
       id={value}
-      flex={1}
       value={value}
       onPress={handleRadio}
       position="relative"
       disabled={isLoading}
+      flex={1}
     >
       <YStack
         borderColor={isSelected ? '$blue500' : '$gray200'}
