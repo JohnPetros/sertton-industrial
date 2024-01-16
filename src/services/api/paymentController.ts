@@ -1,3 +1,4 @@
+import { testApi } from '@/_tests_/configs/testApi'
 import { testEnvVars } from '@/_tests_/configs/testEnvVars'
 import type { CreditCard } from '@/@types/creditCard'
 import type { PaymentConfig } from '@/@types/paymentMethod'
@@ -12,15 +13,15 @@ const IS_TEST_ENV = process.env.NODE_ENV === 'test'
 
 const SHIPMENT_SERVICE_BASE_URL = !IS_TEST_ENV
   ? process.env.SHIPMENT_SERVICE_BASE_URL
-  : testEnvVars.API_BASE_URL
+  : testApi.BASE_URL
 
 const PAGAR_ME_API_URL = !IS_TEST_ENV
   ? process.env.PAGAR_ME_API_URL
-  : testEnvVars.API_BASE_URL
+  : testApi.BASE_URL
 
 const PAGAR_ME_PUBLIC_KEY = !IS_TEST_ENV
   ? process.env.PAGAR_ME_PUBLIC_KEY
-  : testEnvVars.API_BASE_URL
+  : testEnvVars.PAGARME_PUBLIC_KEY
 
 export function paymentController(api: IApiProvider): IPaymentController {
   if (!SHIPMENT_SERVICE_BASE_URL)
@@ -53,7 +54,24 @@ export function paymentController(api: IApiProvider): IPaymentController {
         `/${Resources.CHECKOUT}/payments`
       )
 
-      return response.data
+      const paymentConfigs: PaymentConfig[] = response.data.map(
+        (paymentConfig) => ({
+          id: paymentConfig.id,
+          name: paymentConfig.name,
+          alias: paymentConfig.alias,
+          has_config: paymentConfig.has_config,
+          active_config: paymentConfig.active_config,
+          is_credit_card: paymentConfig.is_credit_card,
+          is_deposit: paymentConfig.is_deposit,
+          is_billet: paymentConfig.is_billet,
+          is_pix: paymentConfig.is_pix,
+          is_pix_in_installments: paymentConfig.is_pix_in_installments,
+          is_wallet: paymentConfig.is_wallet,
+          icon_url: paymentConfig.icon_url,
+        })
+      )
+
+      return paymentConfigs
     },
 
     async tokenizeCard(creditCard: CreditCard) {
