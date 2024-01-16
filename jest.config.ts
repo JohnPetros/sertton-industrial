@@ -4,17 +4,18 @@
 const config = {
   preset: 'jest-expo',
   coveragePathIgnorePatterns: ['node_modules'],
-  setupFiles: [
-    'dotenv/config',
-    '<rootDir>/src/_tests_/configs/envVarsConfig.ts',
-  ],
+  setupFiles: ['dotenv/config', '<rootDir>/src/_tests_/configs/testEnvVars.ts'],
   setupFilesAfterEnv: ['@testing-library/jest-native/extend-expect'],
   testPathIgnorePatterns: [
     '<rootDir>/src/_tests_/mocks/',
     '<rootDir>/src/_tests_/customs/',
     '<rootDir>/src/_tests_/config/',
     '<rootDir>/src/_tests_/coverage/',
+    'node_modules/(?!(react-native|phosphor-react-native)/)',
   ],
+  transform: {
+    '^.+\\.svg$': 'jest-transformer-svg',
+  },
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
