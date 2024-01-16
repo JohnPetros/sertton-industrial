@@ -5,7 +5,7 @@ import { Alert } from '@/components/Alert'
 import { Button } from '@/components/Button'
 
 interface AddressProps {
-  zipCode: string
+  zipcode: string
   number: string
   uf: string
   neighborhood: string
@@ -16,7 +16,7 @@ interface AddressProps {
 }
 
 export function Address({
-  zipCode,
+  zipcode,
   number,
   city,
   uf,
@@ -26,17 +26,21 @@ export function Address({
   onDelete,
 }: AddressProps) {
   return (
-    <XStack>
+    <XStack testID={zipcode}>
       <YStack w={140} flexShrink={1}>
         <Text color="$blue800" fontWeight="600">
           {street}, {number} - {neighborhood}
         </Text>
         <Text color="$gray400" flexWrap="wrap" flexShrink={0}>
-          {zipCode} | {city} - {uf}
+          {zipcode} | {city} - {uf}
         </Text>
       </YStack>
       <XStack h="100%" alignItems="flex-start">
-        <Button background="transparent" onPress={() => onEdit(zipCode)}>
+        <Button
+          testID={`edit-button-${zipcode}`}
+          background="transparent"
+          onPress={() => onEdit(zipcode)}
+        >
           <YStack alignItems="center">
             <Pencil color={getTokens().color.gray400.val} />
             <Text fontSize={12} color="$gray400" fontWeight="600">
@@ -46,9 +50,9 @@ export function Address({
         </Button>
         <Alert
           title="Tem certeza que deseja excluir esse endereço?"
-          onConfirm={() => onDelete(zipCode)}
+          onConfirm={() => onDelete(zipcode)}
         >
-          <Button background="transparent">
+          <Button testID={`delete-button-${zipcode}`} background="transparent">
             <YStack alignItems="center">
               <Trash color={getTokens().color.gray400.val} />
               <Text fontSize={12} color="$gray400" fontWeight="600">
