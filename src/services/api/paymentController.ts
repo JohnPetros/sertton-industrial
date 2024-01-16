@@ -1,4 +1,4 @@
-import { envVarsConfig } from '@/_tests_/configs/testEnvVars'
+import { testEnvVars } from '@/_tests_/configs/testEnvVars'
 import type { CreditCard } from '@/@types/creditCard'
 import type { PaymentConfig } from '@/@types/paymentMethod'
 import type { Transaction } from '@/@types/transaction'
@@ -12,15 +12,15 @@ const IS_TEST_ENV = process.env.NODE_ENV === 'test'
 
 const SHIPMENT_SERVICE_BASE_URL = !IS_TEST_ENV
   ? process.env.SHIPMENT_SERVICE_BASE_URL
-  : envVarsConfig.API_BASE_URL
+  : testEnvVars.API_BASE_URL
 
 const PAGAR_ME_API_URL = !IS_TEST_ENV
   ? process.env.PAGAR_ME_API_URL
-  : envVarsConfig.API_BASE_URL
+  : testEnvVars.API_BASE_URL
 
 const PAGAR_ME_PUBLIC_KEY = !IS_TEST_ENV
   ? process.env.PAGAR_ME_PUBLIC_KEY
-  : envVarsConfig.API_BASE_URL
+  : testEnvVars.API_BASE_URL
 
 export function paymentController(api: IApiProvider): IPaymentController {
   if (!SHIPMENT_SERVICE_BASE_URL)

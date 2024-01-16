@@ -1,4 +1,4 @@
-import { testEnvVars } from '@/_tests_/configs/testEnvVars'
+import { testApi } from '@/_tests_/configs/testApi'
 import type { Address } from '@/@types/address'
 import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
 import { Resources } from '@/services/api/config/resources'
@@ -10,9 +10,7 @@ import { getOnlyNumbers } from '@/utils/helpers/getOnlyNumbers'
 
 const IS_TEST_ENV = process.env.NODE_ENV === 'test'
 
-const BASE_URL = !IS_TEST_ENV
-  ? process.env.VIA_CEP_BASE_URL
-  : testEnvVars.API_BASE_URL
+const BASE_URL = !IS_TEST_ENV ? process.env.VIA_CEP_BASE_URL : testApi.BASE_URL
 
 export function addressesController(api: IApiProvider): IAdressesController {
   return {
@@ -43,7 +41,19 @@ export function addressesController(api: IApiProvider): IAdressesController {
         `${Resources.CUSTOMERS}/${customerId}/${Resources.ADDRESSES}`
       )
 
-      return response.data
+      const addresses: Address[] = response.data.map((address) => ({
+        id: address.id,
+        receiver: address.receiver,
+        zip_code: address.zip_code,
+        street: address.street,
+        number: address.number,
+        neighborhood: address.neighborhood,
+        complement: address.complement,
+        city: address.city,
+        uf: address.uf,
+      }))
+
+      return addresses
     },
 
     async saveAddress(address: Address, customerId: number) {
