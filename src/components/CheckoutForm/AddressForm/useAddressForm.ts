@@ -57,7 +57,7 @@ export function useAddressForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const [isAddressRadioGroupVisible, setIsAddressRadioGroupVisible] =
-    useState(true)
+    useState(false)
   const [addressFormData, setAddressFormData] = useState<AddressForm | null>(
     null
   )
@@ -65,12 +65,13 @@ export function useAddressForm() {
   async function getAddressesByCustomerId() {
     if (customer) {
       const addresses = await api.getAddressesByCustomerId(customer.id)
-      console.log({ addresses })
 
-      if (!addresses) return
+      if (!addresses.length) return []
 
       let selectedAddressZipcode =
         await storage.getCustomerSelectedAddressZipcode()
+
+      console.log({ selectedAddressZipcode })
 
       if (!selectedAddressZipcode) {
         selectedAddressZipcode = addresses[0].zip_code
@@ -104,6 +105,8 @@ export function useAddressForm() {
 
       return addresses
     }
+
+    return []
   }
 
   const {
@@ -155,6 +158,7 @@ export function useAddressForm() {
   }
 
   function handleShowAddressesButton() {
+    console.log('handleShowAddressesButton')
     setIsAddressRadioGroupVisible(true)
   }
 
@@ -172,8 +176,6 @@ export function useAddressForm() {
 
   async function handleZipcodeChange(zipcode: string) {
     const { isValid } = validation.validateZipcode(zipcode)
-
-    console.log({ isValid })
 
     if (!isValid) {
       setIsZipcodeValid(false)
@@ -286,8 +288,8 @@ export function useAddressForm() {
       addressUpdatingMutation.mutate({ address, customerId: customer.id })
       setIsSubmitting(false)
       setCustomerSelectedAddressZipcode(address.zip_code)
-      setCheckoutAddress(address)
       setIsAddressRadioGroupVisible(true)
+      setCheckoutAddress(address)
       return
     }
 
@@ -331,5 +333,6 @@ export function useAddressForm() {
     handleAddAddressButton,
     handleShowAddressesButton,
     handleSubmit: handleSubmit(handleFormSubmit),
+    handleFormSubmit,
   }
 }

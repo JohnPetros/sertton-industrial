@@ -5,6 +5,8 @@ import { setupServer } from 'msw/node'
 import { useAddressForm } from '../useAddressForm'
 
 import { testApi } from '@/_tests_/configs/testApi'
+import { addressesMock } from '@/_tests_/mocks/addressesMock'
+import { apiAddressMockResponse } from '@/_tests_/mocks/apiAddressMockResponse'
 import { customerMock } from '@/_tests_/mocks/customerMock'
 import { storageMock } from '@/_tests_/mocks/storageMock'
 import { Address } from '@/@types/address'
@@ -22,47 +24,38 @@ import { CheckoutStoreProps, useCheckoutStore } from '@/stores/checkoutStore'
 const setCheckoutAddressMock = jest.fn()
 const updateCustomerMock = jest.fn()
 const fetchCustomerByEmailMock = jest.fn()
-const setSelectedAddressZipcodeMock = jest.fn()
+const setCustomerSelectedAddressZipcodeMock = jest.fn()
 
 const server = setupServer(...testApi.DEFAULT_HANDLERS)
 
-const apiAddressMockResponse = {
-  uf: 'PT',
-  city: 'Cidade dos Poetas Mortos',
-  street: 'Rua dos bocós',
-  neighborhood: 'Bairro de Deus',
-  zip_code: '98745612',
-}
+const selectedAddres = addressesMock[0]
 
-async function renderUseAddressFormHook() {
-  const { result } = await waitFor(() => {
-    return renderHook(useAddressForm, {
-      wrapper: ({ children }) => (
-        <QueryClientProvider>
-          <CustomerContext.Provider
-            value={{
-              customer: customerMock,
-              fetchCustomerByEmail: fetchCustomerByEmailMock,
-              setSelectedAddressZipcode: setSelectedAddressZipcodeMock,
-              updateCustomer: updateCustomerMock,
-            }}
-          >
-            {children}
-          </CustomerContext.Provider>
-        </QueryClientProvider>
-      ),
-    })
+function renderUseAddressFormHook() {
+  return renderHook(useAddressForm, {
+    wrapper: ({ children }) => (
+      <QueryClientProvider>
+        <CustomerContext.Provider
+          value={{
+            customer: {
+              ...customerMock,
+              selectedAddressZipcode: selectedAddres.zip_code,
+            },
+            fetchCustomerByEmail: fetchCustomerByEmailMock,
+            setSelectedAddressZipcode: setCustomerSelectedAddressZipcodeMock,
+            updateCustomer: updateCustomerMock,
+          }}
+        >
+          {children}
+        </CustomerContext.Provider>
+      </QueryClientProvider>
+    ),
   })
-
-  return result.current
 }
 
 function mockGetAddressByZipcode(zipcode: string) {
-  const url = `${testApi.BASE_URL}/${zipcode}/json/`
+  const url = `${testApi.BASE_URL}/${zipcode}/json`
 
   const getAddressByZipcodeSpy = jest.fn()
-
-  console.log({ url })
 
   server.use(
     http.get(url, () => {
@@ -82,11 +75,26 @@ function mockGetAddressesByCustomerId(addresses: Address[]) {
   server.use(
     http.get(url, () => {
       getGetAddressesByCustomerIdSpy()
-      return HttpResponse.json(addresses)
+      return HttpResponse.json({ data: addresses })
     })
   )
 
   return getGetAddressesByCustomerIdSpy
+}
+
+function mockAddAddress() {
+  const url = `${testApi.BASE_URL}/${Resources.CUSTOMERS}/${customerMock.id}/${Resources.ADDRESSES}`
+
+  const addAddressSpy = jest.fn()
+
+  server.use(
+    http.post(url, () => {
+      addAddressSpy()
+      return HttpResponse.json(true)
+    })
+  )
+
+  return addAddressSpy
 }
 
 function mockUpdateAddress(addressId: number) {
@@ -95,7 +103,7 @@ function mockUpdateAddress(addressId: number) {
   const updateAddressSpy = jest.fn()
 
   server.use(
-    http.get(url, () => {
+    http.put(url, () => {
       updateAddressSpy()
       return HttpResponse.json(true)
     })
@@ -110,7 +118,7 @@ function mockDeleteAddress(addressId: number) {
   const deleteAddressSpy = jest.fn()
 
   server.use(
-    http.get(url, () => {
+    http.delete(url, () => {
       deleteAddressSpy()
       return HttpResponse.json(true)
     })
@@ -127,36 +135,43 @@ describe('useAddressForm hook', () => {
   })
 
   beforeEach(() => {
+    setCheckoutAddressMock.mockClear()
+    updateCustomerMock.mockClear()
+    fetchCustomerByEmailMock.mockClear()
+    setCustomerSelectedAddressZipcodeMock.mockClear()
+
     server.listen({
       onUnhandledRequest: 'error',
     })
 
     act(() => {
       useCheckoutStore.setState({
-        actions: { setCheckoutAddress: setCheckoutAddressMock },
+        actions: { setAddress: setCheckoutAddressMock },
       } as unknown as CheckoutStoreProps)
     })
 
-    storageMock.set(CUSTOMER_KEY.selectedAddressZipcode, '')
+    storageMock.clear()
   })
 
   afterEach(() => server.resetHandlers())
   afterAll(() => server.close())
 
   it('should fetch customer addresses', async () => {
-    const getAddressByZipcodeSpy = mockGetAddressesByCustomerId([])
+    const getAddressesByCustomerId = mockGetAddressesByCustomerId([])
 
-    await renderUseAddressFormHook()
+    renderUseAddressFormHook()
 
-    expect(getAddressByZipcodeSpy).toHaveBeenCalled()
+    await waitFor(() => {
+      expect(getAddressesByCustomerId).toHaveBeenCalled()
+    })
   })
 
   it('should set address form using selected customer address', async () => {
-    const getGetAddressesByCustomerIdSpy = mockGetAddressesByCustomerId(
+    const getAddressByCustomerIdSpy = mockGetAddressesByCustomerId(
       customerMock.addresses.data
     )
 
-    const { addressFormData } = await renderUseAddressFormHook()
+    const { result } = renderUseAddressFormHook()
 
     const selectedAddress = {
       city: customerMock.addresses.data[0].city,
@@ -169,14 +184,41 @@ describe('useAddressForm hook', () => {
       receiver: customerMock.name,
     }
 
-    expect(getGetAddressesByCustomerIdSpy).toHaveBeenCalledWith(customerMock.id)
-    expect(addressFormData).toEqual(expect.objectContaining(selectedAddress))
-    expect(setCheckoutAddressMock).toHaveBeenCalledWith(
-      expect.objectContaining({
-        ...selectedAddress,
-        zip_code: selectedAddress.zipcode,
-      })
-    )
+    await waitFor(() => {
+      expect(getAddressByCustomerIdSpy).toHaveBeenCalled()
+      expect(result.current.addressFormData).toEqual(
+        expect.objectContaining(selectedAddress)
+      )
+      expect(setCheckoutAddressMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          ...selectedAddress,
+          zip_code: selectedAddress.zipcode,
+        })
+      )
+      expect(result.current.isAddressRadioGroupVisible).toBe(true)
+    })
+  })
+
+  it('should use storaged selected address zipcode when it exists', async () => {
+    const selectedAddressZipcode = customerMock.addresses.data[0].zip_code
+
+    storageMock.set(CUSTOMER_KEY.selectedAddressZipcode, selectedAddressZipcode)
+
+    mockGetAddressesByCustomerId(customerMock.addresses.data)
+
+    const { result } = renderUseAddressFormHook()
+
+    await waitFor(() => {
+      expect(setCustomerSelectedAddressZipcodeMock).toHaveBeenCalledWith(
+        selectedAddressZipcode
+      )
+      expect(setCheckoutAddressMock).toHaveBeenCalledWith(
+        expect.objectContaining({ zipcode: selectedAddressZipcode })
+      )
+      expect(result.current.addressFormData?.zipcode).toBe(
+        selectedAddressZipcode
+      )
+    })
   })
 
   it('should not fetch address by zipcode when zipcode is invalid', async () => {
@@ -187,42 +229,231 @@ describe('useAddressForm hook', () => {
     mockUpdateAddress(customerMock.addresses.data[0].id)
     mockDeleteAddress(customerMock.addresses.data[0].id)
 
-    const { handleZipcodeChange, isZipcodeValid } =
-      await renderUseAddressFormHook()
+    const { result } = renderUseAddressFormHook()
 
-    await waitFor(async () => {
-      act(async () => await handleZipcodeChange(invalidZipcode))
-    })
+    await act(
+      async () => await result.current.handleZipcodeChange(invalidZipcode)
+    )
 
     expect(getAddressByZipcodeSpy).not.toHaveBeenCalled()
-    expect(isZipcodeValid).toBe(false)
+    expect(result.current.isZipcodeValid).toBe(false)
   })
 
   it('should fetch address by zipcode when zipcode is valid', async () => {
-    const zipcode = '12231440'
+    const getAddressByZipcodeSpy = mockGetAddressByZipcode(
+      apiAddressMockResponse.cep
+    )
 
     mockGetAddressesByCustomerId([])
-    const getAddressByZipcodeSpy = mockGetAddressByZipcode(zipcode)
 
-    const { handleZipcodeChange, addressFormData, isZipcodeValid } =
-      await renderUseAddressFormHook()
+    const { result } = renderUseAddressFormHook()
 
-    await waitFor(async () => {
-      act(() => handleZipcodeChange(zipcode))
-    })
-
+    await act(
+      async () =>
+        await result.current.handleZipcodeChange(apiAddressMockResponse.cep)
+    )
     const selectedAddress = {
-      city: apiAddressMockResponse.city,
-      street: apiAddressMockResponse.street,
-      zipcode: apiAddressMockResponse.zip_code,
+      city: apiAddressMockResponse.localidade,
+      street: apiAddressMockResponse.logradouro,
+      zipcode: apiAddressMockResponse.cep,
       uf: apiAddressMockResponse.uf,
-      neighborhood: apiAddressMockResponse.neighborhood,
+      neighborhood: apiAddressMockResponse.bairro,
       number: '',
       receiver: customerMock.name,
     }
 
+    expect(result.current.addressFormData).toEqual(
+      expect.objectContaining(selectedAddress)
+    )
     expect(getAddressByZipcodeSpy).toHaveBeenCalled()
-    expect(addressFormData).toEqual(expect.objectContaining(selectedAddress))
-    expect(isZipcodeValid).toBe(true)
+    expect(result.current.isZipcodeValid).toBe(true)
+  })
+
+  it('should add new address when the submitted address is not associated to the customer on submit', async () => {
+    const addAddressSpy = mockAddAddress()
+    const updateAddressSpy = mockUpdateAddress(addressesMock[0].id)
+    const getAddressByCustomerIdSpy = mockGetAddressesByCustomerId([])
+
+    const { result } = renderUseAddressFormHook()
+
+    await waitFor(() => {
+      expect(getAddressByCustomerIdSpy).toHaveBeenCalled()
+    })
+
+    await act(async () => {
+      await result.current.handleFormSubmit({
+        city: addressesMock[0].city,
+        uf: addressesMock[0].uf,
+        complement: addressesMock[0].complement,
+        number: addressesMock[0].number,
+        neighborhood: addressesMock[0].neighborhood,
+        street: addressesMock[0].street,
+        zipcode: addressesMock[0].zip_code,
+        receiver: customerMock.name ?? '',
+      })
+    })
+
+    await waitFor(() => {
+      expect(addAddressSpy).toHaveBeenCalled()
+      expect(updateAddressSpy).not.toHaveBeenCalled()
+      expect(setCustomerSelectedAddressZipcodeMock).toHaveBeenCalledWith(
+        addressesMock[0].zip_code
+      )
+      expect(result.current.isAddressRadioGroupVisible).toBe(true)
+    })
+  })
+
+  it('should update address when the submitted address is already associated to the customer on submit', async () => {
+    const updateAddressSpy = mockUpdateAddress(addressesMock[0].id)
+    const getAddressByCustomerIdSpy =
+      mockGetAddressesByCustomerId(addressesMock)
+
+    const { result } = renderUseAddressFormHook()
+
+    await waitFor(() => {
+      expect(getAddressByCustomerIdSpy).toHaveBeenCalled()
+    })
+
+    await act(async () => {
+      await result.current.handleFormSubmit({
+        city: addressesMock[0].city,
+        uf: addressesMock[0].uf,
+        complement: addressesMock[0].complement,
+        number: addressesMock[0].number,
+        neighborhood: addressesMock[0].neighborhood,
+        street: addressesMock[0].street,
+        zipcode: addressesMock[0].zip_code,
+        receiver: customerMock.name ?? '',
+      })
+    })
+
+    expect(updateAddressSpy).toHaveBeenCalled()
+
+    expect(setCustomerSelectedAddressZipcodeMock).toHaveBeenCalledWith(
+      addressesMock[0].zip_code
+    )
+    expect(setCheckoutAddressMock).toHaveBeenCalled()
+    expect(result.current.isAddressRadioGroupVisible).toBe(true)
+  })
+
+  it('should set address form to the address data to be edited', async () => {
+    const getAddressesByCustomerId = mockGetAddressesByCustomerId(addressesMock)
+
+    const addressToBeEdited = addressesMock[0]
+
+    const { result } = renderUseAddressFormHook()
+
+    await waitFor(() => {
+      act(() => result.current.handleEditAddress(addressToBeEdited.zip_code))
+    })
+
+    await waitFor(async () => {
+      expect(getAddressesByCustomerId).toHaveBeenCalledTimes(1)
+
+      expect(result.current.addressFormData).toEqual(
+        expect.objectContaining({
+          city: addressToBeEdited.city,
+          street: addressToBeEdited.street,
+          uf: addressToBeEdited.uf,
+          neighborhood: addressToBeEdited.neighborhood,
+          complement: addressToBeEdited.complement,
+          number: addressToBeEdited.number,
+          zipcode: addressToBeEdited.zip_code,
+          receiver: customerMock.name,
+        })
+      )
+    })
+  })
+
+  it('should delete address', async () => {
+    const addressToBeDeleted = addressesMock[0]
+
+    const getAddressByCustomerIdSpy =
+      mockGetAddressesByCustomerId(addressesMock)
+    const deleteAddressSpy = mockDeleteAddress(addressToBeDeleted.id)
+
+    const { result } = renderUseAddressFormHook()
+
+    await waitFor(() => {
+      expect(getAddressByCustomerIdSpy).toHaveBeenCalled()
+    })
+
+    await act(async () => {
+      result.current.handleDeleteAddress(addressToBeDeleted.zip_code)
+    })
+
+    await waitFor(async () => {
+      expect(deleteAddressSpy).toHaveBeenCalled()
+    })
+  })
+
+  it('should set customer selected address zipcode to their first saved address when the address to be deleted is selected', async () => {
+    const getAddressByCustomerIdSpy =
+      mockGetAddressesByCustomerId(addressesMock)
+
+    mockDeleteAddress(selectedAddres.id)
+
+    const { result } = renderUseAddressFormHook()
+
+    await waitFor(() => {
+      expect(getAddressByCustomerIdSpy).toHaveBeenCalled()
+    })
+
+    await act(async () =>
+      result.current.handleDeleteAddress(selectedAddres.zip_code)
+    )
+
+    await waitFor(async () => {
+      expect(setCustomerSelectedAddressZipcodeMock).toHaveBeenCalledWith(
+        addressesMock[0].zip_code
+      )
+      expect(setCheckoutAddressMock).toHaveBeenCalledWith(addressesMock[0])
+    })
+  })
+
+  it('should show registered addresses when show addresses button is pressed', async () => {
+    mockGetAddressesByCustomerId(addressesMock)
+    const { result } = renderUseAddressFormHook()
+
+    act(() => result.current.handleShowAddressesButton())
+
+    await waitFor(async () => {
+      expect(result.current.isAddressRadioGroupVisible).toBe(true)
+    })
+  })
+
+  it('should invalidate zipcode and hide registered addresses when add address button is pressed', async () => {
+    mockGetAddressesByCustomerId(addressesMock)
+    const { result } = renderUseAddressFormHook()
+
+    act(() => result.current.handleAddAddressButton())
+
+    await waitFor(async () => {
+      expect(result.current.isAddressRadioGroupVisible).toBe(false)
+      expect(result.current.isZipcodeValid).toBe(false)
+    })
+  })
+
+  it('should set checkout address on change selected address', async () => {
+    const getAddressesByCustomerIdSpy =
+      mockGetAddressesByCustomerId(addressesMock)
+    const { result } = renderUseAddressFormHook()
+
+    const selectedAddress = addressesMock[0]
+
+    await waitFor(() => {
+      expect(getAddressesByCustomerIdSpy).toHaveBeenCalled()
+    })
+
+    act(() =>
+      result.current.handleSelectedAddressChange(selectedAddress.zip_code)
+    )
+
+    await waitFor(async () => {
+      expect(setCustomerSelectedAddressZipcodeMock).toHaveBeenCalledWith(
+        selectedAddress.zip_code
+      )
+      expect(setCheckoutAddressMock).toHaveBeenCalledWith(selectedAddress)
+    })
   })
 })
