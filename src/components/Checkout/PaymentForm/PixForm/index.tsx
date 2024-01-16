@@ -19,7 +19,9 @@ export function PixForm({ total, onGenerate }: PixFormProps) {
         <Text color="$green500" fontSize={20} fontWeight="600">
           Valor no Pix: {formatPrice(total)}
         </Text>
-        <Button onPress={onGenerate}>Comprar agora</Button>
+        <Button testID="generate-pix-button" onPress={onGenerate}>
+          Comprar agora
+        </Button>
       </YStack>
     )
 }
