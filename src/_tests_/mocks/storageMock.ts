@@ -1,8 +1,8 @@
 import { IStorageProvider } from '@/providers/interfaces/IStorageProvider'
 
-const storage: Array<{ key: string; value: string }> = []
+let storage: Array<{ key: string; value: string }> = []
 
-export const storageMock: IStorageProvider = {
+export const storageMock: IStorageProvider & { clear: () => void } = {
   async get(key: string) {
     const data = storage.find((data) => data.key === key)
     return data?.value ?? null
@@ -14,5 +14,9 @@ export const storageMock: IStorageProvider = {
 
   async delete(key: string) {
     storage.filter((data) => data.key !== key)
+  },
+
+  clear() {
+    storage = []
   },
 }
