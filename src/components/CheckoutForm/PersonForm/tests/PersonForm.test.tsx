@@ -3,15 +3,20 @@ import { screen } from '@testing-library/react-native'
 import { PersonForm } from '..'
 
 import { render } from '@/_tests_/customs/customRender'
-import { initializeApi } from '@/services/api'
-import { axiosApi } from '@/services/api/axios'
+import { initializeApiProvider } from '@/services/api'
+import { axiosProvider } from '@/services/api/axios'
+import { initializeValidation } from '@/services/validation'
+import { zodProvider } from '@/services/validation/zod/index.ts'
 
 jest.mock('expo-router')
 
 const onSuccessMock = jest.fn()
 
 describe('PersonForm component', () => {
-  beforeAll(() => initializeApi(axiosApi))
+  beforeAll(() => {
+    initializeApiProvider(axiosProvider)
+    initializeValidation(zodProvider)
+  })
 
   it('should render person form tabs', () => {
     render(<PersonForm onSuccess={onSuccessMock} />)

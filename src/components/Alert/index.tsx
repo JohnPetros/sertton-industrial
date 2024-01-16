@@ -69,7 +69,13 @@ export const AlertComponent = (
           >
             {title}
           </AlertDialog.Title>
-          <XStack alignItems="center" justifyContent="center" gap={12} mt={24}>
+          <XStack
+            testID="alert"
+            alignItems="center"
+            justifyContent="center"
+            gap={12}
+            mt={24}
+          >
             <AlertDialog.Cancel asChild w={120}>
               <Button background="secondary">Cancelar</Button>
             </AlertDialog.Cancel>

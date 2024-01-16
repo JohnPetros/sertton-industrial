@@ -83,7 +83,7 @@ function mockCheckoutStore(shipmentService: ShipmentService | null) {
   })
 }
 
-describe('useAddressForm hook', () => {
+describe('ShimpmentServiceForm component', () => {
   beforeAll(() => {
     initializeApiProvider(axiosProvider)
   })

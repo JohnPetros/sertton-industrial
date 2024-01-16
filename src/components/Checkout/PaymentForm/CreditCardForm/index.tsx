@@ -19,8 +19,9 @@ export function CreditCardForm({ onPay }: CreditCardFormProps) {
       <Controller
         control={control}
         name="number"
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { name, onChange, value } }) => (
           <Input
+            testID={name}
             label="número do cartão"
             keyboardType="numeric"
             mask="credit-card-number"
@@ -40,8 +41,9 @@ export function CreditCardForm({ onPay }: CreditCardFormProps) {
         <Controller
           control={control}
           name="expirationDate"
-          render={({ field: { onChange, value } }) => (
+          render={({ field: { name, onChange, value } }) => (
             <Input
+              testID={name}
               label="Validade"
               keyboardType="numeric"
               subLabel="(mês/ano)"
@@ -61,8 +63,9 @@ export function CreditCardForm({ onPay }: CreditCardFormProps) {
         <Controller
           control={control}
           name="securityCode"
-          render={({ field: { onChange, value } }) => (
+          render={({ field: { name, onChange, value } }) => (
             <Input
+              testID={name}
               label="Cód. de segurança"
               keyboardType="numeric"
               value={value}
@@ -80,8 +83,9 @@ export function CreditCardForm({ onPay }: CreditCardFormProps) {
       <Controller
         control={control}
         name="name"
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { name, onChange, value } }) => (
           <Input
+            testID={name}
             label="Nome e sobrenome do titular"
             placeholder="ex.: Maria Joaquina de Souza"
             value={value}
@@ -97,8 +101,9 @@ export function CreditCardForm({ onPay }: CreditCardFormProps) {
       <Controller
         control={control}
         name="cpf"
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { name, onChange, value } }) => (
           <Input
+            testID={name}
             label="CPF do titular"
             keyboardType="numeric"
             mask="cpf"
@@ -113,7 +118,9 @@ export function CreditCardForm({ onPay }: CreditCardFormProps) {
         )}
       />
 
-      <Button onPress={() => handleSubmit()}>Comprar agora</Button>
+      <Button testID="submit-button" onPress={() => handleSubmit()}>
+        Comprar agora
+      </Button>
     </YStack>
   )
 }

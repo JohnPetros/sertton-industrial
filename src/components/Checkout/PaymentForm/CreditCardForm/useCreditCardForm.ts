@@ -8,6 +8,13 @@ import { useValidation } from '@/services/validation'
 import { CreditCardForm } from '@/services/validation/types/CreditCardForm'
 import { useCheckoutStore } from '@/stores/checkoutStore'
 
+export const creditCardApiErrors = {
+  name: 'Nome inválido',
+  number: 'Número de cartão inválido',
+  securityCode: 'Código de segurança inválido',
+  expirationDate: 'Validade cartão inválida',
+}
+
 export function useCreditCardForm(
   onPay: (paymentMethod: PaymentMethod, cardToken: string) => Promise<void>
 ) {
@@ -36,17 +43,17 @@ export function useCreditCardForm(
   function handleApiError(error: string) {
     if (error.includes('request.card.holder_name')) {
       setError('name', {
-        message: 'Nome inválido',
+        message: creditCardApiErrors.name,
       })
     }
     if (error.includes('request.card.number')) {
       setError('number', {
-        message: 'Número de cartão inválido',
+        message: creditCardApiErrors.number,
       })
     }
     if (error.includes('request.card.cvv')) {
       setError('securityCode', {
-        message: 'Código de segurança inválido',
+        message: creditCardApiErrors.securityCode,
       })
     }
     if (
@@ -54,7 +61,7 @@ export function useCreditCardForm(
       error.includes('request.card.exp_year')
     ) {
       setError('expirationDate', {
-        message: 'Validade cartão inválida',
+        message: creditCardApiErrors.expirationDate,
       })
     }
   }
@@ -79,6 +86,7 @@ export function useCreditCardForm(
 
       onPay('credit-card', creditCardToken)
     } catch (error) {
+      console.log({ error })
       const responseError = api.handleError(error)
       handleApiError(JSON.stringify(responseError))
     }
@@ -97,5 +105,6 @@ export function useCreditCardForm(
     errors: errors,
     handleInputChange,
     handleSubmit: handleSubmit(handleFormSubmit),
+    handleFormSubmit,
   }
 }

@@ -10,7 +10,9 @@ import { render } from '@/_tests_/customs/customRender'
 import { legalPersonMock } from '@/_tests_/mocks/legalPersonMock'
 import { LegalPersonForm } from '@/components/CheckoutForm/LegalPersonForm'
 import { useMask } from '@/components/Form/Input/useMask'
+import { initializeValidation } from '@/services/validation'
 import { VALIDATION_ERRORS } from '@/services/validation/config/validationErrors'
+import { zodProvider } from '@/services/validation/zod/index.ts'
 import {
   initialCheckoutStoreState,
   useCheckoutStore,
@@ -21,6 +23,10 @@ jest.mock('expo-router')
 const onSubmitMock = jest.fn()
 
 describe('Legal Person Form Component', () => {
+  beforeAll(() => {
+    initializeValidation(zodProvider)
+  })
+
   beforeEach(() => {
     act(() => {
       useCheckoutStore.setState({ state: initialCheckoutStoreState })
