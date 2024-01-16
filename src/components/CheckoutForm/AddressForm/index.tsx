@@ -1,5 +1,5 @@
 import { Controller } from 'react-hook-form'
-import { usePathname } from 'expo-router/src/hooks'
+import { usePathname } from 'expo-router'
 import {
   Globe,
   Hash,
@@ -45,6 +45,9 @@ export function AddressForm() {
   } = useAddressForm()
   const pathname = usePathname()
 
+  console.log({ addresses })
+  console.log({ isAddressRadioGroupVisible })
+
   if (isLoading && isAddressRadioGroupVisible)
     return (
       <YStack mt={-48}>
@@ -57,6 +60,7 @@ export function AddressForm() {
       <YStack gap={24}>
         {isAddressRadioGroupVisible && (
           <Button
+            testID="add-address-button"
             background="transparent"
             color="$blue500"
             fontWeight="600"
@@ -68,16 +72,19 @@ export function AddressForm() {
           </Button>
         )}
 
-        {isLoading && addresses?.length === 0 && (
-          <EmptyItemsMessage
-            title="Nenhum endereço cadastrado."
-            icon={HouseLine}
-            subtitle="Pressione o botão acima cima para cadastrar um novo endereço."
-          />
-        )}
+        {isAddressRadioGroupVisible &&
+          !isLoading &&
+          addresses?.length === 0 && (
+            <EmptyItemsMessage
+              title="Nenhum endereço cadastrado."
+              icon={HouseLine}
+              subtitle="Pressione o botão acima para cadastrar um novo endereço."
+            />
+          )}
 
         {!isAddressRadioGroupVisible && (
           <Button
+            testID="show-addresses-button"
             background="transparent"
             color="$blue500"
             fontWeight="600"
@@ -95,8 +102,9 @@ export function AddressForm() {
               <Controller
                 control={control}
                 name="zipcode"
-                render={({ field: { onChange, value } }) => (
+                render={({ field: { onChange, name, value } }) => (
                   <Input
+                    testID={name}
                     label="CEP"
                     keyboardType="numeric"
                     mask="zipcode"
@@ -105,9 +113,10 @@ export function AddressForm() {
                     icon={Globe}
                     isLoading={isZipcodeLoading}
                     autoFocus={!isZipcodeValid}
-                    onChangeText={(value) => {
-                      onChange(value)
-                      handleZipcodeChange(value)
+                    onChangeText={(zipcode) => {
+                      console.log({ zipcode })
+                      onChange(zipcode)
+                      handleZipcodeChange(zipcode)
                     }}
                     error={errors.zipcode?.message}
                   />
@@ -125,8 +134,9 @@ export function AddressForm() {
                 <Controller
                   control={control}
                   name="street"
-                  render={({ field: { onChange, value } }) => (
+                  render={({ field: { onChange, name, value } }) => (
                     <Input
+                      testID={name}
                       label="Rua"
                       value={value}
                       icon={Signpost}
@@ -139,8 +149,9 @@ export function AddressForm() {
                 <Controller
                   control={control}
                   name="number"
-                  render={({ field: { onChange, value } }) => (
+                  render={({ field: { onChange, name, value } }) => (
                     <Input
+                      testID={name}
                       label="Número"
                       keyboardType="numeric"
                       value={value}
@@ -155,9 +166,10 @@ export function AddressForm() {
                 <Controller
                   control={control}
                   name="neighborhood"
-                  render={({ field: { onChange, value } }) => {
+                  render={({ field: { onChange, name, value } }) => {
                     return (
                       <Input
+                        testID={name}
                         label="Bairro"
                         value={value}
                         icon={House}
@@ -171,8 +183,9 @@ export function AddressForm() {
                 <Controller
                   control={control}
                   name="complement"
-                  render={({ field: { onChange, value } }) => (
+                  render={({ field: { onChange, name, value } }) => (
                     <Input
+                      testID={name}
                       label="Complemento"
                       subLabel="(opcional)"
                       value={value}
@@ -186,8 +199,9 @@ export function AddressForm() {
                 <Controller
                   control={control}
                   name="receiver"
-                  render={({ field: { onChange, value } }) => (
+                  render={({ field: { onChange, name, value } }) => (
                     <Input
+                      testID={name}
                       label="Destinatário"
                       value={value}
                       icon={User}
@@ -198,6 +212,7 @@ export function AddressForm() {
                 />
 
                 <Button
+                  testID="submit-button"
                   key={isSubmitting ? 'submitting' : 'default'}
                   onPress={handleSubmit}
                 >
@@ -227,7 +242,7 @@ export function AddressForm() {
                     number={address.number}
                     street={address.street}
                     uf={address.uf}
-                    zipCode={address.zip_code}
+                    zipcode={address.zip_code}
                     onEdit={handleEditAddress}
                     onDelete={handleDeleteAddress}
                   />
