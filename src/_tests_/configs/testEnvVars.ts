@@ -2,7 +2,8 @@ export const testEnvVars = {
   API_BASE_URL: 'msw',
   ALIAS: 'alias',
   YAMPI_TOKEN: 'token',
-  YAMPI_SECRET_KEY: 'secret_token',
+  YAMPI_SECRET_KEY: 'yampi.secret_token',
+  PAGARME_PUBLIC_KEY: 'pagarme.secret_key',
 }
 
 process.env.YAMPI_BASE_URL = testEnvVars.API_BASE_URL
