@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Keyboard } from 'react-native'
-import { useRouter } from 'expo-router/src/hooks'
+import { useRouter } from 'expo-router'
 import { MagnifyingGlass } from 'phosphor-react-native'
 import { getTokens, Spinner, XStack } from 'tamagui'
 

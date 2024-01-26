@@ -7,7 +7,7 @@ import { getTokens, Text, View, XStack, YStack } from 'tamagui'
 const AnimatedView = Animated.createAnimatedComponent(View)
 const AnimatedText = Animated.createAnimatedComponent(Text)
 
-import { useRouter } from 'expo-router/src/hooks'
+import { useRouter } from 'expo-router'
 
 import Truck from '@/assets/animations/truck.json'
 import { ROUTES } from '@/utils/constants/routes'

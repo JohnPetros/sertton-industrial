@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useFocusEffect } from 'expo-router/src/useFocusEffect'
+import { useFocusEffect } from 'expo-router'
 
 interface Params {
   refetch: VoidFunction

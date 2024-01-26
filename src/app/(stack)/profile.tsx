@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router/src/hooks'
+import { useRouter } from 'expo-router'
 import { User } from 'phosphor-react-native'
 import { H1, YStack } from 'tamagui'
 

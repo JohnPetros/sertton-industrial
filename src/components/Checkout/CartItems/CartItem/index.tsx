@@ -1,4 +1,4 @@
-import { usePathname } from 'expo-router/src/hooks'
+import { usePathname } from 'expo-router'
 import { Trash } from 'phosphor-react-native'
 import { getTokens, XStack, YStack } from 'tamagui'
 
