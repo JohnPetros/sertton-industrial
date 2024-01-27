@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { Circle, RadioGroup, XStack, YStack } from 'tamagui'
 import { Spinner } from 'tamagui'
 
@@ -11,7 +12,7 @@ interface RadioProps {
   isOpen: boolean
 }
 
-export function Radio({
+export function RadioComponent({
   value,
   isSelected,
   isOpen,
@@ -70,3 +71,7 @@ export function Radio({
     </RadioGroup.Item>
   )
 }
+
+export const Radio = memo(RadioComponent, (previousProps, currentProps) => {
+  return previousProps.isSelected === currentProps.isSelected
+})

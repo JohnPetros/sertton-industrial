@@ -26,41 +26,35 @@ export function ShipmentServiceForm() {
           value={selectedShipmentService?.name ?? ''}
           onChange={handleShipmentServiceChange}
         >
-          <FlatList
-            data={shipmentServices}
-            extraData={selectedShipmentService}
-            keyExtractor={(item) => item.name}
-            ItemSeparatorComponent={() => <View h={12} />}
-            renderItem={({ item }) => {
-              return (
-                <Radio
-                  key={item.name}
-                  isSelected={item.name === selectedShipmentService?.name}
-                  isOpen={false}
-                  value={item.name}
-                  label={
-                    <XStack
-                      flex={1}
-                      alignItems="center"
-                      justifyContent="space-between"
-                    >
-                      <YStack>
-                        <Text color="$gray900" fontWeight="600">
-                          {item.name}
-                        </Text>
-                        <Text color="$gray700" fontSize={12}>
-                          Entrega garantida
-                        </Text>
-                      </YStack>
-                      <Text color="$green500" fontSize={16} fontWeight="600">
-                        {formatPrice(item.price)}
-                      </Text>
-                    </XStack>
-                  }
-                />
-              )
-            }}
-          />
+          {shipmentServices.map((shipmentService) => (
+            <Radio
+              key={shipmentService.name}
+              isSelected={
+                shipmentService.name === selectedShipmentService?.name
+              }
+              isOpen={false}
+              value={shipmentService.name}
+              label={
+                <XStack
+                  flex={1}
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <YStack>
+                    <Text color="$gray900" fontWeight="600">
+                      {shipmentService.name}
+                    </Text>
+                    <Text color="$gray700" fontSize={12}>
+                      Entrega garantida
+                    </Text>
+                  </YStack>
+                  <Text color="$green500" fontSize={16} fontWeight="600">
+                    {formatPrice(shipmentService.price)}
+                  </Text>
+                </XStack>
+              }
+            />
+          ))}
         </RadioGroup>
         {selectedShipmentService && (
           <Button

@@ -60,8 +60,6 @@ export function useShipmentServiceForm() {
       (shipmentService) => shipmentService.name === shipmentServiceName
     )
 
-    console.log({ selectedShipmentService })
-
     if (selectedShipmentService) setShipmentService(selectedShipmentService)
   }
 
