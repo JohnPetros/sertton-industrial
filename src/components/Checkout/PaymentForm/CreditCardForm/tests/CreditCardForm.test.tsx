@@ -6,8 +6,8 @@ import { render } from '@/_tests_/customs/customRender'
 import { creditCardMock } from '@/_tests_/mocks/creditCardMock'
 import { CreditCard } from '@/@types/creditCard'
 import { useMask } from '@/components/Form/Input/useMask'
-import { initializeApiProvider } from '@/services/api'
-import { axiosProvider } from '@/services/api/http/axios'
+import { initializeHttpProvider } from '@/services/api/http'
+import { AxiosProvider } from '@/services/api/http/axios'
 import { initializeValidationProvider } from '@/services/validation'
 import { VALIDATION_ERRORS } from '@/services/validation/config/validationErrors'
 import { zodProvider } from '@/services/validation/zod/index.ts'
@@ -37,7 +37,7 @@ function mockCheckoutStore(creditCard: CreditCard | null) {
 
 describe('CreditCardTyps component', () => {
   beforeAll(() => {
-    initializeApiProvider(axiosProvider)
+    initializeHttpProvider(AxiosProvider)
     initializeValidationProvider(zodProvider)
   })
 

@@ -7,8 +7,8 @@ import { creditCardApiErrors, useCreditCardForm } from '../useCreditCardForm'
 import { testApi } from '@/_tests_/configs/testApi'
 import { testEnvVars } from '@/_tests_/configs/testEnvVars'
 import { creditCardMock } from '@/_tests_/mocks/creditCardMock'
-import { initializeApiProvider } from '@/services/api'
-import { axiosProvider } from '@/services/api/http/axios'
+import { initializeHttpProvider } from '@/services/api/http'
+import { AxiosProvider } from '@/services/api/http/axios'
 import { initializeValidationProvider } from '@/services/validation'
 import { zodProvider } from '@/services/validation/zod/index.ts'
 import { CheckoutStoreProps, useCheckoutStore } from '@/stores/checkoutStore'
@@ -43,7 +43,7 @@ function mockTokenizeCreditCard(errorMessage = '') {
 
 describe('useCreditCardForm hook', () => {
   beforeAll(() => {
-    initializeApiProvider(axiosProvider)
+    initializeHttpProvider(AxiosProvider)
     initializeValidationProvider(zodProvider)
 
     server.listen({

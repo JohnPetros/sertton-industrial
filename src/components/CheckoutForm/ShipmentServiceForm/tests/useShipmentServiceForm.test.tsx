@@ -10,8 +10,8 @@ import { shipmentServicesMock } from '@/_tests_/mocks/shipmentServicesMock'
 import { ShipmentService } from '@/@types/shipmentService'
 import { CustomerContext } from '@/contexts/CustomerContext'
 import { QueryClientProvider } from '@/providers/components/QueryClientProvider'
-import { initializeApiProvider } from '@/services/api'
-import { axiosProvider } from '@/services/api/http/axios'
+import { initializeHttpProvider } from '@/services/api/http'
+import { AxiosProvider } from '@/services/api/http/axios'
 import { Resources } from '@/services/api/yampi/config/resources'
 import { CheckoutStoreProps, useCheckoutStore } from '@/stores/checkoutStore'
 
@@ -89,7 +89,7 @@ function mockCheckoutStore(shipmentService: ShipmentService | null) {
 
 describe('useShipmentServiceForm hook', () => {
   beforeAll(() => {
-    initializeApiProvider(axiosProvider)
+    initializeHttpProvider(AxiosProvider)
   })
 
   beforeEach(() => {
