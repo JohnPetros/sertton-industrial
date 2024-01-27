@@ -18,7 +18,7 @@ type CartStoreActions = {
   setItemQuantity: (itemSkuId: number, itemQuantity: number) => void
 }
 
-type CartStoreProps = {
+export type CartStoreProps = {
   state: CartStoreState
   actions: CartStoreActions
 }

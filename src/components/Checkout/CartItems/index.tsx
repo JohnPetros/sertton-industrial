@@ -4,7 +4,7 @@ import { XStack } from 'tamagui'
 
 import { CartItem } from './CartItem'
 
-import { cartItemsMock } from '@/_tests_/mocks/cartItemsMock'
+import { computedProductsMock } from '@/_tests_/mocks/computedProductsMock'
 import { Accordion } from '@/components/Accordion'
 import { CartSummary } from '@/components/CartSummary'
 import { Skeleton } from '@/components/Skeleton'
@@ -20,6 +20,7 @@ export function CartItems() {
   const shipmentPrice = useCheckoutStore(
     ({ state }) => state.shipmentService?.price
   )
+  const productsMock = computedProductsMock.slice(0, totalCartItems)
 
   return (
     <Accordion
@@ -35,7 +36,7 @@ export function CartItems() {
         {isLoading || isFetching ? (
           <FlatList
             key="cart-items-loading"
-            data={cartItemsMock.slice(0, totalCartItems)}
+            data={productsMock}
             keyExtractor={(item) => String(item.id)}
             renderItem={({ item }) => (
               <View mb={32}>

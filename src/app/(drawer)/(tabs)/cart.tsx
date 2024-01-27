@@ -1,10 +1,10 @@
 import { FlatList } from 'react-native'
-import { cartItemsMock } from '_tests_/mocks/cartItemsMock'
 import { FlashList } from '@shopify/flash-list'
 import { Link } from 'expo-router'
 import { ShoppingCart, TrashSimple } from 'phosphor-react-native'
 import { getTokens, H1, View, XStack, YStack } from 'tamagui'
 
+import { computedProductsMock } from '@/_tests_/mocks/computedProductsMock'
 import { Alert } from '@/components/Alert'
 import { Button } from '@/components/Button'
 import { CartSummary } from '@/components/CartSummary'
@@ -27,7 +27,7 @@ export default function CartScreen() {
     handleRemoveAllItems,
   } = useCart()
   const isCartEmpty = totalCartItems <= 0
-  const itemsMock = cartItemsMock.slice(0, totalCartItems)
+  const productsMock = computedProductsMock.slice(0, totalCartItems)
 
   return (
     <YStack px={SCREEN.paddingX} flex={1}>
@@ -61,7 +61,7 @@ export default function CartScreen() {
         ) : isLoading || isFetching ? (
           <FlatList
             key="cart-items-loading"
-            data={itemsMock}
+            data={productsMock}
             keyExtractor={(item) => String(item.id)}
             renderItem={({ item }) => (
               <View mb={32}>
