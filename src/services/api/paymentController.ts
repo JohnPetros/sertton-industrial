@@ -53,7 +53,24 @@ export function paymentController(api: IApiProvider): IPaymentController {
         `/${Resources.CHECKOUT}/payments`
       )
 
-      return response.data
+      const paymentConfigs: PaymentConfig[] = response.data.map(
+        (paymentConfig) => ({
+          id: paymentConfig.id,
+          name: paymentConfig.name,
+          alias: paymentConfig.alias,
+          has_config: paymentConfig.has_config,
+          active_config: paymentConfig.active_config,
+          is_credit_card: paymentConfig.is_credit_card,
+          is_deposit: paymentConfig.is_deposit,
+          is_billet: paymentConfig.is_billet,
+          is_pix: paymentConfig.is_pix,
+          is_pix_in_installments: paymentConfig.is_pix_in_installments,
+          is_wallet: paymentConfig.is_wallet,
+          icon_url: paymentConfig.icon_url,
+        })
+      )
+
+      return paymentConfigs
     },
 
     async tokenizeCard(creditCard: CreditCard) {

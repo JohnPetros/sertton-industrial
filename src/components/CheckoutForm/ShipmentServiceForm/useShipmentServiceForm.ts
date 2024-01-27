@@ -17,7 +17,7 @@ export function useShipmentServiceForm() {
 
   const { throwAppError } = useAppError()
 
-  const storedShipmentService = useCheckoutStore(
+  const checkoutShipmentService = useCheckoutStore(
     (store) => store.state.shipmentService
   )
   const { setShipmentService, setStep } = useCheckoutStore(
@@ -38,7 +38,7 @@ export function useShipmentServiceForm() {
           selectedSkus
         )
 
-        if (!storedShipmentService) setShipmentService(shipmentServices[0])
+        if (!checkoutShipmentService) setShipmentService(shipmentServices[0])
 
         return shipmentServices
       } catch (error) {
@@ -60,11 +60,13 @@ export function useShipmentServiceForm() {
       (shipmentService) => shipmentService.name === shipmentServiceName
     )
 
+    console.log({ selectedShipmentService })
+
     if (selectedShipmentService) setShipmentService(selectedShipmentService)
   }
 
   async function handleContinueCheckout() {
-    if (storedShipmentService) {
+    if (checkoutShipmentService) {
       setIsLoading(true)
 
       await waitFor(1000)
@@ -81,7 +83,7 @@ export function useShipmentServiceForm() {
 
   return {
     shipmentServices,
-    selectedShipmentService: storedShipmentService,
+    selectedShipmentService: checkoutShipmentService,
     isLoading,
     handleShipmentServiceChange,
     handleContinueCheckout,

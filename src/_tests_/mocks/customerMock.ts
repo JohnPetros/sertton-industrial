@@ -17,5 +17,5 @@ export const customerMock: Customer = {
   phone: {
     full_number: '1234567890',
   },
-  selectedAddressZipcode: '12345',
+  selectedAddressZipcode: addressesMock[0].zip_code,
 }

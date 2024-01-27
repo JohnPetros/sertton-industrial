@@ -43,7 +43,19 @@ export function addressesController(api: IApiProvider): IAdressesController {
         `${Resources.CUSTOMERS}/${customerId}/${Resources.ADDRESSES}`
       )
 
-      return response.data
+      const addresses: Address[] = response.data.map((address) => ({
+        id: address.id,
+        receiver: address.receiver,
+        zip_code: address.zip_code,
+        street: address.street,
+        number: address.number,
+        neighborhood: address.neighborhood,
+        complement: address.complement,
+        city: address.city,
+        uf: address.uf,
+      }))
+
+      return addresses
     },
 
     async saveAddress(address: Address, customerId: number) {

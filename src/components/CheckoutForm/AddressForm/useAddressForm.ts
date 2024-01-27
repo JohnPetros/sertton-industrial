@@ -71,6 +71,8 @@ export function useAddressForm() {
       let selectedAddressZipcode =
         await storage.getCustomerSelectedAddressZipcode()
 
+      console.log({ selectedAddressZipcode })
+
       if (!selectedAddressZipcode) {
         selectedAddressZipcode = addresses[0].zip_code
       }

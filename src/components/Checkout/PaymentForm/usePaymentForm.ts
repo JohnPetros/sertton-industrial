@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useRouter } from 'expo-router/src/hooks'
+import { useRouter } from 'expo-router'
 
 import { OrderStatus } from '@/@types/order'
 import { PaymentConfig, PaymentMethod } from '@/@types/paymentMethod'
@@ -188,49 +188,49 @@ export function usePaymentForm() {
     const products = getSelectedSkus()
     if (!customer || !products || !shipmentService) return
 
-    // try {
-    //   const transaction = await api.createTransaction({
-    //     customer: {
-    //       id: customer.id.toString(),
-    //       type: customer.type === 'f' ? 'natural' : 'legal',
-    //       email: customer.email,
-    //       name: customer.name ?? '',
-    //       document: (customer.type === 'f' ? customer.cpf : customer.cpf) ?? '',
-    //       phone: customer.phone?.full_number ?? '',
-    //       address: {
-    //         number: Number(address.number),
-    //         street: address.street,
-    //         neighborhood: address.neighborhood,
-    //         zipCode: address.zip_code,
-    //         city: address.city,
-    //         state: address.uf,
-    //       },
-    //     },
-    //     products: products.map((product) => ({
-    //       id: product.id.toString(),
-    //       name: product.name,
-    //       price: product.price_sale,
-    //       height: product.height,
-    //       length: product.length,
-    //       weight: product.weight,
-    //       width: product.width,
-    //       sku: product.sku,
-    //       quantity: product.quantity,
-    //     })),
-    //     paymentMethod,
-    //     shipmentService,
-    //     cardToken,
-    //   })
+    try {
+      const transaction = await api.createTransaction({
+        customer: {
+          id: customer.id.toString(),
+          type: customer.type === 'f' ? 'natural' : 'legal',
+          email: customer.email,
+          name: customer.name ?? '',
+          document: (customer.type === 'f' ? customer.cpf : customer.cpf) ?? '',
+          phone: customer.phone?.full_number ?? '',
+          address: {
+            number: Number(address.number),
+            street: address.street,
+            neighborhood: address.neighborhood,
+            zipCode: address.zip_code,
+            city: address.city,
+            state: address.uf,
+          },
+        },
+        products: products.map((product) => ({
+          id: product.id.toString(),
+          name: product.name,
+          price: product.price_sale,
+          height: product.height,
+          length: product.length,
+          weight: product.weight,
+          width: product.width,
+          sku: product.sku,
+          quantity: product.quantity,
+        })),
+        paymentMethod,
+        shipmentService,
+        cardToken,
+      })
 
-    //   if (
-    //     transaction.status === 'approved' ||
-    //     transaction.status === 'pending'
-    //   ) {
-    //     await saveOrder(transaction.status)
-    //   }
-    // } catch (error) {
-    //   api.handleError(error)
-    // }
+      if (
+        transaction.status === 'approved' ||
+        transaction.status === 'pending'
+      ) {
+        await saveOrder(transaction.status)
+      }
+    } catch (error) {
+      api.handleError(error)
+    }
   }
 
   function handlePaymentMethodChange(paymentMethod: string) {
@@ -242,5 +242,6 @@ export function usePaymentForm() {
     totalToPay: totalToPay + Number(shipmentService?.price),
     createTransaction,
     handlePaymentMethodChange,
+    getPaymentConfigId,
   }
 }

@@ -11,8 +11,8 @@ import { ShipmentService } from '@/@types/shipmentService'
 import { CustomerContext } from '@/contexts/CustomerContext'
 import { QueryClientProvider } from '@/providers/components/QueryClientProvider'
 import { initializeApiProvider } from '@/services/api'
-import { axiosProvider } from '@/services/api/http/axios'
 import { Resources } from '@/services/api/config/resources'
+import { axiosProvider } from '@/services/api/http/axios'
 import { CheckoutStoreProps, useCheckoutStore } from '@/stores/checkoutStore'
 
 const setStepMock = jest.fn()

@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react'
 import { useQuery } from 'react-query'
-import { useFocusEffect } from 'expo-router/src/useFocusEffect'
+import { useFocusEffect } from 'expo-router'
 
 import type { Customer } from '@/@types/customer'
 import { useAppError } from '@/components/AppError/useAppError'

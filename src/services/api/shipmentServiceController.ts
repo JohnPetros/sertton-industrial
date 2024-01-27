@@ -1,13 +1,15 @@
+import { testApi } from '@/_tests_/configs/testApi'
 import type { ShipmentService } from '@/@types/shipmentService'
 import type { Sku } from '@/@types/sku'
 import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
 import { Resources } from '@/services/api/config/resources'
 import { IShipmentServiceController } from '@/services/api/interfaces/IShipmentServiceController'
 
-const IS_TEST_ENV = process.env.NODE_ENV === 'test'
-const SHIPMENT_SERVICE_BASE_URL = !IS_TEST_ENV
+const isTestEnv = process.env.NODE_ENV === 'test'
+
+const SHIPMENT_SERVICE_BASE_URL = !isTestEnv
   ? process.env.SHIPMENT_SERVICE_BASE_URL
-  : 'msw'
+  : testApi.BASE_URL
 
 export function shipmentServiceController(
   api: IApiProvider
@@ -20,7 +22,9 @@ export function shipmentServiceController(
       zipcode: string,
       products: (Sku & { quantity: number })[]
     ) {
-      api.setBaseUrl('https://sertton-industrial.com')
+      console.log({ SHIPMENT_SERVICE_BASE_URL })
+
+      api.setBaseUrl(SHIPMENT_SERVICE_BASE_URL)
 
       return await api.post<ShipmentService[]>(
         `/${Resources.SHIPMENT}/calculate`,

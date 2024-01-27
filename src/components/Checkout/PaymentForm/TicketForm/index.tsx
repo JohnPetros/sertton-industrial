@@ -25,9 +25,11 @@ export function TicketForm({ total, onGenerate }: TicketFormProps) {
         boleto foi compensado.
       </Paragraph>
       <Text color="$green500" fontSize={20} fontWeight="600">
-        Valor no Pix: {formatPrice(total)}
+        Valor no boleto: {formatPrice(total)}
       </Text>
-      <Button onPress={onGenerate}>Comprar agora</Button>
+      <Button testID="generate-ticket-button" onPress={onGenerate}>
+        Comprar agora
+      </Button>
     </YStack>
   )
 }

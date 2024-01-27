@@ -6,6 +6,12 @@ export function CreditCardTypes() {
   const { creditCardTypes } = useCreditCardTypes()
   if (creditCardTypes)
     return creditCardTypes.map((creditCardType) => {
-      return <SvgUri key={creditCardType.name} uri={creditCardType.icon} />
+      return (
+        <SvgUri
+          testID={`credit-card-type-${creditCardType.name}`}
+          key={creditCardType.name}
+          uri={creditCardType.icon}
+        />
+      )
     })
 }

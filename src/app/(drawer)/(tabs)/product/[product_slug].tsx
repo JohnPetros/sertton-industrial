@@ -1,5 +1,5 @@
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
-import { useGlobalSearchParams } from 'expo-router/src/hooks'
+import { useGlobalSearchParams } from 'expo-router'
 import { ScrollView, View, YStack } from 'tamagui'
 
 import { Button } from '@/components/Button'

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useFocusEffect } from 'expo-router/src/useFocusEffect'
+import { useFocusEffect } from 'expo-router'
 
 interface Params {
   refetch: VoidFunction
@@ -15,7 +15,6 @@ export function useRefetchOnFocus({ refetch, canRefetch = true }: Params) {
 
   useEffect(() => {
     if (isScreenFocused && canRefetch) {
-      console.log('OIIIIIIIIIIIIIIIIIIIIIIIIIIIIII')
       refetch()
     }
   }, [canRefetch, isScreenFocused, refetch])

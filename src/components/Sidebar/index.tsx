@@ -22,17 +22,19 @@ import { ROUTES } from '@/utils/constants/routes'
 import { SCREEN } from '@/utils/constants/screen'
 
 export function Sidebar() {
-  const { categories } = useCategories()
-  const selectedCategoryId = useProductsFilterStore(
-    (store) => store.state.categoryId
-  )
-  const {
-    canShowAllCategories,
-    isLoading,
-    handleCategory,
-    handleShowAllCategories,
-    handleNavigation,
-  } = useSidebar()
+  // const { categories } = useCategories()
+  // const selectedCategoryId = useProductsFilterStore(
+  //   (store) => store.state.categoryId
+  // )
+  // const {
+  //   canShowAllCategories,
+  //   isLoading,
+  //   handleCategory,
+  //   handleShowAllCategories,
+  //   handleNavigation,
+  // } = useSidebar()
+
+  return null
 
   return (
     <SafeAreaView>

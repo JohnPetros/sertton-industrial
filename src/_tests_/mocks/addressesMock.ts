@@ -4,7 +4,7 @@ export const addressesMock: Address[] = [
   {
     id: 1,
     receiver: 'John Doe',
-    zip_code: '12345-678',
+    zip_code: '12345678',
     street: 'Main St',
     number: '123',
     neighborhood: 'Downtown',
@@ -15,7 +15,7 @@ export const addressesMock: Address[] = [
   {
     id: 2,
     receiver: 'Jane Smith',
-    zip_code: '98765-432',
+    zip_code: '98765432',
     street: 'Broadway',
     number: '456',
     neighborhood: 'Uptown',

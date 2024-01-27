@@ -11,7 +11,11 @@ const config = {
     '<rootDir>/src/_tests_/customs/',
     '<rootDir>/src/_tests_/config/',
     '<rootDir>/src/_tests_/coverage/',
+    'node_modules/(?!(react-native|phosphor-react-native)/)',
   ],
+  transform: {
+    '^.+\\.svg$': 'jest-transformer-svg',
+  },
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },

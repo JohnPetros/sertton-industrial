@@ -53,7 +53,7 @@ function renderUseAddressFormHook() {
 }
 
 function mockGetAddressByZipcode(zipcode: string) {
-  const url = `${testApi.BASE_URL}/${zipcode}/json/`
+  const url = `${testApi.BASE_URL}/${zipcode}/json`
 
   const getAddressByZipcodeSpy = jest.fn()
 
@@ -253,6 +253,10 @@ describe('useAddressForm hook', () => {
         await result.current.handleZipcodeChange(apiAddressMockResponse.cep)
     )
 
+    await act(
+      async () =>
+        await result.current.handleZipcodeChange(apiAddressMockResponse.cep)
+    )
     const selectedAddress = {
       city: apiAddressMockResponse.localidade,
       street: apiAddressMockResponse.logradouro,
