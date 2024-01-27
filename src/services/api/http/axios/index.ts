@@ -65,7 +65,7 @@ export const axiosProvider: IApiProvider = {
 
   handleError<Error>(error: unknown) {
     if (isAxiosError(error)) {
-      console.error(JSON.stringify(error.response, null, 2))
+      // console.error(JSON.stringify(error.response, null, 2))
 
       return error.response?.data as Error
     }

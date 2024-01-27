@@ -57,7 +57,7 @@ export function useAddressForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const [isAddressRadioGroupVisible, setIsAddressRadioGroupVisible] =
-    useState(true)
+    useState(false)
   const [addressFormData, setAddressFormData] = useState<AddressForm | null>(
     null
   )
@@ -65,9 +65,8 @@ export function useAddressForm() {
   async function getAddressesByCustomerId() {
     if (customer) {
       const addresses = await api.getAddressesByCustomerId(customer.id)
-      console.log({ addresses })
 
-      if (!addresses) return
+      if (!addresses.length) return []
 
       let selectedAddressZipcode =
         await storage.getCustomerSelectedAddressZipcode()
@@ -104,6 +103,8 @@ export function useAddressForm() {
 
       return addresses
     }
+
+    return []
   }
 
   const {
@@ -155,6 +156,7 @@ export function useAddressForm() {
   }
 
   function handleShowAddressesButton() {
+    console.log('handleShowAddressesButton')
     setIsAddressRadioGroupVisible(true)
   }
 
@@ -173,8 +175,6 @@ export function useAddressForm() {
   async function handleZipcodeChange(zipcode: string) {
     const { isValid } = validation.validateZipcode(zipcode)
 
-    console.log({ isValid })
-
     if (!isValid) {
       setIsZipcodeValid(false)
       return
@@ -183,6 +183,8 @@ export function useAddressForm() {
     try {
       setIsZipcodeLoading(true)
       const address = await getAddressByZipcode(zipcode)
+
+      console.log('address', { address })
 
       if (address) {
         setAddressFormData({
@@ -286,8 +288,8 @@ export function useAddressForm() {
       addressUpdatingMutation.mutate({ address, customerId: customer.id })
       setIsSubmitting(false)
       setCustomerSelectedAddressZipcode(address.zip_code)
-      setCheckoutAddress(address)
       setIsAddressRadioGroupVisible(true)
+      setCheckoutAddress(address)
       return
     }
 
@@ -331,5 +333,6 @@ export function useAddressForm() {
     handleAddAddressButton,
     handleShowAddressesButton,
     handleSubmit: handleSubmit(handleFormSubmit),
+    handleFormSubmit,
   }
 }

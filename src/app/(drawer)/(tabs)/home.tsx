@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+import { BackHandler } from 'react-native'
 import { ScrollView, YStack } from 'tamagui'
 
 import { Footer } from '@/components/Footer'
@@ -8,7 +10,14 @@ import { LeadCapture } from '@/components/LeadCapture'
 import { Marketing } from '@/components/Marketing'
 import { SCREEN } from '@/utils/constants/screen'
 
-export default function Home() {
+export default function HomeScreen() {
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => true)
+
+    return () =>
+      BackHandler.removeEventListener('hardwareBackPress', () => true)
+  }, [])
+
   return (
     <YStack>
       <YStack px={SCREEN.paddingX} pb={12}>

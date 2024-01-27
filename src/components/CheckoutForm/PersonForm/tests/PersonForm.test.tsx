@@ -4,7 +4,7 @@ import { PersonForm } from '..'
 
 import { render } from '@/_tests_/customs/customRender'
 import { initializeApi } from '@/services/api'
-import { axiosApi } from '@/services/api/axios'
+import { axiosApi } from '@/services/api/http/axios'
 
 jest.mock('expo-router')
 

@@ -40,6 +40,7 @@ export const AlertComponent = (
           exitStyle={{ opacity: 0 }}
         />
         <AlertDialog.Content
+          testID="alert"
           bordered
           elevate
           key="content"

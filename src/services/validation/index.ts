@@ -2,7 +2,9 @@ import { IValidationProvider } from '@/providers/interfaces/IValidationProvider'
 
 let validation: IValidationProvider
 
-export function initializeValidation(validationProvider: IValidationProvider) {
+export function initializeValidationProvider(
+  validationProvider: IValidationProvider
+) {
   validation = validationProvider
 }
 

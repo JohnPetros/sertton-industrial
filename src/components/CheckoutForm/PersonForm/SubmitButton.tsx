@@ -16,6 +16,7 @@ export function SubmitButton({
 
   return (
     <Button
+      key={isSubmitting ? 'is-submitting' : 'is-not-submitting'}
       testID="submit-button"
       mt={24}
       onPress={handleSubmit}

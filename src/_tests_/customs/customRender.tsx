@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
 import { render as renderComponent } from '@testing-library/react-native'
 
-import { QueryClientProvider } from '@/providers/QueryClientProvider'
-import { TamaguiProvider } from '@/providers/TamaguiProvider'
+import { QueryClientProvider } from '@/providers/components/QueryClientProvider'
+import { TamaguiProvider } from '@/providers/components/TamaguiProvider'
 
 function customRender(component: ReactNode) {
   return renderComponent(

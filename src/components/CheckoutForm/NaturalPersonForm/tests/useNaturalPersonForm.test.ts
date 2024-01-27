@@ -2,7 +2,9 @@ import { act, renderHook } from '@testing-library/react-native'
 
 import { naturalPersonMock } from '@/_tests_/mocks/naturalPersonMock'
 import { useNaturalPesonForm } from '@/components/CheckoutForm/NaturalPersonForm/useNaturalPersonForm'
+import { initializeValidation } from '@/services/validation'
 import { NaturalPersonForm } from '@/services/validation/types/NaturalPersonForm'
+import { zodProvider } from '@/services/validation/zod/index.ts'
 import {
   CheckoutStoreProps,
   initialCheckoutStoreState,
@@ -26,6 +28,10 @@ function mockUseCheckoutStore(naturalPersonMock: NaturalPersonForm) {
 }
 
 describe('useNaturalPersonForm hook', () => {
+  beforeAll(() => {
+    initializeValidation(zodProvider)
+  })
+
   beforeEach(() => {
     act(() => {
       useCheckoutStore.setState({ state: initialCheckoutStoreState })

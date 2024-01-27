@@ -1,5 +1,6 @@
 export const VALIDATION_ERRORS = {
   required: 'Campo obrigatório',
+  number: 'Deve ser um número',
   fullname: {
     regex: 'Digite seu nome completo e sem espaço no final',
   },

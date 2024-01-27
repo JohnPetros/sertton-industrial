@@ -20,7 +20,7 @@ export default function ProductsScreen() {
   return (
     <YStack px={24}>
       <Header />
-      <Search isLoading={isLoading} />
+      <Search isFetching={isLoading} />
 
       {category && (
         <YStack mt={12}>

@@ -140,8 +140,6 @@ export function ProductsList({
             }
             renderItem={renderItem}
             showsVerticalScrollIndicator={false}
-            disableIntervalMomentum={true}
-            decelerationRate={'fast'}
             onEndReachedThreshold={0.00001}
             numColumns={1}
             onEndReached={handleListEndReached}

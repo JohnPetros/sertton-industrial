@@ -36,6 +36,6 @@ export function useCollections() {
   return {
     collections: data,
     error,
-    isLoading,
+    areCollectionsLoading: isLoading,
   }
 }

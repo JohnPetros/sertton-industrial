@@ -1,5 +1,7 @@
 import { H2, Spinner, YStack } from 'tamagui'
 
+import { KeyboardHandlerView } from '../KeyboardHandlerView'
+
 import { Button } from '@/components/Button'
 import { Input } from '@/components/Form/Input'
 import { useLeadsCapture } from '@/components/LeadCapture/useLeadsCapture'
@@ -10,19 +12,21 @@ export function LeadCapture() {
     useLeadsCapture()
 
   return (
-    <YStack gap={24} bg="$white" py={32} px={SCREEN.paddingX}>
-      <H2 fontSize={24} color="$blue500">
-        Receba novidades e ofertas incríveis
-      </H2>
-      <Input
-        value={email}
-        onChangeText={handleEmailChange}
-        error={error}
-        placeholder="Digite seu e-mail"
-      />
-      <Button onPress={handleSubmit}>
-        {isLoading ? <Spinner color="$white" /> : 'Inscrever-se'}
-      </Button>
-    </YStack>
+    <KeyboardHandlerView>
+      <YStack gap={24} bg="$white" py={32} px={SCREEN.paddingX}>
+        <H2 fontSize={24} color="$blue500">
+          Receba novidades e ofertas incríveis
+        </H2>
+        <Input
+          value={email}
+          onChangeText={handleEmailChange}
+          error={error}
+          placeholder="Digite seu e-mail"
+        />
+        <Button onPress={handleSubmit}>
+          {isLoading ? <Spinner color="$white" /> : 'Inscrever-se'}
+        </Button>
+      </YStack>
+    </KeyboardHandlerView>
   )
 }

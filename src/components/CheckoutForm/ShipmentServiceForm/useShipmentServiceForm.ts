@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 
-import { ShipmentService } from '@/@types/shipmentService'
 import { useAppError } from '@/components/AppError/useAppError'
 import { useCustomerContext } from '@/contexts/CustomerContext'
 import { useCart } from '@/hooks/useCart'

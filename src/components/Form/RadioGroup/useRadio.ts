@@ -1,16 +1,14 @@
 import { useState } from 'react'
 
+import { waitFor } from '@/utils/helpers/wait'
+
 export function useRadio() {
   const [isLoading, setIsLoading] = useState(false)
 
   async function handleRadio() {
     setIsLoading(true)
 
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(true)
-      }, 1500)
-    })
+    await waitFor(1000)
 
     setIsLoading(false)
   }

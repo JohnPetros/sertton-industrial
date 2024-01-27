@@ -12,7 +12,7 @@ const IS_TEST_ENV = process.env.NODE_ENV === 'test'
 
 const BASE_URL = !IS_TEST_ENV
   ? process.env.VIA_CEP_BASE_URL
-  : testEnvVars.API_BASE_URL
+  : `http://localhost/${testEnvVars.API_BASE_URL}/${testEnvVars.ALIAS}`
 
 export function addressesController(api: IApiProvider): IAdressesController {
   return {

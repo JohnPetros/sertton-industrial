@@ -27,6 +27,7 @@ export default function CartScreen() {
     handleRemoveAllItems,
   } = useCart()
   const isCartEmpty = totalCartItems <= 0
+  const itemsMock = cartItemsMock.slice(0, totalCartItems)
 
   return (
     <YStack px={SCREEN.paddingX} flex={1}>
@@ -60,7 +61,7 @@ export default function CartScreen() {
         ) : isLoading || isFetching ? (
           <FlatList
             key="cart-items-loading"
-            data={cartItemsMock.slice(0, totalCartItems)}
+            data={itemsMock}
             keyExtractor={(item) => String(item.id)}
             renderItem={({ item }) => (
               <View mb={32}>
@@ -80,7 +81,6 @@ export default function CartScreen() {
             <FlashList
               key="cart-items"
               data={products}
-              extraData={isFetching}
               keyExtractor={(item) => String(item.id)}
               estimatedItemSize={200}
               renderItem={({ item }) => (

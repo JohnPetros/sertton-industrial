@@ -1,28 +1,37 @@
 import { YStack } from 'tamagui'
 
+import { Skeleton } from '../Skeleton'
+
 import { collectionsMock } from '@/_tests_/mocks/collectionsMock'
 import { Banner } from '@/components/Marketing/Banner'
 import { Collection } from '@/components/Marketing/Collection'
 import { useBanners } from '@/components/Marketing/useBanners'
 import { useCollections } from '@/components/Marketing/useCollections'
 import { useMarketing } from '@/components/Marketing/useMarketing'
+import { SCREEN } from '@/utils/constants/screen'
 
 export function Marketing() {
-  const { banners } = useBanners()
-  const { collections, isLoading } = useCollections()
+  const { banners, areBannersLoading } = useBanners()
+  const { collections, areCollectionsLoading } = useCollections()
   const { items, isBanner, isCollection } = useMarketing(
     banners ?? [],
     collections ?? []
   )
 
-  return isLoading ? (
-    <Collection
-      key={collectionsMock[0].id}
-      data={collectionsMock[0]}
-      isLoading={true}
-    />
-  ) : (
-    items?.map((item) => {
+  console.log('useBanners', { areBannersLoading })
+  console.log('useCollections', { areCollectionsLoading })
+
+  if (areCollectionsLoading || areBannersLoading) {
+    return (
+      <>
+        <Skeleton isVisible={true} height={300} width={SCREEN.width} />
+        <Collection data={collectionsMock[0]} isLoading={true} />
+        <Skeleton isVisible={true} height={300} width={SCREEN.width} />
+        <Collection data={collectionsMock[1]} isLoading={true} />
+      </>
+    )
+  } else {
+    return items?.map((item) => {
       if (item.type === 'banner' && isBanner(item.data)) {
         return <Banner key={item.data.id} data={item.data} />
       }
@@ -34,5 +43,5 @@ export function Marketing() {
         )
       }
     })
-  )
+  }
 }
