@@ -57,7 +57,7 @@ export function useAddressForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const [isAddressRadioGroupVisible, setIsAddressRadioGroupVisible] =
-    useState(false)
+    useState(true)
   const [addressFormData, setAddressFormData] = useState<AddressForm | null>(
     null
   )
@@ -66,12 +66,13 @@ export function useAddressForm() {
     if (customer) {
       const addresses = await api.getAddressesByCustomerId(customer.id)
 
-      if (!addresses.length) return []
+      if (!addresses.length) {
+        setCustomerSelectedAddressZipcode('')
+        return []
+      }
 
       let selectedAddressZipcode =
         await storage.getCustomerSelectedAddressZipcode()
-
-      console.log({ selectedAddressZipcode })
 
       if (!selectedAddressZipcode) {
         selectedAddressZipcode = addresses[0].zip_code

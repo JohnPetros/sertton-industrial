@@ -1,8 +1,8 @@
 import { Discount } from '@/@types/discount'
 import { IApiProvider } from '@/providers/interfaces/IApiProvider'
-import { Endpoints } from '@/services/api/config/endpoints'
-import { Resources } from '@/services/api/config/resources'
 import { IDiscountsController } from '@/services/api/interfaces/IDiscountsController'
+import { Endpoints } from '@/services/api/yampi/config/endpoints'
+import { Resources } from '@/services/api/yampi/config/resources'
 
 export function discountsController(api: IApiProvider): IDiscountsController {
   return {

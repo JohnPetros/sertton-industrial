@@ -15,11 +15,11 @@ import { storageMock } from '@/_tests_/mocks/storageMock'
 import { Address } from '@/@types/address'
 import { useMask } from '@/components/Form/Input/useMask'
 import { CustomerContext } from '@/contexts/CustomerContext'
-import { initializeApiProvider } from '@/services/api'
-import { Resources } from '@/services/api/config/resources'
-import { axiosProvider } from '@/services/api/http/axios'
+import { initializeHttpProvider } from '@/services/api/http'
+import { AxiosProvider } from '@/services/api/http/axios'
+import { Resources } from '@/services/api/yampi/config/resources'
 import { initializeStorageProvider } from '@/services/storage'
-import { initializeValidation } from '@/services/validation'
+import { initializeValidationProvider } from '@/services/validation'
 import { zodProvider } from '@/services/validation/zod/index.ts'
 import { CheckoutStoreProps, useCheckoutStore } from '@/stores/checkoutStore'
 import { getOnlyNumbers } from '@/utils/helpers/getOnlyNumbers'
@@ -116,6 +116,7 @@ function renderAddressFormComponent() {
     <CustomerContext.Provider
       value={{
         customer: customerMock,
+        removeCustomer: jest.fn(),
         fetchCustomerByEmail: fetchCustomerByEmailMock,
         setSelectedAddressZipcode: setCustomerSelectedAddressZipcodeMock,
         updateCustomer: updateCustomerMock,
@@ -130,8 +131,8 @@ function renderAddressFormComponent() {
 
 describe('AddressForm component', () => {
   beforeAll(() => {
-    initializeApiProvider(axiosProvider)
-    initializeValidation(zodProvider)
+    initializeHttpProvider(AxiosProvider)
+    initializeValidationProvider(zodProvider)
     initializeStorageProvider(storageMock)
   })
 

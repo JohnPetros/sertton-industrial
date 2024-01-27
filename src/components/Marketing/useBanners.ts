@@ -7,7 +7,7 @@ export function useBanners() {
   const api = useApi()
   const { throwAppError } = useAppError()
 
-  const { data, isLoading } = useQuery('banners', () => api.getBanners(), {
+  const { data, isLoading } = useQuery('banners', api.getBanners, {
     onError: (error) => {
       api.handleError(error)
       throwAppError('Erro ao mostrar banners')

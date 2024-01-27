@@ -27,7 +27,7 @@ export default function ProductsScreen() {
           <H2 fontSize={16} color="$gray600">
             {category.name}
           </H2>
-          <Paragraph fontSize={12} color={getTokens().color.white.val}>
+          <Paragraph fontSize={12} color={getTokens().color.gray700.val}>
             {removeHTMLTags(category.description)}
           </Paragraph>
         </YStack>

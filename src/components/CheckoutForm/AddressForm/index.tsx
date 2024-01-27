@@ -45,9 +45,6 @@ export function AddressForm() {
   } = useAddressForm()
   const pathname = usePathname()
 
-  console.log({ addresses })
-  console.log({ isAddressRadioGroupVisible })
-
   if (isLoading && isAddressRadioGroupVisible)
     return (
       <YStack mt={-48}>
@@ -212,8 +209,8 @@ export function AddressForm() {
                 />
 
                 <Button
-                  testID="submit-button"
                   key={isSubmitting ? 'submitting' : 'default'}
+                  testID="submit-button"
                   onPress={handleSubmit}
                 >
                   {isSubmitting ? <Spinner color="$white" /> : 'Salvar'}

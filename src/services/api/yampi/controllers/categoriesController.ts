@@ -1,8 +1,8 @@
 import type { Category } from '@/@types/category'
 import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
-import { Endpoints } from '@/services/api/config/endpoints'
-import { Resources } from '@/services/api/config/resources'
 import { ICategoriesController } from '@/services/api/interfaces/ICategoriesService'
+import { Endpoints } from '@/services/api/yampi/config/endpoints'
+import { Resources } from '@/services/api/yampi/config/resources'
 
 export function categoriesController(api: IApiProvider): ICategoriesController {
   return {

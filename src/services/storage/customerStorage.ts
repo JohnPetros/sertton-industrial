@@ -21,6 +21,10 @@ export function customerStorage(storage: IStorageProvider): ICustomerStorage {
       await storage.set(CUSTOMER_KEY.email, String(email))
     },
 
+    async removeCustomerSelectedAddressZipcode() {
+      await storage.delete(CUSTOMER_KEY.selectedAddressZipcode)
+    },
+
     async setCustomerSelectedAddressZipcode(selectedAddressZipcode: string) {
       await storage.set(
         CUSTOMER_KEY.selectedAddressZipcode,

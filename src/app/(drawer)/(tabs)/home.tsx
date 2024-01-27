@@ -36,7 +36,7 @@ export default function HomeScreen() {
         <YStack mt={40}>
           <LeadCapture />
         </YStack>
-        <Footer />
+        {/* <Footer /> */}
       </ScrollView>
     </YStack>
   )

@@ -1,6 +1,6 @@
 import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
-import { Endpoints } from '@/services/api/config/endpoints'
 import { ILeadsController } from '@/services/api/interfaces/ILeadsController'
+import { Endpoints } from '@/services/api/yampi/config/endpoints'
 
 export function leadsController(api: IApiProvider): ILeadsController {
   return {

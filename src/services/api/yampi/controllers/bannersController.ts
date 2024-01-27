@@ -1,13 +1,14 @@
-import type { Banner } from '@/@types/banner'
-import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
-import { Endpoints } from '@/services/api/config/endpoints'
-import { Resources } from '@/services/api/config/resources'
-import { IBannersController } from '@/services/api/interfaces/IBannersController'
+import { IHttpProvider } from '../../http/interfaces/IHttp'
 
-export function bannersController(api: IApiProvider): IBannersController {
+import type { Banner } from '@/@types/banner'
+import { IBannersController } from '@/services/api/interfaces/IBannersController'
+import { Endpoints } from '@/services/api/yampi/config/endpoints'
+import { Resources } from '@/services/api/yampi/config/resources'
+
+export function bannersController(http: IHttpProvider): IBannersController {
   return {
     async getBanners() {
-      const response = await api.get<{ data: Banner[] }>(
+      const response = await http.get<{ data: Banner[] }>(
         `/${Resources.MARKETING}/${Endpoints.BANNER}`
       )
 

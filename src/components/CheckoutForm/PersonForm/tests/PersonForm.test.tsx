@@ -4,7 +4,7 @@ import { PersonForm } from '..'
 
 import { render } from '@/_tests_/customs/customRender'
 import { initializeHttpProvider } from '@/services/api/http'
-import { axiosProvider } from '@/services/api/http/axios'
+import { AxiosProvider } from '@/services/api/http/axios'
 import { initializeValidationProvider } from '@/services/validation'
 import { zodProvider } from '@/services/validation/zod/index.ts'
 
@@ -14,7 +14,7 @@ const onSuccessMock = jest.fn()
 
 describe('PersonForm component', () => {
   beforeAll(() => {
-    initializeHttpProvider(axiosProvider)
+    initializeHttpProvider(AxiosProvider)
     initializeValidationProvider(zodProvider)
   })
 

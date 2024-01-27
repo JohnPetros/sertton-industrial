@@ -1,10 +1,10 @@
 import type { Customer } from '@/@types/customer'
 import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
-import { Resources } from '@/services/api/config/resources'
 import {
   CreateCustomerRequest,
   ICustomersController,
 } from '@/services/api/interfaces/ICustomersController'
+import { Resources } from '@/services/api/yampi/config/resources'
 
 export function customersController(api: IApiProvider): ICustomersController {
   return {

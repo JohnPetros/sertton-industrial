@@ -1,8 +1,8 @@
 import type { Sku } from '@/@types/sku'
 import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
-import { Endpoints } from '@/services/api/config/endpoints'
-import { Resources } from '@/services/api/config/resources'
 import { ISkusController } from '@/services/api/interfaces/ISkusService'
+import { Endpoints } from '@/services/api/yampi/config/endpoints'
+import { Resources } from '@/services/api/yampi/config/resources'
 
 export function skusController(api: IApiProvider): ISkusController {
   return {

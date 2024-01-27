@@ -1,5 +1,4 @@
-import type { CreditCard } from '@/@types/creditCard'
-import type { PaymentConfig, PaymentMethod } from '@/@types/paymentMethod'
+import type { PaymentMethod } from '@/@types/paymentMethod'
 import type { ShipmentService } from '@/@types/shipmentService'
 import type { Transaction } from '@/@types/transaction'
 
@@ -38,6 +37,4 @@ export type CreateTransactionRequest = {
 
 export interface IPaymentController {
   createTransaction(request: CreateTransactionRequest): Promise<Transaction>
-  getPaymentConfigs(): Promise<PaymentConfig[]>
-  tokenizeCard(creditCard: CreditCard): Promise<string>
 }

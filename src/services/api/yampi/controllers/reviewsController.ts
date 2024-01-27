@@ -1,8 +1,8 @@
 import type { Review } from '@/@types/review'
 import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
-import { Endpoints } from '@/services/api/config/endpoints'
-import { Resources } from '@/services/api/config/resources'
 import { IReviewsController } from '@/services/api/interfaces/IReviewsService'
+import { Endpoints } from '@/services/api/yampi/config/endpoints'
+import { Resources } from '@/services/api/yampi/config/resources'
 
 export function reviewsController(api: IApiProvider): IReviewsController {
   return {

@@ -1,17 +1,19 @@
+import { IHttpProvider } from '../../http/interfaces/IHttp'
+
 import type { Collection } from '@/@types/collection'
-import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
-import { Endpoints } from '@/services/api/config/endpoints'
-import { Resources } from '@/services/api/config/resources'
 import { ICollectionsController } from '@/services/api/interfaces/ICollectionsService'
+import { Endpoints } from '@/services/api/yampi/config/endpoints'
+import { Resources } from '@/services/api/yampi/config/resources'
 
 export function collectionsController(
-  api: IApiProvider
+  http: IHttpProvider
 ): ICollectionsController {
   return {
     async getCollections() {
-      const response = await api.get<{ data: Collection[] }>(
+      const response = await http.get<{ data: Collection[] }>(
         `/${Resources.CATALOG}/${Endpoints.COLLECTION}?include=prods`
       )
+
       return response.data
     },
   }

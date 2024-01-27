@@ -1,9 +1,9 @@
 import type { Meta } from '@/@types/meta'
 import type { Product } from '@/@types/product'
 import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
-import { Endpoints } from '@/services/api/config/endpoints'
-import { Resources } from '@/services/api/config/resources'
 import { IProductsController } from '@/services/api/interfaces/IProductsService'
+import { Endpoints } from '@/services/api/yampi/config/endpoints'
+import { Resources } from '@/services/api/yampi/config/resources'
 
 export function productsController(api: IApiProvider): IProductsController {
   return {

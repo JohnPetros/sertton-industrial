@@ -16,10 +16,12 @@ export function useMarketing(banners: Banner[], collections: Collection[]) {
     return items
   }, [banners, collections])
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function isCollection(data: any): data is Collection {
     return 'products' in data
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function isBanner(data: any): data is Banner {
     return 'mobile_image_url' in data
   }

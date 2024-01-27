@@ -12,12 +12,12 @@ import { storageMock } from '@/_tests_/mocks/storageMock'
 import { Address } from '@/@types/address'
 import { CustomerContext } from '@/contexts/CustomerContext'
 import { QueryClientProvider } from '@/providers/components/QueryClientProvider'
-import { initializeApiProvider } from '@/services/api'
-import { Resources } from '@/services/api/config/resources'
-import { axiosProvider } from '@/services/api/http/axios'
+import { initializeHttpProvider } from '@/services/api/http'
+import { AxiosProvider } from '@/services/api/http/axios'
+import { Resources } from '@/services/api/yampi/config/resources'
 import { initializeStorageProvider } from '@/services/storage'
 import { CUSTOMER_KEY } from '@/services/storage/config/keys'
-import { initializeValidation } from '@/services/validation'
+import { initializeValidationProvider } from '@/services/validation'
 import { zodProvider } from '@/services/validation/zod/index.ts'
 import { CheckoutStoreProps, useCheckoutStore } from '@/stores/checkoutStore'
 
@@ -40,6 +40,7 @@ function renderUseAddressFormHook() {
               ...customerMock,
               selectedAddressZipcode: selectedAddres.zip_code,
             },
+            removeCustomer: jest.fn(),
             fetchCustomerByEmail: fetchCustomerByEmailMock,
             setSelectedAddressZipcode: setCustomerSelectedAddressZipcodeMock,
             updateCustomer: updateCustomerMock,
@@ -129,8 +130,8 @@ function mockDeleteAddress(addressId: number) {
 
 describe('useAddressForm hook', () => {
   beforeAll(() => {
-    initializeApiProvider(axiosProvider)
-    initializeValidation(zodProvider)
+    initializeHttpProvider(AxiosProvider)
+    initializeValidationProvider(zodProvider)
     initializeStorageProvider(storageMock)
   })
 

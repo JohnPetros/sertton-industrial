@@ -18,9 +18,6 @@ export function Marketing() {
     collections ?? []
   )
 
-  console.log('useBanners', { areBannersLoading })
-  console.log('useCollections', { areCollectionsLoading })
-
   if (areCollectionsLoading || areBannersLoading) {
     return (
       <>

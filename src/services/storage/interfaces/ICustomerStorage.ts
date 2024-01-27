@@ -5,4 +5,5 @@ export interface ICustomerStorage {
   setCustomerSelectedAddressZipcode: (
     selectedAddressZipcode: string
   ) => Promise<void>
+  removeCustomerSelectedAddressZipcode: () => Promise<void>
 }

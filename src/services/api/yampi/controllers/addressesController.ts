@@ -1,43 +1,12 @@
-import { testEnvVars } from '@/_tests_/configs/testEnvVars'
 import type { Address } from '@/@types/address'
 import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
-import { Resources } from '@/services/api/config/resources'
-import {
-  GetAddressByZipcodeResponse,
-  IAdressesController,
-} from '@/services/api/interfaces/IAddressesService'
-import { getOnlyNumbers } from '@/utils/helpers/getOnlyNumbers'
+import { IAdressesController } from '@/services/api/interfaces/IAddressesController'
+import { Resources } from '@/services/api/yampi/config/resources'
 
-const IS_TEST_ENV = process.env.NODE_ENV === 'test'
-
-const BASE_URL = !IS_TEST_ENV
-  ? process.env.VIA_CEP_BASE_URL
-  : `http://localhost/${testEnvVars.API_BASE_URL}/${testEnvVars.ALIAS}`
-
-export function addressesController(api: IApiProvider): IAdressesController {
+export function addressesController(
+  api: IApiProvider
+): Omit<IAdressesController, 'getAddressByZipcode'> {
   return {
-    async getAddressByZipcode(
-      zipcode: string
-    ): Promise<Omit<Address, 'number' | 'receiver' | 'id'> | null> {
-      if (!BASE_URL) throw new Error()
-
-      api.setBaseUrl(BASE_URL)
-
-      const data = await api.get<GetAddressByZipcodeResponse>(
-        `/${zipcode}/json/`
-      )
-
-      if (data.erro) return null
-
-      return {
-        uf: data.uf,
-        city: data.localidade,
-        street: data.logradouro,
-        neighborhood: data.bairro,
-        zip_code: getOnlyNumbers(data.cep),
-      }
-    },
-
     async getAddressesByCustomerId(customerId: number): Promise<Address[]> {
       const response = await api.get<{ data: Address[] }>(
         `${Resources.CUSTOMERS}/${customerId}/${Resources.ADDRESSES}`

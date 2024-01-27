@@ -10,6 +10,7 @@ export type CustomerContextValue = {
   customer: Customer | null
   fetchCustomerByEmail: (email: string) => Promise<boolean>
   updateCustomer: (customer: Partial<Customer>) => void
+  removeCustomer: () => void
   setSelectedAddressZipcode: (zipcode: string) => void
 }
 
@@ -23,6 +24,10 @@ export function CustomerProvider({ children }: CustomerProviderProps) {
   const storage = useStorage()
   const queryClient = useQueryClient()
   const toast = useToast()
+
+  function removeCustomer() {
+    queryClient.setQueryData('customer', null)
+  }
 
   function updateCustomerQuery(updatedCustomerData: Partial<Customer>) {
     queryClient.setQueryData('customer', {
@@ -61,8 +66,9 @@ export function CustomerProvider({ children }: CustomerProviderProps) {
 
   const api = useApi()
 
-  const { data: customer, refetch } = useQuery('customer', () =>
-    fetchCustomer()
+  const { data: customer, refetch: refetchCustomer } = useQuery(
+    'customer',
+    () => fetchCustomer()
   )
 
   async function setCustomerZipcode(zipcode: string) {
@@ -106,7 +112,7 @@ export function CustomerProvider({ children }: CustomerProviderProps) {
   const customerZipcodeMutation = useMutation(
     (zipcode: string) => setCustomerZipcode(zipcode),
     {
-      onSuccess: () => refetch(),
+      onSuccess: () => refetchCustomer(),
       onError: (error) => {
         api.handleError(error)
         toast.show('Erro ao atualizar CEP de endereço :(', 'error')
@@ -153,6 +159,7 @@ export function CustomerProvider({ children }: CustomerProviderProps) {
       customer: customer ?? null,
       fetchCustomerByEmail,
       updateCustomer,
+      removeCustomer,
       setSelectedAddressZipcode,
     }),
     [customer]
