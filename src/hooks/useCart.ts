@@ -1,9 +1,12 @@
+import { Linking } from 'react-native'
 import { useQuery } from 'react-query'
 
 import type { ComputedProduct } from '@/@types/computedProduct'
 import { useRefetchOnFocus } from '@/hooks/useRefetchOnFocus'
 import { useApi } from '@/services/api'
 import { useCartStore } from '@/stores/cartStore'
+
+const YAMPI_PURCHASE_URL = process.env.YAMPI_PURCHASE_URL
 
 export function useCart() {
   const items = useCartStore((store) => store.state.items)
@@ -59,6 +62,17 @@ export function useCart() {
     return selectedSkus
   }
 
+  function redirectToCheckout() {
+    const skus = getSelectedSkus()
+
+    if (!skus?.length || !YAMPI_PURCHASE_URL) return
+
+    const skusUri = skus.map((sku) => `${sku.token}:${sku.quantity}`).join(',')
+
+    console.log(skusUri)
+    Linking.openURL(`${YAMPI_PURCHASE_URL}/${skusUri}`)
+  }
+
   return {
     products: data,
     totalCartItems: items.length,
@@ -67,5 +81,6 @@ export function useCart() {
     isLoading,
     getSelectedSkus,
     handleRemoveAllItems,
+    redirectToCheckout,
   }
 }

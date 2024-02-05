@@ -1,3 +1,5 @@
+import { YampiProduct } from '../types/YampiProduct'
+
 import type { Meta } from '@/@types/meta'
 import type { Product } from '@/@types/product'
 import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
@@ -20,10 +22,24 @@ export function productsController(api: IApiProvider): IProductsController {
         ? `&${brandsIds.map((id) => `brand_id[]=${id}`).join('&')}`
         : ''
 
-      const response = await api.get<{ data: Product[]; meta: Meta }>(
+      const response = await api.get<{ data: YampiProduct[]; meta: Meta }>(
         `/${Resources.CATALOG}/${Endpoints.PRODUCT}?include=images,skus,brand${searchParam}${sorterParam}${categoryParam}${brandsIdsParam}&page=${page}&limit=20`
       )
       const { data, meta } = response
+
+      // const products: Product[] = data.map((product) => ({
+      //   id: product.id,
+      //   name: product.name,
+      //   images: product.images,
+      //   sku: product.sku,
+      //   slug: product.slug,
+      //   description: product.texts.data.description,
+      //   specifications: product.texts.data.specifications,
+      //   skus: product.skus.data.map((sku) => ({
+      //     id: sku.id,
+      //     id: sku.id,
+      //   })),
+      // }))
 
       return {
         products: data,

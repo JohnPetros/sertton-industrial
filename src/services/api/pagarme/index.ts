@@ -21,7 +21,7 @@ export function usePagarme() {
 
   const http = useHttp()
 
-  http.init()
+  http.start()
   http.setBaseUrl(PAGAR_ME_API_URL)
   http.setParams('appId', PAGAR_ME_PUBLIC_KEY)
 

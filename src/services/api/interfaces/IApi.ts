@@ -7,6 +7,7 @@ import { ICollectionsController } from './ICollectionsService'
 import { ICommentsController } from './ICommentsService'
 import { ICreditCardController } from './ICreditCardController'
 import { ICustomersController } from './ICustomersController'
+import { ILeadsController } from './ILeadsController'
 import { IOrdersController } from './IOrdersController'
 import { IPaymentController } from './IPaymentController'
 import { IProductsController } from './IProductsService'
@@ -24,6 +25,7 @@ export interface IApi
     ICollectionsController,
     ICustomersController,
     IOrdersController,
+    ILeadsController,
     IProductsController,
     IReviewsController,
     IShipmentServiceController,

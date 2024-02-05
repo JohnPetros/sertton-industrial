@@ -5,22 +5,11 @@ import type { Sku } from '@/@types/sku'
 export type Product = {
   id: number
   slug: string
-  sku: number
+  skuCode: number
   name: string
   description: string
-  skus: {
-    data: Sku[]
-  }
-  images: {
-    data: Image[]
-  }
-  brand: {
-    data: Brand
-  }
-  texts: {
-    data: {
-      description: string
-      specifications: string
-    }
-  }
+  specifications: string
+  skus: Sku[]
+  images: Image[]
+  brand: Brand
 }

@@ -13,7 +13,6 @@ import { EmptyItemsMessage } from '@/components/EmptyItemsMessage'
 import { Header } from '@/components/Header'
 import { Skeleton } from '@/components/Skeleton'
 import { useCart } from '@/hooks/useCart'
-import { ROUTES } from '@/utils/constants/routes'
 import { SCREEN } from '@/utils/constants/screen'
 
 const PRODUCT_CART_ITEM_WIDTH = SCREEN.width - SCREEN.paddingX * 2
@@ -25,6 +24,7 @@ export default function CartScreen() {
     totalCartItems,
     isFetching,
     handleRemoveAllItems,
+    redirectToCheckout,
   } = useCart()
   const isCartEmpty = totalCartItems <= 0
   const productsMock = computedProductsMock.slice(0, totalCartItems)
@@ -111,15 +111,13 @@ export default function CartScreen() {
               >
                 <YStack gap={8}>
                   {products && <CartSummary items={products} />}
-                  <Link
-                    href={ROUTES.checkout}
-                    style={{ width: '100%' }}
-                    asChild
+
+                  <Button
+                    onPress={redirectToCheckout}
+                    w={SCREEN.width - SCREEN.paddingX * 2}
                   >
-                    <Button w={SCREEN.width - SCREEN.paddingX * 2}>
-                      Finalizar compra
-                    </Button>
-                  </Link>
+                    Finalizar compra
+                  </Button>
                 </YStack>
               </Skeleton>
             </YStack>

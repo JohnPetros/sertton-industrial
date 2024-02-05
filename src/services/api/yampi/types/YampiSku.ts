@@ -1,7 +1,7 @@
 import type { Image } from '@/@types/image'
 import type { Variation } from '@/@types/variation'
 
-export type Sku = {
+export type YampiSku = {
   id: number
   sku: string
   price_cost: number

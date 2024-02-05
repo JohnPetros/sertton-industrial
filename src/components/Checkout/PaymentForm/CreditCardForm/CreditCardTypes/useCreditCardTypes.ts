@@ -30,9 +30,10 @@ export function useCreditCardTypes() {
     }
   }
 
-  const { data } = useQuery('credit-card-types', getCreditCardTypes)
+  const { data, isLoading } = useQuery('credit-card-types', getCreditCardTypes)
 
   return {
     creditCardTypes: data,
+    isLoading,
   }
 }

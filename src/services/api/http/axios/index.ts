@@ -22,8 +22,8 @@ export const AxiosProvider = (): IHttpProvider => {
   let axiosClient: AxiosInstance
 
   return {
-    init() {
-      axiosClient = axios.create()
+    start() {
+      if (!axiosClient) axiosClient = axios.create()
     },
 
     async get<Response>(url: string) {

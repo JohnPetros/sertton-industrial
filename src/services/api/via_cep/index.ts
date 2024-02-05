@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import { useHttp } from '../http'
 import { IAdressesController } from '../interfaces/IAddressesController'
 
@@ -18,25 +20,26 @@ export function useViaCep(): Pick<IAdressesController, 'getAddressByZipcode'> {
 
   const http = useHttp()
 
-  http.init()
+  return useMemo(() => {
+    http.start()
+    http.setBaseUrl(BASE_URL)
 
-  http.setBaseUrl(BASE_URL)
+    return {
+      async getAddressByZipcode(
+        zipcode: string
+      ): Promise<Omit<Address, 'number' | 'receiver' | 'id'> | null> {
+        const data = await http.get<ViaCepAddress>(`/${zipcode}/json/`)
 
-  return {
-    async getAddressByZipcode(
-      zipcode: string
-    ): Promise<Omit<Address, 'number' | 'receiver' | 'id'> | null> {
-      const data = await http.get<ViaCepAddress>(`/${zipcode}/json/`)
+        if (data.erro) return null
 
-      if (data.erro) return null
-
-      return {
-        uf: data.uf,
-        city: data.localidade,
-        street: data.logradouro,
-        neighborhood: data.bairro,
-        zip_code: getOnlyNumbers(data.cep),
-      }
-    },
-  }
+        return {
+          uf: data.uf,
+          city: data.localidade,
+          street: data.logradouro,
+          neighborhood: data.bairro,
+          zip_code: getOnlyNumbers(data.cep),
+        }
+      },
+    }
+  }, [])
 }

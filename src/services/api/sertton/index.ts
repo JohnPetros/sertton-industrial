@@ -18,14 +18,13 @@ export function useSertton() {
 
   const http = useHttp()
 
-  http.init()
-  http.setBaseUrl(SHIPMENT_SERVICE_BASE_URL)
+  return useMemo(() => {
+    http.start()
+    http.setBaseUrl(SHIPMENT_SERVICE_BASE_URL)
 
-  return useMemo(
-    () => ({
+    return {
       ...paymentController(http),
       ...shipmentServiceController(http),
-    }),
-    [http]
-  )
+    }
+  }, [http])
 }

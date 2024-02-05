@@ -1,5 +1,5 @@
 export type IHttpProvider = {
-  init(): void
+  start(): void
   get: <Response>(url: string) => Promise<Response>
   post: <Response>(url: string, request: unknown) => Promise<Response>
   put: <Response>(url: string, request: unknown) => Promise<Response>

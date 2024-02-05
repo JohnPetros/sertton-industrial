@@ -42,13 +42,13 @@ export function useYampi() {
 
   const http = useHttp()
 
-  http.init()
-  http.setBaseUrl(`${BASE_URL}/${ALIAS}`)
-  http.setHeader('User-Token', TOKEN)
-  http.setHeader('User-Secret-Key', SECRET_KEY)
+  return useMemo(() => {
+    http.start()
+    http.setBaseUrl(`${BASE_URL}/${ALIAS}`)
+    http.setHeader('User-Token', TOKEN)
+    http.setHeader('User-Secret-Key', SECRET_KEY)
 
-  return useMemo(
-    () => ({
+    return {
       ...brandsController(http),
       ...categoriesController(http),
       ...customersController(http),
@@ -66,7 +66,6 @@ export function useYampi() {
       ...bannersController(http),
       ...discountsController(http),
       ...checkoutController(http),
-    }),
-    [http]
-  )
+    }
+  }, [http])
 }
