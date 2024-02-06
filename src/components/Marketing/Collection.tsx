@@ -17,7 +17,7 @@ export function Collection({
 }: CollectionProps) {
   const router = useRouter()
 
-  function handleProduct(productId: number) {
+  function handleProduct(productId: string) {
     router.push(`/(drawer)/product/${productId}`)
   }
 

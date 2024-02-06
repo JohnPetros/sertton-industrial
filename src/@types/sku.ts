@@ -1,18 +1,18 @@
-import type { Image } from '@/@types/image'
+import type { Image } from '@/@types/productImage'
 import type { Variation } from '@/@types/variation'
 
 export type Sku = {
-  id: number
-  sku: string
-  price_cost: number
-  price_sale: number
-  price_discount: number
+  id: string
+  skuCode: string
+  costPrice: number
+  salePrice: number
+  discountPrice: number
   weight: number
   height: number
   width: number
   length: number
-  images: { data: Image[] }
+  images: Image[]
   variations: Variation[]
-  total_in_stock: number
-  token: string
+  stock: number
+  yampiToken: string
 }

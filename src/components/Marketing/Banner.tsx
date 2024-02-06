@@ -3,15 +3,15 @@ import { Image } from 'tamagui'
 import { Banner as BannerData } from '@/@types/banner'
 import { SCREEN } from '@/utils/constants/screen'
 
-interface BannerProps {
+type BannerProps = {
   data: BannerData
 }
 
-export function Banner({ data: { mobile_image_url } }: BannerProps) {
+export function Banner({ data: { imageUrl } }: BannerProps) {
   return (
     <Image
       source={{
-        uri: `https:${mobile_image_url}`,
+        uri: `https:${imageUrl}`,
       }}
       w={SCREEN.width}
       h={300}

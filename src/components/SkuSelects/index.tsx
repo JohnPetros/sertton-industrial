@@ -18,7 +18,7 @@ export type SkuSelectsRef = {
 }
 
 interface SkuSelectsProps {
-  productId: number
+  productId: string
   isDisabled?: boolean
   onSkuChange?: (sku: Sku) => void
 }

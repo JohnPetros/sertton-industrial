@@ -5,14 +5,14 @@ import type { Sku } from '@/@types/sku'
 import { useToast } from '@/components/Toast/useToast'
 import { useCartStore } from '@/stores/cartStore'
 
-export function useCartItem(skus: Sku[], selectedSkuId: number) {
+export function useCartItem(skus: Sku[], selectedSkuId: string) {
   const [selectedSku, setSelectedSku] = useState<Sku | null>(null)
 
   const removeItem = useCartStore((store) => store.actions.removeItem)
   const setItemQuantity = useCartStore((store) => store.actions.setItemQuantity)
 
   const setQuantityDebounce = useDebouncedCallback((newQuantity) => {
-    if (selectedSku && newQuantity <= selectedSku.total_in_stock) {
+    if (selectedSku && newQuantity <= selectedSku.stock) {
       setItemQuantity(selectedSku.id, newQuantity)
     }
   }, 700)
@@ -30,7 +30,7 @@ export function useCartItem(skus: Sku[], selectedSkuId: number) {
   function handleReachMaxInStock() {
     if (selectedSku)
       toast.show(
-        `Quantidade indisponível.\nDisponível em estoque: ${selectedSku.total_in_stock}`,
+        `Quantidade indisponível.\nDisponível em estoque: ${selectedSku.stock}`,
         'error'
       )
   }

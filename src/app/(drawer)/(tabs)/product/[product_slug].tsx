@@ -9,7 +9,7 @@ import { Header } from '@/components/Header'
 import { KeyboardHandlerView } from '@/components/KeyboardHandlerView'
 import { Collection } from '@/components/Marketing/Collection'
 import { Description } from '@/components/ProductPage/Description'
-import { Image } from '@/components/ProductPage/Image'
+import { ProductImage } from '@/components/ProductPage/Image'
 import { Info } from '@/components/ProductPage/Info'
 import { Stock } from '@/components/ProductPage/Stock'
 import { useProductPage } from '@/components/ProductPage/useProductPage'
@@ -52,7 +52,7 @@ export default function ProductPage() {
           showsVerticalScrollIndicator={false}
         >
           <Skeleton isVisible={isLoading} width={SCREEN.width} height={224}>
-            {selectedSku && <Image data={selectedSku.images.data} />}
+            {/* {selectedSku && <ProductImage data={}={selectedSku.images} />} */}
           </Skeleton>
           <YStack px={SCREEN.paddingX} mt={12} gap={8}>
             <Info
@@ -134,14 +134,14 @@ export default function ProductPage() {
             {product && !isLoading && (
               <YStack mt={24} gap={24}>
                 <Description
-                  description={product.texts.data.description}
-                  specifications={product.texts.data.specifications}
+                  description={product.description}
+                  specifications={product.specifications}
                 />
                 <YStack>
                   {similarProducts && (
                     <Collection
                       data={{
-                        id: 9999,
+                        id: '9999',
                         name: 'Produtos relacionados',
                         products: similarProducts ?? [],
                       }}

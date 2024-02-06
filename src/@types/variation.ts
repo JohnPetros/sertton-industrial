@@ -1,6 +1,6 @@
 export type Variation = {
-  id: number
+  id: string
   name: string
   value: string
-  value_id: number
+  // valueId: number
 }

@@ -1,5 +1,5 @@
 export type CartItem = {
   slug: string
-  skuId: number
+  skuId: string
   quantity: number
 }

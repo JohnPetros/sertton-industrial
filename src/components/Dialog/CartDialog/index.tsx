@@ -12,7 +12,7 @@ import { SCREEN } from '@/utils/constants/screen'
 interface CartDialogProps {
   children: ReactNode
   product: {
-    id: number
+    id: string
     slug: string
     name: string
     skus: Sku[]

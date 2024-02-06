@@ -1,19 +1,22 @@
+import { IHttpProvider } from '../../http/interfaces/IHttp'
+
 import type { Customer } from '@/@types/customer'
-import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
 import {
   CreateCustomerRequest,
   ICustomersController,
 } from '@/services/api/interfaces/ICustomersController'
-import { Resources } from '@/services/api/yampi/config/resources'
+import { Resources } from '@/services/api/yampi/utils/resources'
 
-export function customersController(api: IApiProvider): ICustomersController {
+export function yampiCustomersController(
+  http: IHttpProvider
+): ICustomersController {
   return {
     async createCustomer(customer: CreateCustomerRequest) {
-      await api.post(`/${Resources.CUSTOMERS}`, customer)
+      await http.post(`/${Resources.CUSTOMERS}`, customer)
     },
 
     async getCustomerByEmail(email: string): Promise<Customer | null> {
-      const response = await api.get<{ data: Customer[] }>(
+      const response = await http.get<{ data: Customer[] }>(
         `/${Resources.CUSTOMERS}?q=${email}&includes=addresses`
       )
 
@@ -32,7 +35,7 @@ export function customersController(api: IApiProvider): ICustomersController {
     },
 
     async checkCustomerDocument(document: string): Promise<boolean> {
-      const response = await api.get<{ data: Customer[] }>(
+      const response = await http.get<{ data: Customer[] }>(
         `/${Resources.CUSTOMERS}?q=${document}`
       )
 
@@ -40,7 +43,7 @@ export function customersController(api: IApiProvider): ICustomersController {
     },
 
     async updateCustomerById(customerId: number, customerNewData: Customer) {
-      await api.put(`/${Resources.CUSTOMERS}/${customerId}`, customerNewData)
+      await http.put(`/${Resources.CUSTOMERS}/${customerId}`, customerNewData)
     },
   }
 }

@@ -4,7 +4,7 @@ import { Portal } from '@gorhom/portal'
 import { X } from 'phosphor-react-native'
 import { getTokens, View, YStack } from 'tamagui'
 
-import type { Image as ProductImageData } from '@/@types/image'
+import type { Image as ProductImageData } from '@/@types/productImage'
 import { Button } from '@/components/Button'
 import { Image } from '@/components/Product'
 import { useFullImage } from '@/components/ProductPage/Image/FullImage/useFullImage'

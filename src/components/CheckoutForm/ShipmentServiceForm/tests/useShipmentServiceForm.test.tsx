@@ -12,7 +12,7 @@ import { CustomerContext } from '@/contexts/CustomerContext'
 import { QueryClientProvider } from '@/providers/components/QueryClientProvider'
 import { initializeHttpProvider } from '@/services/api/http'
 import { AxiosProvider } from '@/services/api/http/axios'
-import { Resources } from '@/services/api/yampi/config/resources'
+import { Resources } from '@/services/api/yampi/utils/resources'
 import { CheckoutStoreProps, useCheckoutStore } from '@/stores/checkoutStore'
 
 const setStepMock = jest.fn()

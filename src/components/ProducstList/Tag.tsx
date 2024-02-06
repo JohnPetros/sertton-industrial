@@ -4,7 +4,7 @@ import { getTokens } from 'tamagui'
 import { FilterType } from '@/@types/tag'
 import { Button } from '@/components/Button'
 
-interface TagProps {
+type TagProps = {
   id: string
   type: FilterType
   title: string

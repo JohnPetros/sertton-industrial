@@ -1,18 +1,18 @@
 import { ArrowsOut } from 'phosphor-react-native'
 import { getTokens, View, YStack } from 'tamagui'
 
-import { Image as ProductImage } from '@/@types/image'
+import { Image as ProductImageData } from '@/@types/productImage'
 import { Button } from '@/components/Button'
 import { Image as Img } from '@/components/Product'
 import { FullImage } from '@/components/ProductPage/Image/FullImage'
 import { useImage } from '@/components/ProductPage/Image/useImage'
 import { SCREEN } from '@/utils/constants/screen'
 
-interface FullImageProps {
-  data: ProductImage[]
+type FullImageProps = {
+  data: ProductImageData[]
 }
 
-export function Image({ data }: FullImageProps) {
+export function ProductImage({ data }: FullImageProps) {
   const { fullImageRef, handleFullImage } = useImage()
 
   return (
@@ -27,7 +27,12 @@ export function Image({ data }: FullImageProps) {
         }}
       >
         {data && (
-          <Img data={data} size="large" width={SCREEN.width} height={224} />
+          <Img
+            url={data[0].url}
+            size="large"
+            width={SCREEN.width}
+            height={224}
+          />
         )}
 
         <Button

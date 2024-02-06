@@ -12,7 +12,7 @@ import { ShipmentService } from '@/@types/shipmentService'
 import { CustomerContext } from '@/contexts/CustomerContext'
 import { initializeHttpProvider } from '@/services/api/http'
 import { AxiosProvider } from '@/services/api/http/axios'
-import { Resources } from '@/services/api/yampi/config/resources'
+import { Resources } from '@/services/api/yampi/utils/resources'
 import { CheckoutStoreProps, useCheckoutStore } from '@/stores/checkoutStore'
 import { formatPrice } from '@/utils/helpers/formatPrice'
 

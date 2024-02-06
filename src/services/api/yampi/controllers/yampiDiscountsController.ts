@@ -1,13 +1,16 @@
-import { Discount } from '@/@types/discount'
-import { IApiProvider } from '@/providers/interfaces/IApiProvider'
-import { IDiscountsController } from '@/services/api/interfaces/IDiscountsController'
-import { Endpoints } from '@/services/api/yampi/config/endpoints'
-import { Resources } from '@/services/api/yampi/config/resources'
+import { IHttpProvider } from '../../http/interfaces/IHttp'
 
-export function discountsController(api: IApiProvider): IDiscountsController {
+import { Discount } from '@/@types/discount'
+import { IDiscountsController } from '@/services/api/interfaces/IDiscountsController'
+import { Endpoints } from '@/services/api/yampi/utils/endpoints'
+import { Resources } from '@/services/api/yampi/utils/resources'
+
+export function yampiDiscountsController(
+  http: IHttpProvider
+): IDiscountsController {
   return {
     async getDiscounts() {
-      const response = await api.get<{ data: Discount[] }>(
+      const response = await http.get<{ data: Discount[] }>(
         `/${Resources.PRICING}/${Endpoints.DISCOUNT}`
       )
 

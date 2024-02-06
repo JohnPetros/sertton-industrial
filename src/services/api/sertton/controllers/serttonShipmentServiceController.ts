@@ -2,9 +2,9 @@ import type { ShipmentService } from '@/@types/shipmentService'
 import type { Sku } from '@/@types/sku'
 import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
 import { IShipmentServiceController } from '@/services/api/interfaces/IShipmentServiceController'
-import { Resources } from '@/services/api/yampi/config/resources'
+import { Resources } from '@/services/api/yampi/utils/resources'
 
-export function shipmentServiceController(
+export function serttonShipmentServiceController(
   api: IApiProvider
 ): IShipmentServiceController {
   return {

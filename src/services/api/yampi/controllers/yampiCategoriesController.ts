@@ -1,13 +1,16 @@
-import type { Category } from '@/@types/category'
-import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
-import { ICategoriesController } from '@/services/api/interfaces/ICategoriesService'
-import { Endpoints } from '@/services/api/yampi/config/endpoints'
-import { Resources } from '@/services/api/yampi/config/resources'
+import { IHttpProvider } from '../../http/interfaces/IHttp'
 
-export function categoriesController(api: IApiProvider): ICategoriesController {
+import type { Category } from '@/@types/category'
+import { ICategoriesController } from '@/services/api/interfaces/ICategoriesService'
+import { Endpoints } from '@/services/api/yampi/utils/endpoints'
+import { Resources } from '@/services/api/yampi/utils/resources'
+
+export function yampiCategoriesController(
+  http: IHttpProvider
+): ICategoriesController {
   return {
     async getCategories() {
-      const response = await api.get<{ data: Category[] }>(
+      const response = await http.get<{ data: Category[] }>(
         `/${Resources.CATALOG}/${Endpoints.CATEGORY}`
       )
 
@@ -15,7 +18,7 @@ export function categoriesController(api: IApiProvider): ICategoriesController {
     },
 
     async getCategory(categoryId: number) {
-      const response = await api.get<{ data: Category }>(
+      const response = await http.get<{ data: Category }>(
         `/${Resources.CATALOG}/${Endpoints.CATEGORY}/${categoryId}`
       )
       return response.data

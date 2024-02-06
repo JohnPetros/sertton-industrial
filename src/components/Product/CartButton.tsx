@@ -7,7 +7,7 @@ import { CartDialog } from '@/components/Dialog/CartDialog'
 
 interface CartButtonProps {
   product: {
-    id: number
+    id: string
     slug: string
     name: string
     skus: Sku[]

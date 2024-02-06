@@ -3,23 +3,22 @@ import { useMemo } from 'react'
 import { useHttp } from '../http'
 
 import { testEnvVars } from '@/_tests_/configs/testEnvVars'
-import { paymentController } from '@/services/api/sertton/controllers/paymentController'
-import { shipmentServiceController } from '@/services/api/sertton/controllers/shipmentServiceController'
-import { addressesController } from '@/services/api/yampi/controllers/addressesController'
-import { bannersController } from '@/services/api/yampi/controllers/bannersController'
-import { brandsController } from '@/services/api/yampi/controllers/brandsController'
-import { categoriesController } from '@/services/api/yampi/controllers/categoriesController'
-import { checkoutController } from '@/services/api/yampi/controllers/checkoutController'
-import { collectionsController } from '@/services/api/yampi/controllers/collectionsController'
-import { commentsController } from '@/services/api/yampi/controllers/commentsController'
-import { customersController } from '@/services/api/yampi/controllers/customersController'
-import { discountsController } from '@/services/api/yampi/controllers/discountsController'
-import { leadsController } from '@/services/api/yampi/controllers/leadsController'
-import { ordersController } from '@/services/api/yampi/controllers/ordersController'
-import { productsController } from '@/services/api/yampi/controllers/productsController'
-import { reviewsController } from '@/services/api/yampi/controllers/reviewsController'
-import { skusController } from '@/services/api/yampi/controllers/skusController'
-import { variationsController } from '@/services/api/yampi/controllers/variationsController'
+import { yampiPaymentController } from '@/services/api/sertton/controllers/paymentController'
+import { yampiAddressesController } from '@/services/api/yampi/controllers/yampiAddressesController'
+import { yampiBannersController } from '@/services/api/yampi/controllers/yampiBannersController'
+import { yampiBrandsController } from '@/services/api/yampi/controllers/yampibrandsController'
+import { yampiCategoriesController } from '@/services/api/yampi/controllers/yampiCategoriesController'
+import { yampiCheckoutController } from '@/services/api/yampi/controllers/yampiCheckoutController'
+import { yampiCollectionsController } from '@/services/api/yampi/controllers/yampiCollectionsController'
+import { yampiCommentsController } from '@/services/api/yampi/controllers/yampiCommentsController'
+import { yampiCustomersController } from '@/services/api/yampi/controllers/yampiCustomersController'
+import { yampiDiscountsController } from '@/services/api/yampi/controllers/yampiDiscountsController'
+import { yampiLeadsController } from '@/services/api/yampi/controllers/yampiLeadsController'
+import { yampiOrdersController } from '@/services/api/yampi/controllers/yampiOrdersController'
+import { yampiProductsController } from '@/services/api/yampi/controllers/yampiProductsController'
+import { yampiReviewsController } from '@/services/api/yampi/controllers/yampiReviewsController'
+import { yampiSkusController } from '@/services/api/yampi/controllers/yampiSkusController'
+import { yampiVariationsController } from '@/services/api/yampi/controllers/yampiVariationsController'
 
 const IS_TEST_ENV = process.env.NODE_ENV === 'test'
 
@@ -49,23 +48,22 @@ export function useYampi() {
     http.setHeader('User-Secret-Key', SECRET_KEY)
 
     return {
-      ...brandsController(http),
-      ...categoriesController(http),
-      ...customersController(http),
-      ...collectionsController(http),
-      ...productsController(http),
-      ...variationsController(http),
-      ...skusController(http),
-      ...commentsController(http),
-      ...reviewsController(http),
-      ...addressesController(http),
-      ...ordersController(http),
-      ...paymentController(http),
-      ...shipmentServiceController(http),
-      ...leadsController(http),
-      ...bannersController(http),
-      ...discountsController(http),
-      ...checkoutController(http),
+      ...yampiBrandsController(http),
+      ...yampiCategoriesController(http),
+      ...yampiCustomersController(http),
+      ...yampiCollectionsController(http),
+      ...yampiProductsController(http),
+      ...yampiVariationsController(http),
+      ...yampiSkusController(http),
+      ...yampiCommentsController(http),
+      ...yampiReviewsController(http),
+      ...yampiAddressesController(http),
+      ...yampiOrdersController(http),
+      ...yampiPaymentController(http),
+      ...yampiLeadsController(http),
+      ...yampiBannersController(http),
+      ...yampiDiscountsController(http),
+      ...yampiCheckoutController(http),
     }
   }, [http])
 }

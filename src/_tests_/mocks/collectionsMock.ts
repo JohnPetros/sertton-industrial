@@ -3,17 +3,17 @@ import { Collection } from '@/@types/collection'
 
 export const collectionsMock: Collection[] = [
   {
-    id: 1,
+    id: '1',
     name: 'Coleção Verão',
     products: productsMock,
   },
   {
-    id: 2,
+    id: '2',
     name: 'Coleção Inverno',
     products: productsMock,
   },
   {
-    id: 3,
+    id: '3',
     name: 'Coleção Esportiva',
     products: productsMock,
   },

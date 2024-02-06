@@ -2,8 +2,7 @@ import { useMemo } from 'react'
 
 import { useHttp } from '../http'
 
-import { paymentController } from './controllers/paymentController'
-import { shipmentServiceController } from './controllers/shipmentServiceController'
+import { serttonShipmentServiceController } from './controllers/serttonShipmentServiceController'
 
 import { testEnvVars } from '@/_tests_/configs/testEnvVars'
 
@@ -23,8 +22,7 @@ export function useSertton() {
     http.setBaseUrl(SHIPMENT_SERVICE_BASE_URL)
 
     return {
-      ...paymentController(http),
-      ...shipmentServiceController(http),
+      ...serttonShipmentServiceController(http),
     }
   }, [http])
 }

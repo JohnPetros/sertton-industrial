@@ -1,14 +1,15 @@
-import type { Address } from '@/@types/address'
-import type { IApiProvider } from '@/providers/interfaces/IApiProvider'
-import { IAdressesController } from '@/services/api/interfaces/IAddressesController'
-import { Resources } from '@/services/api/yampi/config/resources'
+import { IHttpProvider } from '../../http/interfaces/IHttp'
 
-export function addressesController(
-  api: IApiProvider
+import type { Address } from '@/@types/address'
+import { IAdressesController } from '@/services/api/interfaces/IAddressesController'
+import { Resources } from '@/services/api/yampi/utils/resources'
+
+export function yampiAddressesController(
+  http: IHttpProvider
 ): Omit<IAdressesController, 'getAddressByZipcode'> {
   return {
     async getAddressesByCustomerId(customerId: number): Promise<Address[]> {
-      const response = await api.get<{ data: Address[] }>(
+      const response = await http.get<{ data: Address[] }>(
         `${Resources.CUSTOMERS}/${customerId}/${Resources.ADDRESSES}`
       )
 
@@ -28,7 +29,7 @@ export function addressesController(
     },
 
     async saveAddress(address: Address, customerId: number) {
-      await api.post(
+      await http.post(
         `${Resources.CUSTOMERS}/${customerId}/${Resources.ADDRESSES}`,
         {
           ...address,
@@ -38,7 +39,7 @@ export function addressesController(
     },
 
     async updateAddress(address: Address, customerId: number) {
-      await api.put(
+      await http.put(
         `${Resources.CUSTOMERS}/${customerId}/${Resources.ADDRESSES}/${address.id}`,
         {
           ...address,
@@ -48,7 +49,7 @@ export function addressesController(
     },
 
     async deleteAddress(addressId: number, customerId: number) {
-      await api.delete(
+      await http.delete(
         `${Resources.CUSTOMERS}/${customerId}/${Resources.ADDRESSES}/${addressId}`
       )
     },

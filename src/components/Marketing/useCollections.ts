@@ -5,7 +5,7 @@ import { useApi } from '@/services/api'
 export function useCollections() {
   const api = useApi()
 
-  async function getProductsByCollection(collectionId: number) {
+  async function getProductsByCollection(collectionId: string) {
     return await api.getProductsByCollection(collectionId)
   }
 
@@ -26,12 +26,10 @@ export function useCollections() {
       return result
     }
 
-    return []
+    return collections
   }
 
-  const { data, error, isLoading } = useQuery('collections', () =>
-    getCollections()
-  )
+  const { data, error, isLoading } = useQuery('collections', getCollections)
 
   return {
     collections: data,

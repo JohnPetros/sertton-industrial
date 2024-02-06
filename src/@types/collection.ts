@@ -1,7 +1,7 @@
 import type { Product } from '@/@types/product'
 
 export type Collection = {
-  id: number
+  id: string
   name: string
   products: Product[]
 }

@@ -17,7 +17,7 @@ const GAP = 12
 interface CartItemProps {
   data: ProductData
   quantity: number
-  selectedSkuId: number
+  selectedSkuId: string
   width: number
   isLoading: boolean
 }
@@ -29,12 +29,14 @@ export function CartItem({
   width,
   isLoading,
 }: CartItemProps) {
+  return null
+
   const {
     selectedSku,
     handleQuantityChange,
     handleRemoveItem,
     handleReachMaxInStock,
-  } = useCartItem(skus.data, selectedSkuId)
+  } = useCartItem(skus, selectedSkuId)
   const pathname = usePathname()
 
   const isSKeletonVisible = isLoading || !selectedSku
@@ -46,7 +48,7 @@ export function CartItem({
     <XStack alignItems="center" justifyContent="center" gap={12}>
       <Skeleton width={halfWidth} height={180} isVisible={isSKeletonVisible}>
         <Product.Image
-          data={images.data}
+          url={images[0].url}
           size="medium"
           width={halfWidth - 24}
           height={160}
@@ -56,7 +58,7 @@ export function CartItem({
       <YStack width={halfWidth} gap={8}>
         {selectedSku && (
           <Skeleton isVisible={isSKeletonVisible}>
-            <Product.SkuCode>{selectedSku.sku}</Product.SkuCode>
+            <Product.SkuCode>{selectedSku.skuCode}</Product.SkuCode>
           </Skeleton>
         )}
         <Skeleton isVisible={isSKeletonVisible}>
@@ -78,7 +80,7 @@ export function CartItem({
           <NumberInput
             label={`Quantidade do produto ${name}`}
             number={quantity}
-            max={selectedSku?.total_in_stock}
+            max={selectedSku?.stock}
             onChangeNumber={handleQuantityChange}
             onReachMax={handleReachMaxInStock}
           />
@@ -92,8 +94,8 @@ export function CartItem({
           >
             {selectedSku && (
               <YStack>
-                <Product.DiscountPrice price={selectedSku.price_sale} />
-                <Product.SalePrice price={selectedSku.price_discount} />
+                <Product.DiscountPrice price={selectedSku.discountPrice} />
+                <Product.SalePrice price={selectedSku.salePrice} />
               </YStack>
             )}
             <Alert

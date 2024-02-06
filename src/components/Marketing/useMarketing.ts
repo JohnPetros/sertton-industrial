@@ -23,7 +23,7 @@ export function useMarketing(banners: Banner[], collections: Collection[]) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function isBanner(data: any): data is Banner {
-    return 'mobile_image_url' in data
+    return 'imageUrl' in data
   }
 
   return {

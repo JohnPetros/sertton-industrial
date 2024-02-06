@@ -13,9 +13,9 @@ export type CartStoreState = {
 
 type CartStoreActions = {
   addItem: (item: CartItem) => void
-  removeItem: (itemSkuId: number) => void
+  removeItem: (itemSkuId: string) => void
   removeAllItems: () => void
-  setItemQuantity: (itemSkuId: number, itemQuantity: number) => void
+  setItemQuantity: (itemSkuId: string, itemQuantity: number) => void
 }
 
 export type CartStoreProps = {
@@ -49,7 +49,7 @@ const cartStore: StateCreator<
       })
     },
 
-    removeItem(itemSkuId: number) {
+    removeItem(itemSkuId: string) {
       set(({ state }) => {
         const updatedItems = state.items.filter(
           (item) => item.skuId !== itemSkuId
@@ -64,7 +64,7 @@ const cartStore: StateCreator<
       })
     },
 
-    setItemQuantity(itemSkuId: number, itemQuantity: number) {
+    setItemQuantity(itemSkuId: string, itemQuantity: number) {
       set(({ state }) => {
         state.items = state.items.map((item) =>
           item.skuId === itemSkuId ? { ...item, quantity: itemQuantity } : item

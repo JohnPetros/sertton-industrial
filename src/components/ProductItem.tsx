@@ -6,7 +6,7 @@ import type { Product as ProductData } from '@/@types/product'
 import * as Product from '@/components/Product'
 import { Skeleton } from '@/components/Skeleton'
 
-interface ProductItemProps {
+type ProductItemProps = {
   data: ProductData
   isLoading: boolean
   isColumn?: boolean
@@ -14,7 +14,7 @@ interface ProductItemProps {
 }
 
 const ProductItemComponent = ({
-  data: { skus, images, name, brand, slug, id, sku },
+  data: { skus, images, name, brand, slug, id, skuCode },
   isLoading,
   isColumn = true,
   width = 150,
@@ -33,22 +33,20 @@ const ProductItemComponent = ({
             <>
               <View position="absolute" top={8} left={8} zIndex={50}>
                 <Product.Discount
-                  discountPrice={skus.data[0].price_discount}
-                  salesPrice={skus.data[0].price_sale}
+                  discountPrice={skus[0].discountPrice}
+                  salesPrice={skus[0].salePrice}
                 />
               </View>
               <View position="absolute" bottom={8} right={8} zIndex={50}>
-                <Product.CartButton
-                  product={{ id, slug, name, skus: skus.data }}
-                />
+                <Product.CartButton product={{ id, slug, name, skus }} />
               </View>
             </>
           )}
 
           <Skeleton width={width} height={180} isVisible={isLoading}>
-            {images.data.length > 0 && (
+            {images.length > 0 && (
               <Product.Image
-                data={images.data}
+                url={images[0].url}
                 size="medium"
                 width={!isColumn ? width / 2 : width}
                 height={180}
@@ -57,14 +55,9 @@ const ProductItemComponent = ({
           </Skeleton>
         </View>
         <YStack flexShrink={1} width={!isColumn ? width / 2 : width} gap={4}>
-          {sku && (
+          {brand?.name && (
             <Skeleton width={44} height={12} isVisible={isLoading}>
-              <Product.SkuCode>{String(sku)}</Product.SkuCode>
-            </Skeleton>
-          )}
-          {brand?.data.name && (
-            <Skeleton width={44} height={12} isVisible={isLoading}>
-              <Product.Brand>{brand.data.name}</Product.Brand>
+              <Product.Brand>{brand.name}</Product.Brand>
             </Skeleton>
           )}
           <Skeleton width={80} height={24} isVisible={isLoading}>
@@ -73,8 +66,8 @@ const ProductItemComponent = ({
           <XStack justifyContent="space-between">
             {!isLoading && (
               <>
-                <Product.SalePrice price={skus.data[0].price_discount} />
-                <Product.DiscountPrice price={skus.data[0].price_sale} />
+                <Product.SalePrice price={skus[0].discountPrice} />
+                <Product.DiscountPrice price={skus[0].salePrice} />
               </>
             )}
           </XStack>

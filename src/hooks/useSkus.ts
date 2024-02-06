@@ -7,7 +7,7 @@ import { useRefetchOnFocus } from '@/hooks/useRefetchOnFocus'
 import { useApi } from '@/services/api'
 import { removeObjectFromArray } from '@/utils/helpers/removeObjectFromArray'
 
-export function useSkus(productId: number) {
+export function useSkus(productId: string) {
   const [selectedSku, setSelectedSku] = useState<Sku | null>(null)
   const [variations, setVariations] = useState<Variation[]>([])
   const variationNames = useRef<string[]>([])

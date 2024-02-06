@@ -12,7 +12,7 @@ import { paymentConfigsMock } from '@/_tests_/mocks/paymentConfigsMock'
 import { QueryClientProvider } from '@/providers/components/QueryClientProvider'
 import { initializeApiProvider } from '@/services/api'
 import { axiosProvider } from '@/services/api/axios'
-import { Resources } from '@/services/api/yampi/config/resources'
+import { Resources } from '@/services/api/yampi/utils/resources'
 
 const getPaymentConfigsSpy = jest.fn()
 

@@ -9,7 +9,6 @@ import { ICreditCardController } from './ICreditCardController'
 import { ICustomersController } from './ICustomersController'
 import { ILeadsController } from './ILeadsController'
 import { IOrdersController } from './IOrdersController'
-import { IPaymentController } from './IPaymentController'
 import { IProductsController } from './IProductsService'
 import { IReviewsController } from './IReviewsService'
 import { IShipmentServiceController } from './IShipmentServiceController'
@@ -17,8 +16,7 @@ import { ISkusController } from './ISkusService'
 import { IVariationsController } from './IVariationsService'
 
 export interface IApi
-  extends IAdressesController,
-    IBannersController,
+  extends IBannersController,
     IBrandsController,
     ICategoriesController,
     ICommentsController,
@@ -31,8 +29,6 @@ export interface IApi
     IShipmentServiceController,
     ISkusController,
     IVariationsController,
-    ICheckoutController,
-    ICreditCardController,
-    IPaymentController {
+    ICheckoutController {
   handleError<Error>(error: unknown): Error
 }

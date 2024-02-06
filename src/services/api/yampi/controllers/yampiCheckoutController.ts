@@ -2,9 +2,11 @@ import { IHttpProvider } from '../../http/interfaces/IHttp'
 import { ICheckoutController } from '../../interfaces/ICheckoutController'
 
 import type { PaymentConfig } from '@/@types/paymentMethod'
-import { Resources } from '@/services/api/yampi/config/resources'
+import { Resources } from '@/services/api/yampi/utils/resources'
 
-export function checkoutController(http: IHttpProvider): ICheckoutController {
+export function yampiCheckoutController(
+  http: IHttpProvider
+): ICheckoutController {
   return {
     async getPaymentConfigs() {
       const response = await http.get<{ data: PaymentConfig[] }>(

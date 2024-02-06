@@ -47,7 +47,7 @@ export function useCart() {
     const selectedSkus = []
 
     for (const product of data) {
-      const selectedSku = product.skus.data.find(
+      const selectedSku = product.skus.find(
         (sku) => sku.id === product.selectedSkuId
       )
 
@@ -67,7 +67,9 @@ export function useCart() {
 
     if (!skus?.length || !YAMPI_PURCHASE_URL) return
 
-    const skusUri = skus.map((sku) => `${sku.token}:${sku.quantity}`).join(',')
+    const skusUri = skus
+      .map((sku) => `${sku.yampiToken}:${sku.quantity}`)
+      .join(',')
 
     console.log(skusUri)
     Linking.openURL(`${YAMPI_PURCHASE_URL}/${skusUri}`)
