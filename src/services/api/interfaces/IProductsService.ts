@@ -5,8 +5,8 @@ interface getProductsParams {
   page: number
   search: string
   sorter: Sorter | null
-  categoryId: number
-  brandsIds: number[]
+  categoryId: string
+  brandsIds: string[]
 }
 
 export interface IProductsController {

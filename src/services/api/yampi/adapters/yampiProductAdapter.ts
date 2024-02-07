@@ -35,7 +35,5 @@ export function yampiProductAdapter(yampiProduct: YampiProduct) {
     imageUrl: imageUrl,
   }
 
-  // console.log('product => ', JSON.stringify({ product }, null, 2))
-
   return product
 }

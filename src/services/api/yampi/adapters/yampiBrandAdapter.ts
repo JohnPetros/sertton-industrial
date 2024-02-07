@@ -4,7 +4,7 @@ import type { Brand } from '@/@types/brand'
 
 export function yampiBrandAdapter(yampiBrand: YampiBrand) {
   const banner: Brand = {
-    id: yampiBrand.id,
+    id: String(yampiBrand.id),
     name: yampiBrand.name,
   }
 

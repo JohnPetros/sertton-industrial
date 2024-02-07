@@ -1,5 +1,3 @@
-import { useMemo } from 'react'
-
 import { IHttpProvider } from './interfaces/IHttp'
 
 let http: () => IHttpProvider
@@ -13,5 +11,5 @@ export function useHttp() {
     throw new Error('useHttp must be used with a http provider')
   }
 
-  return useMemo(() => http(), [http])
+  return http()
 }
