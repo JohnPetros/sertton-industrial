@@ -1,13 +1,13 @@
 import { initializeHttpProvider } from '@/services/api/http'
-import { AxiosProvider } from '@/services/api/http/axios'
+import { AxiosHttpProvider } from '@/services/api/http/axios'
 import { initializeDateProvider } from '@/services/date'
-import { dayjsProvider } from '@/services/date/dayjs'
+import { dayjsDateProvider } from '@/services/date/dayjs'
 import { initializeStorageProvider } from '@/services/storage'
-import { mmkvProvider } from '@/services/storage/mmkv'
+import { mmkvStorageProvider } from '@/services/storage/mmkv'
 import { initializeValidationProvider } from '@/services/validation'
-import { zodProvider } from '@/services/validation/zod/index.ts'
+import { zodValidationProvider } from '@/services/validation/zod/index.ts'
 
-initializeHttpProvider(AxiosProvider)
-initializeStorageProvider(mmkvProvider)
-initializeDateProvider(dayjsProvider)
-initializeValidationProvider(zodProvider)
+initializeHttpProvider(AxiosHttpProvider)
+initializeStorageProvider(mmkvStorageProvider)
+initializeDateProvider(dayjsDateProvider)
+initializeValidationProvider(zodValidationProvider)

@@ -14,7 +14,7 @@ type ProductItemProps = {
 }
 
 const ProductItemComponent = ({
-  data: { skus, images, name, brand, slug, id, skuCode },
+  data: { skus, imageUrl, name, brand, slug, id, skuCode },
   isLoading,
   isColumn = true,
   width = 150,
@@ -44,9 +44,9 @@ const ProductItemComponent = ({
           )}
 
           <Skeleton width={width} height={180} isVisible={isLoading}>
-            {images.length > 0 && (
+            {imageUrl && (
               <Product.Image
-                url={images[0].url}
+                url={imageUrl}
                 size="medium"
                 width={!isColumn ? width / 2 : width}
                 height={180}
@@ -55,6 +55,11 @@ const ProductItemComponent = ({
           </Skeleton>
         </View>
         <YStack flexShrink={1} width={!isColumn ? width / 2 : width} gap={4}>
+          {skuCode && (
+            <Skeleton width={44} height={12} isVisible={isLoading}>
+              <Product.SkuCode>{skuCode}</Product.SkuCode>
+            </Skeleton>
+          )}
           {brand?.name && (
             <Skeleton width={44} height={12} isVisible={isLoading}>
               <Product.Brand>{brand.name}</Product.Brand>

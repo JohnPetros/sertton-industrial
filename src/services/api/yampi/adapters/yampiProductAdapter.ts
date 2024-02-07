@@ -7,9 +7,9 @@ import { yampiSkuAdapter } from './yampiSkuAdapter'
 import type { Product } from '@/@types/product'
 
 export function yampiProductAdapter(yampiProduct: YampiProduct) {
-  const images = yampiProduct.images
+  const imageUrl = yampiProduct.images
     ? yampiImageAdapter(yampiProduct.images.data[0])
-    : []
+    : ''
   const skus = yampiProduct.skus
     ? yampiProduct.skus.data.map(yampiSkuAdapter)
     : []
@@ -25,14 +25,14 @@ export function yampiProductAdapter(yampiProduct: YampiProduct) {
 
   const product: Product = {
     id: String(yampiProduct.id),
-    skuCode: String(yampiProduct.sku),
+    skuCode: String(yampiProduct.sku).split(',')[0],
     name: yampiProduct.name,
     slug: yampiProduct.slug,
     description,
     specifications,
     brand,
     skus,
-    images,
+    imageUrl: imageUrl,
   }
 
   // console.log('product => ', JSON.stringify({ product }, null, 2))

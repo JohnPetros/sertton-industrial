@@ -1,23 +1,23 @@
 import { ArrowsOut } from 'phosphor-react-native'
 import { getTokens, View, YStack } from 'tamagui'
 
-import { Image as ProductImageData } from '@/@types/productImage'
 import { Button } from '@/components/Button'
-import { Image as Img } from '@/components/Product'
+import { Image } from '@/components/Product'
 import { FullImage } from '@/components/ProductPage/Image/FullImage'
 import { useImage } from '@/components/ProductPage/Image/useImage'
 import { SCREEN } from '@/utils/constants/screen'
 
 type FullImageProps = {
-  data: ProductImageData[]
+  url: string
 }
 
-export function ProductImage({ data }: FullImageProps) {
+export function ProductImage({ url }: FullImageProps) {
   const { fullImageRef, handleFullImage } = useImage()
 
+  console.log({ url })
   return (
     <YStack>
-      <FullImage ref={fullImageRef} data={data} />
+      <FullImage ref={fullImageRef} url={url} />
       <View
         position="relative"
         mt={24}
@@ -26,13 +26,8 @@ export function ProductImage({ data }: FullImageProps) {
           return true
         }}
       >
-        {data && (
-          <Img
-            url={data[0].url}
-            size="large"
-            width={SCREEN.width}
-            height={224}
-          />
+        {url && (
+          <Image url={url} size="large" width={SCREEN.width} height={224} />
         )}
 
         <Button

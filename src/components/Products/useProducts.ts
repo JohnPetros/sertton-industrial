@@ -1,11 +1,14 @@
 import { useMemo, useRef, useState } from 'react'
 import { useInfiniteQuery } from 'react-query'
 
+import { useAppError } from '../AppError/useAppError'
+
 import { Product } from '@/@types/product'
 import { Sorter } from '@/@types/sorter'
-import { useCatogory } from '@/hooks/useCategory'
 import { useApi } from '@/services/api'
+import { useCache } from '@/services/cache'
 import { useProductsFilterStore } from '@/stores/productsFilterStore'
+import { CACHE } from '@/utils/constants/cache'
 
 const PER_PAGE = 20
 
@@ -14,12 +17,28 @@ export function useProducts() {
   const currentPage = useRef(0)
   const hasNextPage = useRef(true)
 
+  const { throwAppError } = useAppError()
+
   const { search, categoryId, brandsIds } = useProductsFilterStore(
     (store) => store.state
   )
 
   const [selectedSorter, setSelectedSorter] = useState<Sorter | null>(null)
-  const { category } = useCatogory(categoryId)
+
+  async function getCategory() {
+    try {
+      await api.getCategoryById(categoryId)
+    } catch (error) {
+      throwAppError('Erro ao definir categoria de produtos')
+    }
+  }
+
+  const { data: category } = useCache({
+    key: CACHE.keys.category,
+    fetcher: getCategory,
+    dependencies: [categoryId],
+    isEnabled: !!categoryId,
+  })
 
   async function getProducts(page: number) {
     const { products, totalPages } = await api.getProducts({

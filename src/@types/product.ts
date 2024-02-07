@@ -1,5 +1,4 @@
 import type { Brand } from '@/@types/brand'
-import type { Image } from '@/@types/productImage'
 import type { Sku } from '@/@types/sku'
 
 export type Product = {
@@ -10,6 +9,6 @@ export type Product = {
   description: string
   specifications: string
   skus: Sku[]
-  images: Image[]
+  imageUrl: string
   brand: Brand | null
 }

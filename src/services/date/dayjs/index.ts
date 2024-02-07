@@ -6,7 +6,7 @@ import { DateFormat, IDateProvider } from '@/providers/interfaces/IDateProvider'
 
 dayjs.locale('pt-br')
 
-export const dayjsProvider: IDateProvider = {
+export const dayjsDateProvider: IDateProvider = {
   calculateTimeUtilTodayEnd() {
     const currentDate = dayjs()
     const todayEnd = currentDate.endOf('day')

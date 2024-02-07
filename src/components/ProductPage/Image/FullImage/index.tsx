@@ -4,7 +4,6 @@ import { Portal } from '@gorhom/portal'
 import { X } from 'phosphor-react-native'
 import { getTokens, View, YStack } from 'tamagui'
 
-import type { Image as ProductImageData } from '@/@types/productImage'
 import { Button } from '@/components/Button'
 import { Image } from '@/components/Product'
 import { useFullImage } from '@/components/ProductPage/Image/FullImage/useFullImage'
@@ -16,12 +15,12 @@ export type FullImageRef = {
   open: () => void
   close: () => void
 }
-interface FullImageProps {
-  data: ProductImageData[]
+type FullImageProps = {
+  url: string
 }
 
 const FullImageComponent = (
-  { data }: FullImageProps,
+  { url }: FullImageProps,
   ref: ForwardedRef<FullImageRef>
 ) => {
   const { animatedStyle, open, close } = useFullImage()
@@ -64,12 +63,7 @@ const FullImageComponent = (
             <X size={40} color={getTokens().color.white.val} />
           </Button>
           <View mt={-100}>
-            <Image
-              data={data}
-              size="xLarge"
-              width={SCREEN.width}
-              height={400}
-            />
+            <Image url={url} size="xLarge" width={SCREEN.width} height={400} />
           </View>
         </YStack>
       </AnimatedView>

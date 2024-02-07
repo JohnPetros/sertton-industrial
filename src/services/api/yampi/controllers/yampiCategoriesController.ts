@@ -17,7 +17,7 @@ export function yampiCategoriesController(
       return response.data
     },
 
-    async getCategory(categoryId: number) {
+    async getCategoryById(categoryId: number) {
       const response = await http.get<{ data: Category }>(
         `/${Resources.CATALOG}/${Endpoints.CATEGORY}/${categoryId}`
       )

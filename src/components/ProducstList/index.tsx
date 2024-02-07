@@ -22,7 +22,7 @@ import { SORTERS } from '@/utils/constants/sorters'
 const ICON_COLOR = getTokens().color.gray800.val
 const ICON_SIZE = 16
 
-export interface ProductsListProps {
+export type ProductsListProps = {
   products: Product[]
   isLoading: boolean
   hasNextPage: boolean

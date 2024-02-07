@@ -23,14 +23,12 @@ interface CartItemProps {
 }
 
 export function CartItem({
-  data: { name, images, skus },
+  data: { name, imageUrl, skus },
   quantity,
   selectedSkuId,
   width,
   isLoading,
 }: CartItemProps) {
-  return null
-
   const {
     selectedSku,
     handleQuantityChange,
@@ -48,7 +46,7 @@ export function CartItem({
     <XStack alignItems="center" justifyContent="center" gap={12}>
       <Skeleton width={halfWidth} height={180} isVisible={isSKeletonVisible}>
         <Product.Image
-          url={images[0].url}
+          url={imageUrl}
           size="medium"
           width={halfWidth - 24}
           height={160}

@@ -1,15 +1,15 @@
 import { ArrowDown, Percent } from 'phosphor-react-native'
 import { getTokens, Text, XStack } from 'tamagui'
 
-import { calculateDiscount } from '@/utils/helpers/calculateDiscount'
+import { useDiscount } from './useDiscount'
 
-interface DiscountProps {
+type DiscountProps = {
   discountPrice: number
   salesPrice: number
 }
 
 export function Discount({ discountPrice, salesPrice }: DiscountProps) {
-  const discount = calculateDiscount(discountPrice, salesPrice)
+  const discount = useDiscount(discountPrice, salesPrice)
 
   return (
     <XStack

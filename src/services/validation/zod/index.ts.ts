@@ -9,7 +9,7 @@ import { zipcodeSchema } from './schemas/zipcodeSchema'
 
 import type { IValidationProvider } from '@/providers/interfaces/IValidationProvider'
 
-export const zodProvider: IValidationProvider = {
+export const zodValidationProvider: IValidationProvider = {
   validateEmail(email: string) {
     const emailValidation = emailSchema.safeParse(email)
 

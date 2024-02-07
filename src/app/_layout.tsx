@@ -34,31 +34,28 @@ export default function Layout() {
     <QueryClientProvider>
       <TamaguiProvider>
         <ToastProvider>
-          <CustomerProvider>
-            <ErrorBoundary
-              onError={handleAppError}
-              FallbackComponent={AppError}
-            >
-              <PortalProvider>
-                <Suspense fallback={<Text>Loading...</Text>}>
-                  <Theme name={colorScheme}>
-                    <StyledSafeAreaView>
-                      <StatusBar
-                        backgroundColor={'#f5f1f1'}
-                        translucent
-                        barStyle="dark-content"
-                      />
-                      <Stack
-                        screenOptions={{
-                          headerShown: false,
-                        }}
-                      />
-                    </StyledSafeAreaView>
-                  </Theme>
-                </Suspense>
-              </PortalProvider>
-            </ErrorBoundary>
-          </CustomerProvider>
+          {/* <CustomerProvider> */}
+          <ErrorBoundary onError={handleAppError} FallbackComponent={AppError}>
+            <PortalProvider>
+              <Suspense fallback={<Text>Loading...</Text>}>
+                <Theme name={colorScheme}>
+                  <StyledSafeAreaView>
+                    <StatusBar
+                      backgroundColor={'#f5f1f1'}
+                      translucent
+                      barStyle="dark-content"
+                    />
+                    <Stack
+                      screenOptions={{
+                        headerShown: false,
+                      }}
+                    />
+                  </StyledSafeAreaView>
+                </Theme>
+              </Suspense>
+            </PortalProvider>
+          </ErrorBoundary>
+          {/* </CustomerProvider> */}
         </ToastProvider>
       </TamaguiProvider>
     </QueryClientProvider>

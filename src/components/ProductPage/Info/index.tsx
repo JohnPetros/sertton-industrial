@@ -20,7 +20,7 @@ export function Info({ productName, sku, isLoading }: InfoProps) {
   return (
     <>
       <Skeleton isVisible={isLoading} width={120} height={24}>
-        {sku && <SkuCode fontSize={14}>{sku?.sku}</SkuCode>}
+        {sku && <SkuCode fontSize={14}>{sku?.skuCode}</SkuCode>}
       </Skeleton>
       <Skeleton isVisible={isLoading} width={300} height={48}>
         {productName && <Name fontSize={24}>{productName}</Name>}
@@ -30,12 +30,12 @@ export function Info({ productName, sku, isLoading }: InfoProps) {
         {sku && (
           <XStack alignItems="flex-start" gap={12}>
             <YStack>
-              <SalePrice fontSize={24} price={sku?.price_sale} />
-              <DiscountPrice fontSize={14} price={sku?.price_discount} />
+              <SalePrice fontSize={24} price={sku?.salePrice} />
+              <DiscountPrice fontSize={14} price={sku?.discountPrice} />
             </YStack>
             <Discount
-              salesPrice={sku?.price_sale}
-              discountPrice={sku?.price_discount}
+              salesPrice={sku?.salePrice}
+              discountPrice={sku?.discountPrice}
             />
           </XStack>
         )}

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { ProductsListProps } from '@/components/ProducstList'
+import { useCartStore } from '@/stores/cartStore'
 import { SCREEN } from '@/utils/constants/screen'
 import { SORTERS } from '@/utils/constants/sorters'
 
@@ -15,6 +16,8 @@ export function useProductsList({
   const isFetching = useRef(false)
   const totalProducts = useRef(0)
   const data = products.slice(0)
+
+  const removeAllItems = useCartStore(({ actions }) => actions.removeAllItems)
 
   const productWidth =
     layout === 'list'

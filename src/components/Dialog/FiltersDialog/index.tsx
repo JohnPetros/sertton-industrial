@@ -21,6 +21,8 @@ export function FiltersDialog({ children, brands }: FiltersDialogProps) {
     handleFilterButton,
   } = useFiltersDialog(brands)
 
+  console.log({ brands })
+
   return (
     <Dialog
       ref={dialogRef}

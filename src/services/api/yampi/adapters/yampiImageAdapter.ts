@@ -30,5 +30,5 @@ export function yampiImageAdapter(yampiImage: YampiImage) {
     },
   ]
 
-  return images
+  return images[1].url
 }

@@ -18,7 +18,7 @@ const SECRET_KEY = !IS_TEST_ENV
   ? process.env.YAMPI_SECRET_KEY
   : testEnvVars.YAMPI_SECRET_KEY
 
-export const AxiosProvider = (): IHttpProvider => {
+export const AxiosHttpProvider = (): IHttpProvider => {
   let axiosClient: AxiosInstance
 
   return {
