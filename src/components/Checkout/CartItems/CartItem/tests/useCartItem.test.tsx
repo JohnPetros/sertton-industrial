@@ -64,7 +64,7 @@ describe('useCartItem hook', () => {
 
     const { result } = renderHook(() => useCartItem(skusMock, selectedSku.id))
 
-    const newQuantity = selectedSku.total_in_stock + 1
+    const newQuantity = selectedSku.stock + 1
 
     act(() => {
       result.current.handleQuantityChange(newQuantity)
@@ -96,7 +96,7 @@ describe('useCartItem hook', () => {
     await waitFor(() => {
       expect(
         screen.getByText(
-          `Quantidade indisponível.\nDisponível em estoque: ${selectedSku.total_in_stock}`
+          `Quantidade indisponível.\nDisponível em estoque: ${selectedSku.stock}`
         )
       )
     })

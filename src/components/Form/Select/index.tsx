@@ -1,11 +1,4 @@
-import {
-  ForwardedRef,
-  forwardRef,
-  useEffect,
-  useId,
-  useImperativeHandle,
-  useState,
-} from 'react'
+import { ForwardedRef, forwardRef, useId, useImperativeHandle } from 'react'
 import { ActivityIndicator } from 'react-native'
 import { CaretDown, Check, X } from 'phosphor-react-native'
 import {
@@ -21,6 +14,9 @@ import {
 import { Text } from 'tamagui'
 import { Label } from 'tamagui'
 
+import { TEST_IDS } from './tests/utils/test-ids'
+import { useSelect } from './useSelect'
+
 import { Button } from '@/components/Button'
 
 type DefaultValue = 'Selecionar'
@@ -33,14 +29,14 @@ export type SelectRef = {
   open: () => void
 }
 
-interface SelectProps {
+type SelectProps = {
   items: string[]
   defaultValue: string | DefaultValue
   width: number | string
   onChange: (value: string) => void
   label?: string
   ariaLabel?: string
-  isDisable?: boolean
+  isDisabled?: boolean
   hasError?: boolean
 }
 
@@ -51,69 +47,40 @@ export const SelectComponent = (
     items,
     defaultValue,
     width,
-    isDisable = false,
+    isDisabled = false,
     hasError = false,
     onChange,
   }: SelectProps,
   ref: ForwardedRef<SelectRef>
 ) => {
-  const [seletedValue, setSelectedValue] = useState(defaultValue)
-  const [isOpen, setIsOpen] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState(hasError)
+  const {
+    open,
+    close,
+    reset,
+    handleChangeValue,
+    handleOpenChange,
+    isLoading,
+    selectedValue,
+    isOpen,
+    error,
+  } = useSelect(defaultValue, hasError, onChange)
   const id = useId()
-
-  function open() {
-    setIsOpen(true)
-  }
-
-  function close() {
-    setIsOpen(false)
-  }
-
-  function reset() {
-    setSelectedValue(DEFAULT_VALUE)
-  }
-
-  function handleChangeValue(value: string) {
-    setIsLoading(true)
-
-    setSelectedValue(value)
-  }
-
-  function handleOpenChage(isOpen: boolean) {
-    setIsOpen(isOpen)
-  }
 
   useImperativeHandle(ref, () => {
     return {
-      value: seletedValue === DEFAULT_VALUE ? '' : seletedValue,
+      value: selectedValue === DEFAULT_VALUE ? '' : selectedValue,
       reset,
       open,
     }
   })
 
-  useEffect(() => {
-    if (isLoading) {
-      setTimeout(() => {
-        setIsOpen(false)
-        setIsLoading(false)
-        setError(false)
-        onChange(seletedValue)
-      }, 50)
-    }
-  }, [isLoading, seletedValue])
-
-  useEffect(() => {
-    setError(hasError)
-  }, [hasError])
-
   return (
     <YStack
+      testID={TEST_IDS.container}
       aria-label={ariaLabel}
       w={width}
       alignItems="center"
-      opacity={isDisable ? 0.3 : 1}
+      opacity={isDisabled ? 0.3 : 1}
     >
       {label && id && (
         <Label
@@ -129,9 +96,10 @@ export const SelectComponent = (
         defaultValue={defaultValue}
         onValueChange={handleChangeValue}
         open={isOpen}
-        value={seletedValue}
+        value={selectedValue}
       >
         <S.Trigger
+          testID={TEST_IDS.trigger}
           id={id}
           borderWidth={1}
           borderColor={error ? '$red700' : '$gray400'}
@@ -139,13 +107,13 @@ export const SelectComponent = (
           fontSize={14}
           bg={error ? '$red50' : '$gray50'}
           w={width}
-          disabled={isDisable}
+          disabled={isDisabled}
           onStartShouldSetResponder={() => {
-            open()
+            if (!isDisabled) open()
             return true
           }}
         >
-          {seletedValue}
+          {selectedValue}
           <CaretDown size={16} color={getTokens().color.gray800.val} />
         </S.Trigger>
 
@@ -154,7 +122,7 @@ export const SelectComponent = (
             modal
             animation="quick"
             dismissOnSnapToBottom
-            onOpenChange={handleOpenChage}
+            onOpenChange={handleOpenChange}
           >
             <Sheet.Frame flexDirection="column">
               <Adapt.Contents />
@@ -164,11 +132,22 @@ export const SelectComponent = (
 
         <S.Content>
           <S.Viewport>
-            <XStack alignItems="center" justifyContent="space-between" mb={8}>
+            <XStack
+              testID={TEST_IDS.content}
+              disabled={isOpen}
+              alignItems="center"
+              justifyContent="space-between"
+              mb={8}
+            >
               <Text p={12} fontSize={16} fontWeight="600" color="$blue800">
                 Selecione uma opção:
               </Text>
-              <Button background="transparent" p={12} onPress={close}>
+              <Button
+                testID={TEST_IDS.close}
+                background="transparent"
+                p={12}
+                onPress={close}
+              >
                 <X color={getTokens().color.blue800.val} />
               </Button>
             </XStack>
@@ -197,6 +176,7 @@ export const SelectComponent = (
                   <S.ItemIndicator marginLeft="auto">
                     {isLoading ? (
                       <ActivityIndicator
+                        testID={TEST_IDS.spinner}
                         size="small"
                         color={getTokens().color.blue600.val}
                       />

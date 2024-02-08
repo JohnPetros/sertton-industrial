@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 
-import type { ComputedOrder } from '@/@types/computedOrder'
+import type { YampiComputedOrder } from '@/services/api/yampi/types/YampiComputedOrder'
 
-export function useOrderItem(order: ComputedOrder) {
+export function useOrderItem(order: YampiComputedOrder) {
   const [totalDiscount, setTotalDiscount] = useState(0)
   const [subtotal, setSubtotal] = useState(0)
   const [skusAmount, setSkusAmount] = useState(0)

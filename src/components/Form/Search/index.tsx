@@ -20,8 +20,6 @@ export function Search({ isFetching }: SearchProps) {
     isFetching ?? false
   )
 
-  console.log({ isLoading })
-
   return (
     <XStack gap={GAP}>
       <Input
@@ -40,7 +38,7 @@ export function Search({ isFetching }: SearchProps) {
         background="primary"
         alignSelf="flex-end"
         onPress={() => (isLoading ? null : handleSearch())}
-        disabled={true}
+        disabled={isLoading}
       >
         {isLoading ? (
           <Spinner testID="spinner" size="small" color="$white" />
