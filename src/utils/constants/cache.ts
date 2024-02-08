@@ -3,5 +3,6 @@ export const CACHE = {
     category: '/category',
     categories: '/categories',
     brands: '/brands',
+    banners: '/banners',
   },
 }
