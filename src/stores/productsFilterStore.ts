@@ -3,14 +3,14 @@ import { immer } from 'zustand/middleware/immer'
 
 export type ProductsfilterStoreState = {
   search: string
-  categoryId: number
-  brandsIds: number[]
+  categoryId: string
+  brandsIds: string[]
 }
 
 type ProductsfilterStoreActions = {
   setSearch: (search: string) => void
-  setCateforyId: (categoryId: number) => void
-  setBrandsIds: (brandsIds: number[]) => void
+  setCateforyId: (categoryId: string) => void
+  setBrandsIds: (brandsIds: string[]) => void
 }
 
 type ProductsfilterStoreProps = {
@@ -20,7 +20,7 @@ type ProductsfilterStoreProps = {
 
 const initialState: ProductsfilterStoreState = {
   search: '',
-  categoryId: 0,
+  categoryId: '',
   brandsIds: [],
 }
 
@@ -32,18 +32,18 @@ export const useProductsFilterStore = create<ProductsfilterStoreProps>()(
         setSearch(search: string) {
           return set(({ state }) => {
             state.search = search
-            state.categoryId = 0
+            state.categoryId = ''
             state.brandsIds = []
           })
         },
-        setCateforyId(categoryId: number) {
+        setCateforyId(categoryId: string) {
           return set(({ state }) => {
             state.categoryId = categoryId
             state.search = ''
             state.brandsIds = []
           })
         },
-        setBrandsIds(brandsIds: number[]) {
+        setBrandsIds(brandsIds: string[]) {
           return set(({ state }) => {
             state.brandsIds = brandsIds
           })
