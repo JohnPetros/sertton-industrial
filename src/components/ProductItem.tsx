@@ -6,7 +6,7 @@ import type { Product as ProductData } from '@/@types/product'
 import * as Product from '@/components/Product'
 import { Skeleton } from '@/components/Skeleton'
 
-type ProductItemProps = {
+export type ProductItemProps = {
   data: ProductData
   isLoading: boolean
   isColumn?: boolean
@@ -82,4 +82,4 @@ const ProductItemComponent = ({
   )
 }
 
-export const ProductItem = memo(ProductItemComponent)
+export const ProductItem = memo(ProductItemComponent, () => true)

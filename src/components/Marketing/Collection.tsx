@@ -1,30 +1,33 @@
 import { FlatList } from 'react-native'
-import { useRouter } from 'expo-router'
-import { Button, H2, YStack } from 'tamagui'
+import { H2, View, YStack } from 'tamagui'
 
-import { Collection as CollectionData } from '@/@types/collection'
+import { TEST_IDS } from './tests/utils/test-ids'
+import { ARIA_LABELS } from './utils/aria-labels'
+
+import type { Product } from '@/@types/product'
 import { ProductItem } from '@/components/ProductItem'
 import { Skeleton } from '@/components/Skeleton'
 
-interface CollectionProps {
-  data: CollectionData
+type CollectionProps = {
+  name: string
+  products: Product[]
   isLoading: boolean
 }
 
-export function Collection({
-  data: { name, products },
-  isLoading,
-}: CollectionProps) {
-  const router = useRouter()
-
-  function handleProduct(productId: string) {
-    router.push(`/(drawer)/product/${productId}`)
-  }
-
+export function Collection({ name, products, isLoading }: CollectionProps) {
   if (products.length)
     return (
       <YStack>
-        <Skeleton isVisible={isLoading} mb={isLoading ? 12 : 0}>
+        <Skeleton
+          testID={TEST_IDS.collectionSkeleton}
+          aria-label={
+            isLoading
+              ? ARIA_LABELS.collectionSkeletonVisible
+              : ARIA_LABELS.collectionSkeletonInvisible
+          }
+          isVisible={isLoading}
+          mb={isLoading ? 12 : 0}
+        >
           <H2 color="$blue500" fontSize={24} mb={12}>
             {name}
           </H2>
@@ -33,19 +36,14 @@ export function Collection({
           data={products}
           keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => (
-            <Button
-              unstyled
-              key={item.id}
-              mr={24}
-              onPress={() => handleProduct(item.id)}
-            >
+            <View mr={24}>
               <ProductItem
                 data={item}
                 isLoading={isLoading}
                 isColumn={true}
                 width={150}
               />
-            </Button>
+            </View>
           )}
           horizontal
           showsHorizontalScrollIndicator={false}

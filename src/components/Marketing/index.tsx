@@ -7,7 +7,6 @@ import { Banner } from '@/components/Marketing/Banner'
 import { Collection } from '@/components/Marketing/Collection'
 import { useBanners } from '@/components/Marketing/useBanners'
 import { useCollections } from '@/components/Marketing/useCollections'
-import { useMarketing } from '@/components/Marketing/useMarketing'
 import { SCREEN } from '@/utils/constants/screen'
 
 export function Marketing() {
@@ -19,42 +18,66 @@ export function Marketing() {
       {areBannersLoading || !banners ? (
         <Skeleton isVisible={true} height={300} width={SCREEN.width} />
       ) : (
-        <Banner data={banners[0]} />
+        <Banner imageUrl={banners[0].imageUrl} />
       )}
 
       <YStack px={SCREEN.paddingX}>
         {areCollectionsLoading || !collections ? (
-          <Collection data={collectionsMock[0]} isLoading={true} />
+          <Collection
+            name={collectionsMock[0].name}
+            products={collectionsMock[0].products}
+            isLoading={true}
+          />
         ) : (
-          <Collection data={collections[0]} isLoading={false} />
+          <Collection
+            name={collections[0].name}
+            products={collectionsMock[0].products}
+            isLoading={false}
+          />
         )}
       </YStack>
 
       {areBannersLoading || !banners ? (
         <Skeleton isVisible={true} height={300} width={SCREEN.width} />
       ) : (
-        <Banner data={banners[1]} />
+        <Banner imageUrl={banners[1].imageUrl} />
       )}
 
       <YStack px={SCREEN.paddingX}>
         {areCollectionsLoading || !collections ? (
-          <Collection data={collectionsMock[0]} isLoading={true} />
+          <Collection
+            name={collectionsMock[0].name}
+            products={collectionsMock[0].products}
+            isLoading={true}
+          />
         ) : (
-          <Collection data={collections[1]} isLoading={false} />
+          <Collection
+            name={collections[1].name}
+            products={collectionsMock[1].products}
+            isLoading={false}
+          />
         )}
       </YStack>
 
       {areBannersLoading || !banners ? (
         <Skeleton isVisible={true} height={300} width={SCREEN.width} />
       ) : (
-        <Banner data={banners[2]} />
+        <Banner imageUrl={banners[2].imageUrl} />
       )}
 
       <YStack px={SCREEN.paddingX}>
         {areCollectionsLoading || !collections ? (
-          <Collection data={collectionsMock[0]} isLoading={true} />
+          <Collection
+            name={collectionsMock[0].name}
+            products={collectionsMock[0].products}
+            isLoading={true}
+          />
         ) : (
-          <Collection data={collections[2]} isLoading={false} />
+          <Collection
+            name={collections[2].name}
+            products={collectionsMock[2].products}
+            isLoading={false}
+          />
         )}
       </YStack>
     </YStack>

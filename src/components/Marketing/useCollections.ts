@@ -1,32 +1,40 @@
 import { useQuery } from 'react-query'
 
+import { useAppError } from '../AppError/useAppError'
+
 import { useApi } from '@/services/api'
 
 export function useCollections() {
   const api = useApi()
+  const { throwAppError } = useAppError()
 
   async function getProductsByCollection(collectionId: string) {
     return await api.getProductsByCollection(collectionId)
   }
 
   async function getCollections() {
-    const collections = await api.getCollections()
+    try {
+      const collections = await api.getCollections()
 
-    if (collections.length) {
-      const result = []
-      for (const collection of collections) {
-        const products = await getProductsByCollection(collection.id)
+      if (collections.length) {
+        const result = []
+        for (const collection of collections) {
+          const products = await getProductsByCollection(collection.id)
 
-        result.push({
-          ...collection,
-          products,
-        })
+          result.push({
+            ...collection,
+            products,
+          })
+        }
+
+        return result
       }
 
-      return result
+      return collections
+    } catch (error) {
+      api.handleError(error)
+      throwAppError('Erro ao mostrar coleções')
     }
-
-    return collections
   }
 
   const { data, error, isLoading } = useQuery('collections', getCollections)
