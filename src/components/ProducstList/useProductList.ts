@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { ProductsListProps } from '@/components/ProducstList'
-import { useCartStore } from '@/stores/cartStore'
+import { useProductsFilterStore } from '@/stores/productsFilterStore'
 import { SCREEN } from '@/utils/constants/screen'
 import { SORTERS } from '@/utils/constants/sorters'
+import { waitFor } from '@/utils/helpers/wait'
 
 type Layout = 'mosaic' | 'list'
 
@@ -13,11 +14,14 @@ export function useProductsList({
   setSelectedSorter,
 }: Omit<ProductsListProps, 'isLoading' | 'hasNextPage' | 'onRefresh'>) {
   const [layout, setLayout] = useState<Layout>('list')
+  const [isFiltersDialogLoading, setIsFiltersDialogLoading] = useState(false)
   const isFetching = useRef(false)
   const totalProducts = useRef(0)
   const data = products.slice(0)
 
-  const removeAllItems = useCartStore(({ actions }) => actions.removeAllItems)
+  const currentSearchValue = useProductsFilterStore(
+    (store) => store.state.search
+  )
 
   const productWidth =
     layout === 'list'
@@ -40,6 +44,12 @@ export function useProductsList({
     }
   }
 
+  async function handleFiltersDialogButton() {
+    setIsFiltersDialogLoading(true)
+    await waitFor(1500)
+    setIsFiltersDialogLoading(false)
+  }
+
   useEffect(() => {
     if (products.length > totalProducts.current) {
       totalProducts.current = products.length
@@ -47,10 +57,16 @@ export function useProductsList({
     }
   }, [products])
 
+  useEffect(() => {
+    totalProducts.current = 0
+  }, [currentSearchValue])
+
   return {
     data,
     layout,
     productWidth,
+    isFiltersDialogLoading,
+    handleFiltersDialogButton,
     handleSelectChange,
     handleListEndReached,
     handleLayoutToggle,

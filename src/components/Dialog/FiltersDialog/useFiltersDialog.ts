@@ -11,19 +11,19 @@ export function useFiltersDialog(brands: Brand[]) {
   const setProductBrandsIds = useProductsFilterStore(
     (store) => store.actions.setBrandsIds
   )
-  const brandsIds = useRef<number[]>(checkedBrandsIds)
+  const brandsIds = useRef<string[]>(checkedBrandsIds)
   const dialogRef = useRef<DialogRef | null>(null)
 
-  function addBrandId(id: number) {
+  function addBrandId(id: string) {
     brandsIds.current = [...brandsIds.current, id]
   }
 
-  function removeBrandId(id: number) {
+  function removeBrandId(id: string) {
     brandsIds.current = brandsIds.current.filter((brandId) => brandId !== id)
   }
 
   function handleBrandCheckbox(brandId: string, isChecked: boolean) {
-    const id = Number(brandId)
+    const id = brandId
 
     if (isChecked) {
       addBrandId(id)

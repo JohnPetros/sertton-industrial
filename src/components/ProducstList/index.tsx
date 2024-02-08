@@ -1,9 +1,13 @@
 import { useCallback } from 'react'
-import { FlatList, View as ListContainer } from 'react-native'
+import { FlatList, TouchableOpacity, View as ListContainer } from 'react-native'
 import { RefreshControl } from 'react-native-gesture-handler'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { ArrowsDownUp, Faders, MagnifyingGlass } from 'phosphor-react-native'
-import { Button, getTokens, View, XStack, YStack } from 'tamagui'
+import { Button, getTokens, Spinner, Text, View, XStack, YStack } from 'tamagui'
+
+import { ProductItem } from '../ProductItem'
+
+import { Tag } from './Tab'
 
 import { productsMock } from '@/_tests_/mocks/productsMock'
 import type { Product } from '@/@types/product'
@@ -12,10 +16,8 @@ import { FiltersDialog } from '@/components/Dialog/FiltersDialog'
 import { EmptyItemsMessage } from '@/components/EmptyItemsMessage'
 import { Select } from '@/components/Form/Select'
 import { Loading } from '@/components/Loading'
-import { Tag } from '@/components/ProducstList/Tag'
+import { useTags } from '@/components/ProducstList/Tab/useTags'
 import { useProductsList } from '@/components/ProducstList/useProductList'
-import { useTags } from '@/components/ProducstList/useTags'
-import { ProductItem } from '@/components/ProductItem'
 import { SCREEN } from '@/utils/constants/screen'
 import { SORTERS } from '@/utils/constants/sorters'
 
@@ -43,8 +45,10 @@ export function ProductsList({
     data,
     layout,
     productWidth,
+    isFiltersDialogLoading,
     handleSelectChange,
     handleListEndReached,
+    handleFiltersDialogButton,
   } = useProductsList({
     products,
     setSelectedSorter,
@@ -88,14 +92,16 @@ export function ProductsList({
             alignSelf="center"
             alignItems="center"
             flexDirection="row"
+            disabled={isFiltersDialogLoading}
+            onPress={handleFiltersDialogButton}
           >
             <Faders color={ICON_COLOR} size={ICON_SIZE} />
-            Filtrar
+            {isFiltersDialogLoading ? <Spinner color="$gray800" /> : 'Filtrar'}
           </Button>
         </FiltersDialog>
       </XStack>
 
-      <XStack flexWrap="wrap" gap={8}>
+      <XStack flexWrap="wrap" gap={8} mb={tags.length > 0 ? 8 : 0}>
         {tags.map((tag) => (
           <Tag
             key={tag.id}

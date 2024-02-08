@@ -159,7 +159,6 @@ export function useAddressForm() {
   }
 
   function handleShowAddressesButton() {
-    console.log('handleShowAddressesButton')
     setIsAddressRadioGroupVisible(true)
   }
 
@@ -186,8 +185,6 @@ export function useAddressForm() {
     try {
       setIsZipcodeLoading(true)
       const address = await getAddressByZipcode(zipcode)
-
-      console.log('address', { address })
 
       if (address) {
         setAddressFormData({

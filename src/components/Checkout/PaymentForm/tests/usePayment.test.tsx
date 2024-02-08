@@ -1,28 +1,27 @@
-import { act, renderHook, screen, waitFor } from '@testing-library/react-native'
+import { act, renderHook, screen } from '@testing-library/react-native'
 import { http, HttpResponse } from 'msw'
 import { setupServer } from 'msw/node'
 
 import { usePaymentForm } from '../usePaymentForm'
 
 import { testApi } from '@/_tests_/configs/testApi'
-import { addressesMock } from '@/_tests_/mocks/addressesMock'
 import { customerMock } from '@/_tests_/mocks/customerMock'
 import { paymentConfigsMock } from '@/_tests_/mocks/paymentConfigsMock'
 import { storageMock } from '@/_tests_/mocks/storageMock'
 import { CustomerContext } from '@/contexts/CustomerContext'
 import { QueryClientProvider } from '@/providers/components/QueryClientProvider'
-import { initializeApiProvider } from '@/services/api'
-import { axiosProvider } from '@/services/api/axios'
+import { initializeHttpProvider } from '@/services/api/http'
+import { AxiosHttpProvider } from '@/services/api/http/axios'
 import { Resources } from '@/services/api/yampi/utils/resources'
 import { initializeStorageProvider } from '@/services/storage'
-import { initializeValidation } from '@/services/validation'
-import { zodProvider } from '@/services/validation/zod/index.ts'
+import { initializeValidationProvider } from '@/services/validation'
+import { zodValidationProvider } from '@/services/validation/zod/index.ts'
 import { CheckoutStoreProps, useCheckoutStore } from '@/stores/checkoutStore'
-import { getOnlyNumbers } from '@/utils/helpers/getOnlyNumbers'
 
 const setCheckoutAddressMock = jest.fn()
 const updateCustomerMock = jest.fn()
 const fetchCustomerByEmailMock = jest.fn()
+const removeCustomerMock = jest.fn()
 const setCustomerSelectedAddressZipcodeMock = jest.fn()
 
 const server = setupServer(...testApi.DEFAULT_HANDLERS)
@@ -54,6 +53,7 @@ function renderUsePaymentFormHook() {
             fetchCustomerByEmail: fetchCustomerByEmailMock,
             setSelectedAddressZipcode: setCustomerSelectedAddressZipcodeMock,
             updateCustomer: updateCustomerMock,
+            removeCustomer: removeCustomerMock,
           }}
         >
           {children}
@@ -65,8 +65,8 @@ function renderUsePaymentFormHook() {
 
 describe('usePayment hook', () => {
   beforeAll(() => {
-    initializeApiProvider(axiosProvider)
-    initializeValidation(zodProvider)
+    initializeHttpProvider(AxiosHttpProvider)
+    initializeValidationProvider(zodValidationProvider)
     initializeStorageProvider(storageMock)
   })
 

@@ -73,23 +73,20 @@ export function useCreditCardForm(
     number,
     securityCode,
   }: CreditCardForm) {
-    try {
-      const creditCardToken = await api.tokenizeCard({
-        cpf,
-        expirationDate,
-        name,
-        number,
-        securityCode,
-      })
-
-      if (!creditCardToken) return
-
-      onPay('credit-card', creditCardToken)
-    } catch (error) {
-      console.log({ error })
-      const responseError = api.handleError(error)
-      handleApiError(JSON.stringify(responseError))
-    }
+    // try {
+    //   const creditCardToken = await api.tokenizeCard({
+    //     cpf,
+    //     expirationDate,
+    //     name,
+    //     number,
+    //     securityCode,
+    //   })
+    //   if (!creditCardToken) return
+    //   onPay('credit-card', creditCardToken)
+    // } catch (error) {
+    //   const responseError = api.handleError(error)
+    //   handleApiError(JSON.stringify(responseError))
+    // }
   }
 
   useEffect(() => {

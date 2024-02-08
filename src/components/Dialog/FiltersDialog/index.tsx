@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import { FlatList } from 'react-native'
 import { Text, YGroup, YStack } from 'tamagui'
 
 import type { Brand } from '@/@types/brand'
@@ -7,7 +8,7 @@ import { Checkbox } from '@/components/Checkbox'
 import { Dialog } from '@/components/Dialog'
 import { useFiltersDialog } from '@/components/Dialog/FiltersDialog/useFiltersDialog'
 
-interface FiltersDialogProps {
+type FiltersDialogProps = {
   brands: Brand[]
   children: ReactNode
 }
@@ -20,8 +21,6 @@ export function FiltersDialog({ children, brands }: FiltersDialogProps) {
     handleDialogOpenChange,
     handleFilterButton,
   } = useFiltersDialog(brands)
-
-  console.log({ brands })
 
   return (
     <Dialog
@@ -37,7 +36,21 @@ export function FiltersDialog({ children, brands }: FiltersDialogProps) {
                 Marca
               </Text>
             </YGroup.Item>
-            {brands &&
+            <FlatList
+              data={brands}
+              keyExtractor={(brand) => brand.id}
+              renderItem={({ item }) => (
+                <YGroup.Item key={item.id}>
+                  <Checkbox
+                    value={String(item.id)}
+                    label={item.name}
+                    onChange={handleBrandCheckbox}
+                    defaultChecked={checkedBrandsIds.includes(item.id)}
+                  />
+                </YGroup.Item>
+              )}
+            />
+            {/* {brands &&
               brands.map((brand) => (
                 <YGroup.Item key={brand.id}>
                   <Checkbox
@@ -47,7 +60,7 @@ export function FiltersDialog({ children, brands }: FiltersDialogProps) {
                     defaultChecked={checkedBrandsIds.includes(brand.id)}
                   />
                 </YGroup.Item>
-              ))}
+              ))} */}
           </YGroup>
           <Button onPress={handleFilterButton} mt={24}>
             Filtrar produtos

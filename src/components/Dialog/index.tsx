@@ -1,8 +1,7 @@
 import { ForwardedRef, forwardRef, ReactNode, useImperativeHandle } from 'react'
 import { X } from 'phosphor-react-native'
-import { Dialog as D, XStack } from 'tamagui'
+import { Button, Dialog as D, XStack } from 'tamagui'
 
-import { Button } from '@/components/Button'
 import { useDialog } from '@/components/Dialog/useDialog'
 
 export type DialogRef = {
@@ -65,7 +64,7 @@ export const DialogComponent = (
               {title}
             </D.Title>
             <D.Close asChild>
-              <Button background="transparent" mr={-24}>
+              <Button pressStyle={{ opacity: 0.7 }} mr={-24}>
                 <X />
               </Button>
             </D.Close>
