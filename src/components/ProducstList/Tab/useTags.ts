@@ -1,5 +1,4 @@
 import { useMemo } from 'react'
-import { useQuery } from 'react-query'
 
 import { FilterType, Tag } from '@/@types/tag'
 import { useApi } from '@/services/api'
@@ -24,9 +23,7 @@ export function useTags() {
 
   function handleTag(filterType: FilterType, tagId: string) {
     if (filterType === 'brand') {
-      setBrandsIds(
-        selectedBrandsIds.filter((brandId) => brandId !== Number(tagId))
-      )
+      setBrandsIds(selectedBrandsIds.filter((brandId) => brandId !== tagId))
     }
   }
 
@@ -38,14 +35,14 @@ export function useTags() {
             .map(
               (brand) =>
                 ({
-                  id: brand.id.toString(),
+                  id: brand.id,
                   type: 'brand',
                   title: brand.name,
                 } as Tag)
             ),
         ]
       : []
-  }, [])
+  }, [selectedBrandsIds, brands])
 
   return {
     brands: brands ?? [],
