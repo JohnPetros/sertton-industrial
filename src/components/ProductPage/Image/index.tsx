@@ -14,7 +14,6 @@ type FullImageProps = {
 export function ProductImage({ url }: FullImageProps) {
   const { fullImageRef, handleFullImage } = useImage()
 
-  console.log({ url })
   return (
     <YStack>
       <FullImage ref={fullImageRef} url={url} />
@@ -27,7 +26,7 @@ export function ProductImage({ url }: FullImageProps) {
         }}
       >
         {url && (
-          <Image url={url} size="large" width={SCREEN.width} height={224} />
+          <Image url={url} size="large" width={SCREEN.width} height={280} />
         )}
 
         <Button

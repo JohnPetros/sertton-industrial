@@ -35,10 +35,8 @@ export function ProductPage() {
   } = useProductPage(String(product_slug))
   const bottomTabBarHeight = useBottomTabBarHeight()
 
-  console.log({ selectedSku })
-
   return (
-    <KeyboardHandlerView>
+    <>
       <YStack zIndex={-100}>
         <View px={SCREEN.paddingX}>
           <Header />
@@ -53,7 +51,7 @@ export function ProductPage() {
           scrollEnabled={!isLoading}
           showsVerticalScrollIndicator={false}
         >
-          <Skeleton isVisible={isLoading} width={SCREEN.width} height={224}>
+          <Skeleton isVisible={isLoading} width={SCREEN.width} height={280}>
             {selectedSku && <ProductImage url={selectedSku.imageUrl} />}
           </Skeleton>
           <YStack px={SCREEN.paddingX} mt={12} gap={8}>
@@ -163,6 +161,6 @@ export function ProductPage() {
           priceDiscount={selectedSku?.price_discount}
         />
       )} */}
-    </KeyboardHandlerView>
+    </>
   )
 }
