@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 
 import type { Sku } from '@/@types/sku'
-import { useToast } from '@/components/Toast/useToast'
+import { useToast } from '@/components/shared/Toast/useToast'
 import { useCartStore } from '@/stores/cartStore'
 
 export function useCartItem(skus: Sku[], selectedSkuId: string) {

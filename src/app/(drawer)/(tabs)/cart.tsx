@@ -11,7 +11,7 @@ import { CartSummary } from '@/components/CartSummary'
 import { CartItem } from '@/components/Checkout/CartItems/CartItem'
 import { EmptyItemsMessage } from '@/components/EmptyItemsMessage'
 import { Header } from '@/components/Header'
-import { Skeleton } from '@/components/Skeleton'
+import { Skeleton } from '@/components/shared/Skeleton'
 import { useCart } from '@/hooks/useCart'
 import { SCREEN } from '@/utils/constants/screen'
 

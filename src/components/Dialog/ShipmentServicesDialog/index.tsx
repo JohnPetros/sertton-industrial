@@ -4,8 +4,8 @@ import { Paragraph, Text, XStack, YStack } from 'tamagui'
 import type { ShipmentService } from '@/@types/shipmentService'
 import { Dialog } from '@/components/Dialog'
 import { useShipmentServicesDialog } from '@/components/Dialog/ShipmentServicesDialog/useShipmentServicesDialog'
-import Table from '@/components/Table'
-import { Row } from '@/components/Table/Row'
+import Table from '@/ui/shared/components/Table'
+import { Row } from '@/ui/shared/components/Table/Row'
 import { formatPrice } from '@/utils/helpers/formatPrice'
 
 interface ShippmentServicesDialogProps {

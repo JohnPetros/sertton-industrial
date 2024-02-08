@@ -6,7 +6,7 @@ import { ARIA_LABELS } from './utils/aria-labels'
 
 import type { Product } from '@/@types/product'
 import { ProductItem } from '@/components/ProductItem'
-import { Skeleton } from '@/components/Skeleton'
+import { Skeleton } from '@/components/shared/Skeleton'
 
 type CollectionProps = {
   name: string

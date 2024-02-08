@@ -3,7 +3,7 @@ import { useDrawerStatus } from '@react-navigation/drawer'
 import { DrawerActions } from '@react-navigation/native'
 import { useRouter } from 'expo-router'
 
-import { useAppError } from '../AppError/useAppError'
+import { useAppError } from '../../../components/AppError/useAppError'
 
 import { useApi } from '@/services/api'
 import { useCache } from '@/services/cache'

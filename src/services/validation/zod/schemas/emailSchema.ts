@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { VALIDATION_ERRORS } from '@/services/validation/config/validationErrors'
+import { VALIDATION_ERRORS } from '@/services/validation/utils/validationErrors'
 import { REGEX } from '@/utils/constants/regex'
 
 export const emailSchema = z

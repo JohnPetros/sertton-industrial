@@ -11,7 +11,7 @@ import { naturalPersonMock } from '@/_tests_/mocks/naturalPersonMock'
 import { NaturalPersonForm } from '@/components/CheckoutForm/NaturalPersonForm'
 import { useMask } from '@/components/Form/Input/useMask'
 import { initializeValidation } from '@/services/validation'
-import { VALIDATION_ERRORS } from '@/services/validation/config/validationErrors'
+import { VALIDATION_ERRORS } from '@/services/validation/utils/validationErrors'
 import { zodProvider } from '@/services/validation/zod/index.ts'
 import {
   initialCheckoutStoreState,

@@ -7,27 +7,26 @@ import {
   Truck,
   User,
 } from 'phosphor-react-native'
-import { getTokens, Separator, Stack, Text, View, YStack } from 'tamagui'
+import { Separator, View, YStack } from 'tamagui'
 import { YGroup } from 'tamagui'
 import { ListItem } from 'tamagui'
 import { Spinner } from 'tamagui'
+import { RouteButton } from 'ui/layout/Sidebar/RouteButton'
+import { useSidebar } from 'ui/layout/Sidebar/useSidebar'
 
 import { Button } from '@/components/Button'
 import { Contacts } from '@/components/Contacts'
-import { RouteButton } from '@/components/Sidebar/RouteButton'
-import { useSidebar } from '@/components/Sidebar/useSidebar'
-import { useCategories } from '@/hooks/useCategories'
 import { useProductsFilterStore } from '@/stores/productsFilterStore'
 import { ROUTES } from '@/utils/constants/routes'
 import { SCREEN } from '@/utils/constants/screen'
 
 export function Sidebar() {
-  const { categories } = useCategories()
   const selectedCategoryId = useProductsFilterStore(
     (store) => store.state.categoryId
   )
   const {
     canShowAllCategories,
+    categories,
     isLoading,
     handleCategory,
     handleShowAllCategories,

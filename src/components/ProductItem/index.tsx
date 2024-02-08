@@ -4,7 +4,7 @@ import { View, XStack, YStack } from 'tamagui'
 
 import type { Product as ProductData } from '@/@types/product'
 import * as Product from '@/components/Product'
-import { Skeleton } from '@/components/Skeleton'
+import { Skeleton } from '@/components/shared/Skeleton'
 
 export type ProductItemProps = {
   data: ProductData

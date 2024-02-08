@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { Text, XStack, YStack } from 'tamagui'
 
-import { Cell } from '@/components/Table/Cell'
+import { Cell } from '@/ui/shared/components/Table/Cell'
 
 interface TableProps {
   header: string[]

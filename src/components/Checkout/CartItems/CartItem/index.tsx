@@ -10,7 +10,7 @@ import { Button } from '@/components/Button'
 import { NumberInput } from '@/components/Form/NumberInput'
 import { List } from '@/components/List'
 import * as Product from '@/components/Product'
-import { Skeleton } from '@/components/Skeleton'
+import { Skeleton } from '@/components/shared/Skeleton'
 
 const GAP = 12
 

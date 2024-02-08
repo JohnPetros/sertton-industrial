@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { XStack } from 'tamagui'
 
-import { Cell } from '@/components/Table/Cell'
+import { Cell } from '@/ui/shared/components/Table/Cell'
 
 interface RowProps {
   cells: ReactNode[]

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { useToast } from '@/components/Toast/useToast'
+import { useToast } from '@/components/shared/Toast/useToast'
 import { useApi } from '@/services/api'
 import { useValidation } from '@/services/validation'
 

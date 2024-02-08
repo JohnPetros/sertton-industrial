@@ -2,7 +2,7 @@ import { createContext, ReactNode, useContext, useMemo } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { Customer } from '@/@types/customer'
-import { useToast } from '@/components/Toast/useToast'
+import { useToast } from '@/components/shared/Toast/useToast'
 import { useApi } from '@/services/api'
 import { useStorage } from '@/services/storage'
 

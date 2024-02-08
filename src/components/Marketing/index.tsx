@@ -1,6 +1,6 @@
 import { YStack } from 'tamagui'
 
-import { Skeleton } from '../Skeleton'
+import { Skeleton } from '../shared/Skeleton'
 
 import { collectionsMock } from '@/_tests_/mocks/collectionsMock'
 import { Banner } from '@/components/Marketing/Banner'

@@ -1,7 +1,7 @@
 import { MMKV } from 'react-native-mmkv'
 
 import type { IStorageProvider } from '@/providers/interfaces/IStorageProvider'
-import { STORAGE_ID } from '@/services/storage/config/keys'
+import { STORAGE_ID } from '@/services/storage/utils/keys'
 
 const storage = new MMKV({ id: STORAGE_ID })
 

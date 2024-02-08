@@ -1,7 +1,7 @@
 import { Clock } from 'phosphor-react-native'
 import { getTokens, Text, XStack } from 'tamagui'
 
-import { Timer } from '@/components/Timer'
+import { Timer } from '@/ui/shared/components/Timer'
 
 export function CheckoutTimer() {
   return (

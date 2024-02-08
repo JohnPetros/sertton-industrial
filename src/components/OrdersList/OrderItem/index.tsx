@@ -9,7 +9,7 @@ import { Info } from '@/components/OrdersList/OrderItem/Info'
 import { Payment } from '@/components/OrdersList/OrderItem/Payment'
 import { Products } from '@/components/OrdersList/OrderItem/Products'
 import { useOrderItem } from '@/components/OrdersList/OrderItem/useOrderItem'
-import { Skeleton } from '@/components/Skeleton'
+import { Skeleton } from '@/components/shared/Skeleton'
 import { SCREEN } from '@/utils/constants/screen'
 
 interface OrderItemProps {

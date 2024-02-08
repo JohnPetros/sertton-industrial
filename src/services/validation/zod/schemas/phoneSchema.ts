@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { VALIDATION_ERRORS } from '../../config/validationErrors'
+import { VALIDATION_ERRORS } from '../../utils/validationErrors'
 
 import { REGEX } from '@/utils/constants/regex'
 

@@ -1,7 +1,7 @@
 import { SvgUri } from 'react-native-svg'
 
 import { useCreditCardTypes } from '@/components/Checkout/PaymentForm/CreditCardForm/CreditCardTypes/useCreditCardTypes'
-import { Skeleton } from '@/components/Skeleton'
+import { Skeleton } from '@/components/shared/Skeleton'
 
 export function CreditCardTypes() {
   const { creditCardTypes, isLoading } = useCreditCardTypes()

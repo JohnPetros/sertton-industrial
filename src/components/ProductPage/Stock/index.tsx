@@ -1,7 +1,7 @@
 import { Text, View, XStack, YStack } from 'tamagui'
 
 import { Sku } from '@/@types/sku'
-import { Timer } from '@/components/Timer'
+import { Timer } from '@/ui/shared/components/Timer'
 import { useDate } from '@/services/date'
 
 interface StockProps {

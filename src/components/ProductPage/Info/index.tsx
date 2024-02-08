@@ -8,7 +8,7 @@ import {
   SalePrice,
   SkuCode,
 } from '@/components/Product'
-import { Skeleton } from '@/components/Skeleton'
+import { Skeleton } from '@/components/shared/Skeleton'
 
 interface InfoProps {
   productName: string

@@ -9,7 +9,7 @@ import { useMask } from '@/components/Form/Input/useMask'
 import { initializeHttpProvider } from '@/services/api/http'
 import { AxiosProvider } from '@/services/api/http/axios'
 import { initializeValidationProvider } from '@/services/validation'
-import { VALIDATION_ERRORS } from '@/services/validation/config/validationErrors'
+import { VALIDATION_ERRORS } from '@/services/validation/utils/validationErrors'
 import { zodProvider } from '@/services/validation/zod/index.ts'
 import {
   CheckoutStoreProps,

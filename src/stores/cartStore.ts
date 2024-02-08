@@ -3,8 +3,8 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
 import type { CartItem } from '@/@types/cartItem'
-import { CART_KEY } from '@/services/storage/config/keys'
 import { mmkvStorageProvider } from '@/services/storage/mmkv'
+import { CART_KEY } from '@/services/storage/utils/keys'
 
 export type CartStoreState = {
   items: CartItem[]
