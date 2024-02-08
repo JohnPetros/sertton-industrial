@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react'
 
 import { NumberInputProps } from '.'
 
+export type UseNumberInputParams = Omit<NumberInputProps, 'label'>
+
 export function useNumberInput({
   number,
   min = 1,
   max,
   onChangeNumber,
   onReachMax,
-}: Omit<NumberInputProps, 'label'>) {
+}: UseNumberInputParams) {
   const [numberValue, setNumberValue] = useState(number ?? 1)
 
   function handleDecreaseValue() {

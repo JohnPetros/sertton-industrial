@@ -20,9 +20,12 @@ export function Search({ isFetching }: SearchProps) {
     isFetching ?? false
   )
 
+  console.log({ isLoading })
+
   return (
     <XStack gap={GAP}>
       <Input
+        testID="search-input"
         placeholder="Exemplo: Arremate"
         w={INPUT_WIDTH}
         label="Procurar produto"
@@ -32,14 +35,15 @@ export function Search({ isFetching }: SearchProps) {
         onChangeText={setSearchValue}
       />
       <Button
+        testID="search-button"
         w={BUTTON_WIDTH}
         background="primary"
         alignSelf="flex-end"
-        onPress={handleSearch}
-        disabled={isLoading}
+        onPress={() => (isLoading ? null : handleSearch())}
+        disabled={true}
       >
         {isLoading ? (
-          <Spinner size="small" color="$white" />
+          <Spinner testID="spinner" size="small" color="$white" />
         ) : (
           <MagnifyingGlass color={getTokens().color.white.val} />
         )}

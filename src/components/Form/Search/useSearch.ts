@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Keyboard } from 'react-native'
-import { useRouter } from 'expo-router/src/hooks'
+import { usePathname, useRouter } from 'expo-router'
 
 import { useProductsFilterStore } from '@/stores/productsFilterStore'
 import { ROUTES } from '@/utils/constants/routes'
@@ -12,12 +12,14 @@ export function useSearch(isFetching: boolean) {
   )
   const [searchValue, setSearchValue] = useState(currentSearchValue)
   const [isLoading, setIsloading] = useState(false)
+
   const router = useRouter()
+  const pathname = usePathname()
 
   function handleSearch() {
     if (!isFetching) {
       setSearch(searchValue.trim())
-      router.push(ROUTES.products)
+      if (pathname !== ROUTES.products) router.push(ROUTES.products)
       Keyboard.dismiss()
     }
   }
@@ -25,6 +27,10 @@ export function useSearch(isFetching: boolean) {
   useEffect(() => {
     setIsloading(Boolean(isFetching))
   }, [isFetching])
+
+  useEffect(() => {
+    setSearchValue(currentSearchValue)
+  }, [pathname, setSearch])
 
   return {
     searchValue,

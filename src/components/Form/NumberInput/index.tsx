@@ -28,6 +28,7 @@ export function NumberInput({
   return (
     <XStack gap={12} alignItems="center" justifyContent="center">
       <Button
+        testID="decrease-value-button"
         w={24}
         icon={<Minus size={16} color={getTokens().color.white.val} />}
         onPress={handleDecreaseValue}
@@ -46,6 +47,7 @@ export function NumberInput({
       </View>
 
       <Button
+        testID="increase-value-button"
         w={24}
         icon={<Plus size={16} color={getTokens().color.white.val} />}
         onPress={handleIncreaseValue}
