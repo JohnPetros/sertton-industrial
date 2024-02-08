@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 
-export function useAppError(error = '') {
-  const [message, setMessage] = useState('')
-  const [statusCode, setStatusCode] = useState('')
+export function useAppError(errorMessage = '') {
+  const [message, setMessage] = useState(errorMessage)
   const [, setAppError] = useState()
 
-  const throwAppError = useCallback((message: string, statusCode = 500) => {
+  const throwAppError = useCallback((message: string) => {
     setAppError(() => {
-      throw new Error(`@message:${message};@statusCode:${statusCode}`)
+      throw new Error(message)
     })
   }, [])
 
@@ -16,23 +15,19 @@ export function useAppError(error = '') {
   }
 
   useEffect(() => {
-    if (error && !message && !statusCode) {
-      if (!error.includes('@')) {
+    if (errorMessage && !message) {
+      if (!errorMessage) {
         setMessage('Erro desconhecido')
         return
       }
 
-      const [message, statusCode] = error.split(';')
-
-      setMessage(message.split(':')[1])
-      setStatusCode(statusCode.split(':')[1])
+      setMessage(errorMessage)
     }
-  }, [error, message, statusCode])
+  }, [errorMessage])
 
   return {
     throwAppError,
     handleAppError,
     message,
-    statusCode,
   }
 }

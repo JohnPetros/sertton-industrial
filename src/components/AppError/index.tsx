@@ -1,9 +1,8 @@
-import { Text } from 'tamagui'
+import { Paragraph, Text } from 'tamagui'
 import { H1, YStack } from 'tamagui'
 
 import { useAppError } from '@/components/AppError/useAppError'
 import { Button } from '@/components/Button'
-import { Strong } from '@/components/Strong'
 import { StyledSafeAreaView } from '@/components/StyledSafeAreaView'
 import { SCREEN } from '@/utils/constants/screen'
 
@@ -13,7 +12,7 @@ interface AppErrorProps {
 }
 
 export function AppError({ error, resetError }: AppErrorProps) {
-  const { message, statusCode } = useAppError(error.message)
+  const { message } = useAppError(error.message)
 
   return (
     <StyledSafeAreaView>
@@ -40,9 +39,7 @@ export function AppError({ error, resetError }: AppErrorProps) {
           >
             😢 Ops, temos um problema
           </H1>
-          <Strong>
-            {message}.{`\n`}Código do erro: {statusCode}
-          </Strong>
+          <Paragraph color="$gray500">{message}</Paragraph>
           <Button onPress={resetError}>Tentar novamente</Button>
         </YStack>
       </YStack>

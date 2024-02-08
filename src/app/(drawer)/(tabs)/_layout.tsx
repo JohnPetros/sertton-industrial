@@ -45,6 +45,7 @@ export default function TabsLayout() {
           ),
         }}
       />
+
       <Tabs.Screen
         name="home"
         options={{
@@ -97,6 +98,7 @@ export default function TabsLayout() {
           ),
         }}
       />
+
       <Tabs.Screen
         name="product/[product_slug]"
         options={{
