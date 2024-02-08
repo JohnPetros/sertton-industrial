@@ -2,11 +2,13 @@ import { act, renderHook, waitFor } from '@testing-library/react-native'
 
 import { useTags } from '../useTags'
 
-import { apiMock } from '@/_tests_/api'
-import { QueryClientProvider } from '@/providers/components/QueryClientProvider'
+import { useApiMock } from '@/_tests_/mocks/apiMock'
+import { CacheWrapper } from '@/_tests_/wrappers/CacheWrapper'
 import { initializeHttpProvider } from '@/services/api/http'
 import { AxiosHttpProvider } from '@/services/api/http/axios'
 import { useProductsFilterStore } from '@/stores/productsFilterStore'
+
+jest.mock('@/services/api')
 
 const setBrandsIdsMock = jest.fn()
 
@@ -26,13 +28,7 @@ async function renderUseTagsHook(selectedBrandsIds: string[]) {
     })
   })
 
-  return await waitFor(() =>
-    renderHook(useTags, {
-      wrapper: ({ children }) => (
-        <QueryClientProvider>{children}</QueryClientProvider>
-      ),
-    })
-  )
+  return await waitFor(() => renderHook(useTags, { wrapper: CacheWrapper }))
 }
 
 describe('useTags hook', () => {
@@ -41,6 +37,7 @@ describe('useTags hook', () => {
   })
 
   it('should remove a selected brand id and tag', async () => {
+    const apiMock = useApiMock()
     const brandsMock = await apiMock.getBrands()
     const removedBrand = brandsMock[0]
 
@@ -58,6 +55,7 @@ describe('useTags hook', () => {
   })
 
   it('should return brands and tags', async () => {
+    const apiMock = useApiMock()
     const brandsMock = await apiMock.getBrands()
 
     const { result } = await renderUseTagsHook([])

@@ -1,6 +1,6 @@
 import { Text, View } from 'tamagui'
 
-interface ItemsQuantityBadgeProps {
+type ItemsQuantityBadgeProps = {
   quantity: number
   isActive: boolean
 }

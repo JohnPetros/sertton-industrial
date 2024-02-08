@@ -10,12 +10,12 @@ import {
 import { getTokens, Separator, Stack, Text, View, YStack } from 'tamagui'
 import { YGroup } from 'tamagui'
 import { ListItem } from 'tamagui'
+import { Spinner } from 'tamagui'
 
 import { Button } from '@/components/Button'
 import { Contacts } from '@/components/Contacts'
 import { RouteButton } from '@/components/Sidebar/RouteButton'
 import { useSidebar } from '@/components/Sidebar/useSidebar'
-import { Spinner } from '@/components/Spinner'
 import { useCategories } from '@/hooks/useCategories'
 import { useProductsFilterStore } from '@/stores/productsFilterStore'
 import { ROUTES } from '@/utils/constants/routes'
@@ -78,7 +78,7 @@ export function Sidebar() {
                   />
                   <View position="absolute" r={8}>
                     {selectedCategoryId === category.id && isLoading && (
-                      <Spinner />
+                      <Spinner color="$blue700" />
                     )}
                   </View>
                 </Button>

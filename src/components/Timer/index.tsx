@@ -4,7 +4,7 @@ import { useDerivedValue, useSharedValue } from 'react-native-reanimated'
 import { ReText } from 'react-native-redash'
 import { getTokens, Text, XStack } from 'tamagui'
 
-interface TimerProps {
+type TimerProps = {
   initialHours: number
   initialMinutes: number
   initialSeconds: number

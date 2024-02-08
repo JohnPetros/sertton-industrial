@@ -9,7 +9,7 @@ import { customerMock } from '@/_tests_/mocks/customerMock'
 import { paymentConfigsMock } from '@/_tests_/mocks/paymentConfigsMock'
 import { storageMock } from '@/_tests_/mocks/storageMock'
 import { CustomerContext } from '@/contexts/CustomerContext'
-import { QueryClientProvider } from '@/providers/components/QueryClientProvider'
+import { ReactQueryProvider } from '@/providers/components/ReactQueryProvider'
 import { initializeHttpProvider } from '@/services/api/http'
 import { AxiosHttpProvider } from '@/services/api/http/axios'
 import { Resources } from '@/services/api/yampi/utils/resources'
@@ -44,7 +44,7 @@ function mockGetPaymentConfigs() {
 function renderUsePaymentFormHook() {
   return renderHook(usePaymentForm, {
     wrapper: ({ children }) => (
-      <QueryClientProvider>
+      <ReactQueryProvider>
         <CustomerContext.Provider
           value={{
             customer: {
@@ -58,7 +58,7 @@ function renderUsePaymentFormHook() {
         >
           {children}
         </CustomerContext.Provider>
-      </QueryClientProvider>
+      </ReactQueryProvider>
     ),
   })
 }

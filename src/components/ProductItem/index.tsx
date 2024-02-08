@@ -19,6 +19,8 @@ const ProductItemComponent = ({
   isColumn = true,
   width = 150,
 }: ProductItemProps) => {
+  console.log({ imageUrl })
+
   return (
     <Link href={`/product/${slug}`} asChild>
       <View

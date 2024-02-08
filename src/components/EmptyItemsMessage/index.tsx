@@ -5,7 +5,7 @@ import { getTokens, Paragraph, Text, XStack, YStack } from 'tamagui'
 
 import { ROUTES } from '@/utils/constants/routes'
 
-interface EmptyItemsMessage {
+type EmptyItemsMessage = {
   title: string
   subtitle?: string
   icon: Icon

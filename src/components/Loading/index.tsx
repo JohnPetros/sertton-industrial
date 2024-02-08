@@ -3,7 +3,7 @@ import { Text, YStack } from 'tamagui'
 
 import Truck from '@/assets/animations/truck.json'
 
-interface LoadingProps {
+type LoadingProps = {
   message: string
   size: number
 }

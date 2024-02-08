@@ -9,9 +9,9 @@ import {
 
 import { testApi } from '@/_tests_/configs/testApi'
 import { paymentConfigsMock } from '@/_tests_/mocks/paymentConfigsMock'
-import { QueryClientProvider } from '@/providers/components/QueryClientProvider'
-import { initializeApiProvider } from '@/services/api'
-import { axiosProvider } from '@/services/api/axios'
+import { ReactQueryProvider } from '@/providers/components/ReactQueryProvider'
+import { initializeHttpProvider } from '@/services/api/http'
+import { AxiosHttpProvider } from '@/services/api/http/axios'
 import { Resources } from '@/services/api/yampi/utils/resources'
 
 const getPaymentConfigsSpy = jest.fn()
@@ -21,7 +21,7 @@ const server = setupServer(...testApi.DEFAULT_HANDLERS)
 function renderCreditCardFormHook() {
   return renderHook(() => useCreditCardTypes(), {
     wrapper: ({ children }) => (
-      <QueryClientProvider>{children}</QueryClientProvider>
+      <ReactQueryProvider>{children}</ReactQueryProvider>
     ),
   })
 }
@@ -39,7 +39,7 @@ function mockGetPaymentConfigs() {
 
 describe('useCreditCardTypes hook', () => {
   beforeAll(() => {
-    initializeApiProvider(axiosProvider)
+    initializeHttpProvider(AxiosHttpProvider)
 
     server.listen({
       onUnhandledRequest: 'error',

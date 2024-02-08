@@ -4,9 +4,9 @@ import { Text, YGroup, YStack } from 'tamagui'
 
 import type { Brand } from '@/@types/brand'
 import { Button } from '@/components/Button'
-import { Checkbox } from '@/components/Checkbox'
 import { Dialog } from '@/components/Dialog'
 import { useFiltersDialog } from '@/components/Dialog/FiltersDialog/useFiltersDialog'
+import { Checkbox } from '@/components/Form/Checkbox'
 
 type FiltersDialogProps = {
   brands: Brand[]

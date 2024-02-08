@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 
-import { Product as ProductData } from '@/@types/product'
+import { ComputedProduct } from '@/@types/computedProduct'
 import { useAppError } from '@/components/AppError/useAppError'
 import { useApi } from '@/services/api'
 import { useCartStore } from '@/stores/cartStore'
 
-type Product = ProductData & { quantity: number; selectedSkuId: number }
-
-export function useCartSummary(products: Product[]) {
+export function useCartSummary(products: ComputedProduct[]) {
   const cartItems = useCartStore((store) => store.state.items)
   const api = useApi()
   const { throwAppError } = useAppError()
@@ -27,7 +25,7 @@ export function useCartSummary(products: Product[]) {
 
   function calculateTotals() {
     const totalProductsToPay = products.reduce((total, product) => {
-      const selectedSku = product.skus.data.find(
+      const selectedSku = product.skus.find(
         (sku) => sku.id === product.selectedSkuId
       )
 
@@ -36,12 +34,12 @@ export function useCartSummary(products: Product[]) {
       )?.quantity
 
       if (selectedSku && quantity)
-        return total + selectedSku.price_sale * quantity
+        return total + selectedSku.salePrice * quantity
       else return total
     }, 0)
 
     const totalProductsDiscount = products.reduce((total, product) => {
-      const selectedSku = product.skus.data.find(
+      const selectedSku = product.skus.find(
         (sku) => sku.id === product.selectedSkuId
       )
 
@@ -51,8 +49,7 @@ export function useCartSummary(products: Product[]) {
 
       if (selectedSku && quantity)
         return (
-          total +
-          (selectedSku.price_sale - selectedSku.price_discount) * quantity
+          total + (selectedSku.salePrice - selectedSku.discountPrice) * quantity
         )
       else return total
     }, 0)

@@ -2,7 +2,7 @@ import { Separator, Text, XStack, YStack } from 'tamagui'
 
 import { formatPrice } from '@/utils/helpers/formatPrice'
 
-interface CartSummaryProps {
+type CartSummaryProps = {
   discount: number
   subtotal: number
   total: number

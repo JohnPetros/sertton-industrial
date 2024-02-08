@@ -5,14 +5,14 @@ import { useColorScheme } from 'react-native'
 import { StatusBar } from 'react-native'
 import ErrorBoundary from 'react-native-error-boundary'
 import { useFonts } from 'expo-font'
-import { SplashScreen, Stack } from 'expo-router'
+import { Stack } from 'expo-router'
 import { Text, Theme } from 'tamagui'
 
 import { StyledSafeAreaView } from '../components/StyledSafeAreaView'
 
 import { AppError } from '@/components/AppError'
 import { useAppError } from '@/components/AppError/useAppError'
-import { QueryClientProvider } from '@/providers/components/QueryClientProvider'
+import { ReactQueryProvider } from '@/providers/components/ReactQueryProvider'
 import { TamaguiProvider } from '@/providers/components/TamaguiProvider'
 import { ToastProvider } from '@/providers/components/ToastProvider'
 
@@ -29,7 +29,7 @@ export default function Layout() {
   if (!loaded) return null
 
   return (
-    <QueryClientProvider>
+    <ReactQueryProvider>
       <TamaguiProvider>
         <ToastProvider>
           {/* <CustomerProvider> */}
@@ -54,6 +54,6 @@ export default function Layout() {
           {/* </CustomerProvider> */}
         </ToastProvider>
       </TamaguiProvider>
-    </QueryClientProvider>
+    </ReactQueryProvider>
   )
 }

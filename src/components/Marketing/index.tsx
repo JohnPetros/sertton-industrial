@@ -31,7 +31,7 @@ export function Marketing() {
         ) : (
           <Collection
             name={collections[0].name}
-            products={collectionsMock[0].products}
+            products={collections[0].products}
             isLoading={false}
           />
         )}
@@ -53,7 +53,7 @@ export function Marketing() {
         ) : (
           <Collection
             name={collections[1].name}
-            products={collectionsMock[1].products}
+            products={collections[1].products}
             isLoading={false}
           />
         )}
@@ -75,7 +75,7 @@ export function Marketing() {
         ) : (
           <Collection
             name={collections[2].name}
-            products={collectionsMock[2].products}
+            products={collections[2].products}
             isLoading={false}
           />
         )}

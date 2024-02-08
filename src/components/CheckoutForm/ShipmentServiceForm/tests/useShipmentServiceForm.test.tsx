@@ -9,9 +9,9 @@ import { customerMock } from '@/_tests_/mocks/customerMock'
 import { shipmentServicesMock } from '@/_tests_/mocks/shipmentServicesMock'
 import { ShipmentService } from '@/@types/shipmentService'
 import { CustomerContext } from '@/contexts/CustomerContext'
-import { QueryClientProvider } from '@/providers/components/QueryClientProvider'
+import { ReactQueryProvider } from '@/providers/components/ReactQueryProvider'
 import { initializeHttpProvider } from '@/services/api/http'
-import { AxiosProvider } from '@/services/api/http/axios'
+import { AxiosHttpProvider } from '@/services/api/http/axios'
 import { Resources } from '@/services/api/yampi/utils/resources'
 import { CheckoutStoreProps, useCheckoutStore } from '@/stores/checkoutStore'
 
@@ -39,7 +39,7 @@ const checkoutShipmentServiceMock = shipmentServicesMock[0]
 function renderShipmentServiceFormHook() {
   return renderHook(useShipmentServiceForm, {
     wrapper: ({ children }) => (
-      <QueryClientProvider>
+      <ReactQueryProvider>
         <CustomerContext.Provider
           value={{
             customer: {
@@ -53,7 +53,7 @@ function renderShipmentServiceFormHook() {
         >
           {children}
         </CustomerContext.Provider>
-      </QueryClientProvider>
+      </ReactQueryProvider>
     ),
   })
 }
@@ -89,7 +89,7 @@ function mockCheckoutStore(shipmentService: ShipmentService | null) {
 
 describe('useShipmentServiceForm hook', () => {
   beforeAll(() => {
-    initializeHttpProvider(AxiosProvider)
+    initializeHttpProvider(AxiosHttpProvider)
   })
 
   beforeEach(() => {

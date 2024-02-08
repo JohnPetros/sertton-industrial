@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 
-interface KeyboardHandlerViewProps {
+type KeyboardHandlerViewProps = {
   children: ReactNode
 }
 

@@ -1,14 +1,14 @@
 import { ReactNode } from 'react'
 import { render as renderComponent } from '@testing-library/react-native'
 
-import { QueryClientProvider } from '@/providers/components/QueryClientProvider'
+import { ReactQueryProvider } from '@/providers/components/ReactQueryProvider'
 import { TamaguiProvider } from '@/providers/components/TamaguiProvider'
 
 function customRender(component: ReactNode) {
   return renderComponent(
-    <TamaguiProvider>
-      <QueryClientProvider>{component}</QueryClientProvider>
-    </TamaguiProvider>
+    <ReactQueryProvider>
+      <TamaguiProvider>{component}</TamaguiProvider>
+    </ReactQueryProvider>
   )
 }
 

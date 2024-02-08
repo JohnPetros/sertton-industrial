@@ -11,14 +11,14 @@ import { customerMock } from '@/_tests_/mocks/customerMock'
 import { storageMock } from '@/_tests_/mocks/storageMock'
 import { Address } from '@/@types/address'
 import { CustomerContext } from '@/contexts/CustomerContext'
-import { QueryClientProvider } from '@/providers/components/QueryClientProvider'
+import { ReactQueryProvider } from '@/providers/components/ReactQueryProvider'
 import { initializeHttpProvider } from '@/services/api/http'
-import { AxiosProvider } from '@/services/api/http/axios'
+import { AxiosHttpProvider } from '@/services/api/http/axios'
 import { Resources } from '@/services/api/yampi/utils/resources'
 import { initializeStorageProvider } from '@/services/storage'
 import { CUSTOMER_KEY } from '@/services/storage/config/keys'
 import { initializeValidationProvider } from '@/services/validation'
-import { zodProvider } from '@/services/validation/zod/index.ts'
+import { zodValidationProvider } from '@/services/validation/zod/index.ts'
 import { CheckoutStoreProps, useCheckoutStore } from '@/stores/checkoutStore'
 
 const setCheckoutAddressMock = jest.fn()
@@ -33,7 +33,7 @@ const selectedAddres = addressesMock[0]
 function renderUseAddressFormHook() {
   return renderHook(useAddressForm, {
     wrapper: ({ children }) => (
-      <QueryClientProvider>
+      <ReactQueryProvider>
         <CustomerContext.Provider
           value={{
             customer: {
@@ -48,7 +48,7 @@ function renderUseAddressFormHook() {
         >
           {children}
         </CustomerContext.Provider>
-      </QueryClientProvider>
+      </ReactQueryProvider>
     ),
   })
 }
@@ -130,8 +130,8 @@ function mockDeleteAddress(addressId: number) {
 
 describe('useAddressForm hook', () => {
   beforeAll(() => {
-    initializeHttpProvider(AxiosProvider)
-    initializeValidationProvider(zodProvider)
+    initializeHttpProvider(AxiosHttpProvider)
+    initializeValidationProvider(zodValidationProvider)
     initializeStorageProvider(storageMock)
   })
 
@@ -203,7 +203,10 @@ describe('useAddressForm hook', () => {
   it('should use storaged selected address zipcode when it exists', async () => {
     const selectedAddressZipcode = customerMock.addresses.data[0].zip_code
 
-    storageMock.set(CUSTOMER_KEY.selectedAddressZipcode, selectedAddressZipcode)
+    storageMock.setItem(
+      CUSTOMER_KEY.selectedAddressZipcode,
+      selectedAddressZipcode
+    )
 
     mockGetAddressesByCustomerId(customerMock.addresses.data)
 

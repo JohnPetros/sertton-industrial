@@ -5,6 +5,7 @@ import { ICheckoutController } from './ICheckoutController'
 import { ICollectionsController } from './ICollectionsService'
 import { ICommentsController } from './ICommentsService'
 import { ICustomersController } from './ICustomersController'
+import { IDiscountsController } from './IDiscountsController'
 import { ILeadsController } from './ILeadsController'
 import { IOrdersController } from './IOrdersController'
 import { IProductsController } from './IProductsService'
@@ -20,6 +21,7 @@ export interface IApi
     ICommentsController,
     ICollectionsController,
     ICustomersController,
+    IDiscountsController,
     IOrdersController,
     ILeadsController,
     IProductsController,
