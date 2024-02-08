@@ -17,17 +17,22 @@ export function useProducts() {
   const currentPage = useRef(0)
   const hasNextPage = useRef(true)
 
+  console.log('PRODUCTS')
+
   const { throwAppError } = useAppError()
 
   const { search, categoryId, brandsIds } = useProductsFilterStore(
     (store) => store.state
+  )
+  const setCateforyId = useProductsFilterStore(
+    (store) => store.actions.setCateforyId
   )
 
   const [selectedSorter, setSelectedSorter] = useState<Sorter | null>(null)
 
   async function getCategory() {
     try {
-      await api.getCategoryById(categoryId)
+      return await api.getCategoryById(categoryId)
     } catch (error) {
       throwAppError('Erro ao definir categoria de produtos')
     }
@@ -67,12 +72,19 @@ export function useProducts() {
         hasNextPage.current =
           Math.ceil(totalProducts / PER_PAGE) < lastPage.totalPages
 
+        console.log('hasNextPage', hasNextPage.current)
+
         return hasNextPage.current ? currentPage.current + 1 : undefined
       },
     }
   )
 
+  function handleRemoveCategory() {
+    setCateforyId('')
+  }
+
   function handleProductsListEndReached() {
+    console.log(data?.pages[0].products.length)
     fetchNextPage()
   }
 
@@ -95,5 +107,6 @@ export function useProducts() {
     refetch,
     setSelectedSorter,
     handleProductsListEndReached,
+    handleRemoveCategory,
   }
 }
