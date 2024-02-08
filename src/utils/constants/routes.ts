@@ -7,7 +7,7 @@ export const ROUTES = {
   about: '/(stack)/about',
   cart: '/(drawer)/(tabs)/cart',
   orders: '/(drawer)/(tabs)/orders',
-  product: '/(drawer)/(tabs)/product',
+  productDetails: '/(drawer)/(tabs)/product-details',
   splash: '/(stack)/splash',
   checkout: '/(stack)/checkout',
   paymentResult: '/(stack)/payment-result',

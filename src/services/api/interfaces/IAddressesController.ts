@@ -1,5 +1,5 @@
 import type { Address } from '@/@types/address'
-export interface IAdressesController {
+export interface IAddressesController {
   getAddressesByCustomerId(customerId: number): Promise<Address[]>
   getAddressByZipcode(
     zipcode: string

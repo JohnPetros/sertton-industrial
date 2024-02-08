@@ -4,7 +4,7 @@ import { immer } from 'zustand/middleware/immer'
 
 import type { CartItem } from '@/@types/cartItem'
 import { mmkvStorageProvider } from '@/services/storage/mmkv'
-import { CART_KEY } from '@/services/storage/utils/keys'
+import { CART_KEY } from '@/services/storage/constants/keys'
 
 export type CartStoreState = {
   items: CartItem[]

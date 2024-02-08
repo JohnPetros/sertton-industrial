@@ -1,9 +1,9 @@
 import { MMKV } from 'react-native-mmkv'
 
 import type { IStorageProvider } from '@/providers/interfaces/IStorageProvider'
-import { STORAGE_ID } from '@/services/storage/utils/keys'
+import { STORAGE } from '@/services/storage/constants/keys'
 
-const storage = new MMKV({ id: STORAGE_ID })
+const storage = new MMKV({ id: STORAGE.id })
 
 export const mmkvStorageProvider: IStorageProvider = {
   async getItem(key: string): Promise<string | null> {

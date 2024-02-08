@@ -1,10 +1,10 @@
 import { H1, Paragraph, ScrollView, XStack, YStack } from 'tamagui'
 import { Text } from 'tamagui'
 
-import { BackButton } from '@/components/BackButton'
-import { Contacts } from '@/components/Contacts'
-import { Indentification } from '@/components/Indentification'
-import { Logo } from '@/components/Logo'
+import { BackButton } from '@/components/shared/BackButton'
+import { Contacts } from '@/components/shared/Contacts'
+import { Indentification } from '@/components/shared/Indentification'
+import { Logo } from '@/components/shared/Logo'
 import { SCREEN } from '@/utils/constants/screen'
 
 export default function AboutScreen() {

@@ -8,10 +8,10 @@ import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
 import { Text, Theme } from 'tamagui'
 
-import { StyledSafeAreaView } from '../components/StyledSafeAreaView'
+import { StyledSafeAreaView } from '../components/shared/StyledSafeAreaView'
 
-import { AppError } from '@/components/AppError'
-import { useAppError } from '@/components/AppError/useAppError'
+import { AppError } from '@/components/shared/AppError'
+import { useAppError } from '@/components/shared/AppError/useAppError'
 import { ReactQueryProvider } from '@/providers/components/ReactQueryProvider'
 import { TamaguiProvider } from '@/providers/components/TamaguiProvider'
 import { ToastProvider } from '@/providers/components/ToastProvider'

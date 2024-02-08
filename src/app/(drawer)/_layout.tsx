@@ -1,6 +1,6 @@
 import { Drawer } from 'expo-router/drawer'
 
-import { Sidebar } from 'ui/layout/Sidebar'
+import { Sidebar } from '@/components/layout/Sidebar'
 
 export default function DrawerLayout() {
   return (
