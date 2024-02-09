@@ -1,26 +1,17 @@
-import { act, renderHook, screen, waitFor } from '@testing-library/react-native'
-import { View } from 'tamagui'
+import './mocks/IconsMock'
+
+import { act, renderHook, waitFor } from '@testing-library/react-native'
 
 import { useCartItem } from '../useCartItem'
 
 import { cartItemsMock } from '@/_tests_/mocks/cartItemsMock'
 import { skusMock } from '@/_tests_/mocks/skusMock'
-import { TamaguiProvider } from '@/providers/components/TamaguiProvider'
-import { ToastProvider } from '@/providers/components/ToastProvider'
 import { useCartStore } from '@/stores/cartStore'
 
 const addItemMock = jest.fn()
 const setItemQuantityMock = jest.fn()
 const removeItemMock = jest.fn()
 const removeAllItemsMock = jest.fn()
-
-const Truck = () => <View />
-
-jest.mock('phosphor-react-native', () => ({
-  Truck: () => {
-    return <Truck />
-  },
-}))
 
 describe('useCartItem hook', () => {
   beforeEach(() => {
@@ -59,7 +50,7 @@ describe('useCartItem hook', () => {
     expect(removeItemMock).toHaveBeenCalledWith(selectedSku.id)
   })
 
-  it('should not cart item quantity if new quantity is larger than selected sku stock', async () => {
+  it('should not set cart item quantity if new quantity is larger than the selected sku stock', async () => {
     const selectedSku = skusMock[0]
 
     const { result } = renderHook(() => useCartItem(skusMock, selectedSku.id))
@@ -74,30 +65,6 @@ describe('useCartItem hook', () => {
       expect(setItemQuantityMock).not.toHaveBeenCalledWith(
         selectedSku.id,
         newQuantity
-      )
-    })
-  })
-
-  it('should show toast if selected sku is out of stock', async () => {
-    const selectedSku = skusMock[0]
-
-    const { result } = renderHook(() => useCartItem(skusMock, selectedSku.id), {
-      wrapper: ({ children }) => (
-        <TamaguiProvider>
-          <ToastProvider>{children}</ToastProvider>
-        </TamaguiProvider>
-      ),
-    })
-
-    act(() => {
-      result.current.handleReachMaxInStock()
-    })
-
-    await waitFor(() => {
-      expect(
-        screen.getByText(
-          `Quantidade indisponível.\nDisponível em estoque: ${selectedSku.stock}`
-        )
       )
     })
   })

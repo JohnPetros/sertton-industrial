@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 
 import type { Sku } from '@/@types/sku'
-import { useToast } from '@/components/shared/Toast/useToast'
 import { useCartStore } from '@/stores/cartStore'
+import { useToast } from '@/utils/hooks/useToast'
 
 export function useCartItem(skus: Sku[], selectedSkuId: string) {
   const [selectedSku, setSelectedSku] = useState<Sku | null>(null)
