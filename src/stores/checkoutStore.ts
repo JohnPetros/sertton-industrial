@@ -3,6 +3,7 @@ import { immer } from 'zustand/middleware/immer'
 
 import type { Address } from '@/@types/address'
 import type { CreditCard } from '@/@types/creditCard'
+import type { PersonType } from '@/@types/customer'
 import type { ShipmentService } from '@/@types/shipmentService'
 import type { Transaction } from '@/@types/transaction'
 import { LegalPersonForm } from '@/services/validation/types/LegalPersonForm'
@@ -21,8 +22,6 @@ export type CheckoutStoreState = {
   shipmentService: ShipmentService | null
   transaction: Transaction | null
 }
-
-export type PersonType = 'natural' | 'legal'
 
 type CheckoutStoreActions = {
   setPersonFormData: (
@@ -68,7 +67,7 @@ export const initialCheckoutStoreState: CheckoutStoreState = {
   },
   address: {
     receiver: '',
-    zip_code: '',
+    zipcode: '',
     street: '',
     number: '',
     neighborhood: '',

@@ -7,6 +7,7 @@ export const STORAGE = {
     customer: {
       email: `${APP_PREFIX}:customer.email`,
       selectedAddressZipcode: `${APP_PREFIX}:customer.selectedAddressZipcode`,
+      document: `${APP_PREFIX}:customer.document`,
     },
   },
 }
