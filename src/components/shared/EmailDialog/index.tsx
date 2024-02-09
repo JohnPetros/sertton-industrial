@@ -9,8 +9,8 @@ import { Button } from '@/components/shared/Button'
 import { Dialog } from '@/components/shared/Dialog'
 import { Input } from '@/components/shared/Input'
 
-interface EmailDialogProps {
-  fallback: ReactNode
+type EmailDialogProps = {
+  fallback?: ReactNode
   label: string
 }
 
@@ -53,7 +53,7 @@ export const EmailDialogComponent = (
             error={error}
           />
           <Button onPress={handleSubmit}>Buscar dados de cadastro</Button>
-          {fallback}
+          {fallback && fallback}
         </YStack>
       }
     >
