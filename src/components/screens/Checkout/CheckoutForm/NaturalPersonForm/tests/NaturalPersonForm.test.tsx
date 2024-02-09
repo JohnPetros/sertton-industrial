@@ -12,7 +12,7 @@ import { render } from '@/_tests_/customs/customRender'
 import { naturalPersonMock } from '@/_tests_/mocks/naturalPersonMock'
 import { useMask } from '@/components/shared/Input/useMask'
 import { initializeValidationProvider } from '@/services/validation'
-import { VALIDATION_ERRORS } from '@/services/validation/utils/validationErrors'
+import { VALIDATION_ERRORS } from '@/services/validation/constants/validation-errors'
 import { zodValidationProvider } from '@/services/validation/zod/index.ts'
 import {
   initialCheckoutStoreState,

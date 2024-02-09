@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { Customer } from '@/@types/customer'
 import { useCustomerContext } from '@/contexts/CustomerContext'
 import { useApi } from '@/services/api'
-import { VALIDATION_ERRORS } from '@/services/validation/utils/validationErrors'
+import { VALIDATION_ERRORS } from '@/services/validation/constants/validation-errors'
 import { useCheckoutStore } from '@/stores/checkoutStore'
 
 type SetFormError = (fieldName: string, message: string) => void
@@ -49,12 +49,12 @@ export function usePersonForm(onSuccess: () => void) {
         }
 
         const naturalPersonFormData: Omit<Customer, 'id' | 'addresses'> = {
-          type: 'f',
+          personType: 'natural',
           active: true,
           name: naturalPerson.name,
           email: naturalPerson.email,
           cpf: naturalPerson.cpf,
-          homephone: naturalPerson.phone,
+          phone: naturalPerson.phone,
         }
 
         if (customer) {
@@ -88,12 +88,12 @@ export function usePersonForm(onSuccess: () => void) {
         }
 
         const legalPersonFormData: Omit<Customer, 'id' | 'addresses'> = {
-          type: 'j',
+          personType: 'legal',
           active: true,
-          razao_social: legalPerson.razaoSocial,
+          razaoSocial: legalPerson.razaoSocial,
           cnpj: legalPerson.cnpj,
           email: legalPerson.email,
-          homephone: legalPerson.phone,
+          phone: legalPerson.phone,
         }
 
         if (customer) {
@@ -120,16 +120,16 @@ export function usePersonForm(onSuccess: () => void) {
   useEffect(() => {
     if (!customer) return
 
-    if (customer?.type === 'f') {
+    if (customer?.personType === 'natural') {
       setPersonFormData('natural', 'email', customer.email)
       setPersonFormData('natural', 'name', customer.name ?? '')
       setPersonFormData('natural', 'cpf', customer.cpf ?? '')
-      setPersonFormData('natural', 'phone', customer.phone?.full_number ?? '')
-    } else if (customer?.type === 'j') {
+      setPersonFormData('natural', 'phone', customer.phone ?? '')
+    } else if (customer?.personType === 'legal') {
       setPersonFormData('legal', 'email', customer.email)
-      setPersonFormData('legal', 'razaoSocial', customer.razao_social ?? '')
+      setPersonFormData('legal', 'razaoSocial', customer.razaoSocial ?? '')
       setPersonFormData('legal', 'cnpj', customer.cnpj ?? '')
-      setPersonFormData('legal', 'phone', customer.phone?.full_number ?? '')
+      setPersonFormData('legal', 'phone', customer.phone ?? '')
     }
   }, [customer])
 

@@ -72,9 +72,9 @@ export function usePaymentForm() {
     if (!customer?.addresses || !products || !shipmentService) return
 
     const selectedAddress =
-      customer.addresses.data.find(
-        (address) => address.zip_code === customer.selectedAddressZipcode
-      ) ?? customer.addresses.data[0]
+      customer.addresses.find(
+        (address) => address.zipcode === customer.selectedAddressZipcode
+      ) ?? customer.addresses[0]
 
     if (!selectedAddress) return
 

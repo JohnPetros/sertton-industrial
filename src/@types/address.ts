@@ -1,7 +1,7 @@
 export type Address = {
   id: number
   receiver: string
-  zip_code: string
+  zipcode: string
   street: string
   number: string
   neighborhood: string

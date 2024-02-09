@@ -12,7 +12,7 @@ import { useCustomerContext } from '@/contexts/CustomerContext'
 import { initializeApiProvider } from '@/services/api'
 import { axiosProvider } from '@/services/api/http/axios'
 import { Resources } from '@/services/api/yampi/utils/resources'
-import { VALIDATION_ERRORS } from '@/services/validation/utils/validationErrors'
+import { VALIDATION_ERRORS } from '@/services/validation/constants/validation-errors'
 import { CheckoutStoreProps, useCheckoutStore } from '@/stores/checkoutStore'
 
 jest.mock('../../../../contexts/CustomerContext')
