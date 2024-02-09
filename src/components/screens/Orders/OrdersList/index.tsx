@@ -1,39 +1,46 @@
 import { FlatList } from 'react-native'
 import { useRouter } from 'expo-router'
 import { Bag } from 'phosphor-react-native'
-import { View } from 'tamagui'
-import { YStack } from 'tamagui'
+import { Text, View, XStack } from 'tamagui'
+
+import { DocumentDialog } from '../DocumentDialog'
 
 import { OrderItem } from './OrderItem'
 import { useOrdersList } from './useOrdersList'
 
 import { ordersMock } from '@/_tests_/mocks/ordersMock'
 import { Button } from '@/components/shared/Button'
-import { EmailDialog } from '@/components/shared/EmailDialog'
 import { EmptyItemsMessage } from '@/components/shared/EmptyItemsMessage'
-import { SignUpDialog } from '@/components/shared/SignUpDialog'
-import { useCustomerContext } from '@/contexts/CustomerContext'
+import { useMask } from '@/components/shared/Input/useMask'
 
 export function OrdersList() {
-  const { customer } = useCustomerContext()
-
-  const { orders, isLoading, emailDialogRef } = useOrdersList(customer)
+  const {
+    orders,
+    isLoading,
+    customerDocument,
+    personType,
+    documentDialogRef,
+    handleValidateDocument,
+    handleEditCustomerDocument,
+  } = useOrdersList()
   const router = useRouter()
+
+  const mask = useMask(personType === 'natural' ? 'cpf' : 'cnpj')
 
   return (
     <>
-      <EmailDialog
-        label="Digite seu e-mail para buscarmos seus dados de cadastro. Ou crie um ao pressionar criar cadastro."
-        ref={emailDialogRef}
-        fallback={
-          <YStack gap={4} mt={12}>
-            <SignUpDialog>
-              <Button background="outline">Criar cadastro</Button>
-            </SignUpDialog>
-            <Button background="transparent">Voltar</Button>
-          </YStack>
-        }
+      <DocumentDialog
+        ref={documentDialogRef}
+        onValidateDocument={handleValidateDocument}
       />
+
+      <XStack gap={8} alignItems="center" mb={24}>
+        <Text fontSize={20} fontWeight="600" color="$blue500">
+          {mask(customerDocument)}
+        </Text>
+        <Button onPress={handleEditCustomerDocument}>Alterar documento</Button>
+      </XStack>
+
       {isLoading ? (
         <FlatList
           data={ordersMock}
@@ -46,7 +53,7 @@ export function OrdersList() {
           disableIntervalMomentum={true}
           scrollEnabled={!isLoading}
         />
-      ) : !orders ? (
+      ) : !orders?.length ? (
         <EmptyItemsMessage
           title="Nenhum pedido realizado"
           subtitle=""

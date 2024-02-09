@@ -10,6 +10,8 @@ export function useReactQueryCache<Data>({
 }: Cache<Data>) {
   const queryClient = useQueryClient()
 
+  console.log({ dependencies })
+
   const { data, error, isLoading } = useReactQuery({
     queryKey: [key, ...dependencies],
     queryFn: fetcher,

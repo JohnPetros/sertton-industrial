@@ -14,13 +14,14 @@ export type Tab = {
   content: ReactNode
 }
 
-interface TabsProps {
+type TabsProps = {
   label: string
   tabs: Tab[]
   width?: number
+  onTabChange?: (tab: string) => void
 }
 
-export function Tabs({ label, tabs, width }: TabsProps) {
+export function Tabs({ label, tabs, width, onTabChange }: TabsProps) {
   const { containerSize, activeTab, handleTabPress } = useTabs(tabs)
 
   return (
@@ -29,7 +30,9 @@ export function Tabs({ label, tabs, width }: TabsProps) {
       w={width}
       h={containerSize}
       defaultValue={tabs[0].value}
+      value={activeTab}
       flexDirection="column"
+      onValueChange={onTabChange}
     >
       <T.List
         borderWidth={1}

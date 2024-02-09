@@ -28,8 +28,9 @@ export function yampiCustomersController(
 
       const customer: Customer = {
         ...customerData,
-        selectedAddressZipcode: null,
       }
+
+      console.log({ customer })
 
       return customer
     },

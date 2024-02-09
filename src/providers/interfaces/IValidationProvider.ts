@@ -13,6 +13,8 @@ type ValidationResult = {
 export interface IValidationProvider {
   validateEmail(email: string): ValidationResult
   validateZipcode(zipcode: string): ValidationResult
+  validateCpf(cpf: string): ValidationResult
+  validateCnpj(cnpj: string): ValidationResult
   resolveAddressForm(): Resolver<AddressForm>
   resolveLegalPersonForm(): Resolver<LegalPersonForm>
   resolveNaturalPersonForm(): Resolver<NaturalPersonForm>
