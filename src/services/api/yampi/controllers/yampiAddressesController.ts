@@ -1,54 +1,47 @@
 import { IHttpProvider } from '../../http/interfaces/IHttp'
+import { yampiAddressReverseAdapter } from '../adapters/reverse/yampiAddressReverseAdapter'
+import { yampiAddressAdapter } from '../adapters/yampiAddressAdapter'
+import type { YampiAddress } from '../types/YampiAddress'
 
 import type { Address } from '@/@types/address'
-import { IAdressesController } from '@/services/api/interfaces/IAddressesController'
+import { IAddressesController } from '@/services/api/interfaces/IAddressesController'
 import { Resources } from '@/services/api/yampi/utils/resources'
 
 export function yampiAddressesController(
   http: IHttpProvider
-): Omit<IAdressesController, 'getAddressByZipcode'> {
+): Omit<IAddressesController, 'getAddressByZipcode'> {
   return {
-    async getAddressesByCustomerId(customerId: number): Promise<Address[]> {
-      const response = await http.get<{ data: Address[] }>(
+    async getAddressesByCustomerId(customerId: string): Promise<Address[]> {
+      const response = await http.get<{ data: YampiAddress[] }>(
         `${Resources.CUSTOMERS}/${customerId}/${Resources.ADDRESSES}`
       )
 
-      const addresses: Address[] = response.data.map((address) => ({
-        id: address.id,
-        receiver: address.receiver,
-        zip_code: address.zip_code,
-        street: address.street,
-        number: address.number,
-        neighborhood: address.neighborhood,
-        complement: address.complement,
-        city: address.city,
-        uf: address.uf,
-      }))
+      const addresses: Address[] = response.data.map(yampiAddressAdapter)
 
       return addresses
     },
 
-    async saveAddress(address: Address, customerId: number) {
+    async saveAddress(address: Address, customerId: string) {
       await http.post(
         `${Resources.CUSTOMERS}/${customerId}/${Resources.ADDRESSES}`,
         {
           ...address,
-          zipcode: address.zip_code,
+          zipcode: address.zipcode,
         }
       )
     },
 
-    async updateAddress(address: Address, customerId: number) {
-      await http.put(
+    async updateAddress(address: Address, customerId: string) {
+      const yampiAddress = yampiAddressReverseAdapter(address)
+
+      await http.put<YampiAddress>(
         `${Resources.CUSTOMERS}/${customerId}/${Resources.ADDRESSES}/${address.id}`,
-        {
-          ...address,
-          zipcode: address.zip_code,
-        }
+
+        yampiAddress
       )
     },
 
-    async deleteAddress(addressId: number, customerId: number) {
+    async deleteAddress(addressId: string, customerId: string) {
       await http.delete(
         `${Resources.CUSTOMERS}/${customerId}/${Resources.ADDRESSES}/${addressId}`
       )

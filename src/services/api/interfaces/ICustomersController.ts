@@ -6,7 +6,7 @@ export type CreateCustomerRequest = Omit<Customer, 'id' | 'addresses'> & {
 export interface ICustomersController {
   createCustomer(request: CreateCustomerRequest): Promise<void>
   updateCustomerById(
-    customerId: number,
+    customerId: string,
     customerNewData: Customer
   ): Promise<void>
   getCustomerByEmail(email: string): Promise<Customer | null>

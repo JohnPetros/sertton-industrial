@@ -5,10 +5,10 @@ import { ScrollView } from 'tamagui'
 
 import type { Sku } from '@/@types/sku'
 import type { SkuSelectsRef } from '@/components/shared/SkuSelects/types/SkuSelectsRef'
-import { useRefetchOnFocus } from '@/hooks/useRefetchOnFocus'
 import { useApi } from '@/services/api'
 import { useCartStore } from '@/stores/cartStore'
 import { ROUTES } from '@/utils/constants/routes'
+import { useRefetchOnFocus } from '@/utils/hooks/useRefetchOnFocus'
 
 export function useProductDetails(slug: string) {
   const api = useApi()

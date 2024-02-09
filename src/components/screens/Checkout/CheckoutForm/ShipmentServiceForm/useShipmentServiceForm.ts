@@ -3,10 +3,10 @@ import { useQuery } from 'react-query'
 
 import { useAppError } from '@/components/shared/AppError/useAppError'
 import { useCustomerContext } from '@/contexts/CustomerContext'
-import { useCart } from '@/hooks/useCart'
 import { useApi } from '@/services/api'
 import { useCheckoutStore } from '@/stores/checkoutStore'
 import { waitFor } from '@/utils/helpers/wait'
+import { useCart } from '@/utils/hooks/useCart'
 
 export function useShipmentServiceForm() {
   const { customer } = useCustomerContext()

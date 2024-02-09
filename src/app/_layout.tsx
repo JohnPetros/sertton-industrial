@@ -1,5 +1,3 @@
-import '../providers'
-
 import { Suspense } from 'react'
 import { useColorScheme } from 'react-native'
 import { StatusBar } from 'react-native'
@@ -10,12 +8,15 @@ import { Stack } from 'expo-router'
 import { Text, Theme } from 'tamagui'
 
 import { StyledSafeAreaView } from '../components/shared/StyledSafeAreaView'
+import { initializeProviders } from '../providers'
 
 import { AppError } from '@/components/shared/AppError'
 import { useAppError } from '@/components/shared/AppError/useAppError'
 import { ReactQueryProvider } from '@/providers/components/ReactQueryProvider'
 import { TamaguiProvider } from '@/providers/components/TamaguiProvider'
 import { ToastProvider } from '@/providers/components/ToastProvider'
+
+initializeProviders()
 
 // SplashScreen.preventAutoHideAsync()
 

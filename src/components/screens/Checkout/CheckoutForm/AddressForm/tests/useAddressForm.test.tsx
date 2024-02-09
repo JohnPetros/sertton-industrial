@@ -16,7 +16,7 @@ import { initializeHttpProvider } from '@/services/api/http'
 import { AxiosHttpProvider } from '@/services/api/http/axios'
 import { Resources } from '@/services/api/yampi/utils/resources'
 import { initializeStorageProvider } from '@/services/storage'
-import { CUSTOMER_KEY } from '@/services/storage/constants/keys'
+import { STORAGE } from '@/services/storage/constants/keys'
 import { initializeValidationProvider } from '@/services/validation'
 import { zodValidationProvider } from '@/services/validation/zod/index.ts'
 import { CheckoutStoreProps, useCheckoutStore } from '@/stores/checkoutStore'
@@ -38,7 +38,7 @@ function renderUseAddressFormHook() {
           value={{
             customer: {
               ...customerMock,
-              selectedAddressZipcode: selectedAddres.zip_code,
+              selectedAddressZipcode: selectedAddres.zipcode,
             },
             removeCustomer: jest.fn(),
             fetchCustomerByEmail: fetchCustomerByEmailMock,
@@ -98,7 +98,7 @@ function mockAddAddress() {
   return addAddressSpy
 }
 
-function mockUpdateAddress(addressId: number) {
+function mockUpdateAddress(addressId: string) {
   const url = `${testApi.BASE_URL}/${Resources.CUSTOMERS}/${customerMock.id}/${Resources.ADDRESSES}/${addressId}`
 
   const updateAddressSpy = jest.fn()
@@ -113,7 +113,7 @@ function mockUpdateAddress(addressId: number) {
   return updateAddressSpy
 }
 
-function mockDeleteAddress(addressId: number) {
+function mockDeleteAddress(addressId: string) {
   const url = `${testApi.BASE_URL}/${Resources.CUSTOMERS}/${customerMock.id}/${Resources.ADDRESSES}/${addressId}`
 
   const deleteAddressSpy = jest.fn()
@@ -169,19 +169,19 @@ describe('useAddressForm hook', () => {
 
   it('should set address form using selected customer address', async () => {
     const getAddressByCustomerIdSpy = mockGetAddressesByCustomerId(
-      customerMock.addresses.data
+      customerMock.addresses
     )
 
     const { result } = renderUseAddressFormHook()
 
     const selectedAddress = {
-      city: customerMock.addresses.data[0].city,
-      street: customerMock.addresses.data[0].street,
-      zipcode: customerMock.addresses.data[0].zip_code,
-      uf: customerMock.addresses.data[0].uf,
-      neighborhood: customerMock.addresses.data[0].neighborhood,
-      complement: customerMock.addresses.data[0].complement,
-      number: customerMock.addresses.data[0].number,
+      city: customerMock.addresses[0].city,
+      street: customerMock.addresses[0].street,
+      zipcode: customerMock.addresses[0].zipcode,
+      uf: customerMock.addresses[0].uf,
+      neighborhood: customerMock.addresses[0].neighborhood,
+      complement: customerMock.addresses[0].complement,
+      number: customerMock.addresses[0].number,
       receiver: customerMock.name,
     }
 
@@ -193,7 +193,7 @@ describe('useAddressForm hook', () => {
       expect(setCheckoutAddressMock).toHaveBeenCalledWith(
         expect.objectContaining({
           ...selectedAddress,
-          zip_code: selectedAddress.zipcode,
+          zipcode: selectedAddress.zipcode,
         })
       )
       expect(result.current.isAddressRadioGroupVisible).toBe(true)
@@ -201,14 +201,14 @@ describe('useAddressForm hook', () => {
   })
 
   it('should use storaged selected address zipcode when it exists', async () => {
-    const selectedAddressZipcode = customerMock.addresses.data[0].zip_code
+    const selectedAddressZipcode = customerMock.addresses[0].zipcode
 
     storageMock.setItem(
-      CUSTOMER_KEY.selectedAddressZipcode,
+      STORAGE.keys.customer.selectedAddressZipcode,
       selectedAddressZipcode
     )
 
-    mockGetAddressesByCustomerId(customerMock.addresses.data)
+    mockGetAddressesByCustomerId(customerMock.addresses)
 
     const { result } = renderUseAddressFormHook()
 
@@ -230,8 +230,8 @@ describe('useAddressForm hook', () => {
 
     const getAddressByZipcodeSpy = mockGetAddressByZipcode(invalidZipcode)
     mockGetAddressesByCustomerId([])
-    mockUpdateAddress(customerMock.addresses.data[0].id)
-    mockDeleteAddress(customerMock.addresses.data[0].id)
+    mockUpdateAddress(customerMock.addresses[0].id)
+    mockDeleteAddress(customerMock.addresses[0].id)
 
     const { result } = renderUseAddressFormHook()
 
@@ -297,7 +297,7 @@ describe('useAddressForm hook', () => {
         number: addressesMock[0].number,
         neighborhood: addressesMock[0].neighborhood,
         street: addressesMock[0].street,
-        zipcode: addressesMock[0].zip_code,
+        zipcode: addressesMock[0].zipcode,
         receiver: customerMock.name ?? '',
       })
     })
@@ -306,7 +306,7 @@ describe('useAddressForm hook', () => {
       expect(addAddressSpy).toHaveBeenCalled()
       expect(updateAddressSpy).not.toHaveBeenCalled()
       expect(setCustomerSelectedAddressZipcodeMock).toHaveBeenCalledWith(
-        addressesMock[0].zip_code
+        addressesMock[0].zipcode
       )
       expect(result.current.isAddressRadioGroupVisible).toBe(true)
     })
@@ -331,7 +331,7 @@ describe('useAddressForm hook', () => {
         number: addressesMock[0].number,
         neighborhood: addressesMock[0].neighborhood,
         street: addressesMock[0].street,
-        zipcode: addressesMock[0].zip_code,
+        zipcode: addressesMock[0].zipcode,
         receiver: customerMock.name ?? '',
       })
     })
@@ -339,7 +339,7 @@ describe('useAddressForm hook', () => {
     expect(updateAddressSpy).toHaveBeenCalled()
 
     expect(setCustomerSelectedAddressZipcodeMock).toHaveBeenCalledWith(
-      addressesMock[0].zip_code
+      addressesMock[0].zipcode
     )
     expect(setCheckoutAddressMock).toHaveBeenCalled()
     expect(result.current.isAddressRadioGroupVisible).toBe(true)
@@ -353,7 +353,7 @@ describe('useAddressForm hook', () => {
     const { result } = renderUseAddressFormHook()
 
     await waitFor(() => {
-      act(() => result.current.handleEditAddress(addressToBeEdited.zip_code))
+      act(() => result.current.handleEditAddress(addressToBeEdited.zipcode))
     })
 
     await waitFor(async () => {
@@ -367,7 +367,7 @@ describe('useAddressForm hook', () => {
           neighborhood: addressToBeEdited.neighborhood,
           complement: addressToBeEdited.complement,
           number: addressToBeEdited.number,
-          zipcode: addressToBeEdited.zip_code,
+          zipcode: addressToBeEdited.zipcode,
           receiver: customerMock.name,
         })
       )
@@ -388,7 +388,7 @@ describe('useAddressForm hook', () => {
     })
 
     await act(async () => {
-      result.current.handleDeleteAddress(addressToBeDeleted.zip_code)
+      result.current.handleDeleteAddress(addressToBeDeleted.zipcode)
     })
 
     await waitFor(async () => {
@@ -409,12 +409,12 @@ describe('useAddressForm hook', () => {
     })
 
     await act(async () =>
-      result.current.handleDeleteAddress(selectedAddres.zip_code)
+      result.current.handleDeleteAddress(selectedAddres.zipcode)
     )
 
     await waitFor(async () => {
       expect(setCustomerSelectedAddressZipcodeMock).toHaveBeenCalledWith(
-        addressesMock[0].zip_code
+        addressesMock[0].zipcode
       )
       expect(setCheckoutAddressMock).toHaveBeenCalledWith(addressesMock[0])
     })
@@ -455,12 +455,12 @@ describe('useAddressForm hook', () => {
     })
 
     act(() =>
-      result.current.handleSelectedAddressChange(selectedAddress.zip_code)
+      result.current.handleSelectedAddressChange(selectedAddress.zipcode)
     )
 
     await waitFor(async () => {
       expect(setCustomerSelectedAddressZipcodeMock).toHaveBeenCalledWith(
-        selectedAddress.zip_code
+        selectedAddress.zipcode
       )
       expect(setCheckoutAddressMock).toHaveBeenCalledWith(selectedAddress)
     })

@@ -8,5 +8,8 @@ export function yampiLeadsController(http: IHttpProvider): ILeadsController {
     async saveLead(email: string) {
       await http.post(`/${Endpoints.LEAD}`, { email })
     },
+    async getLeads() {
+      throw new Error('getLeads Not Implemented')
+    },
   }
 }

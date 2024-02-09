@@ -10,6 +10,7 @@ export function useApiMock(customApiMock?: Partial<IApi> | null) {
   mockedUseApi.mockReturnValue({
     ...inMemoryApi,
     ...customApiMock,
+    handleError: <Error>(error: unknown) => error as Error,
   })
 
   const apiMock = mockedUseApi()

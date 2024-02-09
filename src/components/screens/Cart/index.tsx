@@ -13,8 +13,8 @@ import { CartSummary } from '@/components/shared/CartSummary'
 import { EmptyItemsMessage } from '@/components/shared/EmptyItemsMessage'
 import { Header } from '@/components/shared/Header'
 import { Skeleton } from '@/components/shared/Skeleton'
-import { useCart } from '@/hooks/useCart'
 import { SCREEN } from '@/utils/constants/screen'
+import { useCart } from '@/utils/hooks/useCart'
 
 export function Cart() {
   const {

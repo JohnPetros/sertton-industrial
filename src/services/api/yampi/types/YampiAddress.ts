@@ -1,11 +1,11 @@
-export type Address = {
-  id: string
+export type YampiAddress = {
+  id: number
   receiver: string
-  zipcode: string
+  zip_code: string
   street: string
   number: string
   neighborhood: string
-  complement?: string
+  complement: string
   city: string
   uf: string
 }

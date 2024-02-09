@@ -4,7 +4,7 @@ import { ScrollView, YStack } from 'tamagui'
 
 import { Footer } from './Footer'
 import { InformativeHighlights } from './InformativeHighlights'
-import { LeadCapture } from './LeadCapture'
+import { LeadsCapture } from './LeadsCapture'
 import { Marketing } from './Marketing'
 
 import { Header } from '@/components/shared/Header'
@@ -36,7 +36,7 @@ export function Home() {
         <Marketing />
 
         <YStack mt={40}>
-          <LeadCapture />
+          <LeadsCapture />
         </YStack>
 
         <Footer />

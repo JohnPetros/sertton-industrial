@@ -3,7 +3,7 @@ import type { Address } from '@/@types/address'
 export type PersonType = 'natural' | 'legal'
 
 export type Customer = {
-  id: number
+  id: string
   personType: PersonType
   email: string
   name?: string

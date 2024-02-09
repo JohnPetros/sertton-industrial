@@ -7,13 +7,13 @@ import { Transaction, TransactionStatus } from '@/@types/transaction'
 import { useAppError } from '@/components/shared/AppError/useAppError'
 import { useCartSummary } from '@/components/shared/CartSummary/useCartSummary'
 import { useCustomerContext } from '@/contexts/CustomerContext'
-import { useCart } from '@/hooks/useCart'
 import { useApi } from '@/services/api'
 import { useDate } from '@/services/date'
 import { useCheckoutStore } from '@/stores/checkoutStore'
 import { ROUTES } from '@/utils/constants/routes'
 import { generateRandomNumber } from '@/utils/helpers/generateRandomNumber'
 import { getCreditCardType } from '@/utils/helpers/getCredtiCardType'
+import { useCart } from '@/utils/hooks/useCart'
 
 export function usePaymentForm() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
