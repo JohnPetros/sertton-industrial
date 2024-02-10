@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { MutableRefObject, useRef } from 'react'
 
 import type { DialogRef } from '../Dialog/types/DialogRef'
 import { SkuSelectsRef } from '../SkuSelects/types/SkuSelectsRef'
@@ -6,11 +6,21 @@ import { SkuSelectsRef } from '../SkuSelects/types/SkuSelectsRef'
 import type { Sku } from '@/@types/sku'
 import { useCartStore } from '@/stores/cartStore'
 
-export function useCartDialog(productSlug: string, skus: Sku[]) {
-  const dialogRef = useRef<DialogRef | null>(null)
-  const skuSelectsRef = useRef<SkuSelectsRef | null>(null)
-  const quantity = useRef(1)
+type UseCartDialogParams = {
+  productSlug: string
+  skus: Sku[]
+  quantity: MutableRefObject<number>
+  dialogRef: MutableRefObject<DialogRef | null>
+  skuSelectsRef: MutableRefObject<SkuSelectsRef | null>
+}
 
+export function useCartDialog({
+  productSlug,
+  skus,
+  quantity,
+  dialogRef,
+  skuSelectsRef,
+}: UseCartDialogParams) {
   const addItem = useCartStore((store) => store.actions.addItem)
 
   const hasVariations = skus.every((sku) => sku.variations.length > 0)
@@ -20,6 +30,8 @@ export function useCartDialog(productSlug: string, skus: Sku[]) {
   }
 
   function handleAddCartItem() {
+    console.log(skuSelectsRef.current)
+    console.log(!skuSelectsRef.current)
     if (!skuSelectsRef.current) return
 
     const { onAddSkuToCart, selectedSku } = skuSelectsRef.current

@@ -1,8 +1,10 @@
-import { ReactNode } from 'react'
+import { ReactNode, useRef } from 'react'
 import { DialogClose, Text, View, XStack, YStack } from 'tamagui'
 
 import { Dialog } from '../Dialog'
+import { DialogRef } from '../Dialog/types/DialogRef'
 import { NumberInput } from '../NumberInput'
+import { SkuSelectsRef } from '../SkuSelects/types/SkuSelectsRef'
 
 import { useCartDialog } from './useCartDialog'
 
@@ -22,13 +24,17 @@ type CartDialogProps = {
 }
 
 export function CartDialog({ children, product }: CartDialogProps) {
-  const {
-    handleAddCartItem,
-    handleQuantityChange,
+  const quantity = useRef(1)
+  const dialogRef = useRef<DialogRef | null>(null)
+  const skuSelectsRef = useRef<SkuSelectsRef | null>(null)
+
+  const { handleAddCartItem, handleQuantityChange } = useCartDialog({
+    productSlug: product.slug,
+    skus: product.skus,
     quantity,
     dialogRef,
     skuSelectsRef,
-  } = useCartDialog(product.slug, product.skus)
+  })
 
   return (
     <Dialog
@@ -59,7 +65,7 @@ export function CartDialog({ children, product }: CartDialogProps) {
             <View mt={24}>
               <NumberInput
                 label={`Quantidade do produto ${product.name}`}
-                number={quantity}
+                number={quantity.current}
                 onChangeNumber={handleQuantityChange}
               />
             </View>

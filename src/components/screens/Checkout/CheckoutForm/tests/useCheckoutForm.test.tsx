@@ -1,7 +1,8 @@
 import { renderHook } from '@testing-library/react-native'
 
+import { useCheckoutForm } from '../useCheckoutForm'
+
 import { customerMock } from '@/_tests_/mocks/customerMock'
-import { useCheckoutForm } from '@/components/CheckoutForm/useCheckoutForm'
 import {
   CustomerContextValue,
   useCustomerContext,
