@@ -1,4 +1,3 @@
-import { IAddressesController } from './IAddressesController'
 import { IBannersController } from './IBannersController'
 import { IBrandsController } from './IBrandsService'
 import { ICategoriesController } from './ICategoriesService'
@@ -16,8 +15,7 @@ import { ISkusController } from './ISkusService'
 import { IVariationsController } from './IVariationsService'
 
 export interface IApi
-  extends IAddressesController,
-    IBannersController,
+  extends IBannersController,
     IBrandsController,
     ICategoriesController,
     ICommentsController,

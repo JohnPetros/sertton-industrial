@@ -12,7 +12,7 @@ export function useApi(): IApi {
   const api = {
     ...yampi,
     ...sertton,
-    handleError: <Error>(error: unknown) => http.handleError<Error>(error),
+    handleError: (error: unknown) => error,
   }
 
   return api

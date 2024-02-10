@@ -7,7 +7,9 @@ import { mmkvStorageProvider } from '@/services/storage/mmkv'
 import { initializeValidationProvider } from '@/services/validation'
 import { zodValidationProvider } from '@/services/validation/zod/index.ts'
 
-initializeHttpProvider(AxiosHttpProvider)
-initializeStorageProvider(mmkvStorageProvider)
-initializeDateProvider(dayjsDateProvider)
-initializeValidationProvider(zodValidationProvider)
+export function initializeProviders() {
+  initializeHttpProvider(AxiosHttpProvider)
+  initializeStorageProvider(mmkvStorageProvider)
+  initializeDateProvider(dayjsDateProvider)
+  initializeValidationProvider(zodValidationProvider)
+}
