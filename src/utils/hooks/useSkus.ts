@@ -3,9 +3,9 @@ import { useQuery } from 'react-query'
 
 import type { Sku } from '@/@types/sku'
 import type { Variation } from '@/@types/variation'
-import { useRefetchOnFocus } from '@/hooks/useRefetchOnFocus'
 import { useApi } from '@/services/api'
 import { removeObjectFromArray } from '@/utils/helpers/removeObjectFromArray'
+import { useRefetchOnFocus } from '@/utils/hooks/useRefetchOnFocus'
 
 export function useSkus(productId: string) {
   const [selectedSku, setSelectedSku] = useState<Sku | null>(null)

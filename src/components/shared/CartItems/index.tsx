@@ -8,9 +8,9 @@ import { computedProductsMock } from '@/_tests_/mocks/computedProductsMock'
 import { Accordion } from '@/components/shared/Accordion'
 import { CartSummary } from '@/components/shared/CartSummary'
 import { Skeleton } from '@/components/shared/Skeleton'
-import { useCart } from '@/hooks/useCart'
 import { useCheckoutStore } from '@/stores/checkoutStore'
 import { SCREEN } from '@/utils/constants/screen'
+import { useCart } from '@/utils/hooks/useCart'
 
 const PADDING = 12
 const CART_ITEM_WIDTH = SCREEN.width - SCREEN.paddingX * 2 - PADDING * 2

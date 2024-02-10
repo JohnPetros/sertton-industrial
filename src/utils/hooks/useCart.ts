@@ -2,9 +2,9 @@ import { Linking } from 'react-native'
 import { useQuery } from 'react-query'
 
 import type { ComputedProduct } from '@/@types/computedProduct'
-import { useRefetchOnFocus } from '@/hooks/useRefetchOnFocus'
 import { useApi } from '@/services/api'
 import { useCartStore } from '@/stores/cartStore'
+import { useRefetchOnFocus } from '@/utils/hooks/useRefetchOnFocus'
 
 const YAMPI_PURCHASE_URL = process.env.YAMPI_PURCHASE_URL
 

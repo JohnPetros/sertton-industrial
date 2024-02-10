@@ -2,9 +2,10 @@ import { createContext, ReactNode, useContext, useMemo } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { Customer } from '@/@types/customer'
-import { useToast } from '@/components/shared/Toast/useToast'
 import { useApi } from '@/services/api'
 import { useStorage } from '@/services/storage'
+import { STORAGE } from '@/services/storage/constants/keys'
+import { useToast } from '@/utils/hooks/useToast'
 
 export type CustomerContextValue = {
   customer: Customer | null
@@ -44,9 +45,10 @@ export function CustomerProvider({ children }: CustomerProviderProps) {
     }
 
     if (customer) {
-      await storage.setCustomerEmail(email)
-      const selectedAddressZipcode =
-        await storage.getCustomerSelectedAddressZipcode()
+      await storage.setItem(STORAGE.keys.customer.email, email)
+      const selectedAddressZipcode = await storage.getItem(
+        STORAGE.keys.customer.selectedAddressZipcode
+      )
 
       return {
         ...customer,
@@ -58,7 +60,7 @@ export function CustomerProvider({ children }: CustomerProviderProps) {
   }
 
   async function fetchCustomer() {
-    const email = await storage.getCustomerEmail()
+    const email = await storage.getItem(STORAGE.keys.customer.email)
     if (!email) return
 
     return getCustomerByEmail(email)
@@ -72,7 +74,7 @@ export function CustomerProvider({ children }: CustomerProviderProps) {
   )
 
   async function setCustomerZipcode(zipcode: string) {
-    await storage.setCustomerSelectedAddressZipcode(zipcode)
+    await storage.setItem(STORAGE.keys.customer.selectedAddressZipcode, zipcode)
 
     return {
       selectedAddressZipcode: zipcode,
