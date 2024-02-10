@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
-import { useDerivedValue, useSharedValue } from 'react-native-reanimated'
 import { ReText } from 'react-native-redash'
 import { getTokens, Text, XStack } from 'tamagui'
+
+import { useTimer } from './useTimer'
 
 type TimerProps = {
   initialHours: number
@@ -19,11 +19,8 @@ export function Timer({
   fontSize = 24,
   color = 'primary',
 }: TimerProps) {
-  const [timerSeconds, setTimerSeconds] = useState(0)
-
-  const hours = useSharedValue(initialHours)
-  const minutes = useSharedValue(initialMinutes)
-  const seconds = useSharedValue(initialSeconds)
+  const { animatedHoursText, animatedMinutesText, animatedSecondsText } =
+    useTimer({ initialHours, initialMinutes, initialSeconds })
 
   const colorToken = color === 'primary' ? 'blue500' : 'white'
 
@@ -34,39 +31,6 @@ export function Timer({
       color: getTokens().color[colorToken].val,
     },
   })
-
-  const animatedHoursText = useDerivedValue(() => {
-    return `${hours.value}`.padStart(2, '0')
-  })
-
-  const animatedMinutesText = useDerivedValue(() => {
-    return `${minutes.value}`.padStart(2, '0')
-  })
-
-  const animatedSecondsText = useDerivedValue(() => {
-    return `${seconds.value}`.padStart(2, '0')
-  })
-
-  useEffect(() => {
-    if (timerSeconds === -1) return
-
-    const timer = setTimeout(() => {
-      hours.value = Math.floor(timerSeconds / 60 / 60)
-      minutes.value = Math.floor((timerSeconds / 60) % 60)
-      seconds.value = timerSeconds % 60
-
-      setTimerSeconds(timerSeconds - 1)
-    }, 1000)
-
-    return () => clearTimeout(timer)
-  }, [timerSeconds])
-
-  useEffect(() => {
-    const timeSeconds =
-      initialHours * 60 * 60 + initialMinutes * 60 + initialSeconds
-
-    setTimerSeconds(timeSeconds)
-  }, [])
 
   return (
     <XStack alignItems="center" justifyContent="center" gap={2}>
