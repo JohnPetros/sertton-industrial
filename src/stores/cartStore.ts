@@ -3,8 +3,8 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
 import type { CartItem } from '@/@types/cartItem'
+import { STORAGE } from '@/services/storage/constants/keys'
 import { mmkvStorageProvider } from '@/services/storage/mmkv'
-import { CART_KEY } from '@/services/storage/constants/keys'
 
 export type CartStoreState = {
   items: CartItem[]
@@ -22,7 +22,7 @@ export type CartStoreProps = {
   actions: CartStoreActions
 }
 
-const initialState: CartStoreState = {
+export const initialCartStoreState: CartStoreState = {
   items: [],
 }
 
@@ -32,7 +32,7 @@ const cartStore: StateCreator<
   [],
   CartStoreProps
 > = (set) => ({
-  state: initialState,
+  state: initialCartStoreState,
   actions: {
     addItem(item) {
       set(({ state }) => {
@@ -76,7 +76,7 @@ const cartStore: StateCreator<
 export const useCartStore = create(
   persist(immer(cartStore), {
     version: 1,
-    name: CART_KEY,
+    name: STORAGE.keys.cart,
     storage: createJSONStorage(() => mmkvStorageProvider),
     partialize: (state) => {
       return Object.fromEntries(
