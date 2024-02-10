@@ -1,6 +1,6 @@
 import { Text } from 'tamagui'
 
-interface BrandProps {
+type BrandProps = {
   children: string
 }
 
