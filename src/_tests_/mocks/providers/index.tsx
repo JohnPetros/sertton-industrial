@@ -1,5 +1,6 @@
+import './ProvidersFixBug'
+
 import type { ReactNode } from 'react'
-import { View } from 'react-native'
 
 import { customerMock } from '../customerMock'
 
@@ -9,18 +10,6 @@ import { CustomerContext } from '@/contexts/CustomerContext'
 import { CacheProvider } from '@/providers/components/CacheProvider'
 import { TamaguiProvider } from '@/providers/components/TamaguiProvider'
 import { ToastProvider } from '@/providers/components/ToastProvider'
-
-// phosphor-react-native test bug fix
-const Truck = () => <View />
-
-jest.mock('phosphor-react-native', () => ({
-  Truck: () => {
-    return <Truck />
-  },
-}))
-
-// Cacha test bug fix
-jest.useFakeTimers()
 
 type ProvidersMockProps = {
   children: ReactNode
