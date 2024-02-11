@@ -5,7 +5,7 @@ import { removeHTMLTags } from '@/utils/helpers/removeHTMLTags'
 
 export function yampiCategoryAdapter(yampiCategory: YampiCategory) {
   const banner: Category = {
-    id: yampiCategory.id,
+    id: String(yampiCategory.id),
     name: yampiCategory.name,
     description: removeHTMLTags(yampiCategory.description),
   }

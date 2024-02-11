@@ -7,18 +7,18 @@ export type ProductsfilterStoreState = {
   brandsIds: string[]
 }
 
-type ProductsfilterStoreActions = {
+export type ProductsfilterStoreActions = {
   setSearch: (search: string) => void
-  setCateforyId: (categoryId: string) => void
+  setCategoryId: (categoryId: string) => void
   setBrandsIds: (brandsIds: string[]) => void
 }
 
-type ProductsfilterStoreProps = {
+export type ProductsfilterStoreProps = {
   state: ProductsfilterStoreState
   actions: ProductsfilterStoreActions
 }
 
-const initialState: ProductsfilterStoreState = {
+export const initialProductsFilterStoreState: ProductsfilterStoreState = {
   search: '',
   categoryId: '',
   brandsIds: [],
@@ -27,7 +27,7 @@ const initialState: ProductsfilterStoreState = {
 export const useProductsFilterStore = create<ProductsfilterStoreProps>()(
   immer((set) => {
     return {
-      state: initialState,
+      state: initialProductsFilterStoreState,
       actions: {
         setSearch(search: string) {
           return set(({ state }) => {
@@ -36,7 +36,7 @@ export const useProductsFilterStore = create<ProductsfilterStoreProps>()(
             state.brandsIds = []
           })
         },
-        setCateforyId(categoryId: string) {
+        setCategoryId(categoryId: string) {
           return set(({ state }) => {
             state.categoryId = categoryId
             state.search = ''

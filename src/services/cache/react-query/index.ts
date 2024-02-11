@@ -4,13 +4,11 @@ import { Cache } from '../types/cache'
 
 export function useReactQueryCache<Data>({
   key,
-  fetcher,
+  fetcher = async () => undefined,
   dependencies = [],
   isEnabled = true,
 }: Cache<Data>) {
   const queryClient = useQueryClient()
-
-  console.log({ dependencies })
 
   const { data, error, isLoading } = useReactQuery({
     queryKey: [key, ...dependencies],
