@@ -2,6 +2,7 @@ import { ForwardedRef, forwardRef, ReactNode, useImperativeHandle } from 'react'
 import { X } from 'phosphor-react-native'
 import { Button, Dialog as D, XStack } from 'tamagui'
 
+import { TEST_IDS } from './tests/constants/test-ids'
 import { DialogRef } from './types/DialogRef'
 import { useDialog } from './useDialog'
 
@@ -40,6 +41,7 @@ export const DialogComponent = (
           exitStyle={{ opacity: 0 }}
         />
         <D.Content
+          testID={TEST_IDS.dialog}
           animation={'quick'}
           enterStyle={{ x: 0, y: -40, opacity: 0 }}
           exitStyle={{ x: 0, y: -40, opacity: 0 }}
@@ -60,7 +62,11 @@ export const DialogComponent = (
               {title}
             </D.Title>
             <D.Close asChild>
-              <Button pressStyle={{ opacity: 0.7 }} mr={-24}>
+              <Button
+                testID={TEST_IDS.close}
+                pressStyle={{ opacity: 0.7 }}
+                mr={-24}
+              >
                 <X />
               </Button>
             </D.Close>
