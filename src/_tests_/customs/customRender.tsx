@@ -1,14 +1,12 @@
 import { ReactNode } from 'react'
 import { render as renderComponent } from '@testing-library/react-native'
 
-import { ReactQueryProvider } from '@/providers/components/ReactQueryProvider'
-import { TamaguiProvider } from '@/providers/components/TamaguiProvider'
+import { ProvidersMock } from '../mocks/providers'
+import { ProvidersProps } from '../mocks/providers/types/ProvidersMockProps'
 
-function customRender(component: ReactNode) {
+function customRender(component: ReactNode, providersProps?: ProvidersProps) {
   return renderComponent(
-    <ReactQueryProvider>
-      <TamaguiProvider>{component}</TamaguiProvider>
-    </ReactQueryProvider>
+    <ProvidersMock providersProps={providersProps}>{component}</ProvidersMock>
   )
 }
 
