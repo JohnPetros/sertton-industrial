@@ -3,7 +3,7 @@ import { getTokens } from 'tamagui'
 
 import { Button } from '@/components/shared/Button'
 
-interface RouteButtonProps {
+type RouteButtonProps = {
   icon: Icon
   children: string
   onPress: () => void

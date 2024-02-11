@@ -14,8 +14,8 @@ import { ROUTES } from '@/utils/constants/routes'
 export function useSidebar() {
   const [canShowAllCategories, setCanShowAllCategories] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const setCateforyId = useProductsFilterStore(
-    (store) => store.actions.setCateforyId
+  const setCategoryId = useProductsFilterStore(
+    (store) => store.actions.setCategoryId
   )
 
   const api = useApi()
@@ -29,7 +29,7 @@ export function useSidebar() {
   })
 
   if (error) {
-    console.error
+    console.log(error)
     throwAppError('Error ao mostrar categorias')
   }
 
@@ -39,7 +39,7 @@ export function useSidebar() {
 
   function handleCategory(categoryId: string) {
     setIsLoading(true)
-    setCateforyId(categoryId)
+    setCategoryId(categoryId)
     router.push(ROUTES.products)
   }
 
