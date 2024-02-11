@@ -9,7 +9,7 @@ import { customerMock } from '@/_tests_/mocks/customerMock'
 import { shipmentServicesMock } from '@/_tests_/mocks/shipmentServicesMock'
 import { ShipmentService } from '@/@types/shipmentService'
 import { CustomerContext } from '@/contexts/CustomerContext'
-import { ReactQueryProvider } from '@/providers/components/ReactQueryProvider'
+import { CacheProvider } from '@/providers/components/CacheProvider'
 import { initializeHttpProvider } from '@/services/api/http'
 import { AxiosHttpProvider } from '@/services/api/http/axios'
 import { Resources } from '@/services/api/yampi/utils/resources'
@@ -39,7 +39,7 @@ const checkoutShipmentServiceMock = shipmentServicesMock[0]
 function renderShipmentServiceFormHook() {
   return renderHook(useShipmentServiceForm, {
     wrapper: ({ children }) => (
-      <ReactQueryProvider>
+      <CacheProvider>
         <CustomerContext.Provider
           value={{
             customer: {
@@ -53,7 +53,7 @@ function renderShipmentServiceFormHook() {
         >
           {children}
         </CustomerContext.Provider>
-      </ReactQueryProvider>
+      </CacheProvider>
     ),
   })
 }

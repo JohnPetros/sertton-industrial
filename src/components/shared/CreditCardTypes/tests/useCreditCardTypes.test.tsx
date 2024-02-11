@@ -9,7 +9,7 @@ import {
 
 import { testApi } from '@/_tests_/configs/testApi'
 import { paymentConfigsMock } from '@/_tests_/mocks/paymentConfigsMock'
-import { ReactQueryProvider } from '@/providers/components/ReactQueryProvider'
+import { CacheProvider } from '@/providers/components/CacheProvider'
 import { initializeHttpProvider } from '@/services/api/http'
 import { AxiosHttpProvider } from '@/services/api/http/axios'
 import { Resources } from '@/services/api/yampi/utils/resources'
@@ -20,9 +20,7 @@ const server = setupServer(...testApi.DEFAULT_HANDLERS)
 
 function renderCreditCardFormHook() {
   return renderHook(() => useCreditCardTypes(), {
-    wrapper: ({ children }) => (
-      <ReactQueryProvider>{children}</ReactQueryProvider>
-    ),
+    wrapper: ({ children }) => <CacheProvider>{children}</CacheProvider>,
   })
 }
 
