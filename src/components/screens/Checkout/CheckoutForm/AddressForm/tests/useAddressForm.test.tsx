@@ -11,7 +11,7 @@ import { customerMock } from '@/_tests_/mocks/customerMock'
 import { storageMock } from '@/_tests_/mocks/storageMock'
 import { Address } from '@/@types/address'
 import { CustomerContext } from '@/contexts/CustomerContext'
-import { ReactQueryProvider } from '@/providers/components/ReactQueryProvider'
+import { CacheProvider } from '@/providers/components/CacheProvider'
 import { initializeHttpProvider } from '@/services/api/http'
 import { AxiosHttpProvider } from '@/services/api/http/axios'
 import { Resources } from '@/services/api/yampi/utils/resources'
@@ -33,7 +33,7 @@ const selectedAddres = addressesMock[0]
 function renderUseAddressFormHook() {
   return renderHook(useAddressForm, {
     wrapper: ({ children }) => (
-      <ReactQueryProvider>
+      <CacheProvider>
         <CustomerContext.Provider
           value={{
             customer: {
@@ -48,7 +48,7 @@ function renderUseAddressFormHook() {
         >
           {children}
         </CustomerContext.Provider>
-      </ReactQueryProvider>
+      </CacheProvider>
     ),
   })
 }

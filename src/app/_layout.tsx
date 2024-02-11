@@ -12,7 +12,7 @@ import { initializeProviders } from '../providers'
 
 import { AppError } from '@/components/shared/AppError'
 import { useAppError } from '@/components/shared/AppError/useAppError'
-import { ReactQueryProvider } from '@/providers/components/ReactQueryProvider'
+import { CacheProvider } from '@/providers/components/CacheProvider'
 import { TamaguiProvider } from '@/providers/components/TamaguiProvider'
 import { ToastProvider } from '@/providers/components/ToastProvider'
 
@@ -31,7 +31,7 @@ export default function Layout() {
   if (!loaded) return null
 
   return (
-    <ReactQueryProvider>
+    <CacheProvider>
       <TamaguiProvider>
         <ToastProvider>
           {/* <CustomerProvider> */}
@@ -58,6 +58,6 @@ export default function Layout() {
           {/* </CustomerProvider> */}
         </ToastProvider>
       </TamaguiProvider>
-    </ReactQueryProvider>
+    </CacheProvider>
   )
 }

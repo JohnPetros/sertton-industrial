@@ -1,23 +1,18 @@
 import { SafeAreaView } from 'react-native-safe-area-context'
-import {
-  CaretDown,
-  CaretUp,
-  Lock,
-  Scroll,
-  Truck,
-  User,
-} from 'phosphor-react-native'
+import { CaretDown, CaretUp } from 'phosphor-react-native'
 import { Separator, View, YStack } from 'tamagui'
 import { YGroup } from 'tamagui'
 import { ListItem } from 'tamagui'
 import { Spinner } from 'tamagui'
+
+import { ROUTE_BUTTONS } from './constants/route-buttons'
+import { TEST_IDS } from './tests/constants/test-ids'
+
 import { RouteButton } from '@/components/layout/Sidebar/RouteButton'
 import { useSidebar } from '@/components/layout/Sidebar/useSidebar'
-
-import { Contacts } from '@/components/shared/Contacts'
 import { Button } from '@/components/shared/Button'
+import { Contacts } from '@/components/shared/Contacts'
 import { useProductsFilterStore } from '@/stores/productsFilterStore'
-import { ROUTES } from '@/utils/constants/routes'
 import { SCREEN } from '@/utils/constants/screen'
 
 export function Sidebar() {
@@ -63,6 +58,7 @@ export function Sidebar() {
             .map((category) => (
               <YGroup.Item key={category.id.toString()}>
                 <Button
+                  testID={TEST_IDS.categoryButton}
                   background="transparent"
                   p={8}
                   ml={-8}
@@ -77,7 +73,7 @@ export function Sidebar() {
                   />
                   <View position="absolute" r={8}>
                     {selectedCategoryId === category.id && isLoading && (
-                      <Spinner color="$blue700" />
+                      <Spinner testID={TEST_IDS.spinner} color="$blue700" />
                     )}
                   </View>
                 </Button>
@@ -87,30 +83,15 @@ export function Sidebar() {
         <YStack mt={12}>
           <Contacts />
 
-          <RouteButton
-            icon={User}
-            onPress={() => handleNavigation(ROUTES.profile)}
-          >
-            Meu cadastro
-          </RouteButton>
-          <RouteButton
-            icon={Lock}
-            onPress={() => handleNavigation(ROUTES.privacyPolicy)}
-          >
-            Politicas de privacidade
-          </RouteButton>
-          <RouteButton
-            icon={Scroll}
-            onPress={() => handleNavigation(ROUTES.termsAndConditions)}
-          >
-            Termos e condições
-          </RouteButton>
-          <RouteButton
-            icon={Truck}
-            onPress={() => handleNavigation(ROUTES.about)}
-          >
-            Sobre a Sertton Industrial
-          </RouteButton>
+          {ROUTE_BUTTONS.map((routeButton) => (
+            <RouteButton
+              key={routeButton.title}
+              icon={routeButton.icon}
+              onPress={() => handleNavigation(routeButton.route)}
+            >
+              {routeButton.title}
+            </RouteButton>
+          ))}
         </YStack>
       </YStack>
     </SafeAreaView>

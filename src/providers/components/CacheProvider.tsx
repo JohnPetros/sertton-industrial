@@ -7,7 +7,7 @@ interface ToastProviderProps {
   children: ReactNode
 }
 
-export function ReactQueryProvider({ children }: ToastProviderProps) {
+export function CacheProvider({ children }: ToastProviderProps) {
   return (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   )

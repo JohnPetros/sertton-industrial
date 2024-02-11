@@ -20,7 +20,7 @@ describe('useSearch hook', () => {
         actions: {
           setSearch: setSearchMock,
           setBrandsIds: jest.fn(),
-          setCateforyId: jest.fn(),
+          setCategoryId: jest.fn(),
         },
         state: {
           search: storedSearch,

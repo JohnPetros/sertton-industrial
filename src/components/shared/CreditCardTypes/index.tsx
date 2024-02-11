@@ -7,6 +7,8 @@ import { Skeleton } from '@/components/shared/Skeleton'
 export function CreditCardTypes() {
   const { creditCardTypes, isLoading } = useCreditCardTypes()
 
+  console.log({ creditCardTypes })
+
   if (isLoading) {
     return (
       <>
