@@ -1,6 +1,6 @@
 import * as Clipboard from 'expo-clipboard'
 
-import { useToast } from '@/components/shared/Toast/useToast'
+import { useToast } from '@/utils/hooks/useToast'
 
 export function useClipboard(text: string, message: string) {
   const toast = useToast()
