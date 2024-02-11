@@ -3,13 +3,14 @@ import { EnvelopeSimple, Phone, WhatsappLogo } from 'phosphor-react-native'
 import { getTokens, Text } from 'tamagui'
 import { XStack } from 'tamagui'
 
-import { ContactType } from '@/@types/contact'
+import { CONTACTS } from './constants/contacts'
+import type { ContactType } from './types/Contact'
+
 import { Button } from '@/components/shared/Button'
 import { useContacts } from '@/components/shared/Contacts/useContacts'
-import { CONTACTS } from '@/utils/constants/contacts'
 
 export function Contacts() {
-  const { handleContact } = useContacts()
+  const { handleContactUrl } = useContacts()
 
   const CONTACT_ICONS: Record<ContactType, ReactNode> = {
     whatsapp: <WhatsappLogo color={getTokens().color.green600.val} />,
@@ -19,20 +20,21 @@ export function Contacts() {
 
   return CONTACTS.map((contact) => (
     <Button
-      key={contact.value}
+      testID={contact.url}
+      key={contact.url}
       background="transparent"
       justifyContent="flex-start"
       px={0}
-      onPress={() => handleContact(contact)}
+      onPress={() => handleContactUrl(contact.url)}
     >
       <XStack gap={4}>
-        {CONTACT_ICONS[contact.type]}
+        {CONTACT_ICONS[contact.type as ContactType]}
         <Text
           color={contact.type === 'whatsapp' ? '$green600' : '$gray600'}
           fontWeight="600"
           fontSize={14}
         >
-          {contact.value}
+          {contact.title}
         </Text>
       </XStack>
     </Button>
