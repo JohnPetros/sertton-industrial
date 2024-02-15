@@ -5,7 +5,7 @@ import { useSidebar } from '../useSidebar'
 import { renderHook } from '@/_tests_/customs/customRendeeHook'
 import { useApiMock } from '@/_tests_/mocks/apiMock'
 import { useDrawerStatusMock } from '@/_tests_/mocks/libs/react-navigation/useDrawerStatusMock'
-import { useRouterMock } from '@/_tests_/mocks/libs/react-navigation/useRouterMock'
+import { useRouterMock } from '@/_tests_/mocks/libs/expo-router/useRouterMock'
 import { useProductsFilterStoreMock } from '@/_tests_/mocks/stores/productsFilterStoreMock'
 import { ROUTES } from '@/utils/constants/routes'
 
