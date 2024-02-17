@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
 
-import { useMask } from './useMask'
-
 import { Mask } from '@/@types/mask'
 import { getOnlyNumbers } from '@/utils/helpers/getOnlyNumbers'
+import { useMask } from '@/utils/hooks/useMask'
 
 type InputState = 'default' | 'success' | 'error'
 type IconState = 'default' | 'disabled' | 'success' | 'error'
 
-interface UseInputParams {
+type UseInputParams = {
   mask: Mask | undefined
   isDisabled: boolean | undefined
   keyboardType: 'numeric' | 'text'

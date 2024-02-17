@@ -11,6 +11,7 @@ import {
 
 import { Label } from '../Label'
 
+import { TEST_IDS } from './tests/constants/test-ids'
 import { Field } from './Field'
 import { Icon } from './Icon'
 import { useInput } from './useInput'
@@ -103,7 +104,13 @@ export function Input({
       )}
 
       {isLoading && (
-        <Spinner top={40} right={12} position="absolute" color="$blue500" />
+        <Spinner
+          testID={TEST_IDS.spinner}
+          top={40}
+          right={12}
+          position="absolute"
+          color="$blue500"
+        />
       )}
     </YStack>
   )
