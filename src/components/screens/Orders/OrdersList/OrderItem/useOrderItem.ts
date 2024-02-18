@@ -1,26 +1,24 @@
 import { useEffect, useState } from 'react'
 
-import type { YampiComputedOrder } from '@/services/api/yampi/types/YampiComputedOrder'
+import { ComputedOrder } from '@/@types/computedOrder'
 
-export function useOrderItem(order: YampiComputedOrder) {
+export function useOrderItem({ products }: Pick<ComputedOrder, 'products'>) {
   const [totalDiscount, setTotalDiscount] = useState(0)
   const [subtotal, setSubtotal] = useState(0)
   const [skusAmount, setSkusAmount] = useState(0)
 
   function calculateTotalDiscount() {
-    const totalDiscount = order.items.data.reduce((total, item) => {
+    const totalDiscount = products.reduce((total, item) => {
       return (
-        total +
-        (item.sku.data.price_sale - item.sku.data.price_discount) *
-          item.quantity
+        total + (item.sku.salePrice - item.sku.discountPrice) * item.quantity
       )
     }, 0)
 
-    const subtotal = order.items.data.reduce((total, item) => {
-      return total + item.sku.data.price_sale * item.quantity
+    const subtotal = products.reduce((total, item) => {
+      return total + item.sku.salePrice * item.quantity
     }, 0)
 
-    const skusAmount = order.items.data.reduce((total, item) => {
+    const skusAmount = products.reduce((total, item) => {
       return total + item.quantity
     }, 0)
 

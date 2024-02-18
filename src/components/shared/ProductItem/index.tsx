@@ -83,4 +83,9 @@ const ProductItemComponent = ({
   )
 }
 
-export const ProductItem = memo(ProductItemComponent, () => true)
+export const ProductItem = memo(
+  ProductItemComponent,
+  (previusProps, currentProps) => {
+    return previusProps.isLoading === currentProps.isLoading
+  }
+)

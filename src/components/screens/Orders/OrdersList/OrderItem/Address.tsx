@@ -3,8 +3,8 @@ import { Text } from 'tamagui'
 
 import { Heading } from './Heading'
 
-import { useMask } from '@/components/shared/Input/useMask'
 import { useDate } from '@/services/date'
+import { useMask } from '@/utils/hooks/useMask'
 
 type AddressProps = {
   receiver: string
@@ -12,7 +12,7 @@ type AddressProps = {
   street: string
   city: string
   zipcode: string
-  number: string
+  number: number
   neighborhood: string
   complement?: string
   deliveryDays: number

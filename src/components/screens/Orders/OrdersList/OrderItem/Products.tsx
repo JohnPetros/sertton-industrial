@@ -14,7 +14,7 @@ type ProductsProps = {
   shipment: number
   total: number
   itemsAmount: number
-  products: Pick<ComputedOrder, 'items'>
+  products: Pick<ComputedOrder, 'products'>
 }
 
 export function Products({
@@ -23,23 +23,23 @@ export function Products({
   shipment,
   subtotal,
   total,
-  products,
+  products: { products },
 }: ProductsProps) {
   return (
     <YStack>
       <Heading>Produtos</Heading>
       <YStack gap={24} mt={8} separator={<Separator bg="$gray500" />}>
-        {products.items.data.map((item) => (
-          <XStack key={item.id} justifyContent="space-between">
+        {products.map((product) => (
+          <XStack key={product.id} justifyContent="space-between">
             <YStack gap={8} w={SCREEN.width - SCREEN.paddingX * 2 - 100}>
-              <Product.SkuCode>{item.sku.data.sku}</Product.SkuCode>
-              <Product.Name>{item.sku.data.title}</Product.Name>
+              <Product.SkuCode>{product.sku.skuCode}</Product.SkuCode>
+              <Product.Name>{product.sku.name}</Product.Name>
               <XStack gap={8}>
-                <Product.SalePrice price={item.sku.data.price_discount} />
-                <Product.DiscountPrice price={item.sku.data.price_sale} />
+                <Product.SalePrice price={product.sku.salePrice} />
+                <Product.DiscountPrice price={product.sku.discountPrice} />
               </XStack>
             </YStack>
-            <Text color="$gray600">qtd.: {item.quantity}</Text>
+            <Text color="$gray600">qtd.: {product.quantity}</Text>
           </XStack>
         ))}
       </YStack>

@@ -1,15 +1,14 @@
 import { ReactNode } from 'react'
 import { Text, TextProps } from 'tamagui'
 
-interface NameProps extends TextProps {
+type NameProps = {
   children: ReactNode
-}
+} & TextProps
 
 export function Name({ children, ...rest }: NameProps) {
   return (
     <Text
-      flexWrap="wrap"
-      numberOfLines={3}
+      numberOfLines={1}
       ellipsizeMode="tail"
       color="$gray700"
       fontWeight="600"
