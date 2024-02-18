@@ -1,3 +1,5 @@
+import { YampiAddress } from './YampiAddress'
+
 import { Address } from '@/@types/address'
 
 export type YampiComputedOrder = {
@@ -154,7 +156,7 @@ export type YampiComputedOrder = {
   days_delivery: number
   value_shipment: number
   shipping_address: {
-    data: Address
+    data: YampiAddress
   }
   shipment_icon_url: string
   value_total: number
