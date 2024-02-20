@@ -64,3 +64,4 @@ export const yellow = {
 }
 
 export const white = '#FFF'
+

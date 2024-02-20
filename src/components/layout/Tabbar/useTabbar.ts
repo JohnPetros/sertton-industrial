@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router/src/hooks'
+import { useRouter } from 'expo-router'
 
 import { useCartStore } from '@/stores/cartStore'
 

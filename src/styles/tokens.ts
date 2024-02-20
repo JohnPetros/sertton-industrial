@@ -1,5 +1,5 @@
-import { tokens as defaultTokens } from '@tamagui/themes'
-import { createTokens } from 'tamagui'
+  import { tokens as defaultTokens } from '@tamagui/themes'
+  import { createTokens } from 'tamagui'
 
 import { blue, gray, green, red, white, yellow } from './colors'
 

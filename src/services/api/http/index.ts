@@ -1,8 +1,8 @@
-import { IHttpProvider } from './interfaces/IHttp'
+import { IHttp } from './interfaces/IHttp'
 
-let http: () => IHttpProvider
+let http: () => IHttp
 
-export function initializeHttpProvider(httpProvider: () => IHttpProvider) {
+export function initializeHttpProvider(httpProvider: () => IHttp) {
   http = httpProvider
 }
 

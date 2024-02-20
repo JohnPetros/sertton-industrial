@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useRouter } from 'expo-router/src/hooks'
+import { useRouter } from 'expo-router'
 
 import { OrderStatus } from '@/@types/order'
 import { PaymentConfig, PaymentMethod } from '@/@types/paymentMethod'

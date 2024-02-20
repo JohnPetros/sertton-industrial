@@ -1,4 +1,4 @@
-export type IHttpProvider = {
+export type IHttp = {
   start(): void
   get: <Response>(url: string) => Promise<Response>
   post: <Response>(url: string, request: unknown) => Promise<Response>

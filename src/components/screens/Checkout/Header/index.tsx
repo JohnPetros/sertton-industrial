@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router/src/hooks'
+import { useRouter } from 'expo-router'
 import { ArrowLeft, Lock } from 'phosphor-react-native'
 import { getTokens, Text } from 'tamagui'
 import { XStack, YStack } from 'tamagui'
